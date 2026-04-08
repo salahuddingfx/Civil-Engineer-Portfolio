@@ -5,16 +5,16 @@ const compression = require("compression");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const env = require("./config/env");
-const authRoutes = require("./routes/authRoutes");
-const contentRoutes = require("./routes/contentRoutes");
-const contactRoutes = require("./routes/contactRoutes");
-const seoRoutes = require("./routes/seoRoutes");
-const uploadRoutes = require("./routes/uploadRoutes");
-const { sitemap, robots } = require("./controllers/seoController");
+const authRoutes = require("./routes/auth.routes");
+const contentRoutes = require("./routes/content.routes");
+const contactRoutes = require("./routes/contact.routes");
+const seoRoutes = require("./routes/seo.routes");
+const uploadRoutes = require("./routes/upload.routes");
+const { sitemap, robots } = require("./controllers/seo.controller");
 const { isDbReady } = require("./config/db");
-const { notFound, errorHandler } = require("./middleware/error");
+const { notFound, errorHandler } = require("./middleware/error.middleware");
 
-const { cacheMiddleware } = require("./middleware/cache");
+const { cacheMiddleware } = require("./middleware/cache.middleware");
 
 const app = express();
 

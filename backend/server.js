@@ -1,7 +1,7 @@
 const app = require("./app");
 const env = require("./config/env");
 const { connectDb, setDbReady, inspectMongoTarget, probeTcp } = require("./config/db");
-const { ensureAdminSeed } = require("./controllers/authController");
+const { ensureAdminSeed } = require("./controllers/auth.controller");
 
 function printBanner({ dbState, mongoTarget, mongoReachable }) {
   const lines = [

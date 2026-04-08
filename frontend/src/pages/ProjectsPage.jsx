@@ -5,11 +5,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
+import { categories, projects } from "../lib/data";
+import { fetchContent } from "../lib/api";
 import { ProjectSkeleton } from "../components/Skeleton";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const categories = ["ALL", "RESIDENTIAL", "COMMERCIAL", "INFRASTRUCTURE", "STRUCTURAL"];
 
 const projects = [
   {
@@ -73,13 +73,32 @@ export default function ProjectsPage() {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      // Beautiful skeleton demonstration delay
-      await new Promise(r => setTimeout(r, 1800));
-      setDisplayProjects(projects);
-      setLoading(false);
+      try {
+        const res = await fetchContent("projects", { limit: 50 });
+        if (res.items?.length > 0) {
+          const mapped = res.items.map(p => ({
+            ...p,
+            title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
+            category: p.category?.toUpperCase() || "STRUCTURAL",
+            img: p.featuredImage?.url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+            year: p.tags?.[0] || "2024",
+            location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
+            status: "Completed"
+          }));
+          setDisplayProjects(mapped);
+        } else {
+          setDisplayProjects(projects);
+        }
+        await new Promise(r => setTimeout(r, 800));
+      } catch (err) {
+        console.warn("Projects API failed, using fallback", err);
+        setDisplayProjects(projects);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     let ctx = gsap.context(() => {

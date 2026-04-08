@@ -121,19 +121,64 @@ export default function HomePage({ isIntroComplete }) {
     const loadAll = async () => {
       setLoadingData(true);
       try {
-        // We simulate a network delay to show off the beautiful skeletons
-        await new Promise(r => setTimeout(r, 2000));
+        // Try real API calls parallelly
+        const [projectsRes, servicesRes, testimonialsRes] = await Promise.allSettled([
+          fetchContent("projects", { limit: 6 }),
+          fetchContent("services", { limit: 4 }),
+          fetchContent("testimonials", { limit: 5 })
+        ]);
 
-        // Use static fallback if API fails
+        const mappedProjects = projectsRes.status === "fulfilled" && projectsRes.value.items?.length > 0
+          ? projectsRes.value.items.map(p => ({
+              ...p,
+              title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
+              category: p.category || "Engineering",
+              img: p.featuredImage?.url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+              year: p.tags?.[0] || "2024",
+              location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
+              status: "Completed"
+            }))
+          : projects; // Fallback to local data
+
+        const mappedServices = servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0
+          ? servicesRes.value.items.map(s => ({
+              ...s,
+              title: s.title?.en,
+              titleBn: s.title?.bn,
+              desc: s.summary?.en,
+              descBn: s.summary?.bn,
+              icon: s.tags?.[0] || "M12 2L2 7l10 5 10-5-10-5z"
+            }))
+          : services;
+
+        const mappedTestimonials = testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0
+          ? testimonialsRes.value.items.map(t => ({
+              ...t,
+              name: t.title?.en,
+              role: t.summary?.en,
+              content: t.body?.en,
+              contentBn: t.body?.bn,
+              img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+            }))
+          : testimonials;
+
+        setDisplayProjects(mappedProjects);
+        setDisplayServices(mappedServices);
+        setDisplayTestimonials(mappedTestimonials);
+
+        // Natural settle time
+        await new Promise(r => setTimeout(r, 800));
+      } catch (err) {
+        console.warn("API load failed, using local mock data", err);
         setDisplayProjects(projects);
-        setDisplayTestimonials(testimonials);
         setDisplayServices(services);
+        setDisplayTestimonials(testimonials);
       } finally {
         setLoadingData(false);
       }
     };
     loadAll();
-  }, []);
+  }, [language]); // Reload when language changes to re-map if needed
 
   // Testimonial auto-advance
   useEffect(() => {

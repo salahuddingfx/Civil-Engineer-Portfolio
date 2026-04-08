@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/*
 
-Sitemap: https://alamashik.com/sitemap.xml
+Sitemap: https://engralamashik.com/sitemap.xml

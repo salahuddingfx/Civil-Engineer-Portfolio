@@ -6,6 +6,8 @@ import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
 import { ServiceSkeleton } from "../components/Skeleton";
+import { services } from "../lib/data";
+import { fetchContent } from "../lib/api";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,15 +21,6 @@ const categories = [
   { en: "SUPERVISION",   bn: "তদারকি",      key: "SUPERVISION" },
 ];
 
-const services = [
-  { title: "Architectural Design", titleBn: "স্থাপত্য নকশা", desc: "Conceptualizing spaces that harmonize aesthetic brilliance with functional integrity, from residential masterpieces to commercial hubs in Cox's Bazar.", descBn: "আবাসিক মাস্টারপিস থেকে কক্সবাজারের বাণিজ্যিক হাব পর্যন্ত নান্দনিক উজ্জ্বলতার সাথে কার্যকরী অখণ্ডতার সমন্বয় করে স্থানগুলি কনসেপ্টুয়ালাইজ করা।", category: "ARCHITECTURAL", icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg> },
-  { title: "Structural Analysis", titleBn: "কাঠামোগত বিশ্লেষণ", desc: "Rigorous structural calculations ensuring safety, longevity, and optimized material usage for complex load-bearing systems.", descBn: "কঠিন কাঠামোগত গণনা যা জটিল লোড-বেয়ারিং সিস্টেমের জন্য নিরাপত্তা, দীর্ঘায়ু এবং অপ্টিমাইজড উপকরণ ব্যবহার নিশ্চিত করে।", category: "STRUCTURAL", icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg> },
-  { title: "Technical Drafting", titleBn: "প্রযুক্তিগত ড্রাফটিং", desc: "Precision-driven CAD services generating detailed blueprints and technical documents for precise construction execution.", descBn: "নির্ভুল নির্মাণ কার্যকরকরণের জন্য বিস্তারিত ব্লুপ্রিন্ট এবং প্রযুক্তিগত ডকুমেন্ট তৈরিকারী নির্ভুলতা-চালিত ক্যাড পরিষেবা।", category: "CAD", icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg> },
-  { title: "3D Visualization", titleBn: "থ্রিডি ভিজুয়ালাইজেশন", desc: "Photorealistic renders and virtual walkthroughs bringing your vision to life before the first stone is laid.", descBn: "ফটোরিয়ালিস্টিক রেন্ডার এবং ভার্চুয়াল ওয়াকথ্রু যা প্রথম পাথর রাখার আগেই আপনার দৃষ্টিভঙ্গিকে জীবন্ত করে।", category: "VISUALIZATION", icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
-  { title: "Site Supervision", titleBn: "সাইট তদারকি", desc: "Ensuring construction perfectly adheres to design specifications and maximum engineering quality standards.", descBn: "নির্মাণ ডিজাইন স্পেসিফিকেশন এবং সর্বোচ্চ ইঞ্জিনিয়ারিং মান মানের সাথে পুরোপুরি মেনে চলে তা নিশ্চিত করা।", category: "SUPERVISION", icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> },
-  { title: "Strategic Consultancy", titleBn: "কৌশলগত পরামর্শ", desc: "Expert advisory on Cox's Bazar regional project feasibility, regulatory compliance, and cost-efficient engineering strategies.", descBn: "কক্সবাজার আঞ্চলিক প্রকল্পের সম্ভাব্যতা, নিয়ন্ত্রক সম্মতি এবং সাশ্রয়ী ইঞ্জিনিয়ারিং কৌশলে বিশেষজ্ঞ পরামর্শ।", category: "CONSULTANCY", icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg> }
-];
-
 export default function ServicesPage() {
   const { language } = useLanguage();
   const [activeCategory, setActiveCategory] = useState("ALL");
@@ -39,9 +32,28 @@ export default function ServicesPage() {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      await new Promise(r => setTimeout(r, 1500));
-      setDisplayServices(services);
-      setLoading(false);
+      try {
+        const res = await fetchContent("services", { limit: 20 });
+        if (res.items?.length > 0) {
+          const mapped = res.items.map(s => ({
+            ...s,
+            title: s.title?.en,
+            titleBn: s.title?.bn,
+            desc: s.summary?.en,
+            descBn: s.summary?.bn,
+            icon: s.tags?.[0] || "M12 2L2 7l10 5 10-5-10-5z"
+          }));
+          setDisplayServices(mapped);
+        } else {
+          setDisplayServices(services);
+        }
+        await new Promise(r => setTimeout(r, 800));
+      } catch (err) {
+        console.warn("Services API failed, using fallback", err);
+        setDisplayServices(services);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
