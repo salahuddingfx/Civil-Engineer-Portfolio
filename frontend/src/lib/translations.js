@@ -293,6 +293,7 @@ export const translations = {
 };
 
 export const t = (path, lang = "en") => {
+  if (typeof path !== "string") return "";
   const keys = path.split(".");
   let result = translations[lang] || translations["en"];
   for (const key of keys) {

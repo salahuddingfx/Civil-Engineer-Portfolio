@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Mail, Phone, MapPin, Globe, Facebook, Linkedin, Youtube, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Globe, MessageCircle, Share2, Users } from "lucide-react";
 import { adminList, adminUpdate, adminCreate } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 
@@ -150,15 +150,15 @@ export default function AdminContact() {
            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400/60 mb-8 italic ml-2">Digital Social Coordination</p>
            <div className="grid md:grid-cols-3 gap-8">
               <div className="space-y-4">
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Facebook size={12} /> Facebook</label>
+                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Share2 size={12} /> Social Platform 1</label>
                 <input value={form.facebook} onChange={e => setForm({...form, facebook: e.target.value})} className="w-full bg-black/40 border border-white/5 rounded-xl px-5 py-3 text-white outline-none focus:border-blue-500/40 italic font-mono text-[11px]" />
               </div>
               <div className="space-y-4">
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Linkedin size={12} /> LinkedIn</label>
+                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Users size={12} /> Social Platform 2</label>
                 <input value={form.linkedin} onChange={e => setForm({...form, linkedin: e.target.value})} className="w-full bg-black/40 border border-white/5 rounded-xl px-5 py-3 text-white outline-none focus:border-blue-400/40 italic font-mono text-[11px]" />
               </div>
               <div className="space-y-4">
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Youtube size={12} /> YouTube</label>
+                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Globe size={12} /> Social Platform 3</label>
                 <input value={form.youtube} onChange={e => setForm({...form, youtube: e.target.value})} className="w-full bg-black/40 border border-white/5 rounded-xl px-5 py-3 text-white outline-none focus:border-red-500/40 italic font-mono text-[11px]" />
               </div>
            </div>

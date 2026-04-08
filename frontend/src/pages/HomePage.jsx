@@ -383,8 +383,12 @@ export default function HomePage({ isIntroComplete }) {
                 <div key={i} className="p-10 rounded-2xl reveal-unit group transition-all duration-300 relative overflow-hidden card-bg">
                   <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full group-hover:scale-150 transition-transform duration-700" style={{ background: "var(--highlight-soft)" }} />
                   <div className="mb-8 relative z-10" style={{ color: "var(--highlight)" }}>{service.icon}</div>
-                  <h3 className="font-bold text-xl mb-4 relative z-10" style={{ color: "var(--text)" }}>{t(service.titleKey, language)}</h3>
-                  <p className="text-[15px] mb-8 leading-relaxed min-h-[90px] relative z-10" style={{ color: "var(--text-muted)" }}>{t(service.descKey, language)}</p>
+                  <h3 className="font-bold text-xl mb-4 relative z-10" style={{ color: "var(--text)" }}>
+                    {service.titleKey ? t(service.titleKey, language) : (language === "bn" ? service.titleBn : service.title)}
+                  </h3>
+                  <p className="text-[15px] mb-8 leading-relaxed min-h-[90px] relative z-10" style={{ color: "var(--text-muted)" }}>
+                    {service.descKey ? t(service.descKey, language) : (language === "bn" ? service.descBn : service.desc)}
+                  </p>
                   <Link to="/services" className="text-[12px] font-bold tracking-[0.1em] uppercase flex items-center gap-2 relative z-10 opacity-80 group-hover:opacity-100" style={{ color: "var(--highlight)" }}>
                     {t("services_section.explore", language)}
                     <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>

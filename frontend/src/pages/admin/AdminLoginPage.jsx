@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     let ctx = gsap.context(() => {
-      gsap.from(".login-reveal", {
+      gsap.from(formRef.current, {
         opacity: 0,
         y: 40,
         duration: 1.2,
