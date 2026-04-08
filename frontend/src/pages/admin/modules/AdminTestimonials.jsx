@@ -23,9 +23,17 @@ export default function AdminTestimonials() {
 
   const loadData = async () => {
     try {
+      console.log("Fetching testimonial heritage...");
       const response = await adminList("testimonials", { limit: 100 });
-      setItems(response.items || []);
+      console.log("Testimonial Response:", response);
+      const fetchedItems = response.items || [];
+      setItems(fetchedItems);
+      
+      if (fetchedItems.length > 0 && !selectedId) {
+        setSelectedId(fetchedItems[0]._id);
+      }
     } catch (err) {
+      console.error("TESTIMONIAL_LOAD_ERROR:", err);
       setStatus({ type: "error", message: "LOAD_FAILED" });
     } finally {
       setLoading(false);

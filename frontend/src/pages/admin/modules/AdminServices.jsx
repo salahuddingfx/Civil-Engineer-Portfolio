@@ -22,9 +22,17 @@ export default function AdminServices() {
 
   const loadData = async () => {
     try {
+      console.log("Fetching service catalog...");
       const response = await adminList("services", { limit: 100 });
-      setItems(response.items || []);
+      console.log("Service Response:", response);
+      const fetchedItems = response.items || [];
+      setItems(fetchedItems);
+      
+      if (fetchedItems.length > 0 && !selectedId) {
+        setSelectedId(fetchedItems[0]._id);
+      }
     } catch (err) {
+      console.error("SERVICE_LOAD_ERROR:", err);
       setStatus({ type: "error", message: "LOAD_FAILED" });
     } finally {
       setLoading(false);

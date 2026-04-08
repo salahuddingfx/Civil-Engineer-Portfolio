@@ -29,9 +29,18 @@ export default function AdminProjects() {
 
   const loadData = async () => {
     try {
+      console.log("Fetching project registry...");
       const response = await adminList("projects", { limit: 100 });
-      setItems(response.items || []);
+      console.log("Registry Response:", response);
+      const fetchedItems = response.items || [];
+      setItems(fetchedItems);
+      
+      // Auto-select first item if exists and none selected
+      if (fetchedItems.length > 0 && !selectedId) {
+        setSelectedId(fetchedItems[0]._id);
+      }
     } catch (err) {
+      console.error("LOAD_ERROR:", err);
       setStatus({ type: "error", message: "LOAD_FAILED" });
     } finally {
       setLoading(false);

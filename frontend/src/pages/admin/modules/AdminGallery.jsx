@@ -21,9 +21,17 @@ export default function AdminGallery() {
 
   const loadData = async () => {
     try {
+      console.log("Fetching visual archive...");
       const response = await adminList("gallery", { limit: 100 });
-      setItems(response.items || []);
+      console.log("Gallery Response:", response);
+      const fetchedItems = response.items || [];
+      setItems(fetchedItems);
+      
+      if (fetchedItems.length > 0 && !selectedId) {
+        setSelectedId(fetchedItems[0]._id);
+      }
     } catch (err) {
+      console.error("GALLERY_LOAD_ERROR:", err);
       setStatus({ type: "error", message: "LOAD_FAILED" });
     } finally {
       setLoading(false);
