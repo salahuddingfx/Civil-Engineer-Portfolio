@@ -382,7 +382,15 @@ export default function HomePage({ isIntroComplete }) {
               displayServices.map((service, i) => (
                 <div key={i} className="p-10 rounded-2xl reveal-unit group transition-all duration-300 relative overflow-hidden card-bg">
                   <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full group-hover:scale-150 transition-transform duration-700" style={{ background: "var(--highlight-soft)" }} />
-                  <div className="mb-8 relative z-10" style={{ color: "var(--highlight)" }}>{service.icon}</div>
+                  <div className="mb-8 relative z-10" style={{ color: "var(--highlight)" }}>
+                    {typeof service.icon === "string" ? (
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={service.icon} />
+                      </svg>
+                    ) : (
+                      service.icon
+                    )}
+                  </div>
                   <h3 className="font-bold text-xl mb-4 relative z-10" style={{ color: "var(--text)" }}>
                     {service.titleKey ? t(service.titleKey, language) : (language === "bn" ? service.titleBn : service.title)}
                   </h3>

@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
-import { categories, projects } from "../lib/data";
+const categories = ["ALL", "RESIDENTIAL", "COMMERCIAL", "INFRASTRUCTURE", "STRUCTURAL"];
 import { fetchContent } from "../lib/api";
 import { ProjectSkeleton } from "../components/Skeleton";
 
