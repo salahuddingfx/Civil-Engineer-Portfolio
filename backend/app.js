@@ -10,6 +10,7 @@ const contentRoutes = require("./routes/content.routes");
 const contactRoutes = require("./routes/contact.routes");
 const seoRoutes = require("./routes/seo.routes");
 const uploadRoutes = require("./routes/upload.routes");
+const statsRoutes = require("./routes/stats.routes");
 const { sitemap, robots } = require("./controllers/seo.controller");
 const { isDbReady } = require("./config/db");
 const { notFound, errorHandler } = require("./middleware/error.middleware");
@@ -31,7 +32,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: "4mb" }));
 
 app.use((req, res, next) => {
-  const isDbEndpoint = req.path.startsWith("/api/auth") || req.path.startsWith("/api/content") || req.path.startsWith("/api/contact") || req.path.startsWith("/api/upload") || req.path.startsWith("/api/seo") || req.path === "/sitemap.xml" || req.path === "/robots.txt";
+  const isDbEndpoint = req.path.startsWith("/api/auth") || req.path.startsWith("/api/content") || req.path.startsWith("/api/stats") || req.path.startsWith("/api/contact") || req.path.startsWith("/api/upload") || req.path.startsWith("/api/seo") || req.path === "/sitemap.xml" || req.path === "/robots.txt";
   if (!isDbReady() && isDbEndpoint && req.path !== "/api/health") {
     return res.status(503).json({
       message: "Database unavailable. Start MongoDB or update MONGO_URI to a reachable instance.",
@@ -49,6 +50,7 @@ app.use("/api/content", cacheMiddleware(600), contentRoutes); // Cache for 10 mi
 app.use("/api/contact", contactRoutes);
 app.use("/api/seo", cacheMiddleware(3600), seoRoutes); // Cache SEO for 1 hour
 app.use("/api/upload", uploadRoutes);
+app.use("/api/stats", statsRoutes);
 app.get("/sitemap.xml", sitemap);
 app.get("/robots.txt", robots);
 

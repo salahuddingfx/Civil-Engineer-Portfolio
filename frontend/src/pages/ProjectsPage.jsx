@@ -2,12 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLanguage } from "../context/LanguageContext";
-import { t } from "../lib/translations";
-import SeoHead from "../components/SeoHead";
-const categories = ["ALL", "RESIDENTIAL", "COMMERCIAL", "INFRASTRUCTURE", "STRUCTURAL"];
 import { fetchContent } from "../lib/api";
 import { ProjectSkeleton } from "../components/Skeleton";
+
+const categories = ["ALL", "RESIDENTIAL", "COMMERCIAL", "INFRASTRUCTURE", "STRUCTURAL"];
 
 gsap.registerPlugin(ScrollTrigger);
 

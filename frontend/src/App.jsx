@@ -4,6 +4,7 @@ import AdminRoute from "./components/AdminRoute";
 import IntroLoader from "./components/IntroLoader";
 import { Suspense, lazy, useState, useEffect } from "react";
 import AdminLayout from "./components/admin/AdminLayout";
+import { api } from "./lib/api";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
@@ -46,6 +47,21 @@ export default function App() {
     setIsIntroComplete(true);
     sessionStorage.setItem("introPlayed", "true");
   };
+
+  useEffect(() => {
+    const reportVisit = async () => {
+      // Only report visit if not already reported this session
+      if (!sessionStorage.getItem("visitReported")) {
+        try {
+          await api.post("/stats/visit");
+          sessionStorage.setItem("visitReported", "true");
+        } catch (err) {
+          console.warn("Failed to report visitor stats:", err);
+        }
+      }
+    };
+    reportVisit();
+  }, []);
 
   return (
     <>
