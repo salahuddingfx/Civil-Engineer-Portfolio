@@ -240,6 +240,108 @@ h3 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.3; }
   50%       { box-shadow: 0 0 40px var(--highlight-glow); }
 }
 
+/* ── NEW LOADING SYSTEM ANIMATIONS ──────────────── */
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-pulse {
+  animation: skeletonPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.blueprint-scroll {
+  animation: blueprintScroll 60s linear infinite;
+}
+
+@keyframes blueprintScroll {
+  from { background-position: 0 0; }
+  to { background-position: 1000px 1000px; }
+}
+
+.loader-ring {
+  border: 2px solid var(--highlight-border);
+  border-top-color: var(--highlight);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 15px var(--highlight-glow);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Mouse Scroll Indicator */
+.mouse-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
+
+.mouse-scroll .mouse {
+  width: 26px;
+  height: 42px;
+  border: 2px solid var(--highlight-border);
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.mouse-scroll:hover .mouse {
+  border-color: var(--highlight);
+}
+
+.mouse-scroll .wheel {
+  width: 3px;
+  height: 8px;
+  background-color: var(--highlight);
+  border-radius: 2px;
+  animation: scroll-wheel 1.5s ease-out infinite;
+  box-shadow: 0 0 10px var(--highlight-glow);
+}
+
+@keyframes scroll-wheel {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(12px); opacity: 0; }
+}
+
+.mouse-scroll .scroll-text {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  transition: color 0.3s ease;
+}
+
+.mouse-scroll:hover .scroll-text {
+  color: var(--highlight);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;

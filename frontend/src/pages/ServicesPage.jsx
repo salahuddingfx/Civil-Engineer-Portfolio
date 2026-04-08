@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
+import { ServiceSkeleton } from "../components/Skeleton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,6 +33,19 @@ export default function ServicesPage() {
   const [activeCategory, setActiveCategory] = useState("ALL");
   const containerRef = useRef(null);
 
+  const [loading, setLoading] = useState(true);
+  const [displayServices, setDisplayServices] = useState([]);
+
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      await new Promise(r => setTimeout(r, 1500));
+      setDisplayServices(services);
+      setLoading(false);
+    };
+    load();
+  }, []);
+
   useEffect(() => {
     let ctx = gsap.context(() => {
       gsap.fromTo(".reveal-unit",
@@ -43,7 +57,7 @@ export default function ServicesPage() {
     return () => ctx.revert();
   }, [activeCategory]);
 
-  const filtered = activeCategory === "ALL" ? services : services.filter(s => s.category === activeCategory);
+  const filtered = activeCategory === "ALL" ? displayServices : displayServices.filter(s => s.category === activeCategory);
 
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
@@ -98,31 +112,49 @@ export default function ServicesPage() {
       {/* Services Grid */}
       <section className="py-12 px-6 lg:px-10 mx-auto max-w-[1500px]">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filtered.map((service, i) => (
-            <div key={i} className="reveal-unit p-10 rounded-2xl group transition-all duration-300 flex flex-col relative overflow-hidden card-bg">
-              <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-[100px] group-hover:scale-150 transition-transform duration-700 pointer-events-none"
-                style={{ background: "var(--highlight-soft)" }} />
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-8 relative z-10"
-                style={{ background: "var(--highlight-soft)", color: "var(--highlight)", boxShadow: "0 0 15px var(--highlight-soft)" }}>
-                {service.icon}
-              </div>
-              <h3 className="text-2xl font-bold mb-4 relative z-10" style={{ color: "var(--text)" }}>
-                {language === "bn" ? service.titleBn : service.title}
-              </h3>
-              <p className="text-[15px] leading-relaxed mb-10 flex-grow relative z-10" style={{ color: "var(--text-muted)" }}>
-                {language === "bn" ? service.descBn : service.desc}
-              </p>
-              <Link to="/contact"
-                className="text-[11px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 group-hover:gap-4 transition-all mt-auto pt-6 relative z-10"
-                style={{ color: "var(--text-muted)", borderTop: "1px solid var(--highlight-border)" }}
-                onMouseEnter={e => e.currentTarget.style.color = "var(--highlight)"}
-                onMouseLeave={e => e.currentTarget.style.color = "var(--text-muted)"}
+          {loading ? (
+            [1, 2, 3, 4, 5, 6].map((i) => <ServiceSkeleton key={i} />)
+          ) : (
+            filtered.map((service, i) => (
+              <div
+                key={i}
+                className="reveal-unit p-10 rounded-2xl group transition-all duration-300 flex flex-col relative overflow-hidden card-bg"
               >
-                {language === "en" ? "Schedule Consultation" : "পরামর্শ বুক করুন"}
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-              </Link>
-            </div>
-          ))}
+                <div
+                  className="absolute top-0 right-0 w-32 h-32 rounded-bl-[100px] group-hover:scale-150 transition-transform duration-700 pointer-events-none"
+                  style={{ background: "var(--highlight-soft)" }}
+                />
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center mb-8 relative z-10"
+                  style={{
+                    background: "var(--highlight-soft)",
+                    color: "var(--highlight)",
+                    boxShadow: "0 0 15px var(--highlight-soft)",
+                  }}
+                >
+                  {service.icon}
+                </div>
+                <h3 className="text-2xl font-bold mb-4 relative z-10" style={{ color: "var(--text)" }}>
+                  {language === "bn" ? service.titleBn : service.title}
+                </h3>
+                <p className="text-[15px] leading-relaxed mb-10 flex-grow relative z-10" style={{ color: "var(--text-muted)" }}>
+                  {language === "bn" ? service.descBn : service.desc}
+                </p>
+                <Link
+                  to="/contact"
+                  className="text-[11px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 group-hover:gap-4 transition-all mt-auto pt-6 relative z-10"
+                  style={{ color: "var(--text-muted)", borderTop: "1px solid var(--highlight-border)" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "var(--highlight)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+                >
+                  {language === "en" ? "Schedule Consultation" : "পরামর্শ বুক করুন"}
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            ))
+          )}
         </div>
       </section>
 

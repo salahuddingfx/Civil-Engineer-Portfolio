@@ -7,6 +7,7 @@ export default function Footer() {
 
   return (
     <footer
+      id="main-footer"
       className="relative pt-24 pb-12 overflow-hidden"
       style={{ background: "var(--bg)", borderTop: "1px solid var(--highlight-border)" }}
     >

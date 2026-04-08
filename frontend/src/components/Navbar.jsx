@@ -38,7 +38,7 @@ function DesktopNavLink({ to, label }) {
   );
 }
 
-export default function Navbar() {
+export default function Navbar({ isIntroComplete }) {
   const { language, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -56,6 +56,16 @@ export default function Navbar() {
     });
     return () => ctx.revert();
   }, [menuOpen]);
+
+  // Entrance Animation
+  useEffect(() => {
+    if (isIntroComplete) {
+      gsap.fromTo("header", 
+        { y: -100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, ease: "power4.out", delay: 0.2 }
+      );
+    }
+  }, [isIntroComplete]);
 
   return (
     <header

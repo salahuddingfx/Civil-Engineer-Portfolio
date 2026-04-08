@@ -9,7 +9,7 @@ import WhatsAppButton from "./WhatsAppButton";
 import ScrollToTopButton from "./ScrollToTopButton";
 import PageTransitionBar from "./PageTransitionBar";
 
-export default function Layout() {
+export default function Layout({ isIntroComplete }) {
   const glowRef = useRef(null);
   const { language } = useLanguage();
   const { isDark } = useTheme();
@@ -69,7 +69,7 @@ export default function Layout() {
         Skip to content
       </a>
 
-      <Navbar />
+      <Navbar isIntroComplete={isIntroComplete} />
 
       <main id="main-content" className="w-full flex-1">
         <Outlet />

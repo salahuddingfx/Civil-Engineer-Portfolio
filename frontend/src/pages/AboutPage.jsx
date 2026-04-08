@@ -271,12 +271,13 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1500px] w-full grid lg:grid-cols-2 items-center gap-16 relative z-10">
           {/* Left: Visual */}
           <div className="order-2 lg:order-1 relative h-[500px] w-full rounded-2xl overflow-hidden reveal-unit"
-            style={{ border: "1px solid var(--highlight-border)", background: "var(--bg-accent)" }}>
-            <div className="absolute inset-0 bg-tech-grid opacity-50" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[200px] h-[200px] rounded-full animate-pulse"
-                style={{ border: "1px solid var(--highlight-border)", boxShadow: "0 0 80px var(--highlight-soft)" }} />
-            </div>
+            style={{ border: "1px solid var(--highlight-border)" }}>
+            <img 
+              src="/images/mission-concept.png" 
+              alt="Engineering Mission" 
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-transparent to-transparent opacity-60" />
             <div className="absolute bottom-6 left-6 p-6 rounded-xl max-w-[300px] backdrop-blur-lg"
               style={{ background: "var(--glass-bg)", border: "1px solid var(--highlight-border)" }}>
               <p className="text-[10px] uppercase tracking-[0.3em] font-bold mb-2" style={{ color: "var(--highlight)" }}>SINCE 2013</p>
