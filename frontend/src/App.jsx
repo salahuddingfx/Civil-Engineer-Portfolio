@@ -1,8 +1,9 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import Layout from "./components/Layout";
 import AdminRoute from "./components/AdminRoute";
 import IntroLoader from "./components/IntroLoader";
 import { Suspense, lazy, useState, useEffect } from "react";
+import AdminLayout from "./components/admin/AdminLayout";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
@@ -45,44 +46,33 @@ export default function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route element={<Layout isIntroComplete={isIntroComplete} />}>
-              <Route path="/" element={<HomePage isIntroComplete={isIntroComplete} />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/testimonials" element={<TestimonialsPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-        </Route>
+               <Route path="/" element={<HomePage isIntroComplete={isIntroComplete} />} />
+               <Route path="/about" element={<AboutPage />} />
+               <Route path="/services" element={<ServicesPage />} />
+               <Route path="/projects" element={<ProjectsPage />} />
+               <Route path="/testimonials" element={<TestimonialsPage />} />
+               <Route path="/gallery" element={<GalleryPage />} />
+               <Route path="/contact" element={<ContactPage />} />
+               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+               <Route path="/terms" element={<TermsPage />} />
+            </Route>
 
-        <Route path="/admin" element={<AdminLoginPage />} />
-        <Route
-          path="/admin/dashboard"
-          element={
-            <AdminRoute>
-              <AdminDashboardPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/admin/dashboard/:type"
-          element={
-            <AdminRoute>
-              <AdminContentPage />
-            </AdminRoute>
-          }
-        />
-        <Route
-          path="/admin/account"
-          element={
-            <AdminRoute>
-              <AdminAccountPage />
-            </AdminRoute>
-          }
-        />
+            <Route path="/admin" element={<AdminLoginPage />} />
+            
+            {/* Protected Admin Suite with Layout */}
+            <Route element={
+              <AdminRoute>
+                <AdminLayout>
+                  <Outlet />
+                </AdminLayout>
+              </AdminRoute>
+            }>
+              <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+              <Route path="/admin/dashboard/:type" element={<AdminContentPage />} />
+              <Route path="/admin/account" element={<AdminAccountPage />} />
+            </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
       </div>
