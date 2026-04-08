@@ -24,7 +24,7 @@ const pageModules = [
   { 
     title: "Home", 
     desc: "Update primary vision, hero typography, and technical highlights.", 
-    to: "/admin/dashboard/home", 
+    to: "/admin/home", 
     icon: Home,
     status: "LIVE",
     bgImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1470&auto=format&fit=crop" 
@@ -32,7 +32,7 @@ const pageModules = [
   { 
     title: "About", 
     desc: "Refine consultancy legacy and structural journey details.", 
-    to: "/admin/dashboard/about", 
+    to: "/admin/about", 
     icon: UserCircle,
     status: "LIVE",
     bgImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1470&auto=format&fit=crop"
@@ -40,7 +40,7 @@ const pageModules = [
   { 
     title: "Services", 
     desc: "Configure engineering and architectural service portfolio.", 
-    to: "/admin/dashboard/services", 
+    to: "/admin/services", 
     icon: Briefcase,
     status: "IN PROGRESS",
     bgImage: "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=1470&auto=format&fit=crop"
@@ -48,7 +48,7 @@ const pageModules = [
   { 
     title: "Projects", 
     desc: "Document high-performance architectural and structural assets.", 
-    to: "/admin/dashboard/projects", 
+    to: "/admin/projects", 
     icon: Layers,
     status: "LIVE",
     bgImage: "https://images.unsplash.com/photo-1503387762-592dee58c160?q=80&w=1632&auto=format&fit=crop"
@@ -56,7 +56,7 @@ const pageModules = [
   { 
     title: "Testimonials", 
     desc: "Curate verified client feedback and professional endorsements.", 
-    to: "/admin/dashboard/testimonials", 
+    to: "/admin/testimonials", 
     icon: MessageSquareQuote,
     status: "LIVE",
     bgImage: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1484&auto=format&fit=crop"
@@ -64,7 +64,7 @@ const pageModules = [
   { 
     title: "Gallery", 
     desc: "Manage site photography and high-resolution architectural renders.", 
-    to: "/admin/dashboard/gallery", 
+    to: "/admin/gallery", 
     icon: ImageIcon,
     status: "DRAFT",
     bgImage: "https://images.unsplash.com/photo-1496293455970-f8581aae0e3c?q=80&w=1471&auto=format&fit=crop"
@@ -72,7 +72,7 @@ const pageModules = [
   { 
     title: "Contact Info", 
     desc: "Manage studio location, social social nodes, and API maps.", 
-    to: "/admin/dashboard/contactDetails", 
+    to: "/admin/contact", 
     icon: Mail,
     status: "LIVE",
     bgImage: "https://images.unsplash.com/photo-1423666639041-f56000c27a9a?q=80&w=1470&auto=format&fit=crop"

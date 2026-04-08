@@ -19,6 +19,15 @@ const AdminDashboardPage = lazy(() => import("./pages/admin/AdminDashboardPage")
 const AdminContentPage = lazy(() => import("./pages/admin/AdminContentPage"));
 const AdminAccountPage = lazy(() => import("./pages/admin/AdminAccountPage"));
 
+// Dedicated Admin Modules
+const AdminHome = lazy(() => import("./pages/admin/modules/AdminHome"));
+const AdminAbout = lazy(() => import("./pages/admin/modules/AdminAbout"));
+const AdminServices = lazy(() => import("./pages/admin/modules/AdminServices"));
+const AdminProjects = lazy(() => import("./pages/admin/modules/AdminProjects"));
+const AdminTestimonials = lazy(() => import("./pages/admin/modules/AdminTestimonials"));
+const AdminGallery = lazy(() => import("./pages/admin/modules/AdminGallery"));
+const AdminContact = lazy(() => import("./pages/admin/modules/AdminContact"));
+
 function Loader() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-[#0A0F1C] z-[50]">
@@ -68,6 +77,17 @@ export default function App() {
               </AdminRoute>
             }>
               <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+              
+              {/* Specialized Modules */}
+              <Route path="/admin/home" element={<AdminHome />} />
+              <Route path="/admin/about" element={<AdminAbout />} />
+              <Route path="/admin/services" element={<AdminServices />} />
+              <Route path="/admin/projects" element={<AdminProjects />} />
+              <Route path="/admin/testimonials" element={<AdminTestimonials />} />
+              <Route path="/admin/gallery" element={<AdminGallery />} />
+              <Route path="/admin/contact" element={<AdminContact />} />
+
+              {/* Generic/Special Pages */}
               <Route path="/admin/dashboard/:type" element={<AdminContentPage />} />
               <Route path="/admin/account" element={<AdminAccountPage />} />
             </Route>

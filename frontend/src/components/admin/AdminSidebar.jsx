@@ -17,13 +17,13 @@ import { useLanguage } from "../../context/LanguageContext";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, to: "/admin/dashboard", id: "dashboard" },
-  { label: "Home Page", icon: Home, to: "/admin/dashboard/home", id: "home" },
-  { label: "About Section", icon: UserCircle, to: "/admin/dashboard/about", id: "about" },
-  { label: "Services", icon: Briefcase, to: "/admin/dashboard/services", id: "services" },
-  { label: "Projects", icon: Layers, to: "/admin/dashboard/projects", id: "projects" },
-  { label: "Testimonials", icon: MessageSquare, to: "/admin/dashboard/testimonials", id: "testimonials" },
-  { label: "Gallery", icon: ImageIcon, to: "/admin/dashboard/gallery", id: "gallery" },
-  { label: "Contact", icon: Mail, to: "/admin/dashboard/contactDetails", id: "contact" },
+  { label: "Home Page", icon: Home, to: "/admin/home", id: "home" },
+  { label: "About Section", icon: UserCircle, to: "/admin/about", id: "about" },
+  { label: "Services", icon: Briefcase, to: "/admin/services", id: "services" },
+  { label: "Projects", icon: Layers, to: "/admin/projects", id: "projects" },
+  { label: "Testimonials", icon: MessageSquare, to: "/admin/testimonials", id: "testimonials" },
+  { label: "Gallery", icon: ImageIcon, to: "/admin/gallery", id: "gallery" },
+  { label: "Contact", icon: Mail, to: "/admin/contact", id: "contact" },
   { label: "Account Settings", icon: Settings, to: "/admin/account", id: "settings" },
 ];
 
