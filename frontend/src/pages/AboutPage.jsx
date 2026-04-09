@@ -16,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 function SkillCard({ skill, language }) {
   return (
     <div
-      className="p-8 rounded-3xl reveal-unit transition-all duration-500 group"
+      className="p-6 md:p-8 rounded-3xl reveal-unit transition-all duration-500 group"
       style={{
         background: "var(--bg-card)",
         border: `1px solid var(--highlight-border)`,
@@ -154,36 +154,36 @@ export default function AboutPage() {
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[90vh] flex items-center pt-32 px-6 lg:px-10 overflow-hidden">
+      <section className="relative min-h-[80vh] md:min-h-[90vh] flex items-center pt-20 pb-12 lg:pt-32 px-6 lg:px-10 overflow-hidden">
         <div className="blueprint-overlay opacity-20" />
-        <div className="mx-auto max-w-[1500px] w-full grid lg:grid-cols-2 items-center gap-24 relative z-10">
+        <div className="mx-auto max-w-[1500px] w-full grid lg:grid-cols-2 items-center gap-12 lg:gap-24 relative z-10">
           <div className="reveal-unit">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-10 text-[9px] uppercase tracking-[0.4em] font-black"
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 text-[8px] md:text-[9px] uppercase tracking-[0.4em] font-black"
               style={{ border: "1px solid var(--highlight-border)", background: "var(--highlight-soft)", color: "var(--highlight)" }}>
               <Zap size={10} className="animate-pulse" />
               {language === "en" ? "IDENTITY ESTABLISHED 2013" : "প্রতিষ্ঠা ২০১৩"}
             </span>
-            <h1 className="text-6xl md:text-8xl font-black leading-[0.95] tracking-tight mb-10 italic uppercase" style={{ color: "var(--text)" }}>
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-black leading-[1] md:leading-[0.95] tracking-tight mb-8 italic uppercase" style={{ color: "var(--text)" }}>
               {language === "en" ? <>CRAFTING <br /> THE <span className="text-glow">FUTURE</span></> : <>ভবিষ্যতের <span className="text-glow">নকশা</span></>}
             </h1>
             <p className="text-lg md:text-xl max-w-xl leading-relaxed mb-12 font-medium opacity-60" style={{ color: "var(--text-muted)" }}>
               {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : bio?.summary?.en}
             </p>
-            <div className="flex gap-16">
+            <div className="grid grid-cols-3 gap-4 md:flex md:gap-16">
               {[
-                { val: "250+", label: language === "en" ? "ASSETS DEPLOYED" : "প্রকল্প" },
-                { val: "11+",  label: language === "en" ? "CYCLE EXPERIENCE" : "অভিজ্ঞতা" },
-                { val: "100%", label: language === "en" ? "INTEGRITY INDEX" : "নির্ভরযোগ্যতা" },
+                { val: "250+", label: language === "en" ? "PROJECTS" : "প্রকল্প" },
+                { val: "11+",  label: language === "en" ? "YEARS" : "অভিজ্ঞতা" },
+                { val: "100%", label: language === "en" ? "TRUST" : "নির্ভরযোগ্যতা" },
               ].map(({ val, label }, i) => (
                 <div key={i} className="group">
-                  <p className="text-5xl font-black mb-2 transition-transform group-hover:scale-110" style={{ color: "var(--text)" }}>{val}</p>
-                  <p className="text-[9px] uppercase tracking-[0.3em] font-black opacity-40 group-hover:opacity-100" style={{ color: "var(--highlight)" }}>{label}</p>
+                  <p className="text-2xl sm:text-5xl font-black mb-1 md:mb-2 transition-transform group-hover:scale-110" style={{ color: "var(--text)" }}>{val}</p>
+                  <p className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-black opacity-40 group-hover:opacity-100" style={{ color: "var(--highlight)" }}>{label}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="relative h-[650px] w-full rounded-[60px] overflow-hidden reveal-unit shadow-2xl"
+          <div className="relative h-[400px] md:h-[650px] w-full rounded-[40px] md:rounded-[60px] overflow-hidden reveal-unit shadow-2xl"
             style={{ border: "1px solid var(--highlight-border)" }}>
             <img 
               src={bio?.featuredImage?.url || "https://images.unsplash.com/photo-1503387762-592dea58ef21"} 
@@ -191,11 +191,11 @@ export default function AboutPage() {
               className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
             />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/40 to-transparent" />
-            <div className="absolute bottom-12 left-12 right-12 p-8 md:p-10 rounded-[40px] backdrop-blur-2xl border border-white/10 bg-white/[0.03] shadow-2xl transition-transform hover:scale-[1.02] duration-700">
-               <h3 className="text-2xl md:text-3xl font-black text-white italic uppercase mb-2 tracking-tighter">
+            <div className="absolute bottom-6 left-6 right-6 md:bottom-12 md:left-12 md:right-12 p-6 md:p-10 rounded-[24px] md:rounded-[40px] backdrop-blur-2xl border border-white/10 bg-white/[0.03] shadow-2xl transition-transform hover:scale-[1.02] duration-700">
+               <h3 className="text-xl md:text-3xl font-black text-white italic uppercase mb-1 md:mb-2 tracking-tighter">
                  {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : bio?.title?.en || "Engr. Alam Ashik"}
                </h3>
-               <p className="text-[10px] md:text-xs font-black text-cyan-400 uppercase tracking-[0.4em] italic opacity-80">
+               <p className="text-[9px] md:text-xs font-black text-cyan-400 uppercase tracking-[0.3em] md:tracking-[0.4em] italic opacity-80">
                  {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : bio?.summary?.en || "Principal Structural Consultant"}
                </p>
             </div>
@@ -204,20 +204,20 @@ export default function AboutPage() {
       </section>
 
       {/* ── Biography ────────────────────────────────────────────────────── */}
-      <section className="py-32 px-6 lg:px-10" style={{ borderTop: "1px solid var(--highlight-border)", background: "var(--bg-soft)" }}>
-        <div className="mx-auto max-w-[1500px] grid lg:grid-cols-[1.1fr_0.9fr] items-center gap-24">
-          <div className="reveal-unit space-y-12">
+      <section className="py-20 md:py-32 px-6 lg:px-10" style={{ borderTop: "1px solid var(--highlight-border)", background: "var(--bg-soft)" }}>
+        <div className="mx-auto max-w-[1500px] grid lg:grid-cols-[1.1fr_0.9fr] items-center gap-12 lg:gap-24">
+          <div className="reveal-unit space-y-8 md:space-y-12">
             <div>
               <p className="text-[10px] tracking-[0.4em] font-black uppercase mb-4" style={{ color: "var(--highlight)" }}>
                 {language === "en" ? "LEGACY BIOGRAPHY" : "জীবনী"}
               </p>
-              <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>
                 {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : bio?.title?.en}
               </h2>
             </div>
             
-            <div className="space-y-8 max-w-2xl">
-              <p className="text-xl md:text-2xl font-medium italic leading-relaxed opacity-80" style={{ color: "var(--text-muted)" }}>
+            <div className="space-y-6 md:space-y-8 max-w-2xl">
+              <p className="text-lg md:text-2xl font-medium italic leading-relaxed opacity-80" style={{ color: "var(--text-muted)" }}>
                  "{language === "bn" ? (bio?.body?.bn || bio?.body?.en) : bio?.body?.en}"
               </p>
             </div>
@@ -233,7 +233,7 @@ export default function AboutPage() {
 
           <div className="reveal-unit relative group">
              <div className="absolute -inset-4 bg-cyan-400/5 rounded-[56px] blur-3xl group-hover:bg-cyan-400/10 transition-all" />
-             <div className="relative h-[550px] w-full rounded-[48px] overflow-hidden border-2 border-white/5 shadow-2xl">
+             <div className="relative h-[400px] md:h-[550px] w-full rounded-[32px] md:rounded-[48px] overflow-hidden border-2 border-white/5 shadow-2xl">
                 <img src={bio?.featuredImage?.url || "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7"} className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 transition-all duration-1000" alt="Principal" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div className="absolute bottom-8 left-8 right-8 p-6 rounded-3xl backdrop-blur-xl border border-white/10 bg-white/[0.02] opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
@@ -246,12 +246,12 @@ export default function AboutPage() {
       </section>
 
       {/* ── Skills ────────────────────────────────────────────────────────── */}
-      <section className="py-32 px-6 lg:px-10" style={{ background: "var(--bg)" }}>
+      <section className="py-20 md:py-32 px-6 lg:px-10" style={{ background: "var(--bg)" }}>
         <div className="mx-auto max-w-[1500px]">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-10 reveal-unit">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-20 gap-8 reveal-unit">
             <div>
-              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "TECHNICAL PROFICIENCIES" : "প্রযুক্তিগত দক্ষতা"}</p>
-              <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "SKILLS & EXPERTISE" : "দক্ষতা এবং অভিজ্ঞতা"}</h2>
+              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "TECHNICAL PROFICIENCIES" : "প্রযুক্তিগত দক্ষতা"}</p>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "SKILLS & EXPERTISE" : "দক্ষতা এবং অভিজ্ঞতা"}</h2>
             </div>
             <p className="text-[14px] max-w-md md:text-right font-medium opacity-60 italic" style={{ color: "var(--text-muted)" }}>
               Optimizing structural output through advanced analysis and algorithmic precision across multiple software environments.
@@ -267,11 +267,11 @@ export default function AboutPage() {
       </section>
 
       {/* ── Timeline ──────────────────────────────────────────────────────── */}
-      <section className="py-32 px-6 lg:px-10 overflow-hidden" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)" }}>
+      <section className="py-20 md:py-32 px-6 lg:px-10 overflow-hidden" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)" }}>
         <div className="mx-auto max-w-[1500px]">
-            <div className="mb-20 reveal-unit">
-               <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "CHRONOLOGICAL LOG" : "কার্যক্রমের ধারাবাহিকতা"}</p>
-               <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "CAREER TIMELINE" : "ক্যারিয়ার টাইমলাইন"}</h2>
+            <div className="mb-12 md:mb-20 reveal-unit">
+               <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "CHRONOLOGICAL LOG" : "কার্যক্রমের ধারাবাহিকতা"}</p>
+               <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "CAREER TIMELINE" : "ক্যারিয়ার টাইমলাইন"}</h2>
             </div>
 
           <div className="timeline-container relative max-w-5xl mx-auto py-10">
@@ -286,9 +286,9 @@ export default function AboutPage() {
                     style={{ background: "var(--highlight)", border: "4px solid var(--bg)", boxShadow: "0 0 20px var(--highlight-soft)" }} />
                   
                   <div className="md:w-1/2">
-                    <div className="timeline-card p-12 rounded-[40px] backdrop-blur-xl transition-all hover:scale-[1.02] duration-500"
+                    <div className="timeline-card p-8 md:p-12 rounded-[32px] md:rounded-[40px] backdrop-blur-xl transition-all hover:scale-[1.02] duration-500"
                       style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "0 20px 50px rgba(0,0,0,0.2)" }}>
-                      <p className="text-4xl font-black mb-6 italic" style={{ color: "var(--highlight)" }}>{item.year}</p>
+                      <p className="text-3xl sm:text-4xl font-black mb-4 md:mb-6 italic" style={{ color: "var(--highlight)" }}>{item.year}</p>
                       <h3 className="text-2xl font-black mb-4 uppercase italic tracking-tight" style={{ color: "var(--text)" }}>
                         {language === "bn" ? (item.title?.bn || item.title?.en) : item.title?.en}
                       </h3>
@@ -306,12 +306,12 @@ export default function AboutPage() {
       </section>
 
       {/* ── Team ──────────────────────────────────────────────────────────── */}
-      <section className="py-32 px-6 lg:px-10" style={{ background: "var(--bg)", borderTop: "1px solid var(--highlight-border)" }}>
+      <section className="py-20 md:py-32 px-6 lg:px-10" style={{ background: "var(--bg)", borderTop: "1px solid var(--highlight-border)" }}>
         <div className="mx-auto max-w-[1500px]">
-          <div className="flex justify-between items-end mb-20 reveal-unit">
+          <div className="flex justify-between items-end mb-12 md:mb-20 reveal-unit">
             <div>
-              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "PERSONNEL REGISTRY" : "কর্মী তালিকা"}</p>
-              <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "STUDIO TEAM" : "স্টুডিও টিম"}</h2>
+              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "PERSONNEL REGISTRY" : "কর্মী তালিকা"}</p>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "STUDIO TEAM" : "স্টুডিও টিম"}</h2>
             </div>
           </div>
 

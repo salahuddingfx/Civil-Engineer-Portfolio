@@ -39,10 +39,10 @@ export default function Footer() {
       style={{ background: "var(--bg)", borderTop: "1px solid var(--highlight-border)" }}
     >
       <div className="mx-auto max-w-[1500px] px-6 md:px-10">
-        <div className="grid gap-20 lg:grid-cols-[1.5fr_0.8fr_0.8fr_1fr]">
+        <div className="grid grid-cols-2 lg:grid-cols-[1.5fr_0.8fr_0.8fr_1fr] gap-x-8 gap-y-16 lg:gap-20">
 
           {/* Brand & CTA Column */}
-          <div className="space-y-10">
+          <div className="col-span-2 lg:col-span-1 space-y-10">
             <div className="space-y-4">
               <Link to="/" className="flex items-center gap-1.5 font-display text-[24px] font-black tracking-[0.06em]" style={{ color: "var(--text)" }}>
                 Engr. Alam<span style={{ color: "var(--highlight)" }}> Ashik</span>
@@ -90,10 +90,10 @@ export default function Footer() {
 
           {/* Navigation */}
           <div className="space-y-8">
-            <h4 className="text-[11px] font-black uppercase tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
+            <h4 className="text-[18px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
               {language === "en" ? "EXPLORE" : "অন্বেষণ"}
             </h4>
-            <ul className="space-y-5">
+            <ul className="space-y-4">
               {[
                 { to: "/", key: "nav.home" },
                 { to: "/projects", key: "nav.projects" },
@@ -116,10 +116,10 @@ export default function Footer() {
 
           {/* Resources */}
           <div className="space-y-8">
-            <h4 className="text-[11px] font-black uppercase tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
+            <h4 className="text-[18px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
               {language === "en" ? "RESOURCES" : "রিসোর্স"}
             </h4>
-            <ul className="space-y-5">
+            <ul className="space-y-4">
               {[
                 { to: "/about", label: language === "en" ? "About Studio" : "স্টুডিও সম্পর্কে" },
                 { to: "/testimonials", label: language === "en" ? "Peer Reviews" : "পিয়ার রিভিউ" },
@@ -140,7 +140,7 @@ export default function Footer() {
           </div>
 
           {/* Newsletter */}
-          <div className="space-y-10">
+          <div className="col-span-2 lg:col-span-1 space-y-10">
             <div className="space-y-4">
               <h4 className="text-[11px] font-black uppercase tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
                 {language === "en" ? "System Updates" : "সিস্টেম আপডেট"}

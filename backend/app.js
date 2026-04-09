@@ -22,6 +22,7 @@ const { notFound, errorHandler } = require("./middleware/error.middleware");
 const { cacheMiddleware } = require("./middleware/cache.middleware");
 
 const app = express();
+app.set('etag', false); // Force 200 OK instead of 304 Not Modified
 
 app.use(helmet());
 app.use(

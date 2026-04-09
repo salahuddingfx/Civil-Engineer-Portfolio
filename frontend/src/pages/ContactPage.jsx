@@ -8,6 +8,8 @@ import { submitContact } from "../lib/api";
 import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
+import { Facebook, Linkedin, Instagram, Twitter, Youtube } from "../components/BrandIcons";
+import { fetchContent } from "../lib/api";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +27,36 @@ export default function ContactPage() {
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm({
     resolver: zodResolver(schema)
   });
+
+  const [socials, setSocials] = useState({
+    facebook: "https://facebook.com/alamashik",
+    linkedin: "https://linkedin.com/in/alamashik",
+    instagram: "https://instagram.com/alamashik",
+    twitter: "https://twitter.com/alamashik"
+  });
+
+  useEffect(() => {
+    async function loadSocials() {
+      try {
+        const response = await fetchContent("contactDetails", { limit: 1 });
+        if (response.items?.[0]?.socialLinks) {
+          const links = response.items[0].socialLinks;
+          // Only update if the links are actually provided
+          setSocials(prev => ({
+            ...prev,
+            ...(links.facebook && { facebook: links.facebook }),
+            ...(links.linkedin && { linkedin: links.linkedin }),
+            ...(links.instagram && { instagram: links.instagram }),
+            ...(links.twitter && { twitter: links.twitter }),
+            ...(links.youtube && { youtube: links.youtube }),
+          }));
+        }
+      } catch (err) {
+        console.warn("Server offline or API error. Using static identity fallback.");
+      }
+    }
+    loadSocials();
+  }, []);
 
   useEffect(() => {
     let ctx = gsap.context(() => {
@@ -205,6 +237,32 @@ export default function ContactPage() {
                     </div>
                   )}
                </form>
+
+               {/* Social Identity Section */}
+               <div className="relative z-10 mt-16 pt-10 border-t border-[#19D2FF]/10">
+                  <p className="text-[10px] font-black tracking-[0.4em] text-[#CBD5E1] uppercase mb-8 text-center">Digital Network Identity</p>
+                  <div className="flex flex-wrap justify-center gap-6">
+                     {[
+                        { id: 'facebook', icon: Facebook, url: socials.facebook },
+                        { id: 'linkedin', icon: Linkedin, url: socials.linkedin },
+                        { id: 'instagram', icon: Instagram, url: socials.instagram },
+                        { id: 'twitter', icon: Twitter, url: socials.twitter },
+                        { id: 'youtube', icon: Youtube, url: socials.youtube },
+                     ].filter(s => s.url).map((social) => (
+                        <a 
+                           key={social.id}
+                           href={social.url}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           className="w-14 h-14 rounded-2xl bg-[#0A0F1C] border border-[rgba(25,210,255,0.1)] flex items-center justify-center text-[#CBD5E1] hover:text-[#19D2FF] hover:border-[#19D2FF] hover:shadow-[0_0_20px_rgba(25,210,255,0.2)] transition-all group"
+                           aria-label={social.id}
+                        >
+                           <social.icon size={22} className="group-hover:scale-110 transition-transform" />
+                        </a>
+                     ))}
+                  </div>
+                  <p className="text-[8px] font-bold text-[#475569] uppercase tracking-[0.3em] mt-8 text-center italic">Encryption Profile: 256-Bit Identity Protocol</p>
+               </div>
             </div>
          </div>
       </section>
