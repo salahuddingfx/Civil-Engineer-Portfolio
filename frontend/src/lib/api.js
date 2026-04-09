@@ -94,6 +94,6 @@ export async function getPrimaryContactDetails() {
 }
 
 export async function adminTranslate(text, targetLang = "bn") {
-  const { data } = await api.post("/admin", { text, targetLang });
+  const { data } = await api.post("/admin/translate", { text, targetLang });
   return data.translatedText;
 }

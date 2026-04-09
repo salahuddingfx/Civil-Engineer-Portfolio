@@ -241,7 +241,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1500px]">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-10 reveal-unit">
             <div>
-              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "TECHNICAL_PROFICIENCIES" : "প্রযুক্তিগত দক্ষতা"}</p>
+              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "TECHNICAL PROFICIENCIES" : "প্রযুক্তিগত দক্ষতা"}</p>
               <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "SKILLS & EXPERTISE" : "দক্ষতা এবং অভিজ্ঞতা"}</h2>
             </div>
             <p className="text-[14px] max-w-md md:text-right font-medium opacity-60 italic" style={{ color: "var(--text-muted)" }}>
@@ -261,7 +261,7 @@ export default function AboutPage() {
       <section className="py-32 px-6 lg:px-10 overflow-hidden" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)" }}>
         <div className="mx-auto max-w-[1500px]">
             <div className="mb-20 reveal-unit">
-               <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "CHRONOLOGICAL_LOG" : "কার্যক্রমের ধারাবাহিকতা"}</p>
+               <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "CHRONOLOGICAL LOG" : "কার্যক্রমের ধারাবাহিকতা"}</p>
                <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "CAREER TIMELINE" : "ক্যারিয়ার টাইমলাইন"}</h2>
             </div>
 

@@ -4,7 +4,7 @@ const { requireAdmin } = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-router.post("/", requireAdmin, async (req, res) => {
+router.post("/translate", requireAdmin, async (req, res) => {
   const { text, targetLang } = req.body;
   try {
     const translatedText = await translate(text, targetLang);
