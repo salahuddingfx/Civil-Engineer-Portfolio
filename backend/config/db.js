@@ -5,16 +5,35 @@ const env = require("./env");
 let dbReady = false;
 
 async function connectDb() {
-  await mongoose.connect(env.mongoUri, {
+  const options = {
     maxPoolSize: 10,
     minPoolSize: 2,
     socketTimeoutMS: 45000,
-    serverSelectionTimeoutMS: 5000,
+    serverSelectionTimeoutMS: 3000, // Fail fast if offline (3s)
     heartbeatFrequencyMS: 10000,
     retryWrites: true,
-  });
-  dbReady = true;
-  return mongoose.connection;
+  };
+
+  try {
+    // Try primary URI (usually Atlas)
+    await mongoose.connect(env.mongoUri, options);
+    dbReady = true;
+    return mongoose.connection;
+  } catch (error) {
+    console.warn("Primary MongoDB connection failed. Trying local fallback...");
+    
+    try {
+      // Fallback to local MongoDB
+      const localUri = process.env.MONGO_URI_LOCAL || "mongodb://127.0.0.1:27017/alam-ashik-portfolio";
+      await mongoose.connect(localUri, options);
+      console.log("Connected to Local MongoDB (Offline Mode)");
+      dbReady = true;
+      return mongoose.connection;
+    } catch (localError) {
+      dbReady = false;
+      throw new Error("Both Primary and Local MongoDB connections failed.");
+    }
+  }
 }
 
 function setDbReady(value) {
@@ -73,4 +92,9 @@ function probeTcp(host, port, timeoutMs = 1200) {
   });
 }
 
-module.exports = { connectDb, setDbReady, isDbReady, inspectMongoTarget, probeTcp };
+async function disconnectDb() {
+  await mongoose.disconnect();
+  dbReady = false;
+}
+
+module.exports = { connectDb, disconnectDb, setDbReady, isDbReady, inspectMongoTarget, probeTcp };

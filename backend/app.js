@@ -13,7 +13,10 @@ const uploadRoutes = require("./routes/upload.routes");
 const statsRoutes = require("./routes/stats.routes");
 const adminRoutes = require("./routes/admin.routes");
 const { sitemap, robots } = require("./controllers/seo.controller");
-const { isDbReady } = require("./config/db");
+const { connectDb, isDbReady } = require("./config/db");
+
+// Initialize Database Connection (Essential for Serverless/Vercel)
+connectDb().catch(err => console.error("Database connection failed", err));
 const { notFound, errorHandler } = require("./middleware/error.middleware");
 
 const { cacheMiddleware } = require("./middleware/cache.middleware");
