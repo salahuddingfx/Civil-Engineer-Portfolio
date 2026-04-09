@@ -4,6 +4,9 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fetchContent } from "../lib/api";
 import { ProjectSkeleton } from "../components/Skeleton";
+import { useLanguage } from "../context/LanguageContext";
+import { t } from "../lib/translations";
+import SeoHead from "../components/SeoHead";
 
 const categories = ["ALL", "RESIDENTIAL", "COMMERCIAL", "INFRASTRUCTURE", "STRUCTURAL"];
 
@@ -180,21 +183,21 @@ export default function ProjectsPage() {
               filtered.map((project, i) => (
                 <div
                   key={i}
-                  className="reveal-unit group relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-xl transition-all duration-300 active:scale-[0.98]"
+                  className="reveal-unit relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-xl transition-all duration-300 active:scale-[0.98]"
                   style={{ border: "1px solid var(--highlight-border)" }}
                 >
                   <img
                     src={project.img}
                     alt={project.title}
                     loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                    className="w-full h-full object-cover"
                   />
                   
                   {/* Better Overlay for Mobile */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/60 to-transparent opacity-80 md:opacity-40 md:group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/60 to-transparent opacity-80 transition-opacity duration-500" />
 
-                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
-                    <div className="md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end text-white">
+                    <div className="translate-y-0">
                       <span
                         className="inline-block px-3 py-1 rounded text-[9px] md:text-[10px] tracking-widest font-bold uppercase mb-3 backdrop-blur-sm"
                         style={{ background: "var(--highlight-soft)", color: "var(--highlight)", border: "1px solid var(--highlight-border)" }}
@@ -222,7 +225,7 @@ export default function ProjectsPage() {
 
                   {/* Focus/Arrow Icon - Smaller on Mobile */}
                   <div
-                    className="absolute top-4 right-4 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 backdrop-blur-md rounded-full flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 -rotate-45 md:group-hover:rotate-0 transition-all duration-500"
+                    className="absolute top-4 right-4 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 backdrop-blur-md rounded-full flex items-center justify-center -rotate-45"
                     style={{ background: "var(--highlight-soft)", border: "1px solid var(--highlight-border)", color: "var(--highlight)" }}
                   >
                     <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

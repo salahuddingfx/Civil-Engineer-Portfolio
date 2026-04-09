@@ -15,7 +15,7 @@ import {
   Activity,
   Plus
 } from "lucide-react";
-import { adminList } from "../../lib/api";
+import { adminList, api } from "../../lib/api";
 import { useLanguage } from "../../context/LanguageContext";
 import AdminStatCard from "../../components/admin/AdminStatCard";
 import AdminPageCard from "../../components/admin/AdminPageCard";
@@ -98,15 +98,17 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     const fetchRealCounts = async () => {
       try {
-        const [projectData, inquiryData] = await Promise.all([
+        const [projectData, inquiryData, statData] = await Promise.all([
           adminList("projects", { limit: 1 }),
-          adminList("contactSubmissions", { limit: 1 })
+          adminList("contactSubmissions", { limit: 1 }),
+          api.get("/stats")
         ]);
         
         setCounts(prev => ({
           ...prev,
           projects: projectData.meta?.total || 142,
           inquiries: inquiryData.meta?.total || 28,
+          visits: statData.data?.success ? statData.data.count : "12.4K"
         }));
       } catch (err) {
         console.warn("Could not fetch real-time analytics, using cache.");

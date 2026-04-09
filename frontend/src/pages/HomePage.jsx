@@ -124,7 +124,7 @@ export default function HomePage({ isIntroComplete }) {
         // Try real API calls parallelly
         const [projectsRes, servicesRes, testimonialsRes] = await Promise.allSettled([
           fetchContent("projects", { limit: 6 }),
-          fetchContent("services", { limit: 4 }),
+          fetchContent("services", { limit: 8 }),
           fetchContent("testimonials", { limit: 5 })
         ]);
 
@@ -140,16 +140,29 @@ export default function HomePage({ isIntroComplete }) {
             }))
           : projects; // Fallback to local data
 
-        const mappedServices = servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0
-          ? servicesRes.value.items.map(s => ({
-              ...s,
-              title: s.title?.en,
-              titleBn: s.title?.bn,
-              desc: s.summary?.en,
-              descBn: s.summary?.bn,
-              icon: s.tags?.[0] || "M12 2L2 7l10 5 10-5-10-5z"
-            }))
-          : services;
+        let mappedServices = services;
+        if (servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0) {
+          const apiServices = servicesRes.value.items.map(s => ({
+            ...s,
+            title: s.title?.en,
+            titleBn: s.title?.bn,
+            desc: s.summary?.en,
+            descBn: s.summary?.bn,
+            icon: s.tags?.[0] || "M12 2L2 7l10 5 10-5-10-5z"
+          }));
+
+          // If we have API services, we use them, but ensure we have at least 4 by supplementing with fallbacks
+          if (apiServices.length < 4) {
+             const fallbackItemsCount = 4 - apiServices.length;
+             // Take local services that aren't already represented by title match (basic check)
+             const additional = services.filter(ls => 
+                !apiServices.find(as => as.title === t(ls.titleKey, "en"))
+             ).slice(0, fallbackItemsCount);
+             mappedServices = [...apiServices, ...additional];
+          } else {
+             mappedServices = apiServices.slice(0, 4);
+          }
+        }
 
         const mappedTestimonials = testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0
           ? testimonialsRes.value.items.map(t => ({
@@ -270,13 +283,11 @@ export default function HomePage({ isIntroComplete }) {
             <div className="hero-content-reveal flex flex-col sm:flex-row gap-5">
               <Link
                 to="/contact"
-                className="group flex justify-center items-center gap-3 px-8 py-4 rounded font-bold text-sm tracking-wide transition-all hover:-translate-y-1"
-                style={{ background: "var(--highlight)", color: "#0A0F1C", boxShadow: "0 0 0 transparent" }}
-                onMouseEnter={e => e.currentTarget.style.boxShadow = "0 10px 30px var(--highlight-glow)"}
-                onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 0 transparent"}
+                className="group flex justify-center items-center gap-3 px-8 py-4 rounded font-bold text-sm tracking-wide transition-all"
+                style={{ background: "var(--highlight)", color: "#0A0F1C" }}
               >
                 {t("hero.cta_primary", language)}
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                <svg className="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </Link>
               <Link
                 to="/projects"
@@ -348,11 +359,8 @@ export default function HomePage({ isIntroComplete }) {
               { val: 99, suffix: "%", key: "stats.safety", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
               { val: 12, suffix: "", key: "stats.developments", icon: "M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM16 13a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z" },
             ].map((stat, i) => (
-              <div key={i} className="p-8 rounded-2xl flex flex-col justify-center transition-all duration-300 group card-bg"
-                onMouseEnter={e => e.currentTarget.style.transform = "translateY(-4px)"}
-                onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
-              >
-                <div className="mb-4 opacity-50 group-hover:opacity-100 transition-opacity" style={{ color: "var(--highlight)" }}>
+              <div key={i} className="p-8 rounded-2xl flex flex-col justify-center transition-all duration-300 group card-bg">
+                <div className="mb-4 opacity-70 group-hover:opacity-100 transition-opacity" style={{ color: "var(--highlight)" }}>
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={stat.icon} /></svg>
                 </div>
                 <h3 className="text-4xl font-bold mb-2" style={{ color: "var(--text)" }}><CountUp end={stat.val} suffix={stat.suffix} /></h3>
@@ -380,8 +388,8 @@ export default function HomePage({ isIntroComplete }) {
               [1, 2, 3, 4].map((i) => <ServiceSkeleton key={i} />)
             ) : (
               displayServices.map((service, i) => (
-                <div key={i} className="p-10 rounded-2xl reveal-unit group transition-all duration-300 relative overflow-hidden card-bg">
-                  <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full group-hover:scale-150 transition-transform duration-700" style={{ background: "var(--highlight-soft)" }} />
+                <div key={i} className="p-10 rounded-2xl reveal-unit transition-all duration-300 relative overflow-hidden card-bg">
+                  <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full" style={{ background: "var(--highlight-soft)" }} />
                   <div className="mb-8 relative z-10" style={{ color: "var(--highlight)" }}>
                     {typeof service.icon === "string" ? (
                       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -397,9 +405,9 @@ export default function HomePage({ isIntroComplete }) {
                   <p className="text-[15px] mb-8 leading-relaxed min-h-[90px] relative z-10" style={{ color: "var(--text-muted)" }}>
                     {service.descKey ? t(service.descKey, language) : (language === "bn" ? service.descBn : service.desc)}
                   </p>
-                  <Link to="/services" className="text-[12px] font-bold tracking-[0.1em] uppercase flex items-center gap-2 relative z-10 opacity-80 group-hover:opacity-100" style={{ color: "var(--highlight)" }}>
+                  <Link to="/services" className="text-[12px] font-bold tracking-[0.1em] uppercase flex items-center gap-2 relative z-10 opacity-80" style={{ color: "var(--highlight)" }}>
                     {t("services_section.explore", language)}
-                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                   </Link>
                 </div>
               ))
@@ -427,11 +435,11 @@ export default function HomePage({ isIntroComplete }) {
               [1, 2, 3].map((i) => <ProjectSkeleton key={i} />)
             ) : (
               displayProjects.map((project, i) => (
-                <div key={i} className="group relative rounded-2xl overflow-hidden aspect-[4/5] reveal-unit cursor-pointer shadow-2xl">
-                  <img src={project.img} alt={project.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent opacity-90 transition-opacity group-hover:opacity-100" />
+                <div key={i} className="relative rounded-2xl overflow-hidden aspect-[4/5] reveal-unit cursor-pointer shadow-2xl">
+                  <img src={project.img} alt={project.title} className="w-full h-full object-cover" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent opacity-90" />
                   <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="translate-y-0">
                       <span className="inline-block px-3 py-1 rounded-full text-[10px] tracking-widest font-bold uppercase mb-4"
                         style={{ background: "var(--highlight-soft)", color: "var(--highlight)", border: "1px solid var(--highlight-border)" }}>
                         {project.type}

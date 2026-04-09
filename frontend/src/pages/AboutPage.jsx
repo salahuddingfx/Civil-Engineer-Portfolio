@@ -124,43 +124,19 @@ const journey = [
 
 // ── Tilt Skill Card ────────────────────────────────────────────────────────────
 function SkillCard({ cat, language }) {
-  const cardRef = useRef(null);
-
-  const handleMouseMove = (e) => {
-    const el = cardRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 18;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -18;
-    el.style.transform = `perspective(800px) rotateX(${y}deg) rotateY(${x}deg) scale(1.03)`;
-    el.style.boxShadow = `0 20px 50px rgba(0,0,0,0.2), 0 0 30px ${cat.color}22`;
-  };
-
-  const handleMouseLeave = () => {
-    const el = cardRef.current;
-    if (!el) return;
-    el.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)";
-    el.style.boxShadow = `0 4px 20px rgba(0,0,0,0.1)`;
-  };
-
   return (
     <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
       className="p-8 rounded-2xl reveal-unit transition-all duration-300"
       style={{
         background: "var(--bg-card)",
         border: `1px solid ${cat.color}30`,
-        willChange: "transform",
-        transformStyle: "preserve-3d",
       }}
     >
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <div className="w-12 h-12 rounded-xl flex items-center justify-center"
           style={{ background: `${cat.color}15`, border: `1px solid ${cat.color}40` }}>
-          <svg className="w-6 h-6" fill="none" stroke={cat.color} strokeWidth="1.5" viewBox="0 0 24 24">
+          <svg className="w-6 h-6" fill="none" stroke={`${cat.color}`} strokeWidth="1.5" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d={cat.icon} />
           </svg>
         </div>
@@ -465,8 +441,6 @@ export default function AboutPage() {
             {team.map((member, i) => (
               <div key={i} className="reveal-unit group relative rounded-2xl overflow-hidden transition-all duration-300"
                 style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--highlight)"; e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.15)"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--highlight-border)"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
               >
                 {/* Photo */}
                 <div className="aspect-[4/5] overflow-hidden relative">

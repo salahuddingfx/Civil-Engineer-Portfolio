@@ -55,7 +55,7 @@ export default function ServicesPage() {
     const load = async () => {
       setLoading(true);
       try {
-        const res = await fetchContent("services", { limit: 20 });
+        const res = await fetchContent("services", { limit: 24 });
         if (res.items?.length > 0) {
           const mapped = res.items.map(s => ({
             ...s,
@@ -152,10 +152,10 @@ export default function ServicesPage() {
             filtered.map((service, i) => (
               <div
                 key={i}
-                className="reveal-unit p-10 rounded-2xl group transition-all duration-300 flex flex-col relative overflow-hidden card-bg"
+                className="reveal-unit p-10 rounded-2xl transition-all duration-300 flex flex-col relative overflow-hidden card-bg"
               >
                 <div
-                  className="absolute top-0 right-0 w-32 h-32 rounded-bl-[100px] group-hover:scale-150 transition-transform duration-700 pointer-events-none"
+                  className="absolute top-0 right-0 w-32 h-32 rounded-bl-[100px] pointer-events-none"
                   style={{ background: "var(--highlight-soft)" }}
                 />
                 <div
@@ -182,10 +182,7 @@ export default function ServicesPage() {
                 </p>
                 <Link
                   to="/contact"
-                  className="text-[11px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 group-hover:gap-4 transition-all mt-auto pt-6 relative z-10"
-                  style={{ color: "var(--text-muted)", borderTop: "1px solid var(--highlight-border)" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "var(--highlight)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+                  className="text-[11px] font-bold uppercase tracking-[0.2em] flex items-center gap-2 transition-all mt-auto pt-6 relative z-10 text-[var(--text-muted)] border-t border-[var(--highlight-border)]"
                 >
                   {language === "en" ? "Schedule Consultation" : "পরামর্শ বুক করুন"}
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

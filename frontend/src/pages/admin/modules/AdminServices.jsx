@@ -123,9 +123,19 @@ export default function AdminServices() {
             <div 
               key={item._id}
               onClick={() => setSelectedId(item._id)}
-              className={`p-6 rounded-2xl border transition-all cursor-pointer ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/5' : 'border-white/5 bg-white/1'}`}
+              className={`p-5 rounded-2xl border transition-all cursor-pointer group flex items-start gap-4 ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/5' : 'border-white/5 bg-white/1 hover:border-white/10'}`}
             >
-              <p className="text-sm font-bold text-white italic truncate">{item.title?.en || "Untitled Service"}</p>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-cyan-400/5 border border-cyan-400/20 text-cyan-400 group-hover:bg-cyan-400 group-hover:text-black transition-all">
+                <Settings size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[8px] font-black uppercase tracking-widest text-cyan-400/60 italic">{item.tags?.[0] || "General"}</span>
+                  {item.isPublished && <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />}
+                </div>
+                <p className="text-sm font-bold text-white italic truncate mb-0.5">{item.title?.en || "Untitled"}</p>
+                <p className="text-[10px] text-slate-500 line-clamp-1 italic">{item.summary?.en || "No description provided."}</p>
+              </div>
             </div>
           ))}
         </div>

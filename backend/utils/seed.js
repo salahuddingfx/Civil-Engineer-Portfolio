@@ -72,6 +72,38 @@ const services = [
     icon: "Activity",
     category: "Software",
     order: 3
+  },
+  {
+    slug: "engineering-consultancy",
+    title: { en: "Engineering Consultancy", bn: "ইঞ্জিনিয়ারিং কনসালট্যান্সি" },
+    summary: { en: "Expert advice on structural integrity and technical feasibility.", bn: "কাঠামোগত অখণ্ডতা এবং প্রযুক্তিগত সম্ভাব্যতা সম্পর্কে বিশেষজ্ঞের পরামর্শ।" },
+    icon: "Shield",
+    category: "Consultancy",
+    order: 4
+  },
+  {
+    slug: "soil-test-survey",
+    title: { en: "Soil Test & Survey", bn: "মাটি পরীক্ষা ও জরিপ" },
+    summary: { en: "Rigorous site analysis to determine foundation depth and load capacity.", bn: "ভিত্তির গভীরতা এবং লোড ক্ষমতা নির্ধারণের জন্য কঠোর সাইট বিশ্লেষণ।" },
+    icon: "Navigation",
+    category: "Engineering",
+    order: 5
+  },
+  {
+    slug: "estimating-costing",
+    title: { en: "Estimating & Costing", bn: "অনুমান ও খরচ নির্ধারণ" },
+    summary: { en: "Precise material take-offs and budgeting for infrastructure projects.", bn: "অবকাঠামো প্রকল্পের জন্য নির্ভুল উপাদান গ্রহণ এবং বাজেট নির্ধারণ।" },
+    icon: "Calculator",
+    category: "Management",
+    order: 6
+  },
+  {
+    slug: "site-supervision",
+    title: { en: "Site Supervision", bn: "সাইট তদারকি" },
+    summary: { en: "Ensuring design compliance and quality control during construction.", bn: "নির্মাণের সময় নকশা সম্মতি এবং গুণমান নিয়ন্ত্রণ নিশ্চিত করা।" },
+    icon: "Eye",
+    category: "Management",
+    order: 7
   }
 ];
 

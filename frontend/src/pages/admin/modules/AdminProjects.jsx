@@ -153,13 +153,27 @@ export default function AdminProjects() {
             <div 
               key={item._id}
               onClick={() => setSelectedId(item._id)}
-              className={`p-6 rounded-2xl border transition-all cursor-pointer group ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/5' : 'border-white/5 bg-white/1 hover:border-white/10'}`}
+              className={`p-5 rounded-2xl border transition-all cursor-pointer group flex gap-4 ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/5' : 'border-white/5 bg-white/1 hover:border-white/10'}`}
             >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-[9px] font-black uppercase tracking-widest text-cyan-400/60 italic">{item.category}</span>
-                {item.isPublished && <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />}
+              <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-white/5">
+                <img 
+                  src={item.featuredImage?.url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=100&q=40"} 
+                  className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+                  alt=""
+                />
               </div>
-              <p className="text-sm font-bold text-white italic truncate">{item.title?.en || "Untitled Asset"}</p>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[8px] font-black uppercase tracking-widest text-cyan-400/60 italic">{item.category}</span>
+                  {item.isPublished && <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />}
+                </div>
+                <p className="text-sm font-bold text-white italic truncate mb-1">{item.title?.en || "Untitled"}</p>
+                <div className="flex items-center gap-2 text-[9px] text-slate-500 font-bold uppercase tracking-tighter">
+                  <span className="truncate">{item.tags?.[1] || "Cox's Bazar"}</span>
+                  <span>•</span>
+                  <span>{item.tags?.[0] || "2024"}</span>
+                </div>
+              </div>
             </div>
           ))}
           {!loading && items.length === 0 && <p className="text-[10px] text-center text-[#222] font-black uppercase tracking-widest py-10">No Assets Registry</p>}
