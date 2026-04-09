@@ -140,7 +140,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[#0A0F1C] flex items-center justify-center">
        <div className="space-y-4 text-center">
           <div className="w-12 h-12 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400">Syncing_Identity_Records...</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-400">Syncing Identity Records...</p>
        </div>
     </div>
   );
@@ -161,7 +161,7 @@ export default function AboutPage() {
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-10 text-[9px] uppercase tracking-[0.4em] font-black"
               style={{ border: "1px solid var(--highlight-border)", background: "var(--highlight-soft)", color: "var(--highlight)" }}>
               <Zap size={10} className="animate-pulse" />
-              {language === "en" ? "IDENTITY_ESTABLISHED_2013" : "প্রতিষ্ঠা ২০১৩"}
+              {language === "en" ? "IDENTITY ESTABLISHED 2013" : "প্রতিষ্ঠা ২০১৩"}
             </span>
             <h1 className="text-6xl md:text-8xl font-black leading-[0.95] tracking-tight mb-10 italic uppercase" style={{ color: "var(--text)" }}>
               {language === "en" ? <>CRAFTING <br /> THE <span className="text-glow">FUTURE</span></> : <>ভবিষ্যতের <span className="text-glow">নকশা</span></>}
@@ -171,9 +171,9 @@ export default function AboutPage() {
             </p>
             <div className="flex gap-16">
               {[
-                { val: "150+", label: language === "en" ? "ASSETS_DEPLOYED" : "প্রকল্প" },
-                { val: "11+",  label: language === "en" ? "CYCLE_EXPERIENCE" : "অভিজ্ঞতা" },
-                { val: "100%", label: language === "en" ? "INTEGRITY_INDEX" : "নিরাপত্তা" },
+                { val: "150+", label: language === "en" ? "ASSETS DEPLOYED" : "প্রকল্প" },
+                { val: "11+",  label: language === "en" ? "CYCLE EXPERIENCE" : "অভিজ্ঞতা" },
+                { val: "100%", label: language === "en" ? "INTEGRITY INDEX" : "নিরাপত্তা" },
               ].map(({ val, label }, i) => (
                 <div key={i} className="group">
                   <p className="text-5xl font-black mb-2 transition-transform group-hover:scale-110" style={{ color: "var(--text)" }}>{val}</p>
@@ -205,7 +205,7 @@ export default function AboutPage() {
           <div className="reveal-unit space-y-12">
             <div>
               <p className="text-[10px] tracking-[0.4em] font-black uppercase mb-4" style={{ color: "var(--highlight)" }}>
-                {language === "en" ? "LEGACY_BIOGRAPHY" : "জীবনী"}
+                {language === "en" ? "LEGACY BIOGRAPHY" : "জীবনী"}
               </p>
               <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>
                 {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : bio?.title?.en}
@@ -222,7 +222,7 @@ export default function AboutPage() {
               className="inline-flex items-center gap-4 px-10 py-5 rounded-2xl font-black text-[12px] uppercase tracking-[0.3em] transition-all hover:gap-6 shadow-xl"
               style={{ background: "var(--highlight)", color: "#0A0F1C" }}
             >
-              {language === "en" ? "ESTABLISH_CONNECTION" : "যোগাযোগ করুন"}
+              {language === "en" ? "ESTABLISH CONNECTION" : "যোগাযোগ করুন"}
               <ChevronRight size={16} />
             </Link>
           </div>
