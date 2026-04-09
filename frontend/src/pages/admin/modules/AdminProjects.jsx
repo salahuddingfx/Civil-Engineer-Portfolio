@@ -173,6 +173,8 @@ export default function AdminProjects() {
                     <MapPin size={10} className="text-cyan-400/40" />
                     <span className="truncate">{item.tags?.[1] || "Cox's Bazar"}</span>
                     <span className="text-slate-800">•</span>
+                    <span className="truncate">{item.tags?.[0] || "2024"}</span>
+                  </div>
                   <div className="flex items-center gap-3 mt-1.5 overflow-hidden">
                     <span className="text-[7px] font-black uppercase text-slate-700 tracking-widest bg-white/5 px-2 py-0.5 rounded truncate">SLUG: {item.slug}</span>
                     <span className="text-[7px] font-black uppercase text-emerald-500/40 tracking-widest bg-white/5 px-2 py-0.5 rounded">SYNCED</span>
