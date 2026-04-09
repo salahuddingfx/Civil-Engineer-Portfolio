@@ -246,9 +246,23 @@ export default function HomePage({ isIntroComplete }) {
 
   // Deferred 3D Model Loading
   const [loadModel, setLoadModel] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   useEffect(() => {
-    const timer = setTimeout(() => setLoadModel(true), 1500); // Wait 1.5s for initial layout stable
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => setLoadModel(true), 1500); 
+    
+    // Track scroll for 3D model evolution
+    const scroller = ScrollTrigger.create({
+      trigger: homeRef.current,
+      start: "top top",
+      end: "bottom top",
+      onUpdate: (self) => setScrollProgress(self.progress)
+    });
+
+    return () => {
+      clearTimeout(timer);
+      scroller.kill();
+    };
   }, []);
 
   const hl = isDark ? "var(--highlight)" : "var(--highlight)";
@@ -317,8 +331,12 @@ export default function HomePage({ isIntroComplete }) {
           </div>
 
           {/* Right: 3D Building Model (Deferred) */}
-          <div className="relative hidden lg:block h-[620px] w-full rounded-2xl overflow-hidden"
-            style={{ border: "1px solid var(--highlight-border)", boxShadow: "0 40px 100px -15px rgba(0,0,0,0.4), 0 0 40px var(--highlight-soft)" }}>
+          <div className="relative h-[480px] md:h-[620px] w-full rounded-3xl overflow-hidden mb-12 lg:mb-0"
+            style={{ 
+              border: "1px solid var(--highlight-border)", 
+              boxShadow: isDark ? "0 40px 100px -15px rgba(0,0,0,0.4), 0 0 40px var(--highlight-soft)" : "0 20px 60px rgba(0,0,0,0.1)",
+              background: "var(--bg-accent)"
+            }}>
 
             {loadModel ? (
               <Suspense fallback={
@@ -329,7 +347,7 @@ export default function HomePage({ isIntroComplete }) {
                   </div>
                 </div>
               }>
-                <ArchitecturalModel />
+                <ArchitecturalModel scrollProgress={scrollProgress} />
               </Suspense>
             ) : (
               <div className="w-full h-full transition-opacity duration-1000">
