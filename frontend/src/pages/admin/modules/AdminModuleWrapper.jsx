@@ -59,13 +59,13 @@ export default function AdminModuleWrapper({
               className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 text-black rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg"
              >
                <Plus size={14} strokeWidth={3} />
-               Register Node
+               Add New
              </button>
           )}
-          <div className="hidden sm:flex items-center gap-3 px-4 py-2.5 bg-white border border-slate-200 rounded-xl">
-            <Zap size={12} className="text-sky-600 animate-pulse" />
-            <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{subtitle || 'Active Session'}</span>
-          </div>
+           <div className="hidden sm:flex items-center gap-3 px-4 py-2.5 bg-white border border-slate-200 rounded-xl">
+             <Zap size={12} className="text-sky-600 animate-pulse" />
+             <span className="text-[9px] font-black text-slate-800 uppercase tracking-widest">{subtitle || 'Active Session'}</span>
+           </div>
         </div>
       </div>
 
@@ -89,7 +89,7 @@ export default function AdminModuleWrapper({
                <Loader2 className="animate-spin text-sky-600" size={48} strokeWidth={1.5} />
                <div className="absolute inset-0 bg-sky-100 blur-[40px] rounded-full" />
             </div>
-            <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] animate-pulse italic text-center">Synchronizing Data...</p>
+            <p className="text-[10px] font-black text-slate-800 uppercase tracking-[0.5em] animate-pulse italic text-center">Loading Data...</p>
           </div>
         ) : (
           <div className="admin-card p-6 md:p-12 relative overflow-hidden group/content">
@@ -110,23 +110,23 @@ export default function AdminModuleWrapper({
               disabled={saving}
               className="flex-1 sm:flex-initial flex items-center justify-center gap-3 px-12 py-4 bg-sky-500 text-black rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:scale-105 active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50"
              >
-               {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} strokeWidth={2.5} />}
-               <span>{saving ? 'SYNCHRONIZING...' : 'Execute Commit'}</span>
+                {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} strokeWidth={2.5} />}
+                <span>{saving ? 'SAVING...' : 'Save Changes'}</span>
              </button>
              {onDelete && (
                 <button 
                   onClick={onDelete}
                   disabled={saving}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-3 px-8 py-4 bg-red-500/5 border border-red-500/10 text-red-500 rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:bg-red-500 hover:text-slate-900 transition-all active:scale-95"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-3 px-8 py-4 bg-red-500/5 border border-red-500/10 text-red-500 rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:bg-red-500 hover:text-white transition-all active:scale-95"
                 >
                   <Trash2 size={16} />
-                  Erase Node
+                  Delete
                 </button>
              )}
           </div>
-          <div className="hidden md:flex items-center gap-4 opacity-30">
+          <div className="hidden md:flex items-center gap-4 opacity-50">
              <ShieldCheck size={14} className="text-sky-600" />
-             <p className="text-[9px] font-black text-slate-600 uppercase tracking-[0.4em] italic">Authority: Master Admin</p>
+             <p className="text-[9px] font-black text-slate-800 uppercase tracking-[0.4em] italic">Administrator Access</p>
           </div>
         </div>
       )}
