@@ -5,7 +5,14 @@ const env = require("./env");
 let dbReady = false;
 
 async function connectDb() {
-  await mongoose.connect(env.mongoUri);
+  await mongoose.connect(env.mongoUri, {
+    maxPoolSize: 10,
+    minPoolSize: 2,
+    socketTimeoutMS: 45000,
+    serverSelectionTimeoutMS: 5000,
+    heartbeatFrequencyMS: 10000,
+    retryWrites: true,
+  });
   dbReady = true;
   return mongoose.connection;
 }

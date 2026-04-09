@@ -46,21 +46,36 @@ const baseContent = {
 
 const modelOptions = { timestamps: true };
 
-const HomeContent = mongoose.model("HomeContent", new mongoose.Schema(baseContent, modelOptions));
-const AboutContent = mongoose.model("AboutContent", new mongoose.Schema(baseContent, modelOptions));
-const Service = mongoose.model("Service", new mongoose.Schema(baseContent, modelOptions));
-const Project = mongoose.model("Project", new mongoose.Schema(baseContent, modelOptions));
+const homeSchema = new mongoose.Schema(baseContent, modelOptions);
+const HomeContent = mongoose.model("HomeContent", homeSchema);
+
+const aboutSchema = new mongoose.Schema(baseContent, modelOptions);
+const AboutContent = mongoose.model("AboutContent", aboutSchema);
+
+const serviceSchema = new mongoose.Schema(baseContent, modelOptions);
+serviceSchema.index({ isPublished: 1, category: 1, order: 1, createdAt: -1 });
+serviceSchema.index({ isPublished: 1, order: 1, createdAt: -1 });
+const Service = mongoose.model("Service", serviceSchema);
+
+const projectSchema = new mongoose.Schema(baseContent, modelOptions);
+projectSchema.index({ isPublished: 1, category: 1, order: 1, createdAt: -1 });
+projectSchema.index({ isPublished: 1, order: 1, createdAt: -1 });
+const Project = mongoose.model("Project", projectSchema);
 
 // Expanded Testimonial with Featured status
-const Testimonial = mongoose.model("Testimonial", new mongoose.Schema({
+const testimonialSchema = new mongoose.Schema({
   ...baseContent,
   isFeatured: { type: Boolean, default: false }
-}, modelOptions));
+}, modelOptions);
+testimonialSchema.index({ isPublished: 1, isFeatured: -1, order: 1 });
+const Testimonial = mongoose.model("Testimonial", testimonialSchema);
 
-const GalleryItem = mongoose.model("GalleryItem", new mongoose.Schema(baseContent, modelOptions));
+const gallerySchema = new mongoose.Schema(baseContent, modelOptions);
+gallerySchema.index({ isPublished: 1, category: 1, order: 1 });
+const GalleryItem = mongoose.model("GalleryItem", gallerySchema);
 
 // New Micro-Management Models
-const Skill = mongoose.model("Skill", new mongoose.Schema({
+const skillSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true },
   title: { type: localizedTextSchema, default: () => ({}) },
   category: { type: String, default: "technical" }, // technical, software, soft-skills
@@ -68,9 +83,11 @@ const Skill = mongoose.model("Skill", new mongoose.Schema({
   icon: { type: String, default: "Code" }, // Lucide icon name
   order: { type: Number, default: 0 },
   isPublished: { type: Boolean, default: true },
-}, modelOptions));
+}, modelOptions);
+skillSchema.index({ isPublished: 1, category: 1, order: 1 });
+const Skill = mongoose.model("Skill", skillSchema);
 
-const TimelineEntry = mongoose.model("TimelineEntry", new mongoose.Schema({
+const timelineSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true },
   year: { type: String, required: true },
   title: { type: localizedTextSchema, default: () => ({}) },
@@ -78,7 +95,9 @@ const TimelineEntry = mongoose.model("TimelineEntry", new mongoose.Schema({
   category: { type: String, default: "Experience" }, // Education, Experience, Award
   order: { type: Number, default: 0 },
   isPublished: { type: Boolean, default: true },
-}, modelOptions));
+}, modelOptions);
+timelineSchema.index({ isPublished: 1, category: 1, order: 1 });
+const TimelineEntry = mongoose.model("TimelineEntry", timelineSchema);
 
 const TeamMember = mongoose.model("TeamMember", new mongoose.Schema({
   slug: { type: String, required: true, unique: true },

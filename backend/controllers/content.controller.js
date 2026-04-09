@@ -78,7 +78,7 @@ async function update(req, res, next) {
   try {
     const model = getModel(req.params.type);
     const item = await model.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     });
 

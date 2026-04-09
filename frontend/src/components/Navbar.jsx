@@ -80,7 +80,7 @@ export default function Navbar({ isIntroComplete }) {
         <NavLink
           to="/"
           onClick={() => setMenuOpen(false)}
-          className="flex items-center gap-1.5 font-display text-[14px] font-extrabold tracking-[0.12em]"
+          className="flex items-center gap-1.5 font-display text-[13px] sm:text-[14px] font-extrabold tracking-[0.12em] whitespace-nowrap"
           style={{ color: "var(--text)" }}
         >
           Engr. Alam<span style={{ color: "var(--highlight)" }}> Ashik</span>
@@ -94,18 +94,20 @@ export default function Navbar({ isIntroComplete }) {
         </nav>
 
         {/* Controls */}
-        <div className="flex items-center gap-3">
-          {/* Language Toggle */}
-          <button
-            onClick={toggleLanguage}
-            className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors"
-            style={{ color: "var(--text-muted)" }}
-            aria-label="Toggle Language"
-          >
-            <span style={{ color: language === "en" ? "var(--highlight)" : "var(--text-muted)" }}>EN</span>
-            <span className="h-2 w-[1px]" style={{ background: "var(--highlight-border)" }} />
-            <span style={{ color: language === "bn" ? "var(--highlight)" : "var(--text-muted)" }}>বাং</span>
-          </button>
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Language Toggle - Desktop Only */}
+          <div className="hidden md:block">
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors"
+              style={{ color: "var(--text-muted)" }}
+              aria-label="Toggle Language"
+            >
+              <span style={{ color: language === "en" ? "var(--highlight)" : "var(--text-muted)" }}>EN</span>
+              <span className="h-2 w-[1px]" style={{ background: "var(--highlight-border)" }} />
+              <span style={{ color: language === "bn" ? "var(--highlight)" : "var(--text-muted)" }}>বাং</span>
+            </button>
+          </div>
 
           {/* Theme Toggle */}
           <button
@@ -170,6 +172,20 @@ export default function Navbar({ isIntroComplete }) {
         style={{ background: "var(--bg)", borderBottom: "1px solid var(--highlight-border)" }}
       >
         <div className="flex flex-col p-4 px-6 gap-1">
+          {/* Mobile Language Toggle */}
+          <div className="flex justify-between items-center mb-4 pb-4 border-b border-[var(--navbar-border)]">
+            <span className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold">Language</span>
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center gap-3 px-3 py-1.5 rounded-full border border-[var(--highlight-border)] bg-[var(--highlight-soft)]"
+              aria-label="Toggle Language"
+            >
+              <span className="text-[11px] font-bold tracking-wider" style={{ color: language === "en" ? "var(--highlight)" : "var(--text-muted)" }}>EN</span>
+              <span className="h-2 w-[1px] bg-[var(--highlight-border)]" />
+              <span className="text-[11px] font-bold tracking-wider" style={{ color: language === "bn" ? "var(--highlight)" : "var(--text-muted)" }}>বাংলা</span>
+            </button>
+          </div>
+
           {links.map((link) => (
             <NavLink
               key={link.to}

@@ -5,7 +5,7 @@ exports.incrementVisitors = async (req, res) => {
     const stats = await Stats.findOneAndUpdate(
       { type: "global" },
       { $inc: { visitorCount: 1 }, lastUpdate: Date.now() },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: "after" }
     );
     res.json({ success: true, count: stats.visitorCount });
   } catch (error) {
