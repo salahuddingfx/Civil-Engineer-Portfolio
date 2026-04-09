@@ -1,9 +1,11 @@
 const registry = require("../models/modelRegistry");
 
 function getModel(type) {
+  console.log(`[GET_MODEL] Requested: "${type}" | Available Keys: ${Object.keys(registry)}`);
   const model = registry[type];
   if (!model) {
-    const error = new Error("Unknown content type");
+    console.error(`[GET_MODEL_ERROR] Type "${type}" not found in registry.`);
+    const error = new Error(`Unknown content type: ${type}`);
     error.statusCode = 400;
     throw error;
   }

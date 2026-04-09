@@ -92,3 +92,8 @@ export async function getPrimaryContactDetails() {
   const fallback = await api.get("/content/contactDetails", { params: { limit: 1 } });
   return fallback.data?.items?.[0] || null;
 }
+
+export async function adminTranslate(text, targetLang = "bn") {
+  const { data } = await api.post("/admin", { text, targetLang });
+  return data.translatedText;
+}

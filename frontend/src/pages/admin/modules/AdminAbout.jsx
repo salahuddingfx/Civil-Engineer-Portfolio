@@ -3,6 +3,7 @@ import { UserCircle, PenTool, Award, Users, Zap, Clock, Plus, Trash2, Edit3, Sav
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 import ImageUpload from "../../../components/admin/ImageUpload";
+import AutoTranslate from "../../../components/admin/AutoTranslate";
 
 export default function AdminAbout() {
   const [activeTab, setActiveTab] = useState("bio");
@@ -159,8 +160,11 @@ export default function AdminAbout() {
         {activeTab === 'bio' && (
           <div className="space-y-12 animate-in fade-in slide-in-from-left-4 duration-500">
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <label className={labelClasses}>Identity Title (EN)</label>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center px-2">
+                  <label className={labelClasses}>Identity Title (EN)</label>
+                  <AutoTranslate text={bioForm.titleEn} onTranslate={val => setBioForm({...bioForm, titleBn: val})} />
+                </div>
                 <input value={bioForm.titleEn} onChange={e => setBioForm({...bioForm, titleEn: e.target.value})} className={inputClasses} placeholder="Engr. Alam Ashik" />
               </div>
               <div className="space-y-2">
@@ -169,8 +173,11 @@ export default function AdminAbout() {
               </div>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <label className={labelClasses}>Role Designation (EN)</label>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center px-2">
+                  <label className={labelClasses}>Role Designation (EN)</label>
+                  <AutoTranslate text={bioForm.summaryEn} onTranslate={val => setBioForm({...bioForm, summaryBn: val})} />
+                </div>
                 <input value={bioForm.summaryEn} onChange={e => setBioForm({...bioForm, summaryEn: e.target.value})} className={inputClasses} placeholder="Principal Structural Consultant" />
               </div>
               <div className="space-y-2">
@@ -179,8 +186,11 @@ export default function AdminAbout() {
               </div>
             </div>
             <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-2">
-                <label className={labelClasses}>Technical Biography (EN)</label>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center px-2">
+                  <label className={labelClasses}>Technical Biography (EN)</label>
+                  <AutoTranslate text={bioForm.bodyEn} onTranslate={val => setBioForm({...bioForm, bodyBn: val})} />
+                </div>
                 <textarea rows={6} value={bioForm.bodyEn} onChange={e => setBioForm({...bioForm, bodyEn: e.target.value})} className={`${inputClasses} resize-none`} />
               </div>
               <div className="space-y-2">
@@ -204,8 +214,11 @@ export default function AdminAbout() {
                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-white uppercase transition-colors">Discard</button>
                   </div>
                   <div className="grid md:grid-cols-2 gap-8">
-                     <div className="space-y-2">
-                        <label className={labelClasses}>Skill Name (EN)</label>
+                     <div className="space-y-4">
+                        <div className="flex justify-between items-center px-2">
+                           <label className={labelClasses}>Skill Name (EN)</label>
+                           <AutoTranslate text={editingItem.data.titleEn} onTranslate={val => setEditingItem({...editingItem, data: {...editingItem.data, titleBn: val}})} />
+                        </div>
                         <input value={editingItem.data.titleEn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, titleEn: e.target.value}})} className={inputClasses} />
                      </div>
                      <div className="space-y-2">
@@ -284,8 +297,11 @@ export default function AdminAbout() {
                       </div>
                    </div>
                    <div className="grid md:grid-cols-2 gap-8 text-left">
-                      <div className="space-y-2">
-                         <label className={labelClasses}>Step Title (EN)</label>
+                      <div className="space-y-4">
+                         <div className="flex justify-between items-center px-2">
+                            <label className={labelClasses}>Step Title (EN)</label>
+                            <AutoTranslate text={editingItem.data.titleEn} onTranslate={val => setEditingItem({...editingItem, data: {...editingItem.data, titleBn: val}})} />
+                         </div>
                          <input value={editingItem.data.titleEn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, titleEn: e.target.value}})} className={inputClasses} />
                       </div>
                       <div className="space-y-2">
@@ -294,8 +310,11 @@ export default function AdminAbout() {
                       </div>
                    </div>
                    <div className="grid md:grid-cols-2 gap-8 text-left">
-                      <div className="space-y-2 text-left">
-                         <label className={labelClasses}>Step Description (EN)</label>
+                      <div className="space-y-4 text-left">
+                         <div className="flex justify-between items-center px-2">
+                            <label className={labelClasses}>Step Description (EN)</label>
+                            <AutoTranslate text={editingItem.data.descEn} onTranslate={val => setEditingItem({...editingItem, data: {...editingItem.data, descBn: val}})} />
+                         </div>
                          <textarea rows={3} value={editingItem.data.descEn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, descEn: e.target.value}})} className={`${inputClasses} resize-none`} />
                       </div>
                       <div className="space-y-2 text-left">

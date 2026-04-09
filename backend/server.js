@@ -1,6 +1,17 @@
 const app = require("./app");
 const env = require("./config/env");
 const { connectDb, setDbReady, inspectMongoTarget, probeTcp } = require("./config/db");
+const { clearCache } = require("./middleware/cache.middleware");
+
+// Purge cache on startup
+clearCache();
+
+// Routes
+app.use("/api/content", require("./routes/content.routes"));
+app.use("/api/admin", require("./routes/admin.routes"));
+app.use("/api/stats", require("./routes/stats.routes"));
+app.use("/api/auth", require("./routes/auth.routes"));
+
 const { ensureAdminSeed } = require("./controllers/auth.controller");
 
 function printBanner({ dbState, mongoTarget, mongoReachable }) {

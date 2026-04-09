@@ -192,8 +192,8 @@ export default function AboutPage() {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/40 to-transparent" />
             <div className="absolute bottom-12 left-12 right-12 p-10 rounded-[40px] backdrop-blur-2xl border border-white/10 bg-white/[0.03]">
-               <h3 className="text-2xl font-black text-white italic uppercase mb-2">PRINCIPAL_MODULE</h3>
-               <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest italic opacity-60">Neural Infrastructure Initialized...</p>
+               <h3 className="text-2xl font-black text-white italic uppercase mb-2">{language === "en" ? "Principal Identity" : "প্রধান প্রকৌশলী"}</h3>
+               <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest italic opacity-60">{language === "en" ? "Strategic Structural Analysis" : "কাঠামোগত বিশ্লেষণ বিশেষজ্ঞ"}</p>
             </div>
           </div>
         </div>
@@ -241,8 +241,8 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1500px]">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-10 reveal-unit">
             <div>
-              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>TECHNICAL_PROFICIENCIES</p>
-              <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>SKILLS_NODE</h2>
+              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "TECHNICAL_PROFICIENCIES" : "প্রযুক্তিগত দক্ষতা"}</p>
+              <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "SKILLS & EXPERTISE" : "দক্ষতা এবং অভিজ্ঞতা"}</h2>
             </div>
             <p className="text-[14px] max-w-md md:text-right font-medium opacity-60 italic" style={{ color: "var(--text-muted)" }}>
               Optimizing structural output through advanced analysis and algorithmic precision across multiple software environments.
@@ -260,10 +260,10 @@ export default function AboutPage() {
       {/* ── Timeline ──────────────────────────────────────────────────────── */}
       <section className="py-32 px-6 lg:px-10 overflow-hidden" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)" }}>
         <div className="mx-auto max-w-[1500px]">
-          <div className="mb-20 reveal-unit">
-             <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>CHRONOLOGICAL_LOG</p>
-             <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>CAREER_TIMELINE</h2>
-          </div>
+            <div className="mb-20 reveal-unit">
+               <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "CHRONOLOGICAL_LOG" : "কার্যক্রমের ধারাবাহিকতা"}</p>
+               <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "CAREER TIMELINE" : "ক্যারিয়ার টাইমলাইন"}</h2>
+            </div>
 
           <div className="timeline-container relative max-w-5xl mx-auto py-10">
             <div className="absolute left-[50%] top-0 h-full w-[1px] hidden md:block" style={{ background: "var(--highlight-border)" }} />
