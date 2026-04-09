@@ -295,7 +295,7 @@ export default function AdminContentPage() {
       {/* 1. Module Header */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-6 px-4">
         <div className="flex items-center gap-6">
-          <div className="h-12 w-12 rounded-xl bg-[#19D2FF]/5 border border-[#19D2FF]/20 flex items-center justify-center text-[#19D2FF]">
+          <div className="h-12 w-12 rounded-xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600">
             <config.icon size={24} />
           </div>
           <div>
@@ -305,13 +305,13 @@ export default function AdminContentPage() {
               <ChevronRight size={10} />
               <span className="text-[#19D2FF]/60">{type}</span>
             </div>
-            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-none">{config.label}</h2>
+            <h2 className="text-3xl font-black text-slate-900 italic tracking-tighter uppercase leading-none">{config.label}</h2>
           </div>
         </div>
         <div className="flex items-center gap-4">
           <button 
             onClick={() => { setSelectedId(""); setForm(baseForm); }}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#19D2FF] text-black rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg"
+            className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 text-black rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all shadow-lg"
           >
             <Plus size={14} strokeWidth={3} />
             Initialize Record
@@ -322,7 +322,7 @@ export default function AdminContentPage() {
       {/* 2. Status Notifications */}
       {status.message && (
         <div className={`mx-4 rounded-xl border p-4 backdrop-blur-3xl animate-in slide-in-from-top-2 ${
-          status.type === 'error' ? 'border-red-500/20 bg-red-500/5 text-red-500' : 'border-[#19D2FF]/20 bg-[#19D2FF]/5 text-[#19D2FF]'
+          status.type === 'error' ? 'border-red-500/20 bg-red-500/5 text-red-500' : 'border-sky-200 bg-sky-50 text-sky-600'
         }`}>
           <div className="flex items-center justify-center gap-4 font-black text-[10px] uppercase tracking-widest italic font-bold">
             {status.type === 'error' ? <ShieldAlert size={16} /> : <CheckCircle2 size={16} />}
@@ -336,31 +336,31 @@ export default function AdminContentPage() {
         {/* Left Side: Asset List */}
         <div className="space-y-6">
           <div className="admin-card p-6">
-            <div className="flex items-center justify-between pb-4 border-b border-white/[0.05] mb-6">
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Structural_Inventory</p>
-              <button onClick={reload} className="text-slate-600 hover:text-[#19D2FF] transition-colors"><RefreshCcw size={14} className={loading ? 'animate-spin' : ''} /></button>
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-6">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Structural Inventory</p>
+              <button onClick={reload} className="text-slate-600 hover:text-sky-600 transition-colors"><RefreshCcw size={14} className={loading ? 'animate-spin' : ''} /></button>
             </div>
             
             <div className="space-y-3 max-h-[70vh] overflow-y-auto admin-scrollbar pr-2">
               {loading ? (
-                <div className="py-20 text-center"><Loader2 className="animate-spin text-[#19D2FF] mx-auto mb-4" /><p className="text-[10px] text-slate-600 uppercase tracking-widest">Scanning...</p></div>
+                <div className="py-20 text-center"><Loader2 className="animate-spin text-sky-600 mx-auto mb-4" /><p className="text-[10px] text-slate-600 uppercase tracking-widest">Scanning...</p></div>
               ) : items.map((item) => (
                 <div 
                   key={item._id}
                   onClick={() => setSelectedId(item._id)}
                   className={`p-5 rounded-xl border cursor-pointer transition-all duration-300 ${
                     selectedId === item._id 
-                    ? 'bg-[#19D2FF]/5 border-[#19D2FF]/40 shadow-lg' 
-                    : 'bg-white/[0.01] border-white/[0.05] hover:border-white/20'
+                    ? 'bg-sky-50 border-[#19D2FF]/40 shadow-lg' 
+                    : 'bg-white/[0.01] border-slate-200 hover:border-white/20'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">
-                      <p className={`text-sm font-bold italic truncate ${selectedId === item._id ? 'text-white' : 'text-slate-400'}`}>
-                        {item.title?.en || item.slug || item.name || "Untitled_Asset"}
+                      <p className={`text-sm font-bold italic truncate ${selectedId === item._id ? 'text-slate-900' : 'text-slate-600'}`}>
+                        {item.title?.en || item.slug || item.name || "Untitled Asset"}
                       </p>
                       <p className="text-[8px] font-black text-slate-700 uppercase tracking-widest mt-1">
-                        {item.category || item.status || 'Standard_Block'}
+                        {item.category || item.status || 'Standard Block'}
                       </p>
                     </div>
                     {item.isPublished && <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />}
@@ -381,13 +381,13 @@ export default function AdminContentPage() {
              
              {type === "contactSubmissions" ? (
                <div className="space-y-10">
-                 <h3 className="text-xl font-black text-white italic uppercase tracking-tighter">Communication Records</h3>
+                 <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tighter">Communication Records</h3>
                  <div className="grid gap-6">
                     {items.map((sub) => (
-                      <div key={sub._id} className="p-8 bg-white/[0.02] border border-white/[0.05] rounded-2xl space-y-6">
+                      <div key={sub._id} className="p-8 bg-slate-50 border border-slate-200 rounded-2xl space-y-6">
                         <div className="flex flex-col md:flex-row justify-between gap-6">
                           <div>
-                            <h4 className="text-lg font-black text-white italic">{sub.name}</h4>
+                            <h4 className="text-lg font-black text-slate-900 italic">{sub.name}</h4>
                             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">{sub.email} // {sub.phone}</p>
                           </div>
                           <div className="flex gap-2">
@@ -395,14 +395,14 @@ export default function AdminContentPage() {
                                <button 
                                 key={s}
                                 onClick={() => onStatusUpdate(sub._id, s)}
-                                className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sub.status === s ? 'bg-[#19D2FF] text-black' : 'text-slate-600 hover:text-slate-300 bg-white/5'}`}
+                                className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sub.status === s ? 'bg-sky-500 text-black' : 'text-slate-600 hover:text-slate-800 bg-slate-50'}`}
                                >
                                  {s}
                                </button>
                              ))}
                           </div>
                         </div>
-                        <div className="p-6 bg-black/40 rounded-xl border border-white/5 text-slate-400 italic text-sm leading-relaxed">
+                        <div className="p-6 bg-black/40 rounded-xl border border-white/5 text-slate-600 italic text-sm leading-relaxed">
                           "{sub.message}"
                         </div>
                         <div className="flex justify-end">
@@ -415,9 +415,9 @@ export default function AdminContentPage() {
              ) : (
                <form onSubmit={onSubmit} className="space-y-12">
                  {/* Header Info */}
-                 <div className="flex justify-between items-center pb-6 border-b border-white/[0.05]">
-                    <p className="text-[10px] font-black text-[#19D2FF] uppercase tracking-[0.4em] italic leading-none">
-                      {selectedId ? 'Modify_Existing_Asset' : 'Initialize_New_Record'}
+                 <div className="flex justify-between items-center pb-6 border-b border-slate-200">
+                    <p className="text-[10px] font-black text-sky-600 uppercase tracking-[0.4em] italic leading-none">
+                      {selectedId ? 'Modify Existing Asset' : 'Initialize New Record'}
                     </p>
                     {selectedId && <span className="text-[8px] font-bold text-slate-800 uppercase tracking-widest">ID: {selectedId.slice(-8)}</span>}
                  </div>
@@ -425,7 +425,7 @@ export default function AdminContentPage() {
                  {/* 2-Column Grid for basic fields */}
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                    <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Asset_ID (Slug)</label>
+                     <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Asset ID (Slug)</label>
                      <input value={form.slug} onChange={onChange("slug")} required={type !== "contactDetails"} className="admin-input w-full" placeholder="url-friendly-id" />
                    </div>
                    {type === "seoMeta" ? (
@@ -436,7 +436,7 @@ export default function AdminContentPage() {
                    ) : (
                      <div className="space-y-3">
                        <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Category</label>
-                       <input value={form.category} onChange={onChange("category")} className="admin-input w-full" placeholder="Engineering_Sector" />
+                       <input value={form.category} onChange={onChange("category")} className="admin-input w-full" placeholder="Engineering Sector" />
                      </div>
                    )}
                  </div>
@@ -467,17 +467,17 @@ export default function AdminContentPage() {
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Full_Description (EN)</label>
+                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Full Description (EN)</label>
                          <textarea rows={8} value={form.bodyEn} onChange={onChange("bodyEn")} className="admin-input w-full admin-scrollbar" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Full_Description (BN)</label>
+                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Full Description (BN)</label>
                          <textarea rows={8} value={form.bodyBn} onChange={onChange("bodyBn")} className="admin-input w-full admin-scrollbar" />
                        </div>
                      </div>
 
                      <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Featured_Asset_Media</label>
+                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Featured Asset Media</label>
                          <div className="p-8 border-2 border-dashed border-white/5 rounded-2xl bg-white/[0.01]">
                             <ImageUpload value={form.featuredImageUrl} onChange={onChange("featuredImageUrl")} label="Thumbnail" />
                          </div>
@@ -489,11 +489,11 @@ export default function AdminContentPage() {
                          <input value={form.tags} onChange={onChange("tags")} className="admin-input w-full text-[10px]" placeholder="tag1, tag2" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Priority_Order</label>
+                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Priority Order</label>
                          <input type="number" value={form.order} onChange={onChange("order")} className="admin-input w-full" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Quality_Rating</label>
+                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Quality Rating</label>
                          <input type="number" min="1" max="5" value={form.rating} onChange={onChange("rating")} className="admin-input w-full" />
                        </div>
                      </div>
@@ -517,15 +517,15 @@ export default function AdminContentPage() {
                  )}
 
                  {/* SEO Section */}
-                 <div className="pt-10 border-t border-white/[0.05] space-y-10">
+                 <div className="pt-10 border-t border-slate-200 space-y-10">
                     <div className="flex items-center justify-between">
                        <div className="flex items-center gap-3">
-                          <Globe size={14} className="text-[#19D2FF]" />
-                          <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Search_Visibility_Control</h4>
+                          <Globe size={14} className="text-sky-600" />
+                          <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Search Visibility Control</h4>
                        </div>
                        <label className="flex items-center gap-3 cursor-pointer group">
-                         <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest group-hover:text-slate-400 trasition-colors">Live_Production</span>
-                         <div className={`w-12 h-6 rounded-full relative transition-all duration-300 ${form.isPublished ? 'bg-[#19D2FF]' : 'bg-slate-800'}`}>
+                         <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest group-hover:text-slate-400 trasition-colors">Live Production</span>
+                         <div className={`w-12 h-6 rounded-full relative transition-all duration-300 ${form.isPublished ? 'bg-sky-500' : 'bg-slate-800'}`}>
                             <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 ${form.isPublished ? 'left-7' : 'left-1'}`} />
                          </div>
                          <input type="checkbox" checked={form.isPublished} onChange={onChange("isPublished")} className="hidden" />
@@ -534,25 +534,25 @@ export default function AdminContentPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">SEO_Title (EN)</label>
+                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">SEO Title (EN)</label>
                          <input value={form.seoTitleEn} onChange={onChange("seoTitleEn")} className="admin-input w-full" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">SEO_Title (BN)</label>
+                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">SEO Title (BN)</label>
                          <input value={form.seoTitleBn} onChange={onChange("seoTitleBn")} className="admin-input w-full" />
                        </div>
                     </div>
                  </div>
 
-                 <div className="flex justify-between md:items-center border-t border-white/[0.05] pt-10 gap-6">
+                 <div className="flex justify-between md:items-center border-t border-slate-200 pt-10 gap-6">
                     <div className="flex gap-4 w-full md:w-auto">
                        <button 
                         type="submit" 
                         disabled={saving}
-                        className="flex-1 md:flex-none flex items-center justify-center gap-3 px-12 py-4 bg-[#19D2FF] text-black rounded-xl font-black text-[12px] uppercase tracking-[0.1em] hover:scale-105 active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50"
+                        className="flex-1 md:flex-none flex items-center justify-center gap-3 px-12 py-4 bg-sky-500 text-black rounded-xl font-black text-[12px] uppercase tracking-[0.1em] hover:scale-105 active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50"
                        >
                          {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} strokeWidth={2.5} />}
-                         {saving ? 'SYNCHRONIZING...' : selectedId ? 'EXECUTE_UPDATE' : 'COMMIT_NEW_RECORD'}
+                         {saving ? 'SYNCHRONIZING...' : selectedId ? 'EXECUTE UPDATE' : 'COMMIT NEW RECORD'}
                        </button>
                     </div>
                     {selectedId && (

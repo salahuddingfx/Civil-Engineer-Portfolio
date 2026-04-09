@@ -15,19 +15,19 @@ export default function AdminSaveBar({
       ${isDirty ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'}
     `}>
       <div className="max-w-7xl mx-auto">
-        <div className="bg-[#0B1220]/80 backdrop-blur-2xl border border-white/[0.08] rounded-2xl p-4 shadow-[0_-20px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
           
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-3">
-              <div className={`h-2 w-2 rounded-full ${isDirty ? 'bg-[#19D2FF] animate-pulse' : 'bg-slate-600'}`} />
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white italic">
-                {isSaving ? 'Synchronizing_Changes...' : 'Unsaved_Modifications_Detected'}
+              <div className={`h-2 w-2 rounded-full ${isDirty ? 'bg-sky-500 animate-pulse' : 'bg-slate-600'}`} />
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 italic">
+                {isSaving ? 'Synchronizing Changes...' : 'Unsaved Modifications Detected'}
               </p>
             </div>
-            <div className="hidden md:flex items-center gap-4 border-l border-white/10 pl-6">
+            <div className="hidden md:flex items-center gap-4 border-l border-slate-200 pl-6">
                <button 
                 onClick={onReset}
-                className="flex items-center gap-2 text-[10px] font-bold text-slate-500 hover:text-white transition-colors uppercase tracking-widest"
+                className="flex items-center gap-2 text-[10px] font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-widest"
                >
                  <RotateCcw size={12} />
                  Discard
@@ -39,7 +39,7 @@ export default function AdminSaveBar({
             {onDelete && (
               <button 
                 onClick={onDelete}
-                className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all duration-300"
+                className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-slate-900 transition-all duration-300"
               >
                 <Trash2 size={18} />
               </button>
@@ -49,7 +49,7 @@ export default function AdminSaveBar({
               onClick={onSave}
               disabled={isSaving}
               className={`
-                flex-1 sm:flex-initial flex items-center justify-center gap-3 px-8 py-3 bg-[#19D2FF] text-black rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_20px_rgba(25,210,255,0.2)] disabled:opacity-50
+                flex-1 sm:flex-initial flex items-center justify-center gap-3 px-8 py-3 bg-sky-500 text-white rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_20px_rgba(14,165,233,0.3)] disabled:opacity-50
               `}
             >
               <Save size={16} strokeWidth={3} />
@@ -63,7 +63,7 @@ export default function AdminSaveBar({
                   flex items-center gap-3 px-6 py-3 border rounded-xl font-black text-[11px] uppercase tracking-[0.1em] transition-all
                   ${isPublished 
                     ? 'border-emerald-500/20 bg-emerald-500/5 text-emerald-500 hover:bg-emerald-500/10' 
-                    : 'border-white/10 bg-white/5 text-slate-400 hover:text-white'}
+                    : 'border-slate-200 bg-slate-50 text-slate-600 hover:text-slate-900'}
                 `}
               >
                 <Send size={14} />

@@ -72,7 +72,7 @@ export default function AdminHome() {
     }
   };
 
-  const inputClasses = "w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl px-8 py-6 text-white outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner";
+  const inputClasses = "w-full bg-white border border-slate-200 rounded-2xl px-8 py-6 text-slate-900 outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner";
   const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
 
   return (
@@ -89,8 +89,8 @@ export default function AdminHome() {
         {/* Title Infrastructure */}
         <section>
            <div className="flex items-center gap-4 mb-10">
-              <Sparkles size={16} className="text-cyan-400" />
-              <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-cyan-400/60">Hero Typography System</h3>
+              <Sparkles size={16} className="text-sky-600" />
+              <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-500">Hero Typography System</h3>
            </div>
            
            <div className="grid md:grid-cols-2 gap-10">
@@ -147,10 +147,10 @@ export default function AdminHome() {
 
         {/* Visual Assets */}
         <section className="pt-8">
-           <div className="bg-white/[0.02] border border-white/[0.05] rounded-[48px] p-12 relative overflow-hidden">
+           <div className="bg-slate-50 border border-slate-200 rounded-[48px] p-12 relative overflow-hidden">
               <div className="absolute top-0 right-10 h-1 w-20 bg-cyan-400/40" />
               <div className="flex items-center gap-4 mb-10">
-                 <ImageIcon size={16} className="text-cyan-400" />
+                 <ImageIcon size={16} className="text-sky-600" />
                  <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">High Fidelity Renders</h3>
               </div>
               <ImageUpload 

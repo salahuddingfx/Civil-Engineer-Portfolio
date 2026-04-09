@@ -18,7 +18,7 @@ export default function AdminStatCard({
           <div>
              <p className="text-[10px] font-black text-[#444] uppercase tracking-[0.4em] mb-4 italic group-hover:text-cyan-400 transition-colors">{label}</p>
              <div className="flex items-end gap-4">
-                <h3 className="text-5xl font-black text-white tracking-tighter italic">{value}</h3>
+                <h3 className="text-5xl font-black text-slate-900 tracking-tighter italic">{value}</h3>
                 {trendValue && (
                   <div className={`flex items-center gap-1 mb-2 text-[11px] font-bold italic ${trend === 'up' ? 'text-emerald-400' : 'text-rose-400'}`}>
                      {trend === 'up' ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
@@ -40,11 +40,11 @@ export default function AdminStatCard({
           <div className="flex items-end gap-1 h-8 opacity-20 group-hover:opacity-60 transition-opacity">
             {chartType === "bar" ? (
                [40, 70, 50, 90, 60, 80].map((h, i) => (
-                 <div key={i} className="w-1 bg-cyan-400 rounded-full" style={{ height: `${h}%` }} />
+                 <div key={i} className="w-1 bg-sky-500 rounded-full" style={{ height: `${h}%` }} />
                ))
             ) : (
                <div className="w-20 h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent relative">
-                  <div className="absolute inset-0 bg-cyan-400 blur-sm animate-pulse" />
+                  <div className="absolute inset-0 bg-sky-500 blur-sm animate-pulse" />
                </div>
             )}
           </div>

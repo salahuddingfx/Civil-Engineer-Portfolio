@@ -120,19 +120,19 @@ export default function AdminAbout() {
   };
 
   const tabs = [
-    { id: "bio", label: "Identity Bio", icon: UserCircle },
-    { id: "skills", label: "Skills Node", icon: Zap },
-    { id: "timeline", label: "Career Timeline", icon: Clock },
-    { id: "team", label: "Studio Team", icon: Users },
+    { id: "bio", label: "Biography", icon: UserCircle },
+    { id: "skills", label: "Skills", icon: Zap },
+    { id: "timeline", label: "Timeline", icon: Clock },
+    { id: "team", label: "Team", icon: Users },
   ];
 
-  const inputClasses = "w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-6 py-4 text-white outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic text-[13px]";
+  const inputClasses = "w-full bg-white border border-slate-200 rounded-xl px-6 py-4 text-slate-900 outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic text-[13px]";
   const labelClasses = "block text-[9px] font-black uppercase tracking-[0.3em] text-slate-600 mb-3 ml-2 italic";
 
   return (
     <AdminModuleWrapper
-      title="Professional Registry"
-      subtitle="Manage consultancy legacy, technical proficiencies, and studio personnel."
+      title="Profile Management"
+      subtitle="Manage biography, skills, career history, and team members."
       icon={UserCircle}
       loading={loading}
       saving={saving}
@@ -141,13 +141,13 @@ export default function AdminAbout() {
     >
       <div className="space-y-12">
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-4 p-2 bg-white/[0.02] border border-white/[0.05] rounded-[28px] max-w-fit">
+        <div className="flex flex-wrap gap-4 p-2 bg-slate-50 border border-slate-200 rounded-[28px] max-w-fit">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => { setActiveTab(tab.id); setEditingItem(null); }}
               className={`flex items-center gap-3 px-8 py-4 rounded-2xl transition-all duration-300 text-[10px] font-black uppercase tracking-widest ${
-                activeTab === tab.id ? 'bg-cyan-400 text-black shadow-lg shadow-cyan-400/20' : 'text-slate-500 hover:text-white hover:bg-white/5'
+                activeTab === tab.id ? 'bg-sky-500 text-black shadow-lg shadow-cyan-400/20' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               <tab.icon size={16} />
@@ -162,13 +162,13 @@ export default function AdminAbout() {
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <div className="flex justify-between items-center px-2">
-                  <label className={labelClasses}>Identity Title (EN)</label>
+                  <label className={labelClasses}>Full Title (EN)</label>
                   <AutoTranslate text={bioForm.titleEn} onTranslate={val => setBioForm({...bioForm, titleBn: val})} />
                 </div>
                 <input value={bioForm.titleEn} onChange={e => setBioForm({...bioForm, titleEn: e.target.value})} className={inputClasses} placeholder="Engr. Alam Ashik" />
               </div>
               <div className="space-y-2">
-                <label className={labelClasses}>Identity Title (BN)</label>
+                <label className={labelClasses}>Full Title (BN)</label>
                 <input value={bioForm.titleBn} onChange={e => setBioForm({...bioForm, titleBn: e.target.value})} className={inputClasses} placeholder="ইঞ্জিনিয়ার আলম আশিক" />
               </div>
             </div>
@@ -198,7 +198,7 @@ export default function AdminAbout() {
                 <textarea rows={6} value={bioForm.bodyBn} onChange={e => setBioForm({...bioForm, bodyBn: e.target.value})} className={`${inputClasses} resize-none`} />
               </div>
             </div>
-            <div className="bg-white/[0.02] border border-white/[0.05] rounded-[40px] p-10">
+            <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-10">
                <ImageUpload value={bioForm.featuredImageUrl} onChange={val => setBioForm({...bioForm, featuredImageUrl: val})} label="Principal Profile Asset" />
             </div>
           </div>
@@ -208,10 +208,10 @@ export default function AdminAbout() {
         {activeTab === 'skills' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
             {editingItem?.type === 'skill' ? (
-               <div className="bg-white/[0.03] border border-white/[0.08] rounded-[40px] p-12 space-y-8 relative">
+               <div className="bg-white border border-slate-200 rounded-[40px] p-12 space-y-8 relative">
                   <div className="flex justify-between items-center mb-6">
-                     <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Configure Skill Node</h3>
-                     <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-white uppercase transition-colors">Discard</button>
+                     <h3 className="text-xl font-black text-slate-900 tracking-tighter uppercase font-display">Configure Skill</h3>
+                     <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-slate-900 uppercase transition-colors">Discard</button>
                   </div>
                   <div className="grid md:grid-cols-2 gap-8">
                      <div className="space-y-4">
@@ -243,30 +243,30 @@ export default function AdminAbout() {
                   <button onClick={() => handleItemAction('skill', 'skills', { 
                     ...editingItem.data, 
                     title: { en: editingItem.data.titleEn, bn: editingItem.data.titleBn } 
-                  })} className="w-full py-5 rounded-2xl bg-cyan-400 text-black font-black uppercase text-[11px] tracking-widest hover:bg-cyan-300 transition-all flex items-center justify-center gap-3">
+                  })} className="w-full py-5 rounded-2xl bg-sky-500 text-black font-black uppercase text-[11px] tracking-widest hover:bg-cyan-300 transition-all flex items-center justify-center gap-3">
                      <Save size={16} /> Execute Command
                   </button>
                </div>
             ) : (
                <div className="grid md:grid-cols-2 gap-6">
                   {skills.map(skill => (
-                    <div key={skill._id} className="group p-8 rounded-3xl bg-white/[0.02] border border-white/[0.05] hover:border-cyan-400/30 transition-all flex items-center justify-between">
+                    <div key={skill._id} className="group p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-cyan-400/30 transition-all flex items-center justify-between">
                        <div className="flex items-center gap-6">
-                          <div className="h-12 w-12 rounded-xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 font-bold transition-transform">{skill.proficiency}%</div>
+                          <div className="h-12 w-12 rounded-xl bg-cyan-400/10 flex items-center justify-center text-sky-600 font-bold transition-transform">{skill.proficiency}%</div>
                           <div>
-                             <h4 className="text-white font-black italic tracking-tight uppercase text-lg leading-none">{skill.title?.en}</h4>
+                             <h4 className="text-slate-900 font-black italic tracking-tight uppercase text-lg leading-none">{skill.title?.en}</h4>
                              <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest mt-2">ICON: {skill.icon}</p>
                           </div>
                        </div>
                        <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => setEditingItem({ type: 'skill', data: { ...skill, titleEn: skill.title?.en, titleBn: skill.title?.bn } })} className="p-2 hover:text-cyan-400 transition-colors"><Edit3 size={16} /></button>
+                          <button onClick={() => setEditingItem({ type: 'skill', data: { ...skill, titleEn: skill.title?.en, titleBn: skill.title?.bn } })} className="p-2 hover:text-sky-600 transition-colors"><Edit3 size={16} /></button>
                           <button onClick={() => handleItemDelete('skill', 'skills', skill._id)} className="p-2 hover:text-rose-500 transition-colors"><Trash2 size={16} /></button>
                        </div>
                     </div>
                   ))}
-                  <button onClick={() => setEditingItem({ type: 'skill', data: { titleEn: '', titleBn: '', proficiency: 80, icon: 'Zap', order: skills.length + 1 } })} className="p-8 rounded-3xl border-2 border-dashed border-white/5 flex items-center justify-center gap-4 text-slate-700 hover:text-cyan-400 hover:border-cyan-400/20 transition-all group">
+                  <button onClick={() => setEditingItem({ type: 'skill', data: { titleEn: '', titleBn: '', proficiency: 80, icon: 'Zap', order: skills.length + 1 } })} className="p-8 rounded-3xl border-2 border-dashed border-white/5 flex items-center justify-center gap-4 text-slate-700 hover:text-sky-600 hover:border-cyan-400/20 transition-all group">
                      <Plus size={20} className="group-hover:rotate-90 transition-transform" />
-                     <span className="text-[11px] font-black uppercase tracking-widest">Add Skill Node</span>
+                     <span className="text-[11px] font-black uppercase tracking-widest">Add Skill</span>
                   </button>
                </div>
             )}
@@ -277,10 +277,10 @@ export default function AdminAbout() {
         {activeTab === 'timeline' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
              {editingItem?.type === 'timeline' ? (
-                <div className="bg-white/[0.03] border border-white/[0.08] rounded-[40px] p-12 space-y-8">
+                <div className="bg-white border border-slate-200 rounded-[40px] p-12 space-y-8">
                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Log Timeline Step</h3>
-                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-white uppercase transition-colors">Discard</button>
+                      <h3 className="text-xl font-black text-slate-900 tracking-tighter uppercase font-display">Update Timeline</h3>
+                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-slate-900 uppercase transition-colors">Discard</button>
                    </div>
                    <div className="grid md:grid-cols-3 gap-8 text-left">
                       <div className="space-y-2">
@@ -326,31 +326,31 @@ export default function AdminAbout() {
                      ...editingItem.data, 
                      title: { en: editingItem.data.titleEn, bn: editingItem.data.titleBn },
                      description: { en: editingItem.data.descEn, bn: editingItem.data.descBn }
-                   })} className="w-full py-5 rounded-2xl bg-cyan-400 text-black font-black uppercase text-[11px] tracking-widest hover:bg-cyan-300 transition-all flex items-center justify-center gap-3">
+                   })} className="w-full py-5 rounded-2xl bg-sky-500 text-black font-black uppercase text-[11px] tracking-widest hover:bg-cyan-300 transition-all flex items-center justify-center gap-3">
                       <Save size={16} /> Update Timeline
                    </button>
                 </div>
              ) : (
                 <div className="space-y-4">
                    {timeline.map(item => (
-                     <div key={item._id} className="group p-8 rounded-3xl bg-white/[0.02] border border-white/[0.05] hover:border-cyan-400/30 transition-all flex items-center justify-between">
+                     <div key={item._id} className="group p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-cyan-400/30 transition-all flex items-center justify-between">
                         <div className="flex items-start gap-10">
                            <div className="text-3xl font-black text-cyan-400/40 italic">{item.year}</div>
                            <div className="text-left">
-                              <span className="text-[9px] font-black uppercase tracking-widest text-slate-700 bg-white/5 px-2 py-0.5 rounded-md mb-2 block w-fit">{item.category}</span>
-                              <h4 className="text-xl font-black text-white italic tracking-tighter uppercase">{item.title?.en}</h4>
+                              <span className="text-[9px] font-black uppercase tracking-widest text-slate-700 bg-slate-50 px-2 py-0.5 rounded-md mb-2 block w-fit">{item.category}</span>
+                              <h4 className="text-xl font-black text-slate-900 italic tracking-tighter uppercase">{item.title?.en}</h4>
                               <p className="text-[11px] text-slate-500 mt-2 font-medium italic">{item.description?.en}</p>
                            </div>
                         </div>
                         <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                           <button onClick={() => setEditingItem({ type: 'timeline', data: { ...item, titleEn: item.title?.en, titleBn: item.title?.bn, descEn: item.description?.en, descBn: item.description?.bn } })} className="p-2 hover:text-cyan-400 transition-colors"><Edit3 size={18} /></button>
+                           <button onClick={() => setEditingItem({ type: 'timeline', data: { ...item, titleEn: item.title?.en, titleBn: item.title?.bn, descEn: item.description?.en, descBn: item.description?.bn } })} className="p-2 hover:text-sky-600 transition-colors"><Edit3 size={18} /></button>
                            <button onClick={() => handleItemDelete('timeline', 'timelineEntries', item._id)} className="p-2 hover:text-rose-500 transition-colors"><Trash2 size={18} /></button>
                         </div>
                      </div>
                    ))}
-                   <button onClick={() => setEditingItem({ type: 'timeline', data: { year: '2024', category: 'Experience', titleEn: '', titleBn: '', descEn: '', descBn: '', order: timeline.length + 1 } })} className="w-full p-10 rounded-[40px] border-2 border-dashed border-white/5 flex items-center justify-center gap-6 text-slate-700 hover:text-cyan-400 transition-all group">
+                   <button onClick={() => setEditingItem({ type: 'timeline', data: { year: '2024', category: 'Experience', titleEn: '', titleBn: '', descEn: '', descBn: '', order: timeline.length + 1 } })} className="w-full p-10 rounded-[40px] border-2 border-dashed border-white/5 flex items-center justify-center gap-6 text-slate-700 hover:text-sky-600 transition-all group">
                       <Plus size={24} className="group-hover:rotate-90 transition-transform duration-500" />
-                      <span className="text-[12px] font-black uppercase tracking-[0.4em]">Register New History Node</span>
+                      <span className="text-[12px] font-black uppercase tracking-[0.4em]">Register New Entry</span>
                    </button>
                 </div>
              )}
@@ -361,10 +361,10 @@ export default function AdminAbout() {
         {activeTab === 'team' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
              {editingItem?.type === 'team' ? (
-                <div className="bg-white/[0.03] border border-white/[0.08] rounded-[40px] p-12 space-y-10 text-left">
+                <div className="bg-white border border-slate-200 rounded-[40px] p-12 space-y-10 text-left">
                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Personnel Configuration</h3>
-                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-white uppercase transition-colors">Discard</button>
+                      <h3 className="text-xl font-black text-slate-900 tracking-tighter uppercase font-display">Team Management</h3>
+                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-slate-900 uppercase transition-colors">Discard</button>
                    </div>
                    <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-2">
@@ -394,8 +394,8 @@ export default function AdminAbout() {
                      bio: { en: editingItem.data.bioEn },
                      image: editingItem.data.imageUrl ? { url: editingItem.data.imageUrl } : null,
                      socialLinks: { linkedin: editingItem.data.linkedin }
-                   })} className="w-full py-5 rounded-2xl bg-cyan-400 text-black font-black uppercase text-[11px] tracking-widest hover:bg-cyan-300 transition-all flex items-center justify-center gap-3">
-                      <Save size={16} /> Deploy Personnel Node
+                   })} className="w-full py-5 rounded-2xl bg-sky-500 text-black font-black uppercase text-[11px] tracking-widest hover:bg-cyan-300 transition-all flex items-center justify-center gap-3">
+                      <Save size={16} /> Save Team Member
                    </button>
                 </div>
              ) : (
@@ -403,20 +403,20 @@ export default function AdminAbout() {
                    {team.map(member => (
                      <div key={member._id} className="group bg-[#0d0f1a]/40 border border-white/5 rounded-[40px] p-8 hover:border-cyan-400/30 transition-all overflow-hidden relative">
                         <div className="flex flex-col items-center text-center">
-                           <div className="h-32 w-32 rounded-3xl overflow-hidden mb-6 transition-all duration-700 shadow-2xl border border-white/10">
+                           <div className="h-32 w-32 rounded-3xl overflow-hidden mb-6 transition-all duration-700 shadow-2xl border border-slate-200">
                               <img src={member.image?.url || "https://avatar.iran.liara.run/public"} alt={member.name} className="h-full w-full object-cover" />
                            </div>
-                           <h4 className="text-xl font-black text-white italic tracking-tighter uppercase mb-1">{member.name}</h4>
-                           <p className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">{member.designation?.en}</p>
+                           <h4 className="text-xl font-black text-slate-900 italic tracking-tighter uppercase mb-1">{member.name}</h4>
+                           <p className="text-[10px] font-bold text-sky-600 uppercase tracking-widest">{member.designation?.en}</p>
                            
                            <div className="mt-8 flex gap-4">
-                              <button onClick={() => setEditingItem({ type: 'team', data: { ...member, descEn: member.designation?.en, bioEn: member.bio?.en, imageUrl: member.image?.url, linkedin: member.socialLinks?.linkedin } })} className="p-3 bg-white/5 hover:bg-cyan-400 hover:text-black rounded-xl transition-all"><Edit3 size={16} /></button>
-                              <button onClick={() => handleItemDelete('team', 'teamMembers', member._id)} className="p-3 bg-white/5 hover:bg-rose-500 rounded-xl transition-all"><Trash2 size={16} /></button>
+                              <button onClick={() => setEditingItem({ type: 'team', data: { ...member, descEn: member.designation?.en, bioEn: member.bio?.en, imageUrl: member.image?.url, linkedin: member.socialLinks?.linkedin } })} className="p-3 bg-slate-50 hover:bg-cyan-400 hover:text-black rounded-xl transition-all"><Edit3 size={16} /></button>
+                              <button onClick={() => handleItemDelete('team', 'teamMembers', member._id)} className="p-3 bg-slate-50 hover:bg-rose-500 rounded-xl transition-all"><Trash2 size={16} /></button>
                            </div>
                         </div>
                      </div>
                    ))}
-                   <button onClick={() => setEditingItem({ type: 'team', data: { name: '', descEn: '', bioEn: '', imageUrl: '', linkedin: '', order: team.length + 1 } })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-white/5 flex flex-col items-center justify-center gap-6 text-slate-700 hover:text-cyan-400 transition-all group">
+                   <button onClick={() => setEditingItem({ type: 'team', data: { name: '', descEn: '', bioEn: '', imageUrl: '', linkedin: '', order: team.length + 1 } })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-white/5 flex flex-col items-center justify-center gap-6 text-slate-700 hover:text-sky-600 transition-all group">
                       <Plus size={32} className="group-hover:rotate-180 transition-transform duration-1000" />
                       <span className="text-[10px] font-black uppercase tracking-[0.4em]">Register New Staff</span>
                    </button>

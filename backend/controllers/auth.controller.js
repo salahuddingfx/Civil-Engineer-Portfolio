@@ -8,8 +8,8 @@ const {
 } = require("../utils/tokens");
 
 async function ensureAdminSeed() {
-  const existing = await Admin.findOne({ email: env.adminEmail.toLowerCase() });
-  if (existing) {
+  const count = await Admin.countDocuments();
+  if (count > 0) {
     return;
   }
 

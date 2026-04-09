@@ -148,8 +148,8 @@ export default function AboutPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen selection:bg-cyan-400 selection:text-black">
       <SeoHead
-        title="About Engr. Alam Ashik | Structural Engineering Identity"
-        description="Learn about the legacy, expertise, and precision engineering workflow of Engr. Alam Ashik."
+        title="About Engr. Alam Ashik | Civil Engineer & Structural Consultant"
+        description="Learn about the experience, expertise, and precision engineering workflow of Engr. Alam Ashik."
         path="/about"
       />
 
@@ -161,10 +161,10 @@ export default function AboutPage() {
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 text-[8px] md:text-[9px] uppercase tracking-[0.4em] font-black"
               style={{ border: "1px solid var(--highlight-border)", background: "var(--highlight-soft)", color: "var(--highlight)" }}>
               <Zap size={10} className="animate-pulse" />
-              {language === "en" ? "IDENTITY ESTABLISHED 2013" : "প্রতিষ্ঠা ২০১৩"}
+              {language === "en" ? "ESTABLISHED 2013" : "প্রতিষ্ঠা ২০১৩"}
             </span>
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-black leading-[1] md:leading-[0.95] tracking-tight mb-8 italic uppercase" style={{ color: "var(--text)" }}>
-              {language === "en" ? <>CRAFTING <br /> THE <span className="text-glow">FUTURE</span></> : <>ভবিষ্যতের <span className="text-glow">নকশা</span></>}
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-black leading-[1] md:leading-[0.95] tracking-tight mb-8 uppercase" style={{ color: "var(--text)" }}>
+              {language === "en" ? <>PRECISION <br /> & <span className="text-glow">STRENGTH</span></> : <>সঠিকতা <br /> ও <span className="text-glow">শক্তি</span></>}
             </h1>
             <p className="text-lg md:text-xl max-w-xl leading-relaxed mb-12 font-medium opacity-60" style={{ color: "var(--text-muted)" }}>
               {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : bio?.summary?.en}
@@ -192,11 +192,11 @@ export default function AboutPage() {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/40 to-transparent" />
             <div className="absolute bottom-6 left-6 right-6 md:bottom-12 md:left-12 md:right-12 p-6 md:p-10 rounded-[24px] md:rounded-[40px] backdrop-blur-2xl border border-white/10 bg-white/[0.03] shadow-2xl transition-transform hover:scale-[1.02] duration-700">
-               <h3 className="text-xl md:text-3xl font-black text-white italic uppercase mb-1 md:mb-2 tracking-tighter">
+               <h3 className="text-xl md:text-3xl font-black text-white uppercase mb-1 md:mb-2 tracking-tighter">
                  {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : bio?.title?.en || "Engr. Alam Ashik"}
                </h3>
-               <p className="text-[9px] md:text-xs font-black text-cyan-400 uppercase tracking-[0.3em] md:tracking-[0.4em] italic opacity-80">
-                 {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : bio?.summary?.en || "Principal Structural Consultant"}
+               <p className="text-[9px] md:text-xs font-black text-cyan-400 uppercase tracking-[0.3em] md:tracking-[0.4em] opacity-80">
+                 {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : bio?.summary?.en || "Principal Consultant"}
                </p>
             </div>
           </div>
@@ -209,9 +209,9 @@ export default function AboutPage() {
           <div className="reveal-unit space-y-8 md:space-y-12">
             <div>
               <p className="text-[10px] tracking-[0.4em] font-black uppercase mb-4" style={{ color: "var(--highlight)" }}>
-                {language === "en" ? "LEGACY BIOGRAPHY" : "জীবনী"}
+                {language === "en" ? "BIOGRAPHY" : "জীবনী"}
               </p>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter" style={{ color: "var(--text)" }}>
                 {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : bio?.title?.en}
               </h2>
             </div>
@@ -237,8 +237,8 @@ export default function AboutPage() {
                 <img src={bio?.featuredImage?.url || "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7"} className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 transition-all duration-1000" alt="Principal" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div className="absolute bottom-8 left-8 right-8 p-6 rounded-3xl backdrop-blur-xl border border-white/10 bg-white/[0.02] opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
-                   <p className="text-[10px] font-black text-white uppercase tracking-[0.4em] italic mb-1">Structural Authority</p>
-                   <p className="text-[8px] font-bold text-cyan-400/60 uppercase tracking-widest">Digital Asset: {bio?.title?.en || "ALAM ASHIK"}</p>
+                   <p className="text-[10px] font-black text-white uppercase tracking-[0.4em] mb-1">Structural Consultant</p>
+                   <p className="text-[8px] font-bold text-cyan-400/60 uppercase tracking-widest">{bio?.title?.en || "ENGR. ALAM ASHIK"}</p>
                 </div>
              </div>
           </div>
@@ -250,8 +250,8 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1500px]">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-20 gap-8 reveal-unit">
             <div>
-              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "TECHNICAL PROFICIENCIES" : "প্রযুক্তিগত দক্ষতা"}</p>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "SKILLS & EXPERTISE" : "দক্ষতা এবং অভিজ্ঞতা"}</h2>
+              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "CORE COMPETENCIES" : "প্রযুক্তিগত দক্ষতা"}</p>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "SKILLS & EXPERTISE" : "দক্ষতা এবং অভিজ্ঞতা"}</h2>
             </div>
             <p className="text-[14px] max-w-md md:text-right font-medium opacity-60 italic" style={{ color: "var(--text-muted)" }}>
               Optimizing structural output through advanced analysis and algorithmic precision across multiple software environments.
@@ -270,8 +270,8 @@ export default function AboutPage() {
       <section className="py-20 md:py-32 px-6 lg:px-10 overflow-hidden" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)" }}>
         <div className="mx-auto max-w-[1500px]">
             <div className="mb-12 md:mb-20 reveal-unit">
-               <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "CHRONOLOGICAL LOG" : "কার্যক্রমের ধারাবাহিকতা"}</p>
-               <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "CAREER TIMELINE" : "ক্যারিয়ার টাইমলাইন"}</h2>
+               <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "PROFESSIONAL JOURNEY" : "কার্যক্রমের ধারাবাহিকতা"}</p>
+               <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "CAREER TIMELINE" : "ক্যারিয়ার টাইমলাইন"}</h2>
             </div>
 
           <div className="timeline-container relative max-w-5xl mx-auto py-10">
@@ -310,8 +310,8 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1500px]">
           <div className="flex justify-between items-end mb-12 md:mb-20 reveal-unit">
             <div>
-              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "PERSONNEL REGISTRY" : "কর্মী তালিকা"}</p>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "STUDIO TEAM" : "স্টুডিও টিম"}</h2>
+               <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-4 md:mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "CONSULTANCY TEAM" : "কর্মী তালিকা"}</p>
+               <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "STUDIO TEAM" : "স্টুডিও টিম"}</h2>
             </div>
           </div>
 
@@ -354,10 +354,10 @@ export default function AboutPage() {
       {/* Footer Branding Overlay */}
       <div className="py-20 px-10 border-t border-white/[0.05] flex flex-col md:flex-row justify-between items-center gap-10 opacity-40 hover:opacity-100 transition-opacity">
          <div className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">
-            ENGR. ALAM ASHIK // <span className="text-cyan-400">STRUCTURAL INTEGRITY</span>
+            ENGR. ALAM ASHIK · Professional Excellence
          </div>
          <div className="text-[8px] font-bold text-slate-700 uppercase tracking-widest text-center">
-            {new Date().getFullYear()} © SYSTEM UPDATES AT 500MS // ARCHITECTURAL CONSULTANCY PROTOCOL
+            {new Date().getFullYear()} © ALL RIGHTS RESERVED · CIVIL & STRUCTURAL CONSULTANCY
          </div>
       </div>
     </div>

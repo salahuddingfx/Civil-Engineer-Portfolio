@@ -75,14 +75,14 @@ export default function ImageUpload({ value, onChange, label = "Structural Media
         onClick={() => !uploading && fileInputRef.current?.click()}
         className={`relative group cursor-pointer overflow-hidden rounded-2xl border transition-all duration-500 min-h-[160px] flex flex-col items-center justify-center ${
           value 
-            ? "border-white/[0.08] bg-white/[0.01]" 
-            : "border-white/[0.05] border-dashed bg-white/[0.01] hover:border-[#19D2FF]/30 hover:bg-[#19D2FF]/[0.02]"
+            ? "border-slate-200 bg-white/[0.01]" 
+            : "border-slate-200 border-dashed bg-white/[0.01] hover:border-sky-400 hover:bg-[#19D2FF]/[0.02]"
         }`}
       >
         {uploading ? (
           <div className="flex flex-col items-center gap-4">
-            <Loader2 size={24} className="text-[#19D2FF] animate-spin" />
-            <p className="text-[9px] font-black text-[#19D2FF] uppercase tracking-widest animate-pulse">Syncing_to_Archive...</p>
+            <Loader2 size={24} className="text-sky-600 animate-spin" />
+            <p className="text-[9px] font-black text-sky-600 uppercase tracking-widest animate-pulse">Syncing to Archive...</p>
           </div>
         ) : value ? (
           <div className="relative w-full h-full flex items-center justify-center p-4">
@@ -90,23 +90,23 @@ export default function ImageUpload({ value, onChange, label = "Structural Media
               <img 
                 src={value} 
                 alt="Asset preview" 
-                className="w-full h-32 object-cover rounded-xl border border-white/[0.08] shadow-lg group-hover:scale-[1.02] transition-transform duration-500" 
+                className="w-full h-32 object-cover rounded-xl border border-slate-200 shadow-lg group-hover:scale-[1.02] transition-transform duration-500" 
               />
               <div className="absolute inset-x-0 -bottom-3 flex justify-center">
-                 <div className="flex items-center gap-2 text-[#19D2FF] font-black text-[8px] uppercase tracking-widest bg-[#0D1220] px-3 py-1.5 rounded-lg border border-white/[0.05] shadow-xl">
-                    <CheckCircle2 size={10} /> Structural_Asset_Confirmed
+                 <div className="flex items-center gap-2 text-sky-600 font-black text-[8px] uppercase tracking-widest bg-[#0D1220] px-3 py-1.5 rounded-lg border border-slate-200 shadow-xl">
+                    <CheckCircle2 size={10} /> Structural Asset Confirmed
                  </div>
               </div>
             </div>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-4 text-center p-8">
-            <div className="p-4 rounded-full bg-white/[0.03] border border-white/[0.05] text-slate-600 group-hover:text-[#19D2FF] group-hover:border-[#19D2FF]/20 group-hover:scale-110 transition-all duration-500">
+            <div className="p-4 rounded-full bg-white border border-slate-200 text-slate-600 group-hover:text-sky-600 group-hover:border-sky-300 group-hover:scale-110 transition-all duration-500">
               <Upload size={20} />
             </div>
             <div className="space-y-1">
-              <p className="text-[10px] font-black text-white uppercase tracking-[0.1em] italic">Deploy_Media_Unit</p>
-              <p className="text-[8px] text-slate-700 uppercase tracking-widest font-black">Archive Requirements: IMG_LIMIT_5MB</p>
+              <p className="text-[10px] font-black text-slate-900 uppercase tracking-[0.1em] italic">Deploy Media Unit</p>
+              <p className="text-[8px] text-slate-700 uppercase tracking-widest font-black">Archive Requirements: IMG LIMIT 5MB</p>
             </div>
           </div>
         )}

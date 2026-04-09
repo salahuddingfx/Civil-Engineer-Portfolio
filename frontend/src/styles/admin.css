@@ -1,11 +1,11 @@
 /* Admin Panel Design System - Minimal Premium Engineering Identity */
 :root {
-  --admin-bg: #070B14;
-  --admin-card: #0B1220;
-  --admin-border: rgba(25, 210, 255, 0.12);
-  --admin-accent: #19D2FF;
-  --admin-text-primary: #FFFFFF;
-  --admin-text-secondary: #94A3B8;
+  --admin-bg: #F8FAFC;
+  --admin-card: #FFFFFF;
+  --admin-border: #E2E8F0;
+  --admin-accent: #0ea5e9;
+  --admin-text-primary: #0F172A;
+  --admin-text-secondary: #475569;
   --admin-success: #10B981;
   --admin-danger: #EF4444;
 }
@@ -30,7 +30,7 @@
 }
 
 .admin-input {
-  background: #0D1627;
+  background: #FFFFFF;
   border: 1px solid var(--admin-border);
   color: var(--admin-text-primary);
   border-radius: 8px;
@@ -54,10 +54,10 @@
 }
 
 .admin-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 }
 
 .admin-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.25);
 }

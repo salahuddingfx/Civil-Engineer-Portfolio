@@ -55,17 +55,17 @@ export default function AdminSidebar({ onClose }) {
   const location = useLocation();
 
   return (
-    <div className="h-full flex flex-col bg-[#0B1220] border-r border-white/[0.08]">
+    <div className="h-full flex flex-col bg-white border-r border-slate-200">
       {/* Brand Header */}
-      <div className="h-20 px-8 flex items-center justify-between border-b border-white/[0.05]">
+      <div className="h-20 px-8 flex items-center justify-between border-b border-slate-200">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="h-7 w-7 rounded-lg bg-[#19D2FF] flex items-center justify-center text-black font-black text-xs rotate-3 group-hover:rotate-0 transition-transform">
+          <div className="h-7 w-7 rounded-lg bg-sky-500 flex items-center justify-center text-black font-black text-xs rotate-3 group-hover:rotate-0 transition-transform">
              A
           </div>
-          <span className="text-lg font-black text-white tracking-widest uppercase italic">ALAM<span className="text-[#19D2FF]">.</span>ASHIK</span>
+          <span className="text-lg font-black text-slate-900 tracking-tight uppercase">ENGR. ALAM ASHIK</span>
         </Link>
         <button 
-          className="p-2 rounded-lg hover:bg-white/5 lg:hidden text-slate-500"
+          className="p-2 rounded-lg hover:bg-slate-100 lg:hidden text-slate-500"
           onClick={onClose}
         >
           <X size={20} />
@@ -76,7 +76,7 @@ export default function AdminSidebar({ onClose }) {
       <nav className="flex-1 overflow-y-auto admin-scrollbar p-6 space-y-10">
         {navigation.map((group) => (
           <div key={group.title} className="space-y-4">
-            <h3 className="px-4 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">
+            <h3 className="px-4 text-[9px] font-black uppercase tracking-[0.4em] text-slate-600">
               {group.title}
             </h3>
             <div className="space-y-1">
@@ -89,16 +89,16 @@ export default function AdminSidebar({ onClose }) {
                     onClick={onClose}
                     className={`
                       group flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 relative border border-transparent
-                      ${isActive ? 'bg-[#19D2FF]/10 text-white border-[#19D2FF]/20' : 'text-slate-400 hover:text-white hover:bg-[#0D1627] hover:border-white/[0.05]'}
+                      ${isActive ? 'bg-sky-100 text-slate-900 border-sky-200' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300'}
                     `}
                   >
-                    <item.icon size={18} className={`${isActive ? 'text-[#19D2FF]' : 'text-slate-500 group-hover:text-[#19D2FF]'} transition-colors`} />
+                    <item.icon size={18} className={`${isActive ? 'text-sky-600' : 'text-slate-500 group-hover:text-sky-600'} transition-colors`} />
                     <span className={`text-[11px] font-bold uppercase tracking-widest ${isActive ? 'translate-x-1' : 'group-hover:translate-x-1'} transition-transform`}>
                       {item.label}
                     </span>
                     
                     {isActive && (
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#19D2FF] rounded-r-full shadow-[0_0_12px_rgba(25,210,255,0.4)]" />
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-sky-500 rounded-r-full shadow-[0_0_12px_rgba(14,165,233,0.3)]" />
                     )}
                   </Link>
                 );
@@ -109,17 +109,13 @@ export default function AdminSidebar({ onClose }) {
       </nav>
 
       {/* Quick Access Footer */}
-      <div className="p-6 border-t border-white/[0.05] bg-black/10">
-         <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.05] space-y-4">
-            <div className="flex items-center justify-between">
-               <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">System v2.1</span>
-               <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
-            </div>
-            <button className="w-full py-2.5 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] rounded-lg hover:bg-[#19D2FF] hover:text-black hover:border-[#19D2FF] transition-all flex items-center justify-center gap-2">
-              <History size={12} />
-              Recent Logs
-            </button>
-         </div>
+      <div className="p-6 border-t border-slate-200 bg-slate-50">
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
+             <div className="flex items-center justify-between">
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Server Status</span>
+                <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
+             </div>
+          </div>
       </div>
     </div>
   );

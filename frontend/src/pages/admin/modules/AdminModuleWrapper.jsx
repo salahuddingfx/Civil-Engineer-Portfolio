@@ -36,7 +36,7 @@ export default function AdminModuleWrapper({
         <div className="flex items-center gap-5">
           <button 
             onClick={() => navigate("/admin/dashboard")}
-            className="p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-500 hover:text-[#19D2FF] hover:border-[#19D2FF]/30 transition-all group"
+            className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-sky-600 hover:border-sky-400 transition-all group"
           >
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
           </button>
@@ -48,7 +48,7 @@ export default function AdminModuleWrapper({
               <ChevronRight size={10} />
               <span className="text-[#19D2FF]/60">{title?.split(' ')[0]}</span>
             </div>
-            <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase leading-none">{title}</h2>
+            <h2 className="text-3xl font-black text-slate-900 italic tracking-tighter uppercase leading-none">{title}</h2>
           </div>
         </div>
 
@@ -56,15 +56,15 @@ export default function AdminModuleWrapper({
           {allowCreate && (
              <button 
               onClick={onNew}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#19D2FF] text-black rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg"
+              className="flex items-center gap-2 px-5 py-2.5 bg-sky-500 text-black rounded-xl font-black text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-lg"
              >
                <Plus size={14} strokeWidth={3} />
                Register Node
              </button>
           )}
-          <div className="hidden sm:flex items-center gap-3 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl">
-            <Zap size={12} className="text-[#19D2FF] animate-pulse" />
-            <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{subtitle || 'Active_Session'}</span>
+          <div className="hidden sm:flex items-center gap-3 px-4 py-2.5 bg-white border border-slate-200 rounded-xl">
+            <Zap size={12} className="text-sky-600 animate-pulse" />
+            <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">{subtitle || 'Active Session'}</span>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@ export default function AdminModuleWrapper({
         }`}>
           <div className="flex items-center justify-center gap-4">
             {status.type === 'error' ? <ShieldAlert size={18} /> : <CheckCircle2 size={18} />}
-            <p className="text-[11px] font-black uppercase tracking-widest italic">{status.message.replace(/_/g, ' ')}</p>
+            <p className="text-[11px] font-black uppercase tracking-widest italic">{status.message.replace(/ /g, ' ')}</p>
           </div>
         </div>
       )}
@@ -86,10 +86,10 @@ export default function AdminModuleWrapper({
         {loading ? (
           <div className="admin-card h-[400px] flex flex-col items-center justify-center gap-8">
             <div className="relative">
-               <Loader2 className="animate-spin text-[#19D2FF]" size={48} strokeWidth={1.5} />
-               <div className="absolute inset-0 bg-[#19D2FF]/10 blur-[40px] rounded-full" />
+               <Loader2 className="animate-spin text-sky-600" size={48} strokeWidth={1.5} />
+               <div className="absolute inset-0 bg-sky-100 blur-[40px] rounded-full" />
             </div>
-            <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] animate-pulse italic text-center">Synchronizing_Neural_Data...</p>
+            <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] animate-pulse italic text-center">Synchronizing Data...</p>
           </div>
         ) : (
           <div className="admin-card p-6 md:p-12 relative overflow-hidden group/content">
@@ -103,12 +103,12 @@ export default function AdminModuleWrapper({
 
       {/* 4. Persistence Controls (Footer) - Temporary placement until modules use AdminSaveBar */}
       {loading === false && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-4 pt-10 border-t border-white/[0.05]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-4 pt-10 border-t border-slate-200">
           <div className="flex items-center gap-4 w-full sm:w-auto">
              <button 
               onClick={onSave}
               disabled={saving}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-3 px-12 py-4 bg-[#19D2FF] text-black rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:scale-105 active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50"
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-3 px-12 py-4 bg-sky-500 text-black rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:scale-105 active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50"
              >
                {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} strokeWidth={2.5} />}
                <span>{saving ? 'SYNCHRONIZING...' : 'Execute Commit'}</span>
@@ -117,7 +117,7 @@ export default function AdminModuleWrapper({
                 <button 
                   onClick={onDelete}
                   disabled={saving}
-                  className="flex-1 sm:flex-initial flex items-center justify-center gap-3 px-8 py-4 bg-red-500/5 border border-red-500/10 text-red-500 rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:bg-red-500 hover:text-white transition-all active:scale-95"
+                  className="flex-1 sm:flex-initial flex items-center justify-center gap-3 px-8 py-4 bg-red-500/5 border border-red-500/10 text-red-500 rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:bg-red-500 hover:text-slate-900 transition-all active:scale-95"
                 >
                   <Trash2 size={16} />
                   Erase Node
@@ -125,8 +125,8 @@ export default function AdminModuleWrapper({
              )}
           </div>
           <div className="hidden md:flex items-center gap-4 opacity-30">
-             <ShieldCheck size={14} className="text-[#19D2FF]" />
-             <p className="text-[9px] font-black text-slate-600 uppercase tracking-[0.4em] italic">Authority_Reference::MASTER_ADMIN</p>
+             <ShieldCheck size={14} className="text-sky-600" />
+             <p className="text-[9px] font-black text-slate-600 uppercase tracking-[0.4em] italic">Authority: Master Admin</p>
           </div>
         </div>
       )}

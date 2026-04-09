@@ -57,8 +57,8 @@ export default function AdminLoginPage() {
       
       {/* 1. Backdrop Grid */}
       <div className="admin-blueprint-grid" />
-      <div className="absolute top-0 right-0 h-1/2 w-1/2 bg-[#19D2FF]/[0.02] blur-[150px] rounded-full" />
-      <div className="absolute bottom-0 left-0 h-1/2 w-1/2 bg-blue-600/[0.01] blur-[150px] rounded-full" />
+      <div className="absolute top-0 right-0 h-1/2 w-1/2 bg-sky-500/[0.03] blur-[120px] rounded-full" />
+      <div className="absolute bottom-0 left-0 h-1/2 w-1/2 bg-blue-500/[0.02] blur-[120px] rounded-full" />
 
       {/* 2. Login Card */}
       <div ref={cardRef} className="w-full max-w-[420px] relative">
@@ -68,22 +68,22 @@ export default function AdminLoginPage() {
             {/* Brand Header */}
             <div className="mb-12 text-center">
                <div className="flex justify-center mb-6">
-                 <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] text-[#19D2FF] shadow-inner">
+                 <div className="p-4 rounded-2xl bg-white border border-slate-200 text-sky-600 shadow-inner">
                     <ShieldCheck size={32} strokeWidth={1.5} />
                  </div>
                </div>
-               <h1 className="text-2xl font-black text-white italic tracking-tighter uppercase leading-none">
-                  Studio<span className="text-[#19D2FF]">_Control</span>
-               </h1>
-               <p className="mt-3 text-[9px] font-black text-slate-600 uppercase tracking-[0.4em] italic">Engineering_Protocol_v6.1</p>
+                <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
+                   Admin Access
+                </h1>
+                <p className="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Engr. Alam Ashik</p>
             </div>
 
             <form onSubmit={onSubmit} className="space-y-6">
                {/* Email Input */}
                <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1 italic">
-                    <Mail size={10} /> 
-                    Identity_ID
+                   <label className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">
+                    <Mail size={12} /> 
+                    Email Address
                   </label>
                   <input 
                      type="email"
@@ -97,9 +97,9 @@ export default function AdminLoginPage() {
 
                {/* Password Input */}
                <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1 italic">
-                    <Lock size={10} /> 
-                    Security_Key
+                   <label className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">
+                    <Lock size={12} /> 
+                    Password
                   </label>
                   <div className="relative group">
                      <input 
@@ -113,7 +113,7 @@ export default function AdminLoginPage() {
                      <button 
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-[#19D2FF] transition-colors"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-sky-600 transition-colors"
                      >
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                      </button>
@@ -132,33 +132,31 @@ export default function AdminLoginPage() {
                <button 
                   type="submit"
                   disabled={isLoading}
-                  className="w-full h-14 bg-[#19D2FF] text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50 flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+                  className="w-full h-14 bg-sky-500 text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50 flex items-center justify-center gap-3 relative overflow-hidden group/btn"
                >
                   <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
-                  {isLoading ? (
+                   {isLoading ? (
                     <>
-                      <Loader2 size={16} className="animate-spin" />
-                      Authenticating...
+                      <Loader2 size={18} className="animate-spin" />
+                      Signing In...
                     </>
                   ) : (
                     <>
-                      Execute_Login
-                      <ChevronRight size={16} strokeWidth={3} />
+                      Sign In
+                      <ChevronRight size={18} strokeWidth={2} />
                     </>
                   )}
                </button>
             </form>
 
-            <div className="mt-12 flex justify-center opacity-20">
-               <div className="h-px w-12 bg-white/40" />
-               <div className="px-4 text-[8px] font-black text-white uppercase tracking-[0.5em] italic">Secure_Uplink</div>
-               <div className="h-px w-12 bg-white/40" />
-            </div>
+             <div className="mt-8 flex justify-center border-t border-slate-100 pt-8">
+               <div className="px-4 text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em]">SECURE PORTAL</div>
+             </div>
          </div>
          
          {/* Footer Attribution */}
          <p className="mt-10 text-center text-[9px] font-black text-slate-700 uppercase tracking-[0.3em] italic">
-            © 2026 Studio Arch_Consultancy
+            © 2026 Studio Arch Consultancy
          </p>
       </div>
     </div>

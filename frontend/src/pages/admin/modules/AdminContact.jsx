@@ -91,7 +91,7 @@ export default function AdminContact() {
     } finally { setSaving(false); }
   };
 
-  const inputClasses = "w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl px-7 py-5 text-white outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
+  const inputClasses = "w-full bg-white border border-slate-200 rounded-2xl px-7 py-5 text-slate-900 outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
   const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
 
   return (
@@ -108,17 +108,17 @@ export default function AdminContact() {
         {/* Core Communication Nodes */}
         <div className="grid md:grid-cols-2 gap-10">
           <div className="space-y-2">
-            <label className={labelClasses}><Phone size={12} className="text-cyan-400" /> Operational Phone Hub</label>
+            <label className={labelClasses}><Phone size={12} className="text-sky-600" /> Operational Phone Hub</label>
             <input value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className={inputClasses} placeholder="+880 1XXX XXXXXX" />
           </div>
           <div className="space-y-2">
-            <label className={labelClasses}><Mail size={12} className="text-cyan-400" /> Secure Email Gateway</label>
+            <label className={labelClasses}><Mail size={12} className="text-sky-600" /> Secure Email Gateway</label>
             <input value={form.email} onChange={e => setForm({...form, email: e.target.value})} className={inputClasses} placeholder="architect@studio.com" />
           </div>
         </div>
 
         {/* Messaging Interface */}
-        <div className="bg-[#0d0f1a]/40 border border-white/[0.07] rounded-[48px] p-12 relative overflow-hidden group/whatsapp">
+        <div className="bg-[#0d0f1a]/40 border border-slate-200 rounded-[48px] p-12 relative overflow-hidden group/whatsapp">
            <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-emerald-400/20 to-transparent rounded-bl-full" />
            <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-4">
@@ -148,7 +148,7 @@ export default function AdminContact() {
         {/* Spatial Information Nodes */}
         <div className="grid md:grid-cols-2 gap-10">
           <div className="space-y-2">
-            <label className={labelClasses}><MapPin size={12} className="text-cyan-400" /> Studio Headquarters (EN)</label>
+            <label className={labelClasses}><MapPin size={12} className="text-sky-600" /> Studio Headquarters (EN)</label>
             <textarea rows={4} value={form.addressEn} onChange={e => setForm({...form, addressEn: e.target.value})} className={`${inputClasses} resize-none leading-relaxed`} placeholder="Architectural Floor, Tech Center, Dhaka" />
           </div>
           <div className="space-y-2">
@@ -165,11 +165,11 @@ export default function AdminContact() {
 
         {/* Social Architecture Hub */}
         <div className="pt-8">
-           <div className="bg-[#090b14]/60 border border-white/[0.05] rounded-[56px] p-16 relative overflow-hidden group/social">
+           <div className="bg-[#090b14]/60 border border-slate-200 rounded-[56px] p-16 relative overflow-hidden group/social">
               <div className="absolute top-0 left-0 h-1.5 w-80 bg-gradient-to-r from-blue-400/20 to-transparent rounded-br-full" />
               <div className="flex items-center gap-4 mb-14">
                  <Share2 size={24} className="text-blue-400" />
-                 <h3 className="text-[14px] font-black uppercase tracking-[0.5em] text-white italic">Social Grid Architecture</h3>
+                 <h3 className="text-[14px] font-black uppercase tracking-[0.5em] text-slate-900 italic">Social Grid Architecture</h3>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -186,7 +186,7 @@ export default function AdminContact() {
                     <input value={form.instagram} onChange={e => setForm({...form, instagram: e.target.value})} className={inputClasses} placeholder="https://instagram.com/identity" />
                  </div>
                  <div className="space-y-2">
-                    <label className={labelClasses}><Twitter size={12} className="text-cyan-400" /> Twitter / X Stream</label>
+                    <label className={labelClasses}><Twitter size={12} className="text-sky-600" /> Twitter / X Stream</label>
                     <input value={form.twitter} onChange={e => setForm({...form, twitter: e.target.value})} className={inputClasses} placeholder="https://twitter.com/identity" />
                  </div>
                  <div className="space-y-2">

@@ -119,7 +119,7 @@ export default function AdminProjects() {
     item.category?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const inputClasses = "w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl px-7 py-5 text-white outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
+  const inputClasses = "w-full bg-white border border-slate-200 rounded-2xl px-7 py-5 text-slate-900 outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
   const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
 
   return (
@@ -144,7 +144,7 @@ export default function AdminProjects() {
                placeholder="Search Registry..." 
                value={searchTerm}
                onChange={e => setSearchTerm(e.target.value)}
-               className="w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl pl-14 pr-6 py-5 text-[11px] font-bold uppercase tracking-widest text-white outline-none focus:border-cyan-400/40 transition-all"
+               className="w-full bg-white border border-slate-200 rounded-2xl pl-14 pr-6 py-5 text-[11px] font-bold uppercase tracking-widest text-slate-900 outline-none focus:border-cyan-400/40 transition-all"
              />
           </div>
 
@@ -153,11 +153,11 @@ export default function AdminProjects() {
               <div 
                 key={item._id}
                 onClick={() => setSelectedId(item._id)}
-                className={`p-6 rounded-[32px] border transition-all duration-500 cursor-pointer group flex gap-5 relative overflow-hidden ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/[0.03]' : 'border-white/[0.05] bg-white/[0.01] hover:border-white/10 hover:bg-white/[0.02]'}`}
+                className={`p-6 rounded-[32px] border transition-all duration-500 cursor-pointer group flex gap-5 relative overflow-hidden ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/[0.03]' : 'border-slate-200 bg-white/[0.01] hover:border-white/10 hover:bg-white/[0.02]'}`}
               >
-                {selectedId === item._id && <div className="absolute left-0 top-0 w-1 h-full bg-cyan-400" />}
+                {selectedId === item._id && <div className="absolute left-0 top-0 w-1 h-full bg-sky-500" />}
                 
-                <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border border-white/10 shadow-xl transition-transform duration-500">
+                <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border border-slate-200 shadow-xl transition-transform duration-500">
                   <img 
                     src={item.featuredImage?.url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=100&q=40"} 
                     className={`w-full h-full object-cover transition-all duration-700 ${selectedId === item._id ? 'grayscale-0' : 'grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100'}`}
@@ -166,10 +166,10 @@ export default function AdminProjects() {
                 </div>
                 <div className="flex-1 min-w-0 flex flex-col justify-center">
                   <div className="flex items-center justify-between mb-2">
-                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] italic ${selectedId === item._id ? 'text-cyan-400' : 'text-slate-600'}`}>{item.category}</span>
+                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] italic ${selectedId === item._id ? 'text-sky-600' : 'text-slate-600'}`}>{item.category}</span>
                     <div className={`h-2 w-2 rounded-full ${item.isPublished ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' : 'bg-slate-800'}`} />
                   </div>
-                  <p className="text-sm font-black text-white italic truncate tracking-tight mb-2 uppercase">{item.title?.en || "Untitled Node"}</p>
+                  <p className="text-sm font-black text-slate-900 italic truncate tracking-tight mb-2 uppercase">{item.title?.en || "Untitled Node"}</p>
                   <div className="flex items-center gap-3 text-[9px] text-slate-500 font-bold uppercase tracking-widest">
                     <MapPin size={10} className="text-cyan-400/40" />
                     <span className="truncate">{item.tags?.[1] || "Cox's Bazar"}</span>
@@ -177,8 +177,8 @@ export default function AdminProjects() {
                     <span className="truncate">{item.tags?.[0] || "2024"}</span>
                   </div>
                   <div className="flex items-center gap-3 mt-1.5 overflow-hidden">
-                    <span className="text-[7px] font-black uppercase text-slate-700 tracking-widest bg-white/5 px-2 py-0.5 rounded truncate">SLUG: {item.slug}</span>
-                    <span className="text-[7px] font-black uppercase text-emerald-500/40 tracking-widest bg-white/5 px-2 py-0.5 rounded">SYNCED</span>
+                    <span className="text-[7px] font-black uppercase text-slate-700 tracking-widest bg-slate-50 px-2 py-0.5 rounded truncate">SLUG: {item.slug}</span>
+                    <span className="text-[7px] font-black uppercase text-emerald-500/40 tracking-widest bg-slate-50 px-2 py-0.5 rounded">SYNCED</span>
                   </div>
                 </div>
               </div>
@@ -194,13 +194,13 @@ export default function AdminProjects() {
 
         {/* Editor Form */}
         <div className="space-y-16 animate-in fade-in slide-in-from-right-4 duration-700">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-white/[0.05] pb-12">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-slate-200 pb-12">
             <div>
-               <h3 className="text-3xl font-black text-white italic tracking-tighter uppercase mb-2">{selectedId ? "Configure Unit" : "Initialize New Record"}</h3>
+               <h3 className="text-3xl font-black text-slate-900 italic tracking-tighter uppercase mb-2">{selectedId ? "Configure Unit" : "Initialize New Record"}</h3>
                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic">{selectedId ? `Refining Asset Hardware ID: ${selectedId}` : "Initializing Fresh Structural Asset"}</p>
             </div>
             
-            <div className="flex items-center gap-6 px-8 py-4 bg-white/[0.02] border border-white/[0.05] rounded-3xl">
+            <div className="flex items-center gap-6 px-8 py-4 bg-slate-50 border border-slate-200 rounded-3xl">
                <span className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Deployment Status</span>
                <label className="flex items-center cursor-pointer group scale-90">
                   <div className={`h-7 w-14 rounded-full transition-all duration-500 relative ${form.isPublished ? 'bg-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.3)]' : 'bg-slate-800'}`}>
@@ -250,17 +250,17 @@ export default function AdminProjects() {
           {/* Abstract */}
           <div className="space-y-4">
             <div className="flex justify-between items-center px-4">
-              <label className={labelClasses}><Globe size={12} className="text-cyan-400" /> Technical Abstract (EN)</label>
+              <label className={labelClasses}><Globe size={12} className="text-sky-600" /> Technical Abstract (EN)</label>
               <AutoTranslate text={form.summaryEn} onTranslate={val => setForm({...form, summaryBn: val})} />
             </div>
             <textarea rows={3} value={form.summaryEn} onChange={e => setForm({...form, summaryEn: e.target.value})} className={`${inputClasses} resize-none`} placeholder="Brief technological overview of this asset..." />
           </div>
 
           {/* Visual Environment */}
-          <div className="bg-[#0d0f1a]/40 border border-white/[0.07] rounded-[48px] p-12 relative overflow-hidden group/media">
+          <div className="bg-[#0d0f1a]/40 border border-slate-200 rounded-[48px] p-12 relative overflow-hidden group/media">
              <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-cyan-400/20 to-transparent rounded-bl-full" />
              <div className="flex items-center gap-4 mb-10">
-                <ImageIcon size={18} className="text-cyan-400" />
+                <ImageIcon size={18} className="text-sky-600" />
                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Central Asset Media</h3>
              </div>
              <ImageUpload value={form.featuredImageUrl} onChange={val => setForm({...form, featuredImageUrl: val})} label="Primary High-Res Render" />
