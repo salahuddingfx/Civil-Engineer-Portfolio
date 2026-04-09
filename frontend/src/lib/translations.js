@@ -58,7 +58,7 @@ export const translations = {
     },
     footer: {
       rights: "All Rights Reserved",
-      developed_by: "Developed by",
+      developed_by: "DESIGN AND DEVELOPED BY",
       location: "Cox's Bazar, Bangladesh",
       tagline: "Premium civil engineering & architectural consultancy serving Cox's Bazar and the coastal regions of Bangladesh.",
     },
@@ -204,7 +204,7 @@ export const translations = {
     },
     footer: {
       rights: "সর্বস্বত্ব সংরক্ষিত",
-      developed_by: "ডেভেলপ করেছেন",
+      developed_by: "ডিজাইন এবং ডেভেলপ করেছেন",
       location: "কক্সবাজার, বাংলাদেশ",
       tagline: "কক্সবাজার ও বাংলাদেশের উপকূলীয় অঞ্চলে প্রিমিয়াম সিভিল ইঞ্জিনিয়ারিং ও স্থাপত্য পরামর্শ সেবা।",
     },

@@ -175,7 +175,7 @@ export default function Footer() {
         <div className="mt-24 pt-10 flex flex-col md:flex-row justify-between items-center gap-8"
           style={{ borderTop: "1px solid var(--highlight-border)" }}>
           <p className="text-[10px] font-black tracking-[0.4em] uppercase" style={{ color: "var(--text-faint)" }}>
-            © {new Date().getFullYear()} Engr. Alam Ashik // Structural Integrity Protocol
+            © {new Date().getFullYear()} Engr. Alam Ashik / Professionals civil engineer
           </p>
           
           <p className="text-[10px] flex items-center gap-3 font-black tracking-[0.3em] uppercase" style={{ color: "var(--text-faint)" }}>
