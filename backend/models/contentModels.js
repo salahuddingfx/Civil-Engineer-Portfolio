@@ -50,8 +50,50 @@ const HomeContent = mongoose.model("HomeContent", new mongoose.Schema(baseConten
 const AboutContent = mongoose.model("AboutContent", new mongoose.Schema(baseContent, modelOptions));
 const Service = mongoose.model("Service", new mongoose.Schema(baseContent, modelOptions));
 const Project = mongoose.model("Project", new mongoose.Schema(baseContent, modelOptions));
-const Testimonial = mongoose.model("Testimonial", new mongoose.Schema(baseContent, modelOptions));
+
+// Expanded Testimonial with Featured status
+const Testimonial = mongoose.model("Testimonial", new mongoose.Schema({
+  ...baseContent,
+  isFeatured: { type: Boolean, default: false }
+}, modelOptions));
+
 const GalleryItem = mongoose.model("GalleryItem", new mongoose.Schema(baseContent, modelOptions));
+
+// New Micro-Management Models
+const Skill = mongoose.model("Skill", new mongoose.Schema({
+  slug: { type: String, required: true, unique: true },
+  title: { type: localizedTextSchema, default: () => ({}) },
+  category: { type: String, default: "technical" }, // technical, software, soft-skills
+  proficiency: { type: Number, default: 80 },
+  icon: { type: String, default: "Code" }, // Lucide icon name
+  order: { type: Number, default: 0 },
+  isPublished: { type: Boolean, default: true },
+}, modelOptions));
+
+const TimelineEntry = mongoose.model("TimelineEntry", new mongoose.Schema({
+  slug: { type: String, required: true, unique: true },
+  year: { type: String, required: true },
+  title: { type: localizedTextSchema, default: () => ({}) },
+  description: { type: localizedTextSchema, default: () => ({}) },
+  category: { type: String, default: "Experience" }, // Education, Experience, Award
+  order: { type: Number, default: 0 },
+  isPublished: { type: Boolean, default: true },
+}, modelOptions));
+
+const TeamMember = mongoose.model("TeamMember", new mongoose.Schema({
+  slug: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  designation: { type: localizedTextSchema, default: () => ({}) },
+  bio: { type: localizedTextSchema, default: () => ({}) },
+  image: { type: imageSchema, default: null },
+  socialLinks: {
+    facebook: { type: String, default: "" },
+    linkedin: { type: String, default: "" },
+    instagram: { type: String, default: "" },
+  },
+  order: { type: Number, default: 0 },
+  isPublished: { type: Boolean, default: true },
+}, modelOptions));
 
 const ContactDetail = mongoose.model(
   "ContactDetail",
@@ -68,6 +110,8 @@ const ContactDetail = mongoose.model(
       socialLinks: {
         facebook: { type: String, default: "" },
         linkedin: { type: String, default: "" },
+        instagram: { type: String, default: "" },
+        twitter: { type: String, default: "" },
         youtube: { type: String, default: "" },
       },
       isPublished: { type: Boolean, default: true },
@@ -112,6 +156,9 @@ module.exports = {
   Project,
   Testimonial,
   GalleryItem,
+  Skill,
+  TimelineEntry,
+  TeamMember,
   ContactDetail,
   ContactSubmission,
   SeoMeta,

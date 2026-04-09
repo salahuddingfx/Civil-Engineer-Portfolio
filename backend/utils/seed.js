@@ -8,7 +8,11 @@ const {
   AboutContent, 
   HomeContent, 
   ContactDetail,
-  SeoMeta 
+  SeoMeta,
+  Skill,
+  TimelineEntry,
+  TeamMember,
+  GalleryItem
 } = require("../models/contentModels");
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
@@ -112,9 +116,44 @@ const testimonials = [
     slug: "sarah-chen",
     title: { en: "Sarah Chen", bn: "সারাহ চেন" },
     summary: { en: "Director of Engineering @ NexaCore", bn: "ইঞ্জিনিয়ারিং ডিরেক্টর @ নেক্সাকোর" },
-    body: { en: "The integration of structural integrity with modern architectural design was seamless.", bn: "আধুনিক স্থাপত্য নকশার সাথে কাঠামোগত অখণ্ডতার সংহতকরণটি ছিল নিরবচ্ছিন্ন।" },
+    body: { en: "Working with Ashik was a game-changer for our structural projects. His attention to detail in seismic analysis is unparalleled.", bn: "আশিকের সাথে কাজ করা আমাদের কাঠামোগত প্রকল্পের জন্য একটি গেম-চেঞ্জার ছিল। সিসমিক বিশ্লেষণে তার বিশদ মনোযোগ অতুলনীয়।" },
+    isFeatured: true,
     rating: 5,
-    featuredImage: { url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" }
+    featuredImage: { url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" },
+    order: 1
+  },
+  {
+    slug: "david-rodriguez",
+    title: { en: "David Rodriguez", bn: "ডেভিড রদ্রিগেজ" },
+    summary: { en: "Principal Architect @ Studio-V", bn: "প্রিন্সিপাল আর্কিটেক্ট @ স্টুডিও-ভি" },
+    body: { en: "The level of precision in the 3D BIM models provided by Alam's team saved us weeks of onsite coordination.", bn: "আলমের টিমের দেওয়া থ্রিডি বিআইএম মডেলের নির্ভুলতা আমাদের অনসাইট সমন্বয়ের সপ্তাহ বাঁচিয়েছে।" },
+    isFeatured: true,
+    rating: 5,
+    featuredImage: { url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" },
+    order: 2
+  }
+];
+
+const skills = [
+  { slug: "structural-analysis", title: { en: "Structural Analysis", bn: "কাঠামোগত বিশ্লেষণ" }, category: "technical", proficiency: 95, icon: "Layers", order: 1 },
+  { slug: "bim-modeling", title: { en: "BIM & 3D Modeling", bn: "বিআইএম এবং ৩ডি মডেলিং" }, category: "software", proficiency: 90, icon: "Box", order: 2 },
+  { slug: "seismic-design", title: { en: "Seismic Design", bn: "সিসমিক ডিজাইন" }, category: "technical", proficiency: 88, icon: "Activity", order: 3 },
+  { slug: "project-management", title: { en: "Project Management", bn: "প্রকল্প ব্যবস্থাপনা" }, category: "soft-skills", proficiency: 85, icon: "Users", order: 4 },
+];
+
+const timeline = [
+  { slug: "founded-studio", year: "2020", title: { en: "Studio Foundation", bn: "স্টুডিও প্রতিষ্ঠা" }, description: { en: "Established primary architectural consultancy node.", bn: "প্রাথমিক স্থাপত্য পরামর্শ কেন্দ্র প্রতিষ্ঠিত।" }, category: "Experience", order: 1 },
+  { slug: "leed-certification", year: "2022", title: { en: "LEED Certification", bn: "লিড শংসাপত্র" }, description: { en: "Certified global sustainable design expert.", bn: "প্রত্যয়িত বৈশ্বিক টেকসই নকশা বিশেষজ্ঞ।" }, category: "Award", order: 2 },
+];
+
+const team = [
+  { 
+    slug: "alam-ashik", 
+    name: "Engr. Alam Ashik", 
+    designation: { en: "Principal Engineer", bn: "প্রধান প্রকৌশলী" }, 
+    bio: { en: "Leading structural and architectural innovations.", bn: "কাঠামোগত এবং স্থাপত্য উদ্ভাবনের নেতৃত্ব দিচ্ছেন।" },
+    order: 1,
+    isPublished: true
   }
 ];
 
@@ -134,13 +173,15 @@ const aboutContent = {
 
 const contactDetails = {
   slug: "primary",
-  phone: "+880 18XXXXXXX",
+  phone: "+880 1813135400",
   email: "alam.ashik@gmail.com",
-  whatsapp: "+88018XXXXXXX",
+  whatsapp: "+8801813135400",
   address: { en: "Cox's Bazar, Bangladesh", bn: "কক্সবাজার, বাংলাদেশ" },
   socialLinks: {
     facebook: "https://facebook.com",
     linkedin: "https://linkedin.com",
+    instagram: "https://instagram.com",
+    twitter: "https://twitter.com",
     youtube: "https://youtube.com"
   }
 };
@@ -160,7 +201,11 @@ async function seed() {
       AboutContent.deleteMany({}),
       HomeContent.deleteMany({}),
       ContactDetail.deleteMany({}),
-      SeoMeta.deleteMany({})
+      SeoMeta.deleteMany({}),
+      Skill.deleteMany({}),
+      TimelineEntry.deleteMany({}),
+      TeamMember.deleteMany({}),
+      GalleryItem.deleteMany({})
     ]);
 
     // Insert new data
@@ -169,12 +214,15 @@ async function seed() {
       Project.insertMany(projects),
       Service.insertMany(services),
       Testimonial.insertMany(testimonials),
+      Skill.insertMany(skills),
+      TimelineEntry.insertMany(timeline),
+      TeamMember.insertMany(team),
       AboutContent.create(aboutContent),
       HomeContent.create(homeContent),
       ContactDetail.create(contactDetails)
     ]);
 
-    console.log("COMPLETED: 12 Structural Assets Synchronized.");
+    console.log("COMPLETED: Database Infrastructure Synchronized.");
     process.exit(0);
   } catch (err) {
     console.error("MIGRATION_FAILED:", err);

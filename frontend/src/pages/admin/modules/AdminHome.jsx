@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Home, Layout, Type, AlignLeft } from "lucide-react";
+import { Home, Type, AlignLeft, Image as ImageIcon, Sparkles } from "lucide-react";
 import { adminList, adminUpdate, adminCreate } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 import ImageUpload from "../../../components/admin/ImageUpload";
@@ -37,7 +37,7 @@ export default function AdminHome() {
           });
         }
       } catch (err) {
-        setStatus({ type: "error", message: "LOAD_FAILED: Check Connection" });
+        setStatus({ type: "error", message: "LOAD_FAILED: Check Infrastructure" });
       } finally {
         setLoading(false);
       }
@@ -54,6 +54,7 @@ export default function AdminHome() {
       summary: { en: form.summaryEn, bn: form.summaryBn },
       body: { en: form.bodyEn, bn: form.bodyBn },
       featuredImage: form.featuredImageUrl ? { url: form.featuredImageUrl } : null,
+      isPublished: true,
     };
 
     try {
@@ -63,84 +64,102 @@ export default function AdminHome() {
         const res = await adminCreate("home", payload);
         setRecordId(res._id);
       }
-      setStatus({ type: "success", message: "SUCCESS: HOME ARCHITECTURE UPDATED" });
+      setStatus({ type: "success", message: "HOME_VISION_SYNCHRONIZED_SUCCESSFULLY" });
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED: Server Error" });
+      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
     } finally {
       setSaving(false);
     }
   };
 
+  const inputClasses = "w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl px-8 py-6 text-white outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner";
+  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
+
   return (
     <AdminModuleWrapper
-      title="Landing Architecture"
-      subtitle="Configure global hero typography and initial brand standards."
+      title="Landing Vision"
+      subtitle="Configure global hero typography and architectural brand standards."
       icon={Home}
       loading={loading}
       saving={saving}
       status={status}
       onSave={handleSave}
     >
-      <div className="space-y-12">
-        {/* Title Section */}
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="space-y-4">
-            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">
-              <Type size={12} className="text-cyan-400" /> Hero Title (EN)
-            </label>
-            <input 
-              value={form.titleEn} 
-              onChange={e => setForm({...form, titleEn: e.target.value})}
-              className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-bold text-lg italic shadow-inner" 
-              placeholder="I Build Structural Foundations"
-            />
-          </div>
-          <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">Hero Title (BN)</label>
-            <input 
-              value={form.titleBn} 
-              onChange={e => setForm({...form, titleBn: e.target.value})}
-              className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-bold text-lg italic" 
-              placeholder="আমি কাঠামোগত ভিত্তি তৈরি করি"
-            />
-          </div>
-        </div>
+      <div className="space-y-16">
+        {/* Title Infrastructure */}
+        <section>
+           <div className="flex items-center gap-4 mb-10">
+              <Sparkles size={16} className="text-cyan-400" />
+              <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-cyan-400/60">Hero_Typography_System</h3>
+           </div>
+           
+           <div className="grid md:grid-cols-2 gap-10">
+             <div className="space-y-2">
+               <label className={labelClasses}>
+                 <Type size={12} className="text-blue-400" /> Identity Header (EN)
+               </label>
+               <input 
+                 value={form.titleEn} 
+                 onChange={e => setForm({...form, titleEn: e.target.value})}
+                 className={inputClasses} 
+                 placeholder="I Build Structural Foundations"
+               />
+             </div>
+             <div className="space-y-2">
+               <label className={labelClasses}>Identity Header (BN)</label>
+               <input 
+                 value={form.titleBn} 
+                 onChange={e => setForm({...form, titleBn: e.target.value})}
+                 className={inputClasses} 
+                 placeholder="আমি কাঠামোগত ভিত্তি তৈরি করি"
+               />
+             </div>
+           </div>
+        </section>
 
-        {/* Subtitle Section */}
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="space-y-4">
-            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">
-              <AlignLeft size={12} className="text-cyan-400" /> Professional Subtitle (EN)
-            </label>
-            <textarea 
-              rows={3}
-              value={form.summaryEn} 
-              onChange={e => setForm({...form, summaryEn: e.target.value})}
-              className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-medium italic" 
-            />
+        {/* Subtitle Nodes */}
+        <section>
+          <div className="grid md:grid-cols-2 gap-10">
+            <div className="space-y-2">
+              <label className={labelClasses}>
+                <AlignLeft size={12} className="text-indigo-400" /> Strategic Subtitle (EN)
+              </label>
+              <textarea 
+                rows={4}
+                value={form.summaryEn} 
+                onChange={e => setForm({...form, summaryEn: e.target.value})}
+                className={`${inputClasses} resize-none`} 
+                placeholder="Professional Civil Engineer & Architectural Designer..."
+              />
+            </div>
+            <div className="space-y-2">
+              <label className={labelClasses}>Strategic Subtitle (BN)</label>
+              <textarea 
+                rows={4}
+                value={form.summaryBn} 
+                onChange={e => setForm({...form, summaryBn: e.target.value})}
+                className={`${inputClasses} resize-none`} 
+                placeholder="পেশাদার সিভিল ইঞ্জিনিয়ার..."
+              />
+            </div>
           </div>
-          <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">Professional Subtitle (BN)</label>
-            <textarea 
-              rows={3}
-              value={form.summaryBn} 
-              onChange={e => setForm({...form, summaryBn: e.target.value})}
-              className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-medium italic" 
-            />
-          </div>
-        </div>
+        </section>
 
-        {/* Media Block */}
-        <div className="pt-8">
-           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400/60 mb-6 italic ml-2">Architectural Visual Environment</p>
-           <div className="bg-white/2 border border-white/5 rounded-[32px] p-8 md:p-12">
+        {/* Visual Assets */}
+        <section className="pt-8">
+           <div className="bg-white/[0.02] border border-white/[0.05] rounded-[48px] p-12 relative overflow-hidden">
+              <div className="absolute top-0 right-10 h-1 w-20 bg-cyan-400/40" />
+              <div className="flex items-center gap-4 mb-10">
+                 <ImageIcon size={16} className="text-cyan-400" />
+                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">High_Fidelity_Renders</h3>
+              </div>
               <ImageUpload 
                 value={form.featuredImageUrl}
                 onChange={val => setForm({...form, featuredImageUrl: val})}
-                label="Primary Hero Renders"
+                label="Primary Hero Visualization"
               />
            </div>
-        </div>
+        </section>
       </div>
     </AdminModuleWrapper>
   );
