@@ -1,8 +1,8 @@
 import { useState, useRef } from "react";
-import { Upload, X, ImageIcon, CheckCircle2, AlertCircle } from "lucide-react";
+import { Upload, X, ImageIcon, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { api } from "../../lib/api";
 
-export default function ImageUpload({ value, onChange, label = "Upload Image" }) {
+export default function ImageUpload({ value, onChange, label = "Structural Media" }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
@@ -11,15 +11,13 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" })
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith("image/")) {
-      setError("INVALID_FILE_TYPE: MUST_BE_IMAGE");
+      setError("INVALID_FORMAT: MUST_BE_IMAGE");
       return;
     }
 
-    // Validate file size (4MB limit)
-    if (file.size > 4 * 1024 * 1024) {
-      setError("FILE_TOO_LARGE: MAX_4MB");
+    if (file.size > 5 * 1024 * 1024) {
+      setError("FILE_LIMIT_EXCEEDED: MAX_5MB");
       return;
     }
 
@@ -27,7 +25,6 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" })
     setError("");
 
     try {
-      // Convert file to Base64 (Data URI) as expected by the backend controller
       const reader = new FileReader();
       const dataUri = await new Promise((resolve, reject) => {
         reader.onload = () => resolve(reader.result);
@@ -45,66 +42,78 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" })
       }
     } catch (err) {
       console.error("Upload failed", err);
-      // More descriptive error based on response
-      const errMsg = err.response?.data?.message || "UPLOAD_FAILED: CONNECTION_ERROR";
+      const errMsg = err.response?.data?.message || "TRANSMISSION_FAILED";
       setError(errMsg.toUpperCase());
     } finally {
       setUploading(false);
     }
   };
 
-  const removeImage = () => {
-    onChange("");
+  const removeImage = (e) => {
+    e.stopPropagation();
+    onChange(" "); // Triggering re-validation or just clearing
+    setTimeout(() => onChange(""), 10);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em] ml-1 italic">{label}</label>
-        {value && (
+      <div className="flex items-center justify-between px-1">
+        <label className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em] italic">{label}</label>
+        {value && !uploading && (
           <button 
             type="button" 
             onClick={removeImage}
-            className="text-[9px] font-bold text-rose-500 uppercase tracking-widest hover:text-rose-400 transition-colors flex items-center gap-2"
+            className="text-[9px] font-black text-red-500/60 uppercase tracking-widest hover:text-red-500 transition-colors flex items-center gap-1.5"
           >
-            <X size={12} /> Clear Asset
+            <X size={12} /> Discard Asset
           </button>
         )}
       </div>
 
       <div 
         onClick={() => !uploading && fileInputRef.current?.click()}
-        className={`relative group cursor-pointer overflow-hidden rounded-[24px] md:rounded-[32px] border-2 border-dashed transition-all duration-500 min-h-[220px] flex flex-col items-center justify-center p-8 ${
+        className={`relative group cursor-pointer overflow-hidden rounded-2xl border transition-all duration-500 min-h-[160px] flex flex-col items-center justify-center ${
           value 
-            ? "border-cyan-500/20 bg-cyan-500/5 hover:border-cyan-500/40" 
-            : "border-white/5 bg-white/1 hover:border-cyan-400/20 hover:bg-white/2"
+            ? "border-white/[0.08] bg-white/[0.01]" 
+            : "border-white/[0.05] border-dashed bg-white/[0.01] hover:border-[#19D2FF]/30 hover:bg-[#19D2FF]/[0.02]"
         }`}
       >
-        {value ? (
-          <div className="relative w-full h-full flex flex-col items-center gap-6">
-            <img src={value} alt="Uploaded preview" className="max-h-[160px] rounded-[16px] shadow-2xl object-cover border border-white/10" />
-            <div className="flex items-center gap-3 text-cyan-400 font-mono text-[9px] uppercase tracking-widest bg-black/60 px-4 py-2 rounded-full border border-white/5">
-              <CheckCircle2 size={12} /> Asset_Linked_Successfully
+        {uploading ? (
+          <div className="flex flex-col items-center gap-4">
+            <Loader2 size={24} className="text-[#19D2FF] animate-spin" />
+            <p className="text-[9px] font-black text-[#19D2FF] uppercase tracking-widest animate-pulse">Syncing_to_Archive...</p>
+          </div>
+        ) : value ? (
+          <div className="relative w-full h-full flex items-center justify-center p-4">
+            <div className="relative group/preview max-w-sm w-full">
+              <img 
+                src={value} 
+                alt="Asset preview" 
+                className="w-full h-32 object-cover rounded-xl border border-white/[0.08] shadow-lg group-hover:scale-[1.02] transition-transform duration-500" 
+              />
+              <div className="absolute inset-x-0 -bottom-3 flex justify-center">
+                 <div className="flex items-center gap-2 text-[#19D2FF] font-black text-[8px] uppercase tracking-widest bg-[#0D1220] px-3 py-1.5 rounded-lg border border-white/[0.05] shadow-xl">
+                    <CheckCircle2 size={10} /> Structural_Asset_Confirmed
+                 </div>
+              </div>
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-6 text-center">
-            <div className={`h-16 w-16 rounded-[20px] border border-white/5 bg-white/2 flex items-center justify-center text-slate-500 transition-all duration-700 group-hover:bg-cyan-400 group-hover:text-black group-hover:scale-110 shadow-lg ${uploading ? 'animate-pulse' : ''}`}>
-              {uploading ? <Upload className="animate-bounce" size={24} /> : <ImageIcon size={24} />}
+          <div className="flex flex-col items-center gap-4 text-center p-8">
+            <div className="p-4 rounded-full bg-white/[0.03] border border-white/[0.05] text-slate-600 group-hover:text-[#19D2FF] group-hover:border-[#19D2FF]/20 group-hover:scale-110 transition-all duration-500">
+              <Upload size={20} />
             </div>
-            <div className="space-y-2">
-              <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">
-                {uploading ? "Uploading_To_Cloud..." : "Click_To_Deploy_Media"}
-              </p>
-              <p className="text-[9px] text-[#444] uppercase tracking-widest font-bold">PNG, JPG, WEBP (MAX 4MB)</p>
+            <div className="space-y-1">
+              <p className="text-[10px] font-black text-white uppercase tracking-[0.1em] italic">Deploy_Media_Unit</p>
+              <p className="text-[8px] text-slate-700 uppercase tracking-widest font-black">Archive Requirements: IMG_LIMIT_5MB</p>
             </div>
           </div>
         )}
 
         {error && (
-          <div className="mt-4 flex items-center gap-2 text-rose-500 font-mono text-[9px] uppercase tracking-widest">
-            <AlertCircle size={12} /> {error}
+          <div className="absolute bottom-4 flex items-center gap-2 text-red-500 bg-[#0D1220] px-4 py-2 rounded-lg border border-red-500/20 text-[8px] font-black uppercase tracking-widest animate-in slide-in-from-bottom-2">
+            <AlertCircle size={10} /> {error}
           </div>
         )}
 

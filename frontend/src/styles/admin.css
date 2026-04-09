@@ -1,0 +1,63 @@
+/* Admin Panel Design System - Minimal Premium Engineering Identity */
+:root {
+  --admin-bg: #070B14;
+  --admin-card: #0B1220;
+  --admin-border: rgba(25, 210, 255, 0.12);
+  --admin-accent: #19D2FF;
+  --admin-text-primary: #FFFFFF;
+  --admin-text-secondary: #94A3B8;
+  --admin-success: #10B981;
+  --admin-danger: #EF4444;
+}
+
+.admin-blueprint-grid {
+  background-image: 
+    linear-gradient(var(--admin-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--admin-border) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.admin-card {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-card:hover {
+  border-color: rgba(25, 210, 255, 0.25);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.5);
+}
+
+.admin-input {
+  background: #0D1627;
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-primary);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s;
+}
+
+.admin-input:focus {
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 2px rgba(25, 210, 255, 0.1);
+  outline: none;
+}
+
+/* Custom scrollbar for admin panel */
+.admin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.1);
+}

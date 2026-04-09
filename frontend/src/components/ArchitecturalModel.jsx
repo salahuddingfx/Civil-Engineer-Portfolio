@@ -19,51 +19,55 @@ import { useTheme } from "../context/ThemeContext";
 const useEngineeringMaterials = (isDark, isMobile) => {
   return useMemo(() => {
     const GlassMaterial = isMobile ? THREE.MeshStandardMaterial : THREE.MeshPhysicalMaterial;
-    const glassProps = {
-      color: isDark ? "#0ea5e9" : "#ffffff",
-      metalness: 0.1,
-      roughness: 0.05,
-      opacity: 0.4,
-      transparent: true,
-      envMapIntensity: 2,
-    };
-
-    if (!isMobile) {
-      Object.assign(glassProps, {
-        transmission: 0.9,
-        thickness: 1.5,
-        ior: 1.5,
-      });
-    }
     
     return {
-      glass: new GlassMaterial(glassProps),
-      concrete: new THREE.MeshPhysicalMaterial({
-        color: isDark ? "#334155" : "#e2e8f0",
-        roughness: 0.85,
-        metalness: 0.1,
-        flatShading: true,
+      glass: new GlassMaterial({
+        color: isDark ? "#0ea5e9" : "#ffffff",
+        metalness: 0.2,
+        roughness: 0.1,
+        opacity: 0.3,
+        transparent: true,
+        envMapIntensity: isDark ? 1.5 : 1,
+        ...(isMobile ? {} : { transmission: 0.8, thickness: 1, ior: 1.45 })
       }),
-      steel: new THREE.MeshStandardMaterial({
-        color: isDark ? "#94a3b8" : "#475569",
-        roughness: 0.3,
-        metalness: 0.8,
+      concrete: new THREE.MeshPhysicalMaterial({
+        color: isDark ? "#1e293b" : "#f1f5f9",
+        roughness: 0.7,
+        metalness: 0.1,
+        flatShading: false,
+        envMapIntensity: 0.8,
+      }),
+      structuralSteel: new THREE.MeshStandardMaterial({
+        color: isDark ? "#4b5563" : "#94a3b8",
+        roughness: 0.2,
+        metalness: 0.9,
+        envMapIntensity: 2,
       }),
       craneYellow: new THREE.MeshStandardMaterial({
         color: "#fbbf24",
-        roughness: 0.4,
-        metalness: 0.6,
+        roughness: 0.3,
+        metalness: 0.7,
+        emissive: "#fbbf24",
+        emissiveIntensity: isDark ? 0.05 : 0,
       }),
       safetyNet: new THREE.MeshStandardMaterial({
         color: "#f97316",
         transparent: true,
-        opacity: 0.5,
+        opacity: 0.3,
         side: THREE.DoubleSide,
         wireframe: true,
       }),
       rebar: new THREE.MeshStandardMaterial({
-        color: "#475569",
-        roughness: 0.9,
+        color: "#334155",
+        roughness: 0.8,
+        metalness: 0.5,
+      }),
+      blueprintLine: new THREE.MeshStandardMaterial({
+        color: "#19D2FF",
+        emissive: "#19D2FF",
+        emissiveIntensity: 1,
+        transparent: true,
+        opacity: 0.6
       })
     };
   }, [isDark, isMobile]);
@@ -77,66 +81,53 @@ function TowerCrane({ height, materials }) {
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (jibRef.current) {
-      jibRef.current.rotation.y = Math.sin(t * 0.2) * 0.5;
+      jibRef.current.rotation.y = Math.sin(t * 0.1) * 0.4;
     }
     if (hookRef.current) {
-      hookRef.current.position.x = 2 + Math.sin(t * 0.4) * 1.5;
+      hookRef.current.position.x = 2 + Math.sin(t * 0.3) * 1;
     }
   });
 
-  const mastSegments = Math.floor(height);
+  const mastSegments = Math.round(height);
 
   return (
     <group position={[3.5, 0, 3.5]}>
-      {/* Mast (Tower) */}
+      {/* Structural Mast */}
       <mesh position={[0, height / 2, 0]}>
         <boxGeometry args={[0.3, height, 0.3]} />
-        <primitive object={materials.craneYellow} attach="material" />
+        <primitive object={materials.structuralSteel} attach="material" />
       </mesh>
       
-      {/* Lattice details for mast - Optimized with Instances */}
-      <group position={[0, 0, 0]}>
+      {/* Lattice Lattice details */}
+      <group>
         {Array.from({ length: mastSegments }).map((_, i) => (
-          <group key={i} position={[0, i + 0.5, 0]}>
-            <mesh rotation={[0, 0, Math.PI / 4]}>
-              <boxGeometry args={[0.4, 0.02, 0.02]} />
-              <primitive object={materials.craneYellow} attach="material" />
-            </mesh>
-            <mesh rotation={[0, 0, -Math.PI / 4]}>
-              <boxGeometry args={[0.4, 0.02, 0.02]} />
-              <primitive object={materials.craneYellow} attach="material" />
-            </mesh>
+          <group key={i} position={[0, i, 0]}>
+             <mesh rotation={[0, 0, Math.PI / 4]}>
+                <boxGeometry args={[0.45, 0.03, 0.03]} />
+                <primitive object={materials.craneYellow} attach="material" />
+             </mesh>
+             <mesh rotation={[0, 0, -Math.PI / 4]}>
+                <boxGeometry args={[0.45, 0.03, 0.03]} />
+                <primitive object={materials.craneYellow} attach="material" />
+             </mesh>
           </group>
         ))}
       </group>
 
-      {/* Jib (Rotating Arm) */}
+      {/* Jib */}
       <group ref={jibRef} position={[0, height, 0]}>
-        {/* Counterweight */}
-        <mesh position={[-1.5, 0, 0]}>
-          <boxGeometry args={[1, 0.4, 0.4]} />
-          <primitive object={materials.concrete} attach="material" />
-        </mesh>
-        {/* Main Jib */}
-        <mesh position={[2.5, 0.2, 0]}>
-          <boxGeometry args={[5, 0.2, 0.2]} />
+        <mesh position={[2, 0.1, 0]}>
+          <boxGeometry args={[5, 0.15, 0.15]} />
           <primitive object={materials.craneYellow} attach="material" />
         </mesh>
-        {/* Trolley and Hook */}
         <group ref={hookRef} position={[2, -0.2, 0]}>
-          <mesh>
-            <boxGeometry args={[0.4, 0.2, 0.4]} />
-            <primitive object={materials.steel} attach="material" />
-          </mesh>
-          {/* Cable */}
-          <mesh position={[0, -1, 0]}>
-            <cylinderGeometry args={[0.01, 0.01, 2]} />
-            <primitive object={materials.steel} attach="material" />
-          </mesh>
-          {/* Hooked Item (I-Beam) */}
-          <group position={[0, -2, 0]} rotation={[0, Math.PI / 4, 0]}>
-            <IBeam length={2} materials={materials} />
-          </group>
+           <mesh position={[0, -1, 0]}>
+             <cylinderGeometry args={[0.005, 0.005, 2]} />
+             <primitive object={materials.structuralSteel} attach="material" />
+           </mesh>
+           <group position={[0, -2, 0]} rotation={[0, Math.PI / 4, 0]}>
+             <IBeam length={1.5} materials={materials} />
+           </group>
         </group>
       </group>
     </group>
@@ -145,19 +136,10 @@ function TowerCrane({ height, materials }) {
 
 function IBeam({ length, materials }) {
   return (
-    <group scale={[0.1, 0.1, 1]}>
-      <mesh position={[0, 0, 0]}>
-        <boxGeometry args={[1, 0.1, length * 10]} />
-        <primitive object={materials.steel} attach="material" />
-      </mesh>
-      <mesh position={[0, 0.5, 0]}>
-        <boxGeometry args={[0.1, 1, length * 10]} />
-        <primitive object={materials.steel} attach="material" />
-      </mesh>
-      <mesh position={[0, 1, 0]}>
-        <boxGeometry args={[1, 0.1, length * 10]} />
-        <primitive object={materials.steel} attach="material" />
-      </mesh>
+    <group scale={[0.08, 0.08, 1]}>
+      <mesh><boxGeometry args={[1, 0.1, length * 10]} /><primitive object={materials.structuralSteel} attach="material" /></mesh>
+      <mesh position={[0, 0.5, 0]}><boxGeometry args={[0.1, 1, length * 10]} /><primitive object={materials.structuralSteel} attach="material" /></mesh>
+      <mesh position={[0, 1, 0]}><boxGeometry args={[1, 0.1, length * 10]} /><primitive object={materials.structuralSteel} attach="material" /></mesh>
     </group>
   );
 }
@@ -165,20 +147,21 @@ function IBeam({ length, materials }) {
 // ── Component: Optimized Structural Elements ───────────────────────────────────
 function StructuralSkeleton({ floors, materials, isMobile }) {
   const floorHeight = 1.2;
-  const pillarGeometry = useMemo(() => new THREE.BoxGeometry(0.3, floorHeight, 0.3), [floorHeight]);
-  const slabGeometry = useMemo(() => new THREE.BoxGeometry(4, 0.1, 4), []);
-  const rebarGeometry = useMemo(() => new THREE.CylinderGeometry(0.01, 0.01, 0.4), []);
+  const pillarGeometry = useMemo(() => new THREE.CylinderGeometry(0.18, 0.22, floorHeight, 8), [floorHeight]);
+  const slabGeometry = useMemo(() => new THREE.BoxGeometry(4, 0.08, 4), []);
+  const beamGeometry = useMemo(() => new THREE.BoxGeometry(4, 0.1, 0.1), []);
+  const rebarGeometry = useMemo(() => new THREE.CylinderGeometry(0.008, 0.008, 0.5), []);
 
   return (
     <group>
-      {/* Optimized Slabs */}
+      {/* Slabs */}
       <Instances range={floors} geometry={slabGeometry} material={materials.concrete}>
         {Array.from({ length: floors }).map((_, i) => (
           <Instance key={`slab-${i}`} position={[0, i * floorHeight, 0]} />
         ))}
       </Instances>
 
-      {/* Optimized Pillars */}
+      {/* Structural Columns */}
       <Instances range={floors * 4} geometry={pillarGeometry} material={materials.concrete}>
         {Array.from({ length: floors }).map((_, i) => (
           [[ -1.8, -1.8 ], [ 1.8, -1.8 ], [ 1.8, 1.8 ], [ -1.8, 1.8 ]].map(([x, z], idx) => (
@@ -187,48 +170,50 @@ function StructuralSkeleton({ floors, materials, isMobile }) {
         ))}
       </Instances>
 
-      {/* Dynamic Non-Instanced Elements (Glass, Netting, etc.) */}
+      {/* Structural Beams (Depth Improvement) */}
+      {!isMobile && (
+        <Instances range={floors * 8} geometry={beamGeometry} material={materials.structuralSteel}>
+          {Array.from({ length: floors }).map((_, i) => (
+            [
+              { pos: [0, i * floorHeight + floorHeight - 0.05, 1.8], rot: [0, 0, 0] },
+              { pos: [0, i * floorHeight + floorHeight - 0.05, -1.8], rot: [0, 0, 0] },
+              { pos: [1.8, i * floorHeight + floorHeight - 0.05, 0], rot: [0, Math.PI / 2, 0] },
+              { pos: [-1.8, i * floorHeight + floorHeight - 0.05, 0], rot: [0, Math.PI / 2, 0] }
+            ].map((beam, bIdx) => (
+              <Instance key={`beam-${i}-${bIdx}`} position={beam.pos} rotation={beam.rot} />
+            ))
+          ))}
+        </Instances>
+      )}
+
+      {/* Floor Details */}
       {Array.from({ length: floors }).map((_, i) => {
         const isTop = i === floors - 1;
-        const isMid = !isMobile && i > floors / 2 && i < floors - 1;
         const isFinished = i <= floors / 2;
+        const isScaffold = !isMobile && i % 4 === 0;
         
         return (
           <group key={i} position={[0, i * floorHeight, 0]}>
-            {/* Rebar on top floors */}
             {isTop && (
               <Instances range={16} geometry={rebarGeometry} material={materials.rebar}>
                 {[[-1.8, -1.8], [1.8, -1.8], [1.8, 1.8], [-1.8, 1.8]].map(([px, pz], pidx) => (
-                   [[-0.08, -0.08], [0.08, -0.08], [0.08, 0.08], [-0.08, 0.08]].map(([rx, rz], ridx) => (
+                   [[-0.06, -0.06], [0.06, -0.06], [0.06, 0.06], [-0.06, 0.06]].map(([rx, rz], ridx) => (
                      <Instance key={`rebar-${pidx}-${ridx}`} position={[px + rx, floorHeight + 0.2, pz + rz]} />
                    ))
                 ))}
               </Instances>
             )}
 
-            {/* Finished Glass Sections */}
             {isFinished && (
               <mesh position={[0, floorHeight / 2, 0]}>
-                <boxGeometry args={[3.9, floorHeight, 3.9]} />
+                <boxGeometry args={[3.85, floorHeight - 0.1, 3.85]} />
                 <primitive object={materials.glass} attach="material" />
               </mesh>
             )}
 
-            {/* Safety Netting for Mid Sections */}
-            {isMid && (
-              <mesh position={[0, floorHeight / 2, 0]}>
-                <boxGeometry args={[4.1, floorHeight, 4.1]} />
-                <primitive object={materials.safetyNet} attach="material" />
-              </mesh>
-            )}
-
-            {/* Scaffolding on some floors */}
-            {i % 3 === 0 && !isMobile && (
-              <group position={[2.2, floorHeight / 2, 0]}>
-                <mesh>
-                  <boxGeometry args={[0.4, floorHeight, 2]} />
-                  <meshStandardMaterial wireframe color="#64748b" />
-                </mesh>
+            {isScaffold && (
+              <group position={[2.3, floorHeight / 2, 0]}>
+                <mesh><boxGeometry args={[0.3, floorHeight, 1.5]} /><meshStandardMaterial wireframe color="#475569" /></mesh>
               </group>
             )}
           </group>
@@ -267,86 +252,108 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
     <div ref={containerRef} className="w-full h-full relative cursor-grab active:cursor-grabbing overflow-hidden">
       <Canvas
         shadows
-        dpr={isMobile ? [1, 1] : [1, 2]}
+        dpr={isMobile ? [1, 1.5] : [1, 2]}
         gl={{ 
            antialias: true, 
-           alpha: true, 
+           alpha: false, 
            stencil: false, 
            depth: true,
-           powerPreference: "high-performance"
+           powerPreference: "high-performance",
+           toneMapping: THREE.ACESFilmicToneMapping
         }}
         onCreated={({ gl }) => {
-          gl.shadowMap.type = THREE.PCFShadowMap;
+          gl.shadowMap.type = THREE.VSMShadowMap;
         }}
       >
         <PerspectiveCamera 
           makeDefault 
-          position={isMobile ? [18, 14, 22] : [12, 10, 15]} 
-          fov={isMobile ? 28 : 38} 
+          position={isMobile ? [18, 14, 22] : [12, 12, 18]} 
+          fov={isMobile ? 32 : 35} 
         />
         <color attach="background" args={[isDark ? "#020617" : "#f8fafc"]} />
         
-        {!isMobile && <Stars radius={100} depth={50} count={1000} factor={4} saturation={0} fade speed={1} />}
+        {!isMobile && isDark && <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={0.5} />}
 
-        <ambientLight intensity={isDark ? 0.4 : 0.8} />
-        <spotLight position={[20, 30, 20]} angle={0.2} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[-15, 10, -15]} intensity={1.5} color={isDark ? "#38bdf8" : "#94a3b8"} />
-        <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
+        {/* Global Illumination */}
+        <ambientLight intensity={isDark ? 0.6 : 0.9} />
+        
+        {/* Main Key Light */}
+        <spotLight 
+          position={[15, 25, 15]} 
+          angle={0.3} 
+          penumbra={0.5} 
+          intensity={isDark ? 3 : 1.5} 
+          castShadow 
+          shadow-bias={-0.00005} 
+          shadow-mapSize={[1024, 1024]} 
+        />
+        
+        {/* Fill Lights */}
+        <pointLight position={[-10, 5, -10]} intensity={isDark ? 0.8 : 0.4} color={isDark ? "#38bdf8" : "#94a3b8"} />
+        
+        {/* Blueprint Glow (Cyan Core) */}
+        <pointLight position={[0, -2, 0]} intensity={isDark ? 2.5 : 0} color="#19D2FF" distance={15} />
 
         <Suspense fallback={null}>
-          <Float speed={1.2} rotationIntensity={0.05} floatIntensity={0.1}>
-            <group position={[0, -2.5, 0]} rotation={[0, scrollProgress * Math.PI, 0]} scale={isMobile ? 0.8 : 1}>
-              <StructuralSkeleton floors={isMobile ? 8 : 12} materials={materials} isMobile={isMobile} />
-              <TowerCrane height={isMobile ? 10 : 15} materials={materials} />
+          <Float speed={1.5} rotationIntensity={0.02} floatIntensity={0.05}>
+            <group position={[0, -2.5, 0]} rotation={[0, scrollProgress * Math.PI * 0.5, 0]} scale={isMobile ? 0.75 : 1}>
+              <StructuralSkeleton floors={isMobile ? 10 : 16} materials={materials} isMobile={isMobile} />
+              <TowerCrane height={isMobile ? 12 : 18} materials={materials} />
             </group>
           </Float>
 
-          {/* Refined Ground / Blueprint */}
-          <group position={[0, -2.55, 0]}>
+          {/* Stable Ground System */}
+          <group position={[0, -2.56, 0]}>
             <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
               <planeGeometry args={[100, 100]} />
               {!isMobile && isDark ? (
                 <MeshReflectorMaterial
-                  blur={[400, 100]}
+                  blur={[300, 100]}
                   resolution={1024}
                   mixBlur={1}
-                  mixStrength={1.5}
+                  mixStrength={2}
                   roughness={1}
-                  depthScale={1.2}
-                  minDepthThreshold={0.4}
-                  maxDepthThreshold={1.4}
+                  depthScale={1}
+                  minDepthThreshold={0.5}
+                  maxDepthThreshold={1.2}
                   color="#020617"
-                  metalness={0.5}
+                  metalness={0.6}
                 />
               ) : (
                 <meshStandardMaterial 
-                  color={isDark ? "#020617" : "#f8fafc"} 
-                  roughness={1}
-                  metalness={0}
+                  color={isDark ? "#020617" : "#f1f5f9"} 
+                  roughness={0.8}
+                  metalness={0.1}
                 />
               )}
             </mesh>
+            
+            {/* Stable Engineering Grid */}
             <Grid 
               infiniteGrid 
               cellSize={1} 
               sectionSize={5} 
               cellColor={isDark ? "#1e293b" : "#cbd5e1"} 
-              sectionColor={isDark ? "#38bdf8" : "#0ea5e9"} 
-              fadeDistance={50} 
+              sectionColor={isDark ? "#19D2FF" : "#0ea5e9"} 
+              fadeDistance={40} 
+              position={[0, 0.05, 0]}
+              fadeStrength={1}
             />
           </group>
 
           <Environment preset={isDark ? "night" : "city"} />
-          {!isMobile && <ContactShadows position={[0, -2.5, 0]} opacity={0.4} scale={30} blur={2.5} />}
+          {!isMobile && <ContactShadows position={[0, -2.5, 0]} opacity={0.6} scale={40} blur={2} far={4.5} />}
         </Suspense>
 
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
           autoRotate 
-          autoRotateSpeed={0.2} 
+          autoRotateSpeed={0.12} 
+          enableDamping
+          dampingFactor={0.05}
           minPolarAngle={Math.PI / 4} 
-          maxPolarAngle={Math.PI / 2.1} 
+          maxPolarAngle={Math.PI / 2.2} 
         />
       </Canvas>
     </div>

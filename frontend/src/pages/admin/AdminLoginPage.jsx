@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../../lib/api";
 import gsap from "gsap";
 import { useLanguage } from "../../context/LanguageContext";
-import { t } from "../../lib/translations";
 import SeoHead from "../../components/SeoHead";
+import { Lock, Mail, Eye, EyeOff, ShieldCheck, ChevronRight, Loader2 } from "lucide-react";
+import "../../styles/admin.css";
 
 export default function AdminLoginPage() {
   const { language } = useLanguage();
@@ -14,23 +15,20 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const formRef = useRef(null);
+  const containerRef = useRef(null);
+  const cardRef = useRef(null);
 
   useEffect(() => {
-    let ctx = gsap.context(() => {
-      gsap.from(formRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 1.2,
-        stagger: 0.1,
-        ease: "power4.out",
-      });
-    }, formRef);
-    return () => ctx.revert();
+    const tl = gsap.timeline();
+    tl.fromTo(cardRef.current, 
+      { opacity: 0, y: 30, scale: 0.98 }, 
+      { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power4.out" }
+    );
   }, []);
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    if (isLoading) return;
     setError("");
     setIsLoading(true);
 
@@ -39,110 +37,139 @@ export default function AdminLoginPage() {
       localStorage.setItem("adminAccessToken", data.accessToken);
       localStorage.setItem("adminRefreshToken", data.refreshToken);
       
-      gsap.to(formRef.current, {
+      gsap.to(cardRef.current, {
         opacity: 0,
-        scale: 0.9,
-        duration: 0.8,
+        y: -10,
+        duration: 0.6,
         ease: "power4.in",
         onComplete: () => navigate("/admin/dashboard", { replace: true }),
       });
     } catch {
-      setError(language === 'en' ? "Authentication failure: Invalid credentials" : "প্রবেশাধিকার ব্যর্থ: ভুল তথ্য");
+      setError(language === 'en' ? "Authentication failed: Invalid credentials" : "প্রবেশাধিকার ব্যর্থ: ভুল তথ্য");
       setIsLoading(false);
-      gsap.fromTo(formRef.current, { x: -10 }, { x: 10, duration: 0.08, repeat: 5, yoyo: true });
+      gsap.fromTo(cardRef.current, { x: -4 }, { x: 4, duration: 0.05, repeat: 5, yoyo: true });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] flex items-center justify-center p-6 relative overflow-hidden">
+    <div ref={containerRef} className="admin-layout min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
       <SeoHead title="System Access | Engr. Alam Ashik" description="Secure entry for authorized personnel." path="/admin" />
       
-      {/* Clean Grid Background */}
-      <div className="absolute inset-0 bg-tech-grid opacity-[0.05] pointer-events-none" />
-      
-      {/* Single Subtle Accent Glow */}
-      <div className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-cyan-500/[0.03] blur-[150px] rounded-full pointer-events-none" />
+      {/* 1. Backdrop Grid */}
+      <div className="admin-blueprint-grid" />
+      <div className="absolute top-0 right-0 h-1/2 w-1/2 bg-[#19D2FF]/[0.02] blur-[150px] rounded-full" />
+      <div className="absolute bottom-0 left-0 h-1/2 w-1/2 bg-blue-600/[0.01] blur-[150px] rounded-full" />
 
-      <div ref={formRef} className="relative z-10 w-full max-w-[460px]">
-         <div className="glass-card rounded-[32px] p-10 md:p-14 border border-white/[0.08] bg-[#080c14]/80 backdrop-blur-xl shadow-2xl">
+      {/* 2. Login Card */}
+      <div ref={cardRef} className="w-full max-w-[420px] relative">
+         <div className="admin-card p-10 md:p-12 relative overflow-hidden">
+            <div className="absolute top-0 right-0 h-1 w-32 bg-gradient-to-l from-[#19D2FF]/20 to-transparent" />
             
-            {/* Minimalist Header */}
-            <div className="text-center mb-12">
-               <h1 className="font-display text-2xl font-black tracking-[0.05em] text-white italic uppercase leading-tight">
-                  Engr. Alam Ashik<br/>
-                  <span className="text-cyan-400 text-lg tracking-[0.3em]">Admin Panel</span>
-               </h1>
-               <div className="mt-4 flex items-center justify-center gap-4">
-                  <div className="h-px w-8 bg-white/10" />
-                  <p className="text-[10px] uppercase tracking-[0.4em] text-slate-500 font-bold">Authorized Access</p>
-                  <div className="h-px w-8 bg-white/10" />
+            {/* Brand Header */}
+            <div className="mb-12 text-center">
+               <div className="flex justify-center mb-6">
+                 <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] text-[#19D2FF] shadow-inner">
+                    <ShieldCheck size={32} strokeWidth={1.5} />
+                 </div>
                </div>
+               <h1 className="text-2xl font-black text-white italic tracking-tighter uppercase leading-none">
+                  Studio<span className="text-[#19D2FF]">_Control</span>
+               </h1>
+               <p className="mt-3 text-[9px] font-black text-slate-600 uppercase tracking-[0.4em] italic">Engineering_Protocol_v6.1</p>
             </div>
 
             <form onSubmit={onSubmit} className="space-y-6">
-               {/* Identity Field */}
-               <div className="space-y-2.5">
-                  <label className="text-[9px] font-black text-slate-500 tracking-[0.2em] uppercase ml-1">Email Identifier</label>
+               {/* Email Input */}
+               <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1 italic">
+                    <Mail size={10} /> 
+                    Identity_ID
+                  </label>
                   <input 
                      type="email"
                      value={email}
                      onChange={(e) => setEmail(e.target.value)}
-                     placeholder="name@agency.com"
-                     className="w-full bg-white/[0.02] border border-white/[0.1] rounded-2xl p-5 text-[13px] text-white outline-none focus:border-cyan-400/40 focus:bg-white/[0.04] transition-all placeholder:text-slate-700"
+                     className="admin-input w-full"
+                     placeholder="admin@agency.com"
                      required
                   />
                </div>
 
-               {/* Security Key Field */}
-               <div className="space-y-2.5">
-                  <div className="flex justify-between items-center px-1">
-                     <label className="text-[9px] font-black text-slate-500 tracking-[0.2em] uppercase">Security Key</label>
-                  </div>
+               {/* Password Input */}
+               <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1 italic">
+                    <Lock size={10} /> 
+                    Security_Key
+                  </label>
                   <div className="relative group">
                      <input 
                         type={showPassword ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="admin-input w-full pr-12"
                         placeholder="••••••••••••"
-                        className="w-full bg-white/[0.02] border border-white/[0.1] rounded-2xl p-5 pr-14 text-[13px] text-white outline-none focus:border-cyan-400/40 focus:bg-white/[0.04] transition-all placeholder:text-slate-700 tracking-[0.2em]"
                         required
                      />
                      <button 
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-600 hover:text-cyan-400 transition-colors"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-[#19D2FF] transition-colors"
                      >
-                        {showPassword ? (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" /></svg>
-                        ) : (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                        )}
+                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                      </button>
                   </div>
                </div>
 
-               {/* Action Button */}
-               <button 
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.3em] rounded-2xl hover:bg-cyan-400 transition-all disabled:opacity-50 flex items-center justify-center gap-3 mt-8 active:scale-[0.98]"
-               >
-                  {isLoading ? "Checking..." : "Sign In"}
-                  {!isLoading && <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>}
-               </button>
-
+               {/* Error Display */}
                {error && (
-                 <div className="pt-4 text-rose-500 text-[10px] font-bold uppercase tracking-widest text-center animate-pulse">
+                 <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-500/5 border border-red-500/10 text-red-500 text-[10px] font-black uppercase tracking-widest animate-pulse">
+                    <AlertCircle size={14} />
                     {error}
                  </div>
                )}
+
+               {/* Login Trigger */}
+               <button 
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full h-14 bg-[#19D2FF] text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50 flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+               >
+                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
+                  {isLoading ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      Authenticating...
+                    </>
+                  ) : (
+                    <>
+                      Execute_Login
+                      <ChevronRight size={16} strokeWidth={3} />
+                    </>
+                  )}
+               </button>
             </form>
 
-            <div className="mt-12 pt-8 border-t border-white/[0.05] text-center">
-               <p className="text-[8px] font-bold text-slate-700 uppercase tracking-[0.5em]">Secure Terminal • v6.1</p>
+            <div className="mt-12 flex justify-center opacity-20">
+               <div className="h-px w-12 bg-white/40" />
+               <div className="px-4 text-[8px] font-black text-white uppercase tracking-[0.5em] italic">Secure_Uplink</div>
+               <div className="h-px w-12 bg-white/40" />
             </div>
          </div>
+         
+         {/* Footer Attribution */}
+         <p className="mt-10 text-center text-[9px] font-black text-slate-700 uppercase tracking-[0.3em] italic">
+            © 2026 Studio Arch_Consultancy
+         </p>
       </div>
     </div>
   );
+}
+
+// Minimal AlertCircle icon since we didn't import it
+function AlertCircle({ size }) {
+   return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+         <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+   )
 }

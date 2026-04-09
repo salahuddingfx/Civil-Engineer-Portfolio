@@ -37,27 +37,35 @@ function printBanner({ dbState, mongoTarget, mongoReachable }) {
 
 async function start() {
   const mongoTarget = inspectMongoTarget(env.mongoUri);
-  let dbState = "connected";
-  let mongoReachable = true;
-
-  try {
-    await connectDb();
-    await ensureAdminSeed();
-  } catch (error) {
-    setDbReady(false);
-    dbState = "degraded (db unavailable)";
-    if (mongoTarget.isLocal) {
-      mongoReachable = await probeTcp(mongoTarget.host, mongoTarget.port);
-    }
-    console.warn("MongoDB connection unavailable. Starting API in degraded mode.");
-    console.warn(error.message);
-    if (mongoTarget.isLocal && !mongoReachable) {
-      console.warn("Tip: Start local MongoDB service or set MONGO_URI to MongoDB Atlas.");
-    }
-  }
+  let dbState = "connecting...";
+  let mongoReachable = null;
 
   const server = app.listen(env.port, () => {
-    printBanner({ dbState, mongoTarget, mongoReachable });
+    console.log(`\nFast Boot: Server listening on port ${env.port} immediately.`);
+    console.log(`Performing background database initialization...`);
+  });
+
+  // Background Database Connection
+  Promise.resolve().then(async () => {
+    try {
+      await connectDb();
+      await ensureAdminSeed();
+      dbState = "connected";
+      console.log("\nDatabase connected successfully.");
+      printBanner({ dbState, mongoTarget, mongoReachable: true });
+    } catch (error) {
+      setDbReady(false);
+      dbState = "degraded (db unavailable)";
+      if (mongoTarget.isLocal) {
+        mongoReachable = await probeTcp(mongoTarget.host, mongoTarget.port);
+      }
+      console.warn("\n[WARNING] MongoDB connection unavailable. API running in degraded mode.");
+      console.warn(error.message);
+      if (mongoTarget.isLocal && !mongoReachable) {
+        console.warn("Tip: Start local MongoDB service or set MONGO_URI to MongoDB Atlas.");
+      }
+      printBanner({ dbState, mongoTarget, mongoReachable });
+    }
   });
 
   // Graceful Shutdown
