@@ -6,6 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
+import LucideIcon from "../components/LucideIcon";
 
 // Lazy load Three.js to avoid SSR/build issues
 const ArchitecturalModel = lazy(() => import("../components/ArchitecturalModel"));
@@ -137,8 +138,8 @@ export default function HomePage({ isIntroComplete }) {
               year: p.tags?.[0] || "2024",
               location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
               status: "Completed"
-            }))
-          : projects; // Fallback to local data
+            })).slice(0, 6)
+          : projects;
 
         let mappedServices = services;
         if (servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0) {
@@ -151,10 +152,9 @@ export default function HomePage({ isIntroComplete }) {
             icon: s.tags?.[0] || "M12 2L2 7l10 5 10-5-10-5z"
           }));
 
-          // If we have API services, we use them, but ensure we have at least 4 by supplementing with fallbacks
+          // Ensure exactly 4 services by supplementing with fallbacks if needed
           if (apiServices.length < 4) {
              const fallbackItemsCount = 4 - apiServices.length;
-             // Take local services that aren't already represented by title match (basic check)
              const additional = services.filter(ls => 
                 !apiServices.find(as => as.title === t(ls.titleKey, "en"))
              ).slice(0, fallbackItemsCount);
@@ -165,14 +165,17 @@ export default function HomePage({ isIntroComplete }) {
         }
 
         const mappedTestimonials = testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0
-          ? testimonialsRes.value.items.map(t => ({
-              ...t,
-              name: t.title?.en,
-              role: t.summary?.en,
-              content: t.body?.en,
-              contentBn: t.body?.bn,
-              img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-            }))
+          ? testimonialsRes.value.items
+              .filter(t => t.isFeatured) // Respect admin 'Featured' toggle
+              .map(t => ({
+                ...t,
+                name: t.title?.en,
+                role: t.summary?.en,
+                company: t.tags?.[0] || "Client",
+                text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
+                img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+                rating: 5
+              }))
           : testimonials;
 
         setDisplayProjects(mappedProjects);
@@ -392,9 +395,13 @@ export default function HomePage({ isIntroComplete }) {
                   <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full" style={{ background: "var(--highlight-soft)" }} />
                   <div className="mb-8 relative z-10" style={{ color: "var(--highlight)" }}>
                     {typeof service.icon === "string" ? (
-                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={service.icon} />
-                      </svg>
+                      service.icon.startsWith("M") ? (
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={service.icon} />
+                        </svg>
+                      ) : (
+                        <LucideIcon name={service.icon} size={32} />
+                      )
                     ) : (
                       service.icon
                     )}

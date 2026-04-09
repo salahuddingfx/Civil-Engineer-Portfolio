@@ -2,6 +2,7 @@ import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import Layout from "./components/Layout";
 import AdminRoute from "./components/AdminRoute";
 import IntroLoader from "./components/IntroLoader";
+import ScrollToTop from "./components/ScrollToTop";
 import { Suspense, lazy, useState, useEffect } from "react";
 import AdminLayout from "./components/admin/AdminLayout";
 import { api } from "./lib/api";
@@ -68,6 +69,7 @@ export default function App() {
       {!isIntroComplete && <IntroLoader onComplete={handleIntroComplete} />}
       
       <div className={`transition-opacity duration-1000 ${isIntroComplete ? "opacity-100" : "opacity-0 invisible"}`}>
+        <ScrollToTop />
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route element={<Layout isIntroComplete={isIntroComplete} />}>

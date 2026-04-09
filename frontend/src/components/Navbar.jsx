@@ -132,6 +132,20 @@ export default function Navbar({ isIntroComplete }) {
             )}
           </button>
 
+          {/* Hire Me Desktop */}
+          <Link
+            to="/contact"
+            className="hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-lg text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95"
+            style={{ 
+              background: "var(--highlight)", 
+              color: "#0A0F1C",
+              boxShadow: "0 4px 15px var(--highlight-soft)" 
+            }}
+          >
+            {t("nav.hire_me", language)}
+            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+          </Link>
+
           {/* Hamburger */}
           <button
             type="button"

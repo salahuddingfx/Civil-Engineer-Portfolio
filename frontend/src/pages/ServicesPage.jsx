@@ -6,6 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
 import { ServiceSkeleton } from "../components/Skeleton";
+import LucideIcon from "../components/LucideIcon";
 // Local fallback data
 const servicesFallback = [
   {
@@ -167,9 +168,13 @@ export default function ServicesPage() {
                   }}
                 >
                   {typeof service.icon === "string" ? (
-                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={service.icon} />
-                    </svg>
+                    service.icon.startsWith("M") ? (
+                      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={service.icon} />
+                      </svg>
+                    ) : (
+                      <LucideIcon name={service.icon} size={28} />
+                    )
                   ) : (
                     service.icon
                   )}

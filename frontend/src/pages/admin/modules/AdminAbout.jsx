@@ -239,7 +239,7 @@ export default function AdminAbout() {
                   {skills.map(skill => (
                     <div key={skill._id} className="group p-8 rounded-3xl bg-white/[0.02] border border-white/[0.05] hover:border-cyan-400/30 transition-all flex items-center justify-between">
                        <div className="flex items-center gap-6">
-                          <div className="h-12 w-12 rounded-xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 font-bold group-hover:scale-110 transition-transform">{skill.proficiency}%</div>
+                          <div className="h-12 w-12 rounded-xl bg-cyan-400/10 flex items-center justify-center text-cyan-400 font-bold transition-transform">{skill.proficiency}%</div>
                           <div>
                              <h4 className="text-white font-black italic tracking-tight uppercase text-lg leading-none">{skill.title?.en}</h4>
                              <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest mt-2">ICON: {skill.icon}</p>
@@ -384,7 +384,7 @@ export default function AdminAbout() {
                    {team.map(member => (
                      <div key={member._id} className="group bg-[#0d0f1a]/40 border border-white/5 rounded-[40px] p-8 hover:border-cyan-400/30 transition-all overflow-hidden relative">
                         <div className="flex flex-col items-center text-center">
-                           <div className="h-32 w-32 rounded-3xl overflow-hidden mb-6 grayscale group-hover:grayscale-0 transition-all duration-700 shadow-2xl border border-white/10">
+                           <div className="h-32 w-32 rounded-3xl overflow-hidden mb-6 transition-all duration-700 shadow-2xl border border-white/10">
                               <img src={member.image?.url || "https://avatar.iran.liara.run/public"} alt={member.name} className="h-full w-full object-cover" />
                            </div>
                            <h4 className="text-xl font-black text-white italic tracking-tighter uppercase mb-1">{member.name}</h4>

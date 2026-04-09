@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Mail, Phone, MapPin, Globe, MessageCircle, Share2, Users } from "lucide-react";
+import { Mail, Phone, MapPin, Globe, MessageCircle, Share2, Users, Sparkles, Map, Smartphone } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "../../../components/BrandIcons";
 import { adminList, adminUpdate, adminCreate } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 
@@ -16,6 +17,8 @@ export default function AdminContact() {
     facebook: "",
     linkedin: "",
     youtube: "",
+    instagram: "",
+    twitter: "",
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -41,10 +44,12 @@ export default function AdminContact() {
             facebook: item.socialLinks?.facebook || "",
             linkedin: item.socialLinks?.linkedin || "",
             youtube: item.socialLinks?.youtube || "",
+            instagram: item.socialLinks?.instagram || "",
+            twitter: item.socialLinks?.twitter || "",
           });
         }
       } catch (err) {
-        setStatus({ type: "error", message: "LOAD_FAILED" });
+        setStatus({ type: "error", message: "LOAD_FAILED: Protocol Error" });
       } finally {
         setLoading(false);
       }
@@ -68,98 +73,126 @@ export default function AdminContact() {
         facebook: form.facebook,
         linkedin: form.linkedin,
         youtube: form.youtube,
+        instagram: form.instagram,
+        twitter: form.twitter,
       },
       isPublished: true,
     };
 
     try {
-      if (recordId) {
-        await adminUpdate("contactDetails", recordId, payload);
-      } else {
+      if (recordId) await adminUpdate("contactDetails", recordId, payload);
+      else {
         const res = await adminCreate("contactDetails", payload);
         setRecordId(res._id);
       }
-      setStatus({ type: "success", message: "SUCCESS: CONTACT INFRASTRUCTURE SYNCED" });
+      setStatus({ type: "success", message: "CONTACT_INFRASTRUCTURE_SYNCHRONIZED_SUCCESSFULLY" });
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED" });
-    } finally {
-      setSaving(false);
-    }
+      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+    } finally { setSaving(false); }
   };
+
+  const inputClasses = "w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl px-7 py-5 text-white outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
+  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
 
   return (
     <AdminModuleWrapper
       title="Contact Infrastructure"
-      subtitle="Manage studio location, social nodes, and communication hubs."
+      subtitle="Manage studio location, communication hubs, and digital social nodes."
       icon={Mail}
       loading={loading}
       saving={saving}
       status={status}
       onSave={handleSave}
     >
-      <div className="space-y-16">
-        {/* Core Communication */}
+      <div className="space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        {/* Core Communication Nodes */}
         <div className="grid md:grid-cols-2 gap-10">
-          <div className="space-y-4">
-            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">
-              <Phone size={12} className="text-cyan-400" /> Professional Phone
-            </label>
-            <input value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-bold italic" />
+          <div className="space-y-2">
+            <label className={labelClasses}><Phone size={12} className="text-cyan-400" /> Operational Phone Hub</label>
+            <input value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className={inputClasses} placeholder="+880 1XXX XXXXXX" />
           </div>
-          <div className="space-y-4">
-            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">
-              <Mail size={12} className="text-cyan-400" /> Secure Email Hub
-            </label>
-            <input value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-bold italic" />
+          <div className="space-y-2">
+            <label className={labelClasses}><Mail size={12} className="text-cyan-400" /> Secure Email Gateway</label>
+            <input value={form.email} onChange={e => setForm({...form, email: e.target.value})} className={inputClasses} placeholder="architect@studio.com" />
           </div>
         </div>
 
-        {/* WhatsApp Integration */}
-        <div className="bg-white/2 border border-white/5 rounded-[40px] p-10 md:p-12 relative overflow-hidden">
-           <div className="absolute top-0 right-10 h-1 w-20 bg-emerald-500/40" />
-           <div className="flex flex-col md:flex-row gap-10">
-              <div className="flex-1 space-y-4">
-                <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-emerald-400/60 italic ml-2">
-                  <MessageCircle size={12} className="text-emerald-400" /> WhatsApp Direct Node
-                </label>
-                <input value={form.whatsapp} onChange={e => setForm({...form, whatsapp: e.target.value})} className="w-full bg-black/60 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-emerald-500/40 font-bold italic" />
+        {/* Messaging Interface */}
+        <div className="bg-[#0d0f1a]/40 border border-white/[0.07] rounded-[48px] p-12 relative overflow-hidden group/whatsapp">
+           <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-emerald-400/20 to-transparent rounded-bl-full" />
+           <div className="flex items-center justify-between mb-10">
+              <div className="flex items-center gap-4">
+                 <MessageCircle size={18} className="text-emerald-400" />
+                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Messaging_Signal_Center</h3>
               </div>
-              <div className="flex-1 space-y-4">
-                <label className="text-[10px] font-black uppercase tracking-widest text-emerald-400/60 italic ml-2">Button Annotation</label>
-                <input value={form.whatsappLabel} onChange={e => setForm({...form, whatsappLabel: e.target.value})} className="w-full bg-black/60 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-emerald-500/40 font-bold italic" />
+              <label className="flex items-center cursor-pointer scale-75">
+                  <div className={`h-7 w-14 rounded-full transition-all duration-500 relative ${form.whatsappEnabled ? 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-slate-800'}`}>
+                    <div className={`h-5 w-5 bg-white rounded-full absolute top-1 transition-all duration-500 ${form.whatsappEnabled ? 'left-8' : 'left-1'}`} />
+                  </div>
+                  <input type="checkbox" checked={form.whatsappEnabled} onChange={e => setForm({...form, whatsappEnabled: e.target.checked})} className="hidden" />
+              </label>
+           </div>
+
+           <div className="grid md:grid-cols-2 gap-10">
+              <div className="space-y-2">
+                <label className={labelClasses}>WhatsApp Direct Link/Phone</label>
+                <input value={form.whatsapp} onChange={e => setForm({...form, whatsapp: e.target.value})} className={`${inputClasses} focus:border-emerald-500/50`} placeholder="8801XXXXXXXXX" />
+              </div>
+              <div className="space-y-2">
+                <label className={labelClasses}>Interface Annotation (Label)</label>
+                <input value={form.whatsappLabel} onChange={e => setForm({...form, whatsappLabel: e.target.value})} className={`${inputClasses} focus:border-emerald-500/50`} placeholder="DIRECT WHATSAPP CHANNEL" />
               </div>
            </div>
         </div>
 
-        {/* Physical Nodes */}
+        {/* Spatial Information Nodes */}
         <div className="grid md:grid-cols-2 gap-10">
-          <div className="space-y-4 text-left">
-            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">
-              <MapPin size={12} className="text-cyan-400" /> Studio Location (EN)
-            </label>
-            <textarea rows={3} value={form.addressEn} onChange={e => setForm({...form, addressEn: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 italic font-medium" />
+          <div className="space-y-2">
+            <label className={labelClasses}><MapPin size={12} className="text-cyan-400" /> Studio Headquarters (EN)</label>
+            <textarea rows={4} value={form.addressEn} onChange={e => setForm({...form, addressEn: e.target.value})} className={`${inputClasses} resize-none leading-relaxed`} placeholder="Architectural Floor, Tech Center, Dhaka" />
           </div>
-          <div className="space-y-4 text-left">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">Studio Location (BN)</label>
-            <textarea rows={3} value={form.addressBn} onChange={e => setForm({...form, addressBn: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 italic font-medium" />
+          <div className="space-y-2">
+            <label className={labelClasses}>Studio Headquarters (BN)</label>
+            <textarea rows={4} value={form.addressBn} onChange={e => setForm({...form, addressBn: e.target.value})} className={`${inputClasses} resize-none leading-relaxed`} placeholder="আর্কিটেকচারাল ফ্লোর, টেক সেন্টার, ঢাকা" />
           </div>
         </div>
 
-        {/* Social Infrastructure */}
-        <div className="pt-8 text-left">
-           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400/60 mb-8 italic ml-2">Digital Social Coordination</p>
-           <div className="grid md:grid-cols-3 gap-8">
-              <div className="space-y-4">
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Share2 size={12} /> Facebook Profile URL</label>
-                <input value={form.facebook} onChange={e => setForm({...form, facebook: e.target.value})} className="w-full bg-black/40 border border-white/5 rounded-xl px-5 py-3 text-white outline-none focus:border-blue-500/40 italic font-mono text-[11px]" />
+        {/* Global Map Integration */}
+        <div className="space-y-2">
+           <label className={labelClasses}><Map size={12} className="text-indigo-400" /> Google Maps Embed Protocol (URL Source)</label>
+           <input value={form.googleMapEmbedUrl} onChange={e => setForm({...form, googleMapEmbedUrl: e.target.value})} className={inputClasses} placeholder="https://www.google.com/maps/embed?..." />
+        </div>
+
+        {/* Social Architecture Hub */}
+        <div className="pt-8">
+           <div className="bg-[#090b14]/60 border border-white/[0.05] rounded-[56px] p-16 relative overflow-hidden group/social">
+              <div className="absolute top-0 left-0 h-1.5 w-80 bg-gradient-to-r from-blue-400/20 to-transparent rounded-br-full" />
+              <div className="flex items-center gap-4 mb-14">
+                 <Share2 size={24} className="text-blue-400" />
+                 <h3 className="text-[14px] font-black uppercase tracking-[0.5em] text-white italic">Social_Grid_Architecture</h3>
               </div>
-              <div className="space-y-4">
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Users size={12} /> LinkedIn Profile URL</label>
-                <input value={form.linkedin} onChange={e => setForm({...form, linkedin: e.target.value})} className="w-full bg-black/40 border border-white/5 rounded-xl px-5 py-3 text-white outline-none focus:border-blue-400/40 italic font-mono text-[11px]" />
-              </div>
-              <div className="space-y-4">
-                <label className="flex items-center gap-2 text-[10px] font-black text-slate-700 uppercase tracking-widest italic ml-1"><Globe size={12} /> YouTube Channel URL</label>
-                <input value={form.youtube} onChange={e => setForm({...form, youtube: e.target.value})} className="w-full bg-black/40 border border-white/5 rounded-xl px-5 py-3 text-white outline-none focus:border-red-500/40 italic font-mono text-[11px]" />
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+                 <div className="space-y-2">
+                    <label className={labelClasses}><Facebook size={12} className="text-blue-500" /> Facebook Bridge</label>
+                    <input value={form.facebook} onChange={e => setForm({...form, facebook: e.target.value})} className={inputClasses} placeholder="https://facebook.com/identity" />
+                 </div>
+                 <div className="space-y-2">
+                    <label className={labelClasses}><Linkedin size={12} className="text-blue-400" /> LinkedIn Node</label>
+                    <input value={form.linkedin} onChange={e => setForm({...form, linkedin: e.target.value})} className={inputClasses} placeholder="https://linkedin.com/in/identity" />
+                 </div>
+                 <div className="space-y-2">
+                    <label className={labelClasses}><Instagram size={12} className="text-pink-500" /> Instagram Feed</label>
+                    <input value={form.instagram} onChange={e => setForm({...form, instagram: e.target.value})} className={inputClasses} placeholder="https://instagram.com/identity" />
+                 </div>
+                 <div className="space-y-2">
+                    <label className={labelClasses}><Twitter size={12} className="text-cyan-400" /> Twitter / X Stream</label>
+                    <input value={form.twitter} onChange={e => setForm({...form, twitter: e.target.value})} className={inputClasses} placeholder="https://twitter.com/identity" />
+                 </div>
+                 <div className="space-y-2">
+                    <label className={labelClasses}><Youtube size={12} className="text-red-500" /> YouTube Channel</label>
+                    <input value={form.youtube} onChange={e => setForm({...form, youtube: e.target.value})} className={inputClasses} placeholder="https://youtube.com/@channel" />
+                 </div>
               </div>
            </div>
         </div>

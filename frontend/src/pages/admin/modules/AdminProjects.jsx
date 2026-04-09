@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Layers, MapPin, Calendar, Tag, Plus, Trash2, Edit3, Globe } from "lucide-react";
+import { Layers, MapPin, Calendar, Tag, Plus, Trash2, Edit3, Globe, Sparkles, Image as ImageIcon, CheckCircle2, Search } from "lucide-react";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 import ImageUpload from "../../../components/admin/ImageUpload";
@@ -7,6 +7,7 @@ import ImageUpload from "../../../components/admin/ImageUpload";
 export default function AdminProjects() {
   const [items, setItems] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [form, setForm] = useState({
     slug: "",
     titleEn: "",
@@ -29,19 +30,14 @@ export default function AdminProjects() {
 
   const loadData = async () => {
     try {
-      console.log("Fetching project registry...");
       const response = await adminList("projects", { limit: 100 });
-      console.log("Registry Response:", response);
       const fetchedItems = response.items || [];
       setItems(fetchedItems);
-      
-      // Auto-select first item if exists and none selected
       if (fetchedItems.length > 0 && !selectedId) {
         setSelectedId(fetchedItems[0]._id);
       }
     } catch (err) {
-      console.error("LOAD_ERROR:", err);
-      setStatus({ type: "error", message: "LOAD_FAILED" });
+      setStatus({ type: "error", message: "LOAD_FAILED: Check Infrastructure" });
     } finally {
       setLoading(false);
     }
@@ -71,19 +67,10 @@ export default function AdminProjects() {
       }
     } else {
       setForm({
-        slug: "",
-        titleEn: "",
-        titleBn: "",
-        category: "Residential",
-        summaryEn: "",
-        summaryBn: "",
-        bodyEn: "",
-        bodyBn: "",
-        location: "Cox's Bazar",
-        year: "2024",
-        featuredImageUrl: "",
-        tags: "",
-        isPublished: true,
+        slug: "", titleEn: "", titleBn: "", category: "Residential",
+        summaryEn: "", summaryBn: "", bodyEn: "", bodyBn: "",
+        location: "Cox's Bazar", year: "2024", featuredImageUrl: "",
+        tags: "", isPublished: true,
       });
     }
   }, [selectedId, items]);
@@ -103,40 +90,41 @@ export default function AdminProjects() {
     };
 
     try {
-      if (selectedId) {
-        await adminUpdate("projects", selectedId, payload);
-      } else {
-        await adminCreate("projects", payload);
-      }
-      setStatus({ type: "success", message: "SUCCESS: PROJECT REGISTRY UPDATED" });
-      setSelectedId(null);
+      if (selectedId) await adminUpdate("projects", selectedId, payload);
+      else await adminCreate("projects", payload);
+      setStatus({ type: "success", message: "PROJECT_ASSET_SYNCHRONIZED_SUCCESSFULLY" });
+      if (!selectedId) setSelectedId(null);
       await loadData();
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED" });
-    } finally {
-      setSaving(false);
-    }
+      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+    } finally { setSaving(false); }
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("DESTROY RECORD: PERMANENT?")) return;
+    if (!window.confirm("DESTROY_ASSET_RECORD: CONFIRM_PERMANENT?")) return;
     setSaving(true);
     try {
       await adminDelete("projects", selectedId);
-      setStatus({ type: "success", message: "SUCCESS: RECORD REMOVED" });
+      setStatus({ type: "success", message: "ASSET_PURGED_FROM_REGISTRY" });
       setSelectedId(null);
       await loadData();
     } catch (err) {
-      setStatus({ type: "error", message: "ERASE_FAILED" });
-    } finally {
-      setSaving(false);
-    }
+      setStatus({ type: "error", message: "PURGE_FAILURE" });
+    } finally { setSaving(false); }
   };
+
+  const filteredItems = items.filter(item => 
+    item.title?.en?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.category?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const inputClasses = "w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl px-7 py-5 text-white outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
+  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
 
   return (
     <AdminModuleWrapper
-      title="Project Registry"
-      subtitle="Document high-performance architectural and structural assets."
+      title="Asset Registry"
+      subtitle="Document and manage high-performance structural and architectural assets."
       icon={Layers}
       loading={loading}
       saving={saving}
@@ -146,77 +134,105 @@ export default function AdminProjects() {
       allowCreate={!!selectedId}
       onNew={() => setSelectedId(null)}
     >
-      <div className="grid lg:grid-cols-[300px_1fr] gap-16">
+      <div className="grid lg:grid-cols-[380px_1fr] gap-16">
         {/* List Sidebar */}
-        <div className="space-y-6 max-h-[700px] overflow-y-auto pr-4 custom-scrollbar">
-          {items.map(item => (
-            <div 
-              key={item._id}
-              onClick={() => setSelectedId(item._id)}
-              className={`p-5 rounded-2xl border transition-all cursor-pointer group flex gap-4 ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/5' : 'border-white/5 bg-white/1 hover:border-white/10'}`}
-            >
-              <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-white/5">
-                <img 
-                  src={item.featuredImage?.url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=100&q=40"} 
-                  className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
-                  alt=""
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[8px] font-black uppercase tracking-widest text-cyan-400/60 italic">{item.category}</span>
-                  {item.isPublished && <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />}
+        <div className="space-y-8 flex flex-col">
+          <div className="relative group">
+             <Search size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+             <input 
+               placeholder="Search Registry..." 
+               value={searchTerm}
+               onChange={e => setSearchTerm(e.target.value)}
+               className="w-full bg-white/[0.03] border border-white/[0.08] rounded-2xl pl-14 pr-6 py-5 text-[11px] font-bold uppercase tracking-widest text-white outline-none focus:border-cyan-400/40 transition-all"
+             />
+          </div>
+
+          <div className="space-y-4 max-h-[800px] overflow-y-auto pr-4 custom-scrollbar">
+            {filteredItems.map(item => (
+              <div 
+                key={item._id}
+                onClick={() => setSelectedId(item._id)}
+                className={`p-6 rounded-[32px] border transition-all duration-500 cursor-pointer group flex gap-5 relative overflow-hidden ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/[0.03]' : 'border-white/[0.05] bg-white/[0.01] hover:border-white/10 hover:bg-white/[0.02]'}`}
+              >
+                {selectedId === item._id && <div className="absolute left-0 top-0 w-1 h-full bg-cyan-400" />}
+                
+                <div className="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border border-white/10 shadow-xl transition-transform duration-500">
+                  <img 
+                    src={item.featuredImage?.url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=100&q=40"} 
+                    className={`w-full h-full object-cover transition-all duration-700 ${selectedId === item._id ? 'grayscale-0' : 'grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100'}`}
+                    alt=""
+                  />
                 </div>
-                <p className="text-sm font-bold text-white italic truncate mb-1">{item.title?.en || "Untitled"}</p>
-                <div className="flex items-center gap-2 text-[9px] text-slate-500 font-bold uppercase tracking-tighter">
-                  <span className="truncate">{item.tags?.[1] || "Cox's Bazar"}</span>
-                  <span>•</span>
-                  <span>{item.tags?.[0] || "2024"}</span>
+                <div className="flex-1 min-w-0 flex flex-col justify-center">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] italic ${selectedId === item._id ? 'text-cyan-400' : 'text-slate-600'}`}>{item.category}</span>
+                    <div className={`h-2 w-2 rounded-full ${item.isPublished ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' : 'bg-slate-800'}`} />
+                  </div>
+                  <p className="text-sm font-black text-white italic truncate tracking-tight mb-2 uppercase">{item.title?.en || "Untitled_Node"}</p>
+                  <div className="flex items-center gap-3 text-[9px] text-slate-500 font-bold uppercase tracking-widest">
+                    <MapPin size={10} className="text-cyan-400/40" />
+                    <span className="truncate">{item.tags?.[1] || "Cox's Bazar"}</span>
+                    <span className="text-slate-800">•</span>
+                  <div className="flex items-center gap-3 mt-1.5 overflow-hidden">
+                    <span className="text-[7px] font-black uppercase text-slate-700 tracking-widest bg-white/5 px-2 py-0.5 rounded truncate">SLUG: {item.slug}</span>
+                    <span className="text-[7px] font-black uppercase text-emerald-500/40 tracking-widest bg-white/5 px-2 py-0.5 rounded">SYNCED</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-          {!loading && items.length === 0 && <p className="text-[10px] text-center text-[#222] font-black uppercase tracking-widest py-10">No Assets Registry</p>}
+            ))}
+            {!loading && filteredItems.length === 0 && (
+               <div className="py-20 text-center space-y-4 opacity-20">
+                  <Layers size={40} className="mx-auto text-slate-500" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">No Registry Found</p>
+               </div>
+            )}
+          </div>
         </div>
 
         {/* Editor Form */}
-        <div className="space-y-12">
-          <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-8">
-            <h3 className="text-2xl font-black text-white italic tracking-tight">{selectedId ? "Configure Unit" : "Initialize New Record"}</h3>
-            <div className="flex items-center gap-4">
-               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest italic">Live Status</span>
-               <label className="flex items-center cursor-pointer group">
-                  <div className={`h-6 w-12 rounded-full transition-all duration-300 ${form.isPublished ? 'bg-cyan-500' : 'bg-slate-800'}`}>
-                    <div className={`h-4 w-4 bg-white rounded-full mt-1 ml-1 transition-all ${form.isPublished ? 'translate-x-6' : ''}`} />
+        <div className="space-y-16 animate-in fade-in slide-in-from-right-4 duration-700">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-white/[0.05] pb-12">
+            <div>
+               <h3 className="text-3xl font-black text-white italic tracking-tighter uppercase mb-2">{selectedId ? "Configure Unit" : "Initialize New Record"}</h3>
+               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic">{selectedId ? `Refining Asset Hardware ID: ${selectedId}` : "Initializing Fresh Structural Asset"}</p>
+            </div>
+            
+            <div className="flex items-center gap-6 px-8 py-4 bg-white/[0.02] border border-white/[0.05] rounded-3xl">
+               <span className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] italic">Deployment Status</span>
+               <label className="flex items-center cursor-pointer group scale-90">
+                  <div className={`h-7 w-14 rounded-full transition-all duration-500 relative ${form.isPublished ? 'bg-cyan-500 shadow-[0_0_20px_rgba(34,211,238,0.3)]' : 'bg-slate-800'}`}>
+                    <div className={`h-5 w-5 bg-white rounded-full absolute top-1 transition-all duration-500 ${form.isPublished ? 'left-8' : 'left-1'}`} />
                   </div>
                   <input type="checkbox" checked={form.isPublished} onChange={e => setForm({...form, isPublished: e.target.checked})} className="hidden" />
                </label>
             </div>
           </div>
 
+          {/* Title Nodes */}
           <div className="grid md:grid-cols-2 gap-10">
-            <div className="space-y-4">
-              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2"><Edit3 size={12} className="text-cyan-400" /> Title (EN)</label>
-              <input value={form.titleEn} onChange={e => setForm({...form, titleEn: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-bold italic" />
+            <div className="space-y-2">
+              <label className={labelClasses}><Edit3 size={12} className="text-blue-400" /> Identity Header (EN)</label>
+              <input value={form.titleEn} onChange={e => setForm({...form, titleEn: e.target.value})} className={inputClasses} placeholder="Luxury Structural Node" />
             </div>
-            <div className="space-y-4">
-              <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">Title (BN)</label>
-              <input value={form.titleBn} onChange={e => setForm({...form, titleBn: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-bold italic" />
+            <div className="space-y-2">
+              <label className={labelClasses}>Identity Header (BN)</label>
+              <input value={form.titleBn} onChange={e => setForm({...form, titleBn: e.target.value})} className={inputClasses} placeholder="বিলাসবহুল কাঠামো" />
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-10">
-            <div className="space-y-4">
-              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2"><MapPin size={12} className="text-cyan-400" /> Location</label>
-              <input value={form.location} onChange={e => setForm({...form, location: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:border-cyan-400/40 italic" />
+          {/* Metadata Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="space-y-2">
+              <label className={labelClasses}><MapPin size={12} className="text-emerald-400" /> Location Node</label>
+              <input value={form.location} onChange={e => setForm({...form, location: e.target.value})} className={inputClasses} placeholder="Cox's Bazar, BD" />
             </div>
-            <div className="space-y-4">
-              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2"><Calendar size={12} className="text-cyan-400" /> Year</label>
-              <input value={form.year} onChange={e => setForm({...form, year: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:border-cyan-400/40 italic" />
+            <div className="space-y-2">
+              <label className={labelClasses}><Calendar size={12} className="text-violet-400" /> Completion Year</label>
+              <input value={form.year} onChange={e => setForm({...form, year: e.target.value})} className={inputClasses} placeholder="2024" />
             </div>
-            <div className="space-y-4">
-              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2"><Tag size={12} className="text-cyan-400" /> Category</label>
-              <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:border-cyan-400/40 italic">
+            <div className="space-y-2">
+              <label className={labelClasses}><Tag size={12} className="text-orange-400" /> Asset Category</label>
+              <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className={`${inputClasses} appearance-none cursor-pointer`}>
                 <option value="Residential">Residential</option>
                 <option value="Commercial">Commercial</option>
                 <option value="Hospitality">Hospitality</option>
@@ -225,18 +241,35 @@ export default function AdminProjects() {
             </div>
           </div>
 
-          <div className="space-y-4">
-            <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2"><Globe size={12} className="text-cyan-400" /> Technical Abstract (EN)</label>
-            <textarea rows={3} value={form.summaryEn} onChange={e => setForm({...form, summaryEn: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-2xl px-6 py-5 text-white outline-none focus:border-cyan-400/40 font-medium italic" />
+          {/* Abstract */}
+          <div className="space-y-2">
+            <label className={labelClasses}><Globe size={12} className="text-cyan-400" /> Technical Abstract (EN)</label>
+            <textarea rows={3} value={form.summaryEn} onChange={e => setForm({...form, summaryEn: e.target.value})} className={`${inputClasses} resize-none`} placeholder="Brief technological overview of this asset..." />
           </div>
 
-          <div className="bg-white/2 border border-white/5 rounded-[40px] p-10">
-             <ImageUpload value={form.featuredImageUrl} onChange={val => setForm({...form, featuredImageUrl: val})} label="Central Project Media" />
+          {/* Visual Environment */}
+          <div className="bg-[#0d0f1a]/40 border border-white/[0.07] rounded-[48px] p-12 relative overflow-hidden group/media">
+             <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-cyan-400/20 to-transparent rounded-bl-full" />
+             <div className="flex items-center gap-4 mb-10">
+                <ImageIcon size={18} className="text-cyan-400" />
+                <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Central_Asset_Media</h3>
+             </div>
+             <ImageUpload value={form.featuredImageUrl} onChange={val => setForm({...form, featuredImageUrl: val})} label="Primary High-Res Render" />
           </div>
 
-          <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic ml-2">Legacy Body (markdown allowed)</label>
-            <textarea rows={10} value={form.bodyEn} onChange={e => setForm({...form, bodyEn: e.target.value})} className="w-full bg-black/40 border-2 border-white/5 rounded-[32px] px-8 py-7 text-white outline-none focus:border-cyan-400/40 custom-scrollbar font-mono text-sm leading-relaxed" />
+          {/* Extended Content */}
+          <div className="space-y-6">
+            <div className="flex items-center justify-between mb-4">
+               <label className={labelClasses}><Layers size={12} className="text-indigo-400" /> Detailed Specification Legacy</label>
+               <span className="text-[8px] font-black text-slate-700 uppercase tracking-widest italic">Markdown_Enabled</span>
+            </div>
+            <textarea rows={12} value={form.bodyEn} onChange={e => setForm({...form, bodyEn: e.target.value})} className={`${inputClasses} font-mono text-[12px] leading-relaxed resize-none custom-scrollbar`} placeholder="## Technical Specifications\n- Floor Area: 5000sqft\n- Materials: High-Tensile Steel..." />
+          </div>
+
+          {/* Tags */}
+          <div className="space-y-2">
+            <label className={labelClasses}><Tag size={12} className="text-pink-400" /> Technical Tags (Comma Separated)</label>
+            <input value={form.tags} onChange={e => setForm({...form, tags: e.target.value})} className={inputClasses} placeholder="Modern, Sustainable, High-Rise..." />
           </div>
         </div>
       </div>
