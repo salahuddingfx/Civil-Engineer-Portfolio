@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
         onComplete: () => navigate("/admin/dashboard", { replace: true }),
       });
     } catch {
-      setError(language === 'en' ? "AUTHENTICATION FAILURE: INVALID PROTOCOL" : "প্রবেশাধিকার ব্যর্থ: ভুল তথ্য");
+      setError(language === 'en' ? "Authentication failure: Invalid credentials" : "প্রবেশাধিকার ব্যর্থ: ভুল তথ্য");
       setIsLoading(false);
       gsap.fromTo(formRef.current, { x: -10 }, { x: 10, duration: 0.08, repeat: 5, yoyo: true });
     }

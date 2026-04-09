@@ -55,7 +55,7 @@ export default function Footer() {
             {/* Hire Me CTA */}
             <Link
               to="/contact"
-              className="hidden lg:inline-flex items-center gap-4 px-8 py-4 rounded-xl font-black text-[11px] uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 group"
+              className="inline-flex items-center gap-4 px-8 py-4 rounded-xl font-black text-[11px] uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 group"
               style={{ 
                 background: "var(--highlight)", 
                 color: "#0A0F1C",
@@ -143,7 +143,7 @@ export default function Footer() {
           <div className="space-y-10">
             <div className="space-y-4">
               <h4 className="text-[11px] font-black uppercase tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
-                {language === "en" ? "SYSTEM_UPDATES" : "সিস্টেম আপডেট"}
+                {language === "en" ? "System Updates" : "সিস্টেম আপডেট"}
               </h4>
               <p className="text-[12px] leading-relaxed" style={{ color: "var(--text-muted)" }}>
                 {language === "en" ? "Subscribe to receive professional structural engineering insights." : "ইঞ্জিনিয়ারিং ইনসাইট পেতে সাবস্ক্রাইব করুন।"}
@@ -175,7 +175,7 @@ export default function Footer() {
         <div className="mt-24 pt-10 flex flex-col md:flex-row justify-between items-center gap-8"
           style={{ borderTop: "1px solid var(--highlight-border)" }}>
           <p className="text-[10px] font-black tracking-[0.4em] uppercase" style={{ color: "var(--text-faint)" }}>
-            © {new Date().getFullYear()} ENGR_ALAM_ASHIK // STRUCTURAL_INTEGRITY_PROTOCOL
+            © {new Date().getFullYear()} Engr. Alam Ashik // Structural Integrity Protocol
           </p>
           
           <p className="text-[10px] flex items-center gap-3 font-black tracking-[0.3em] uppercase" style={{ color: "var(--text-faint)" }}>

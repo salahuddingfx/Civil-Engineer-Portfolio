@@ -191,11 +191,11 @@ export default function AboutPage() {
               className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
             />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/40 to-transparent" />
-            <div className="absolute bottom-12 left-12 right-12 p-10 rounded-[40px] backdrop-blur-2xl border border-white/10 bg-white/[0.03]">
-               <h3 className="text-2xl font-black text-white italic uppercase mb-2">
+            <div className="absolute bottom-12 left-12 right-12 p-8 md:p-10 rounded-[40px] backdrop-blur-2xl border border-white/10 bg-white/[0.03] shadow-2xl transition-transform hover:scale-[1.02] duration-700">
+               <h3 className="text-2xl md:text-3xl font-black text-white italic uppercase mb-2 tracking-tighter">
                  {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : bio?.title?.en || "Engr. Alam Ashik"}
                </h3>
-               <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest italic opacity-60">
+               <p className="text-[10px] md:text-xs font-black text-cyan-400 uppercase tracking-[0.4em] italic opacity-80">
                  {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : bio?.summary?.en || "Principal Structural Consultant"}
                </p>
             </div>
@@ -235,6 +235,11 @@ export default function AboutPage() {
              <div className="absolute -inset-4 bg-cyan-400/5 rounded-[56px] blur-3xl group-hover:bg-cyan-400/10 transition-all" />
              <div className="relative h-[550px] w-full rounded-[48px] overflow-hidden border-2 border-white/5 shadow-2xl">
                 <img src={bio?.featuredImage?.url || "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7"} className="w-full h-full object-cover grayscale brightness-90 group-hover:grayscale-0 transition-all duration-1000" alt="Principal" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute bottom-8 left-8 right-8 p-6 rounded-3xl backdrop-blur-xl border border-white/10 bg-white/[0.02] opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
+                   <p className="text-[10px] font-black text-white uppercase tracking-[0.4em] italic mb-1">Structural Authority</p>
+                   <p className="text-[8px] font-bold text-cyan-400/60 uppercase tracking-widest">Digital Asset: {bio?.title?.en || "ALAM ASHIK"}</p>
+                </div>
              </div>
           </div>
         </div>
@@ -317,15 +322,21 @@ export default function AboutPage() {
                   <img src={member.image?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"} alt={member.name}
                     className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="absolute inset-0 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 p-8 transform translate-y-4 group-hover:translate-y-0">
-                    <a href={member.socialLinks?.linkedin} target="_blank" rel="noopener noreferrer" className="p-4 rounded-2xl bg-cyan-400 text-black shadow-2xl hover:bg-white transition-all"><Linkedin size={20} /></a>
+                  
+                  {/* Team Overlay Meta */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/40 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
+                  
+                  <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
+                     <div className="mb-4 space-y-2">
+                        <h3 className="text-xl font-black text-white italic uppercase tracking-tight">{member.name}</h3>
+                        <p className="text-[9px] font-black text-cyan-400 uppercase tracking-[0.4em]">{member.designation?.en}</p>
+                     </div>
+                     
+                     <div className="flex items-center justify-between pt-4 border-t border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                       <a href={member.socialLinks?.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-white/10 text-white hover:bg-cyan-400 hover:text-black transition-all shadow-xl"><Linkedin size={16} /></a>
+                       <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest italic">Core Personnel</span>
+                     </div>
                   </div>
-                </div>
-
-                <div className="p-8">
-                  <h3 className="text-xl font-black text-white italic uppercase tracking-tight">{member.name}</h3>
-                  <p className="text-[10px] font-black text-cyan-400 uppercase tracking-widest mt-2">{member.designation?.en}</p>
                 </div>
               </div>
             ))}

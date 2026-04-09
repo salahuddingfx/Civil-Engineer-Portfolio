@@ -137,20 +137,20 @@ export default function AdminDashboardPage() {
     <div className="space-y-20 pb-20">
       {/* 1. Technical Analytics Section */}
       <section>
-        <div className="flex items-center justify-between mb-12">
-           <div className="flex items-center gap-5">
-              <div className="h-10 w-1.5 bg-cyan-400 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.4)]" />
-              <h2 className="text-[13px] font-black uppercase tracking-[0.4em] text-slate-400 italic">SYSTEM_ANALYTICS // CORE_METRICS</h2>
-           </div>
-           <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest hidden md:block">Last Sync: {new Date().toLocaleTimeString()}</p>
-        </div>
+         <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center gap-5">
+               <div className="h-10 w-1.5 bg-cyan-400 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.4)]" />
+               <h2 className="text-[13px] font-black uppercase tracking-[0.4em] text-slate-400 italic">System Analytics // Core Metrics</h2>
+            </div>
+            <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest hidden md:block">Last Sync: {new Date().toLocaleTimeString()}</p>
+         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-           {[
-             { label: "ASSET_COUNT", title: "Project Assets", val: counts.projects, icon: FolderGit2, trend: "+12%", color: "text-cyan-400" },
-             { label: "NODE_INQUIRIES", title: "New Inquiries", val: counts.inquiries, icon: Users, trend: "ACTIVE", color: "text-emerald-400" },
-             { label: "TRAFFIC_FLOW", title: "Site Visits", val: counts.visits, icon: MousePointer2, trend: "+5.2K", color: "text-purple-400" },
-           ].map((stat, i) => (
+            {[
+              { label: "Asset Count", title: "Project Assets", val: counts.projects, icon: FolderGit2, trend: "+12%", color: "text-cyan-400" },
+              { label: "Node Inquiries", title: "New Inquiries", val: counts.inquiries, icon: Users, trend: "ACTIVE", color: "text-emerald-400" },
+              { label: "Traffic Flow", title: "Site Visits", val: counts.visits, icon: MousePointer2, trend: "+5.2K", color: "text-purple-400" },
+            ].map((stat, i) => (
              <div key={i} className="bg-white/[0.02] border border-white/[0.05] rounded-[32px] p-10 flex flex-col relative group hover:border-white/10 transition-all duration-500">
                 <div className="absolute top-8 right-10 text-slate-800 opacity-20 group-hover:opacity-40 transition-opacity">
                    <stat.icon size={60} strokeWidth={1} />

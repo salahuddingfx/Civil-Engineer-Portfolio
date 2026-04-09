@@ -164,19 +164,31 @@ export default function HomePage({ isIntroComplete }) {
           }
         }
 
-        const mappedTestimonials = testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0
-          ? testimonialsRes.value.items
-              .filter(t => t.isFeatured) // Respect admin 'Featured' toggle
-              .map(t => ({
-                ...t,
-                name: t.title?.en,
-                role: t.summary?.en,
-                company: t.tags?.[0] || "Client",
-                text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
-                img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
-                rating: 5
-              }))
-          : testimonials;
+        const fetchedTestimonials = testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0
+          ? testimonialsRes.value.items.filter(t => t.isFeatured)
+          : [];
+
+        const mappedTestimonials = fetchedTestimonials.length > 0
+          ? fetchedTestimonials.map(t => ({
+              ...t,
+              name: t.title?.en,
+              role: t.summary?.en,
+              company: t.tags?.[0] || "Client",
+              text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
+              img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+              rating: 5
+            }))
+          : (testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0 
+              ? testimonialsRes.value.items.slice(0, 5).map(t => ({
+                  ...t,
+                  name: t.title?.en,
+                  role: t.summary?.en,
+                  company: t.tags?.[0] || "Client",
+                  text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
+                  img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+                  rating: 5
+                }))
+              : testimonials);
 
         setDisplayProjects(mappedProjects);
         setDisplayServices(mappedServices);
