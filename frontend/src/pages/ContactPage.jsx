@@ -87,14 +87,18 @@ export default function ContactPage() {
   };
 
   return (
-    <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
+    <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen relative overflow-hidden">
       <SeoHead
         title="Contact | Civil Engineer in Cox's Bazar | Engr. Alam Ashik"
         description="Connect with Cox's Bazar's premier civil engineering consultancy for high-end residential, commercial, and structural projects."
         path="/contact"
       />
 
-      <section className="pt-32 pb-24 px-6 lg:px-10 mx-auto max-w-[1500px]">
+      {/* ── Background Decorative Blobs (The Blending Secret) ────────────────── */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full opacity-[0.08] blur-[120px] pointer-events-none" style={{ background: "var(--highlight)" }} />
+      <div className="absolute bottom-[10%] right-[-5%] w-[35%] h-[35%] rounded-full opacity-[0.05] blur-[100px] pointer-events-none" style={{ background: "var(--highlight)" }} />
+
+      <section className="pt-32 pb-24 px-6 lg:px-10 mx-auto max-w-[1500px] relative z-10">
          <div className="grid lg:grid-cols-[0.45fr_0.55fr] gap-16 lg:gap-24">
             
             {/* Left Column: Hero & Info */}
@@ -117,61 +121,70 @@ export default function ContactPage() {
                {/* Info Grid */}
                <div className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
-                     <div className="reveal-unit bg-[#111827] p-8 rounded-2xl flex flex-col gap-6 border border-[rgba(25,210,255,0.05)] hover:border-[#19D2FF]/40 transition-colors shadow-lg group">
-                        <div className="w-14 h-14 rounded-full bg-[#19D2FF]/10 flex items-center justify-center text-[#19D2FF] shadow-[0_0_15px_rgba(25,210,255,0.15)] group-hover:scale-110 transition-transform">
+                     <div className="reveal-unit p-8 rounded-2xl flex flex-col gap-6 backdrop-blur-xl transition-all duration-500 group"
+                        style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "0 20px 40px rgba(0,0,0,0.05)" }}>
+                        <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(25,210,255,0.15)] group-hover:scale-110 transition-transform"
+                          style={{ background: "var(--highlight-soft)", color: "var(--highlight)" }}>
                            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
                         </div>
                         <div>
-                           <p className="text-[10px] text-[#CBD5E1] font-bold uppercase tracking-[0.2em] mb-2">PHONE</p>
-                           <p className="text-lg font-bold tracking-tight text-white">+880 1234-567890</p>
+                           <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2" style={{ color: "var(--text-faint)" }}>PHONE</p>
+                           <p className="text-lg font-bold tracking-tight" style={{ color: "var(--text)" }}>+880 1234-567890</p>
                         </div>
                      </div>
 
-                     <div className="reveal-unit bg-[#111827] p-8 rounded-2xl flex flex-col gap-6 border border-[rgba(25,210,255,0.05)] hover:border-[#19D2FF]/40 transition-colors shadow-lg group">
-                        <div className="w-14 h-14 rounded-full bg-[#19D2FF]/10 flex items-center justify-center text-[#19D2FF] shadow-[0_0_15px_rgba(25,210,255,0.15)] group-hover:scale-110 transition-transform">
+                     <div className="reveal-unit p-8 rounded-2xl flex flex-col gap-6 backdrop-blur-xl transition-all duration-500 group"
+                        style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "0 20px 40px rgba(0,0,0,0.05)" }}>
+                        <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(25,210,255,0.15)] group-hover:scale-110 transition-transform"
+                          style={{ background: "var(--highlight-soft)", color: "var(--highlight)" }}>
                            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         </div>
                         <div>
-                           <p className="text-[10px] text-[#CBD5E1] font-bold uppercase tracking-[0.2em] mb-2">EMAIL</p>
-                           <p className="text-lg font-bold tracking-tight text-white">info@engralamashik.com</p>
+                           <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2" style={{ color: "var(--text-faint)" }}>EMAIL</p>
+                           <p className="text-lg font-bold tracking-tight" style={{ color: "var(--text)" }}>info@engralamashik.com</p>
                         </div>
                      </div>
                   </div>
 
-                  <div className="reveal-unit bg-[#111827] p-8 rounded-2xl flex flex-col gap-6 border border-[rgba(25,210,255,0.05)] hover:border-[#19D2FF]/40 transition-colors shadow-lg group">
-                     <div className="w-14 h-14 rounded-full bg-[#19D2FF]/10 flex items-center justify-center text-[#19D2FF] shadow-[0_0_15px_rgba(25,210,255,0.15)] group-hover:scale-110 transition-transform">
+                  <div className="reveal-unit p-8 rounded-2xl flex flex-col gap-6 backdrop-blur-xl transition-all duration-500 group"
+                    style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "0 20px 40px rgba(0,0,0,0.05)" }}>
+                     <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(25,210,255,0.15)] group-hover:scale-110 transition-transform"
+                        style={{ background: "var(--highlight-soft)", color: "var(--highlight)" }}>
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                      </div>
                      <div>
-                        <p className="text-[10px] text-[#CBD5E1] font-bold uppercase tracking-[0.2em] mb-2">COX'S BAZAR HQ</p>
-                        <p className="text-lg font-bold tracking-tight text-white leading-snug">Cox's Bazar, Bangladesh</p>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2" style={{ color: "var(--text-faint)" }}>COX'S BAZAR HQ</p>
+                        <p className="text-lg font-bold tracking-tight leading-snug" style={{ color: "var(--text)" }}>Cox's Bazar, Bangladesh</p>
                      </div>
                   </div>
 
                   {/* Local Map */}
-                  <div className="reveal-unit bg-[#111827] p-4 rounded-3xl relative overflow-hidden group aspect-[1.8/1] mt-10 shadow-[0_20px_40px_rgba(10,15,28,0.5)] border border-[rgba(25,210,255,0.1)]">
-                     <div className="absolute inset-0 bg-[#0A0F1C]/20 transition-all duration-1000 z-10 pointer-events-none group-hover:bg-transparent" />
+                  <div className="reveal-unit p-3 rounded-3xl relative overflow-hidden group aspect-[1.8/1] mt-10 backdrop-blur-md transition-all duration-500"
+                    style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "0 20px 60px rgba(0,0,0,0.1)" }}>
+                     <div className="absolute inset-0 bg-[#0A0F1C]/10 transition-all duration-1000 z-10 pointer-events-none group-hover:bg-transparent" />
                      <iframe
                         title="Cox's Bazar HQ"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d118830.24285070288!2d91.90299534335938!3d21.43973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30adc92136603a11%3A0x6334af2a4d0f5e13!2sCox's%20Bazar!5e0!3m2!1sen!2sbd!4v1712215324538!5m2!1sen!2sbd"
-                        className="w-full h-full grayscale-[50%] opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000 object-cover"
+                        className="w-full h-full grayscale opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000 object-cover rounded-2xl"
                         loading="lazy"
                      />
-                     <div className="absolute bottom-6 left-6 z-30 bg-[#0A0F1C]/90 backdrop-blur-md p-4 rounded-xl border border-[rgba(25,210,255,0.2)]">
+                     <div className="absolute bottom-6 left-6 z-30 backdrop-blur-md p-4 rounded-xl border border-[rgba(25,210,255,0.2)]"
+                        style={{ background: "var(--bg-card)" }}>
                          <p className="text-[#19D2FF] text-[9px] font-bold tracking-widest uppercase mb-1">LOCAL EXPERTISE</p>
-                         <p className="text-[#CBD5E1] font-bold text-[11px]">Navigate with Maps</p>
+                         <p className="font-bold text-[11px]" style={{ color: "var(--text)" }}>Navigate with Maps</p>
                      </div>
                   </div>
                </div>
             </div>
 
             {/* Right Column: Inquiry Form Panel */}
-            <div className="reveal-unit bg-[#111827] p-10 lg:p-16 rounded-3xl relative border border-[#19D2FF]/20 shadow-[0_30px_60px_rgba(10,15,28,0.8)]">
-               <div className="absolute inset-0 bg-[#19D2FF]/5 hidden md:block rounded-3xl pointer-events-none"></div>
+            <div className="reveal-unit p-10 lg:p-16 rounded-3xl relative backdrop-blur-xl border transition-all duration-500"
+                style={{ background: "var(--bg-card)", borderColor: "var(--highlight-border)", boxShadow: "0 30px 60px rgba(0,0,0,0.12)" }}>
+               <div className="absolute inset-0 opacity-[0.03] hidden md:block rounded-3xl pointer-events-none" style={{ background: "var(--highlight)" }}></div>
 
-               <div className="relative z-10 mb-12 text-white">
-                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 uppercase">INQUIRY FORM</h2>
-                  <p className="text-[#CBD5E1] leading-relaxed max-w-lg text-[15px] font-medium">
+               <div className="relative z-10 mb-12">
+                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 uppercase" style={{ color: "var(--text)" }}>INQUIRY FORM</h2>
+                  <p className="leading-relaxed max-w-lg text-[15px] font-medium" style={{ color: "var(--text-muted)" }}>
                     Submit your project parameters and operational requirements for a comprehensive structural review.
                   </p>
                </div>
@@ -179,19 +192,19 @@ export default function ContactPage() {
                <form onSubmit={handleSubmit(onSubmit)} className="relative z-10 space-y-8">
                   <div className="grid md:grid-cols-2 gap-6">
                      <div className="space-y-3">
-                        <label className="text-[10px] font-bold text-[#CBD5E1] tracking-[0.2em] uppercase ml-1">FULL NAME</label>
+                        <label className="text-[10px] font-bold tracking-[0.2em] uppercase ml-1" style={{ color: "var(--text-faint)" }}>FULL NAME</label>
                         <input 
                            {...register("name")} 
-                           className="w-full bg-[#0A0F1C] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-white outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.2)] transition-all placeholder:text-[#475569] text-[15px]" 
+                           className="w-full bg-[var(--bg)] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-[var(--text)] outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.15)] transition-all placeholder:text-[#475569] text-[15px]" 
                            placeholder="John Doe"
                         />
                         {errors.name && <p className="text-[11px] text-red-500 font-bold ml-1 mt-1">{errors.name.message}</p>}
                      </div>
                      <div className="space-y-3">
-                        <label className="text-[10px] font-bold text-[#CBD5E1] tracking-[0.2em] uppercase ml-1">EMAIL ADDRESS</label>
+                        <label className="text-[10px] font-bold tracking-[0.2em] uppercase ml-1" style={{ color: "var(--text-faint)" }}>EMAIL ADDRESS</label>
                         <input 
                            {...register("email")} 
-                           className="w-full bg-[#0A0F1C] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-white outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.2)] transition-all placeholder:text-[#475569] text-[15px]" 
+                           className="w-full bg-[var(--bg)] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-[var(--text)] outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.15)] transition-all placeholder:text-[#475569] text-[15px]" 
                            placeholder="john@example.com"
                         />
                         {errors.email && <p className="text-[11px] text-red-500 font-bold ml-1 mt-1">{errors.email.message}</p>}
@@ -199,20 +212,20 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-3">
-                     <label className="text-[10px] font-bold text-[#CBD5E1] tracking-[0.2em] uppercase ml-1">PHONE NUMBER</label>
+                     <label className="text-[10px] font-bold tracking-[0.2em] uppercase ml-1" style={{ color: "var(--text-faint)" }}>PHONE NUMBER</label>
                      <input 
                         {...register("phone")} 
-                        className="w-full bg-[#0A0F1C] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-white outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.2)] transition-all placeholder:text-[#475569] text-[15px]" 
+                        className="w-full bg-[var(--bg)] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-[var(--text)] outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.15)] transition-all placeholder:text-[#475569] text-[15px]" 
                         placeholder="+880 123 456 789"
                      />
                   </div>
 
                   <div className="space-y-3 relative">
-                     <label className="text-[10px] font-bold text-[#CBD5E1] tracking-[0.2em] uppercase ml-1">PROJECT DETAILS / MESSAGE</label>
+                     <label className="text-[10px] font-bold tracking-[0.2em] uppercase ml-1" style={{ color: "var(--text-faint)" }}>PROJECT DETAILS / MESSAGE</label>
                      <textarea 
                         {...register("message")} 
                         rows={6}
-                        className="w-full bg-[#0A0F1C] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-white outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.2)] transition-all placeholder:text-[#475569] resize-none text-[15px] leading-relaxed" 
+                        className="w-full bg-[var(--bg)] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-[var(--text)] outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.15)] transition-all placeholder:text-[#475569] resize-none text-[15px] leading-relaxed" 
                         placeholder="Describe your design parameters and structural visions..."
                      />
                      {errors.message && <p className="text-[11px] text-red-500 font-bold ml-1 mt-1">{errors.message.message}</p>}
@@ -232,15 +245,16 @@ export default function ContactPage() {
                   </button>
 
                   {status && (
-                    <div className="p-4 rounded-xl bg-[#19D2FF]/10 border border-[#19D2FF]/30 text-[#19D2FF] text-[11px] font-bold uppercase tracking-widest text-center mt-6 shadow-[0_0_15px_rgba(25,210,255,0.1)]">
+                    <div className="p-4 rounded-xl backdrop-blur-md border border-[#19D2FF]/30 text-[#19D2FF] text-[11px] font-bold uppercase tracking-widest text-center mt-6 shadow-[0_0_15px_rgba(25,210,255,0.1)]"
+                      style={{ background: "var(--highlight-soft)" }}>
                        {status}
                     </div>
                   )}
                </form>
 
                {/* Social Identity Section */}
-               <div className="relative z-10 mt-16 pt-10 border-t border-[#19D2FF]/10">
-                  <p className="text-[10px] font-black tracking-[0.4em] text-[#CBD5E1] uppercase mb-8 text-center">Digital Network Identity</p>
+               <div className="relative z-10 mt-16 pt-10 border-t" style={{ borderColor: "var(--highlight-border)" }}>
+                  <p className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-center" style={{ color: "var(--text-faint)" }}>Digital Network Identity</p>
                   <div className="flex flex-wrap justify-center gap-6">
                      {[
                         { id: 'facebook', icon: Facebook, url: socials.facebook },
@@ -254,14 +268,17 @@ export default function ContactPage() {
                            href={social.url}
                            target="_blank"
                            rel="noopener noreferrer"
-                           className="w-14 h-14 rounded-2xl bg-[#0A0F1C] border border-[rgba(25,210,255,0.1)] flex items-center justify-center text-[#CBD5E1] hover:text-[#19D2FF] hover:border-[#19D2FF] hover:shadow-[0_0_20px_rgba(25,210,255,0.2)] transition-all group"
+                           className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all group"
+                           style={{ background: "var(--bg)", border: "1px solid var(--highlight-border)", color: "var(--text-muted)" }}
                            aria-label={social.id}
+                           onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--highlight)"; e.currentTarget.style.color = "var(--highlight)"; e.currentTarget.style.boxShadow = "0 0 20px rgba(25,210,255,0.2)"; }}
+                           onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--highlight-border)"; e.currentTarget.style.color = "var(--text-muted)"; e.currentTarget.style.boxShadow = "none"; }}
                         >
                            <social.icon size={22} className="group-hover:scale-110 transition-transform" />
                         </a>
                      ))}
                   </div>
-                  <p className="text-[8px] font-bold text-[#475569] uppercase tracking-[0.3em] mt-8 text-center italic">Encryption Profile: 256-Bit Identity Protocol</p>
+                  <p className="text-[8px] font-bold uppercase tracking-[0.3em] mt-8 text-center italic" style={{ color: "var(--text-faint)" }}>Encryption Profile: 256-Bit Identity Protocol</p>
                </div>
             </div>
          </div>
