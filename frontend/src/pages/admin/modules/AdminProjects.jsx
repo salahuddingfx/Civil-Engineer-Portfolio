@@ -93,11 +93,11 @@ export default function AdminProjects() {
     try {
       if (selectedId) await adminUpdate("projects", selectedId, payload);
       else await adminCreate("projects", payload);
-      setStatus({ type: "success", message: "PROJECT_ASSET_SYNCHRONIZED_SUCCESSFULLY" });
+      setStatus({ type: "success", message: "PROJECT ASSET SYNCHRONIZED SUCCESSFULLY" });
       if (!selectedId) setSelectedId(null);
       await loadData();
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+      setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
     } finally { setSaving(false); }
   };
 
@@ -106,7 +106,7 @@ export default function AdminProjects() {
     setSaving(true);
     try {
       await adminDelete("projects", selectedId);
-      setStatus({ type: "success", message: "ASSET_PURGED_FROM_REGISTRY" });
+      setStatus({ type: "success", message: "ASSET PURGED FROM REGISTRY" });
       setSelectedId(null);
       await loadData();
     } catch (err) {
@@ -169,7 +169,7 @@ export default function AdminProjects() {
                     <span className={`text-[8px] font-black uppercase tracking-[0.2em] italic ${selectedId === item._id ? 'text-cyan-400' : 'text-slate-600'}`}>{item.category}</span>
                     <div className={`h-2 w-2 rounded-full ${item.isPublished ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' : 'bg-slate-800'}`} />
                   </div>
-                  <p className="text-sm font-black text-white italic truncate tracking-tight mb-2 uppercase">{item.title?.en || "Untitled_Node"}</p>
+                  <p className="text-sm font-black text-white italic truncate tracking-tight mb-2 uppercase">{item.title?.en || "Untitled Node"}</p>
                   <div className="flex items-center gap-3 text-[9px] text-slate-500 font-bold uppercase tracking-widest">
                     <MapPin size={10} className="text-cyan-400/40" />
                     <span className="truncate">{item.tags?.[1] || "Cox's Bazar"}</span>
@@ -261,7 +261,7 @@ export default function AdminProjects() {
              <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-cyan-400/20 to-transparent rounded-bl-full" />
              <div className="flex items-center gap-4 mb-10">
                 <ImageIcon size={18} className="text-cyan-400" />
-                <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Central_Asset_Media</h3>
+                <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Central Asset Media</h3>
              </div>
              <ImageUpload value={form.featuredImageUrl} onChange={val => setForm({...form, featuredImageUrl: val})} label="Primary High-Res Render" />
           </div>
@@ -278,7 +278,7 @@ export default function AdminProjects() {
           <div className="space-y-6">
             <div className="flex items-center justify-between mb-4 px-4">
                <label className={labelClasses}><Layers size={12} className="text-indigo-400" /> Detailed Specification Legacy (BN)</label>
-               <span className="text-[8px] font-black text-slate-700 uppercase tracking-widest italic">Bengali_Sync</span>
+               <span className="text-[8px] font-black text-slate-700 uppercase tracking-widest italic">Bengali Sync</span>
             </div>
             <textarea rows={8} value={form.bodyBn} onChange={e => setForm({...form, bodyBn: e.target.value})} className={`${inputClasses} font-mono text-[12px] leading-relaxed resize-none custom-scrollbar`} placeholder="## বিস্তারিত বিবরণ..." />
           </div>

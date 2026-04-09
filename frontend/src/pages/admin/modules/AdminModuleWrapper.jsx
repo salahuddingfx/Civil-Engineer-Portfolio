@@ -29,7 +29,7 @@ export default function AdminModuleWrapper({
           <div className="text-left">
             <div className="flex items-center gap-3 mb-2">
                <Cpu size={12} className="text-cyan-400/60" />
-               <p className="font-display text-[9px] tracking-[0.5em] text-cyan-400/60 uppercase font-black italic underline decoration-cyan-400/20 underline-offset-4">Module_Protocol</p>
+               <p className="font-display text-[9px] tracking-[0.5em] text-cyan-400/60 uppercase font-black italic underline decoration-cyan-400/20 underline-offset-4">Module Protocol</p>
             </div>
             <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter italic uppercase leading-none">{title}</h1>
             <p className="mt-3 text-[10px] text-slate-500 uppercase tracking-[0.35em] font-bold italic line-clamp-1">{subtitle}</p>
@@ -44,7 +44,7 @@ export default function AdminModuleWrapper({
           {allowCreate && (
              <button onClick={onNew} className="px-10 py-5 rounded-2xl bg-cyan-400 text-black font-display text-[11px] font-black uppercase tracking-widest shadow-[0_20px_40px_rgba(34,211,238,0.15)] hover:bg-cyan-300 hover:shadow-[0_25px_50px_rgba(34,211,238,0.25)] transition-all italic flex items-center gap-3">
                <Save size={16} />
-               Assemble
+               Assemble New
              </button>
           )}
         </div>
@@ -57,7 +57,7 @@ export default function AdminModuleWrapper({
         }`}>
           <div className="flex items-center justify-center gap-4">
             {status.type === 'error' ? <ShieldAlert size={20} /> : <CheckCircle2 size={20} />}
-            <p className="text-[12px] font-black uppercase tracking-[0.4em] italic leading-relaxed">{status.message}</p>
+            <p className="text-[12px] font-black uppercase tracking-[0.4em] italic leading-relaxed">{status.message.replace(/_/g, ' ')}</p>
           </div>
         </div>
       )}
@@ -107,8 +107,8 @@ export default function AdminModuleWrapper({
                 )}
               </div>
               <div className="text-right hidden md:block">
-                 <p className="text-[10px] font-black text-slate-700 uppercase tracking-[0.6em] italic mb-1">DESIGNER_ID: ASHIK_6.1</p>
-                 <p className="text-[8px] font-bold text-cyan-400/20 uppercase tracking-[0.4em] italic">SECURE_TUNNEL_ACTIVE</p>
+                 <p className="text-[10px] font-black text-slate-700 uppercase tracking-[0.6em] italic mb-1">DESIGNER ID: ASHIK 6.1</p>
+                 <p className="text-[8px] font-bold text-cyan-400/20 uppercase tracking-[0.4em] italic">SECURE TUNNEL ACTIVE</p>
               </div>
             </div>
           </>

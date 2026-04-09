@@ -69,11 +69,11 @@ export default function AdminGallery() {
     try {
       if (selectedId) await adminUpdate("gallery", selectedId, payload);
       else await adminCreate("gallery", payload);
-      setStatus({ type: "success", message: "VISUAL_ASSET_SYNCHRONIZED_SUCCESSFULLY" });
+      setStatus({ type: "success", message: "VISUAL ASSET SYNCHRONIZED SUCCESSFULLY" });
       if (!selectedId) setSelectedId(null);
       await loadData();
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+      setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
     } finally { setSaving(false); }
   };
 
@@ -82,7 +82,7 @@ export default function AdminGallery() {
     setSaving(true);
     try {
       await adminDelete("gallery", selectedId);
-      setStatus({ type: "success", message: "ASSET_PURGED_FROM_ARCHIVE" });
+      setStatus({ type: "success", message: "ASSET PURGED FROM ARCHIVE" });
       setSelectedId(null);
       await loadData();
     } catch (err) {
@@ -134,7 +134,7 @@ export default function AdminGallery() {
                 <img src={item.featuredImage?.url} alt="" className="w-full h-full object-cover transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
                    <p className="text-[8px] font-black uppercase tracking-widest text-cyan-400 italic mb-1">{item.category}</p>
-                   <p className="text-[10px] text-white font-bold truncate italic">{item.title?.en || "Untitled_Asset"}</p>
+                   <p className="text-[10px] text-white font-bold truncate italic">{item.title?.en || "Untitled Asset"}</p>
                 </div>
               </div>
             ))}
@@ -157,7 +157,7 @@ export default function AdminGallery() {
             
             <div className="flex items-center gap-4 px-6 py-3 bg-cyan-400/5 border border-cyan-400/10 rounded-2xl">
                <Layers size={14} className="text-cyan-400" />
-               <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest italic">Asset_Live_Node</span>
+               <span className="text-[10px] font-black text-cyan-400 uppercase tracking-widest italic">Asset Live Node</span>
             </div>
           </div>
 
@@ -183,7 +183,7 @@ export default function AdminGallery() {
                 <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-cyan-400/20 to-transparent rounded-bl-full" />
                 <div className="flex items-center gap-4 mb-10">
                    <Camera size={18} className="text-cyan-400" />
-                   <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Visual_Sensor_Output</h3>
+                   <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Visual Sensor Output</h3>
                 </div>
                 <ImageUpload value={form.featuredImageUrl} onChange={val => setForm({...form, featuredImageUrl: val})} label="Structural Capture Output" />
              </div>

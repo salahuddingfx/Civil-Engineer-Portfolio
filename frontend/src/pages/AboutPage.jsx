@@ -171,9 +171,9 @@ export default function AboutPage() {
             </p>
             <div className="flex gap-16">
               {[
-                { val: "150+", label: language === "en" ? "ASSETS DEPLOYED" : "প্রকল্প" },
+                { val: "250+", label: language === "en" ? "ASSETS DEPLOYED" : "প্রকল্প" },
                 { val: "11+",  label: language === "en" ? "CYCLE EXPERIENCE" : "অভিজ্ঞতা" },
-                { val: "100%", label: language === "en" ? "INTEGRITY INDEX" : "নিরাপত্তা" },
+                { val: "100%", label: language === "en" ? "INTEGRITY INDEX" : "নির্ভরযোগ্যতা" },
               ].map(({ val, label }, i) => (
                 <div key={i} className="group">
                   <p className="text-5xl font-black mb-2 transition-transform group-hover:scale-110" style={{ color: "var(--text)" }}>{val}</p>
@@ -192,8 +192,12 @@ export default function AboutPage() {
             />
             <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/40 to-transparent" />
             <div className="absolute bottom-12 left-12 right-12 p-10 rounded-[40px] backdrop-blur-2xl border border-white/10 bg-white/[0.03]">
-               <h3 className="text-2xl font-black text-white italic uppercase mb-2">{language === "en" ? "Principal Identity" : "প্রধান প্রকৌশলী"}</h3>
-               <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest italic opacity-60">{language === "en" ? "Strategic Structural Analysis" : "কাঠামোগত বিশ্লেষণ বিশেষজ্ঞ"}</p>
+               <h3 className="text-2xl font-black text-white italic uppercase mb-2">
+                 {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : bio?.title?.en || "Engr. Alam Ashik"}
+               </h3>
+               <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest italic opacity-60">
+                 {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : bio?.summary?.en || "Principal Structural Consultant"}
+               </p>
             </div>
           </div>
         </div>
@@ -301,10 +305,9 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1500px]">
           <div className="flex justify-between items-end mb-20 reveal-unit">
             <div>
-              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>PERSONNEL_REGISTRY</p>
-              <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>STUDIO_TEAM</h2>
+              <p className="text-[10px] tracking-[0.5em] font-black uppercase mb-6" style={{ color: "var(--highlight)" }}>{language === "en" ? "PERSONNEL REGISTRY" : "কর্মী তালিকা"}</p>
+              <h2 className="text-5xl md:text-6xl font-black uppercase italic tracking-tighter" style={{ color: "var(--text)" }}>{language === "en" ? "STUDIO TEAM" : "স্টুডিও টিম"}</h2>
             </div>
-            <Link to="/contact" className="text-[11px] font-black uppercase tracking-widest text-cyan-400 hover:text-white transition-colors">Join our team_</Link>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -327,8 +330,25 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+          <div className="mt-10 pt-10 border-t border-white/5 flex flex-col items-center">
+            <p className="text-[8px] font-black text-slate-700 uppercase tracking-[0.5em] mb-4">{language === "en" ? "LOOKING FOR OPPORTUNITIES?" : "সুযোগ খুঁজছেন?"}</p>
+            <button className="text-[11px] font-black text-cyan-400 hover:text-white transition-colors uppercase tracking-[0.3em] flex items-center gap-3 group/join">
+               {language === "en" ? "JOIN OUR TEAM" : "আমাদের টিমে যোগ দিন"}
+               <ChevronRight size={14} className="group-hover/join:translate-x-1 transition-transform" />
+            </button>
+          </div>
         </div>
       </section>
+
+      {/* Footer Branding Overlay */}
+      <div className="py-20 px-10 border-t border-white/[0.05] flex flex-col md:flex-row justify-between items-center gap-10 opacity-40 hover:opacity-100 transition-opacity">
+         <div className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">
+            ENGR. ALAM ASHIK // <span className="text-cyan-400">STRUCTURAL INTEGRITY</span>
+         </div>
+         <div className="text-[8px] font-bold text-slate-700 uppercase tracking-widest text-center">
+            {new Date().getFullYear()} © SYSTEM UPDATES AT 500MS // ARCHITECTURAL CONSULTANCY PROTOCOL
+         </div>
+      </div>
     </div>
   );
 }

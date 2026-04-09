@@ -85,7 +85,7 @@ export default function AdminContact() {
         const res = await adminCreate("contactDetails", payload);
         setRecordId(res._id);
       }
-      setStatus({ type: "success", message: "CONTACT_INFRASTRUCTURE_SYNCHRONIZED_SUCCESSFULLY" });
+      setStatus({ type: "success", message: "CONTACT INFRASTRUCTURE SYNCHRONIZED SUCCESSFULLY" });
     } catch (err) {
       setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
     } finally { setSaving(false); }
@@ -123,7 +123,7 @@ export default function AdminContact() {
            <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-4">
                  <MessageCircle size={18} className="text-emerald-400" />
-                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Messaging_Signal_Center</h3>
+                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Messaging Signal Center</h3>
               </div>
               <label className="flex items-center cursor-pointer scale-75">
                   <div className={`h-7 w-14 rounded-full transition-all duration-500 relative ${form.whatsappEnabled ? 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-slate-800'}`}>
@@ -169,7 +169,7 @@ export default function AdminContact() {
               <div className="absolute top-0 left-0 h-1.5 w-80 bg-gradient-to-r from-blue-400/20 to-transparent rounded-br-full" />
               <div className="flex items-center gap-4 mb-14">
                  <Share2 size={24} className="text-blue-400" />
-                 <h3 className="text-[14px] font-black uppercase tracking-[0.5em] text-white italic">Social_Grid_Architecture</h3>
+                 <h3 className="text-[14px] font-black uppercase tracking-[0.5em] text-white italic">Social Grid Architecture</h3>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">

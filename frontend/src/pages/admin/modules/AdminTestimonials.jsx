@@ -78,11 +78,11 @@ export default function AdminTestimonials() {
     try {
       if (selectedId) await adminUpdate("testimonials", selectedId, payload);
       else await adminCreate("testimonials", payload);
-      setStatus({ type: "success", message: "CLIENT_ENDORSEMENT_SYNCHRONIZED_SUCCESSFULLY" });
+      setStatus({ type: "success", message: "CLIENT ENDORSEMENT SYNCHRONIZED SUCCESSFULLY" });
       if (!selectedId) setSelectedId(null);
       await loadData();
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+      setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
     } finally { setSaving(false); }
   };
 
@@ -91,7 +91,7 @@ export default function AdminTestimonials() {
     setSaving(true);
     try {
       await adminDelete("testimonials", selectedId);
-      setStatus({ type: "success", message: "REVIEW_PURGED_FROM_REGISTRY" });
+      setStatus({ type: "success", message: "REVIEW PURGED FROM REGISTRY" });
       setSelectedId(null);
       await loadData();
     } catch (err) {
@@ -157,7 +157,7 @@ export default function AdminTestimonials() {
                        <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_10px_#10b981]" />
                     </div>
                   </div>
-                  <p className="text-sm font-black text-white italic truncate tracking-tight mb-1 uppercase">{item.title?.en || "Anonymous_Node"}</p>
+                  <p className="text-sm font-black text-white italic truncate tracking-tight mb-1 uppercase">{item.title?.en || "Anonymous Node"}</p>
                   <div className="flex items-center gap-3 mt-1.5">
                     <span className="text-[7px] font-black uppercase text-slate-700 tracking-widest bg-white/5 px-2 py-0.5 rounded truncate">ROLE: {item.summary?.en || "N/A"}</span>
                     <span className="text-[7px] font-black uppercase text-slate-700 tracking-widest bg-white/5 px-2 py-0.5 rounded">ID: {item._id.slice(-4)}</span>
@@ -179,7 +179,7 @@ export default function AdminTestimonials() {
             <div className="flex items-center gap-6 px-10 py-5 bg-white/[0.02] border border-white/[0.05] rounded-3xl group/featured">
                <div className="flex items-center gap-3">
                   <Crown size={14} className={form.isFeatured ? 'text-yellow-500 animate-pulse' : 'text-slate-700'} />
-                  <span className={`text-[9px] font-black uppercase tracking-[0.3em] italic ${form.isFeatured ? 'text-yellow-500' : 'text-slate-700'}`}>Featured_Status</span>
+                  <span className={`text-[9px] font-black uppercase tracking-[0.3em] italic ${form.isFeatured ? 'text-yellow-500' : 'text-slate-700'}`}>Featured Status</span>
                </div>
                <label className="flex items-center cursor-pointer group scale-90">
                   <div className={`h-7 w-14 rounded-full transition-all duration-500 relative ${form.isFeatured ? 'bg-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.3)]' : 'bg-slate-800'}`}>
@@ -231,7 +231,7 @@ export default function AdminTestimonials() {
                 <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-cyan-400/20 to-transparent rounded-bl-full" />
                 <div className="flex items-center gap-4 mb-10">
                    <Sparkles size={18} className="text-cyan-400" />
-                   <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Peer_Identity_Asset</h3>
+                   <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Peer Identity Asset</h3>
                 </div>
                 <ImageUpload value={form.featuredImageUrl} onChange={val => setForm({...form, featuredImageUrl: val})} label="Principal Client Portrait" />
              </div>

@@ -64,9 +64,9 @@ export default function AdminHome() {
         const res = await adminCreate("home", payload);
         setRecordId(res._id);
       }
-      setStatus({ type: "success", message: "HOME_VISION_SYNCHRONIZED_SUCCESSFULLY" });
+      setStatus({ type: "success", message: "HOME VISION SYNCHRONIZED SUCCESSFULLY" });
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+      setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
     } finally {
       setSaving(false);
     }
@@ -90,7 +90,7 @@ export default function AdminHome() {
         <section>
            <div className="flex items-center gap-4 mb-10">
               <Sparkles size={16} className="text-cyan-400" />
-              <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-cyan-400/60">Hero_Typography_System</h3>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-cyan-400/60">Hero Typography System</h3>
            </div>
            
            <div className="grid md:grid-cols-2 gap-10">
@@ -151,7 +151,7 @@ export default function AdminHome() {
               <div className="absolute top-0 right-10 h-1 w-20 bg-cyan-400/40" />
               <div className="flex items-center gap-4 mb-10">
                  <ImageIcon size={16} className="text-cyan-400" />
-                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">High_Fidelity_Renders</h3>
+                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">High Fidelity Renders</h3>
               </div>
               <ImageUpload 
                 value={form.featuredImageUrl}

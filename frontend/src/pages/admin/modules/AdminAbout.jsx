@@ -77,9 +77,9 @@ export default function AdminAbout() {
         const res = await adminCreate("about", payload);
         setRecordId(res._id);
       }
-      setStatus({ type: "success", message: "LEGACY_BIOGRAPHY_SYNCHRONIZED" });
+      setStatus({ type: "success", message: "LEGACY BIOGRAPHY SYNCHRONIZED" });
     } catch (err) {
-      setStatus({ type: "error", message: "BIOSYNC_PROTOCOL_FAILED" });
+      setStatus({ type: "error", message: "BIOSYNC PROTOCOL FAILED" });
     } finally { setSaving(false); }
   };
 
@@ -88,10 +88,10 @@ export default function AdminAbout() {
      try {
         if (data._id) {
            await adminUpdate(collection, data._id, data);
-           setStatus({ type: "success", message: `${type.toUpperCase()}_UNIT_UPDATED` });
+           setStatus({ type: "success", message: `${type.toUpperCase()} UNIT UPDATED` });
         } else {
            const res = await adminCreate(collection, { ...data, slug: `${type}-${Date.now()}` });
-           setStatus({ type: "success", message: `NEW_${type.toUpperCase()}_INITIALIZED` });
+           setStatus({ type: "success", message: `NEW ${type.toUpperCase()} INITIALIZED` });
         }
         // Refresh local state
         const refresh = await adminList(collection, { sort: "order" });
@@ -210,7 +210,7 @@ export default function AdminAbout() {
             {editingItem?.type === 'skill' ? (
                <div className="bg-white/[0.03] border border-white/[0.08] rounded-[40px] p-12 space-y-8 relative">
                   <div className="flex justify-between items-center mb-6">
-                     <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Configure_Skill_Node</h3>
+                     <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Configure Skill Node</h3>
                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-white uppercase transition-colors">Discard</button>
                   </div>
                   <div className="grid md:grid-cols-2 gap-8">
@@ -266,7 +266,7 @@ export default function AdminAbout() {
                   ))}
                   <button onClick={() => setEditingItem({ type: 'skill', data: { titleEn: '', titleBn: '', proficiency: 80, icon: 'Zap', order: skills.length + 1 } })} className="p-8 rounded-3xl border-2 border-dashed border-white/5 flex items-center justify-center gap-4 text-slate-700 hover:text-cyan-400 hover:border-cyan-400/20 transition-all group">
                      <Plus size={20} className="group-hover:rotate-90 transition-transform" />
-                     <span className="text-[11px] font-black uppercase tracking-widest">Add_Skill_Node</span>
+                     <span className="text-[11px] font-black uppercase tracking-widest">Add Skill Node</span>
                   </button>
                </div>
             )}
@@ -279,7 +279,7 @@ export default function AdminAbout() {
              {editingItem?.type === 'timeline' ? (
                 <div className="bg-white/[0.03] border border-white/[0.08] rounded-[40px] p-12 space-y-8">
                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Log_Timeline_Step</h3>
+                      <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Log Timeline Step</h3>
                       <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-white uppercase transition-colors">Discard</button>
                    </div>
                    <div className="grid md:grid-cols-3 gap-8 text-left">
@@ -350,7 +350,7 @@ export default function AdminAbout() {
                    ))}
                    <button onClick={() => setEditingItem({ type: 'timeline', data: { year: '2024', category: 'Experience', titleEn: '', titleBn: '', descEn: '', descBn: '', order: timeline.length + 1 } })} className="w-full p-10 rounded-[40px] border-2 border-dashed border-white/5 flex items-center justify-center gap-6 text-slate-700 hover:text-cyan-400 transition-all group">
                       <Plus size={24} className="group-hover:rotate-90 transition-transform duration-500" />
-                      <span className="text-[12px] font-black uppercase tracking-[0.4em]">Register_New_History_Node</span>
+                      <span className="text-[12px] font-black uppercase tracking-[0.4em]">Register New History Node</span>
                    </button>
                 </div>
              )}
@@ -363,7 +363,7 @@ export default function AdminAbout() {
              {editingItem?.type === 'team' ? (
                 <div className="bg-white/[0.03] border border-white/[0.08] rounded-[40px] p-12 space-y-10 text-left">
                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Personnel_Configuration</h3>
+                      <h3 className="text-xl font-black text-white italic tracking-tighter uppercase font-display">Personnel Configuration</h3>
                       <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-500 hover:text-white uppercase transition-colors">Discard</button>
                    </div>
                    <div className="grid md:grid-cols-2 gap-8">
@@ -418,7 +418,7 @@ export default function AdminAbout() {
                    ))}
                    <button onClick={() => setEditingItem({ type: 'team', data: { name: '', descEn: '', bioEn: '', imageUrl: '', linkedin: '', order: team.length + 1 } })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-white/5 flex flex-col items-center justify-center gap-6 text-slate-700 hover:text-cyan-400 transition-all group">
                       <Plus size={32} className="group-hover:rotate-180 transition-transform duration-1000" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.4em]">Register_New_Staff</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.4em]">Register New Staff</span>
                    </button>
                 </div>
              )}

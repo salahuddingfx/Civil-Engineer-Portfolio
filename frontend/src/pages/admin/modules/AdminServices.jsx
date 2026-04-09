@@ -74,11 +74,11 @@ export default function AdminServices() {
     try {
       if (selectedId) await adminUpdate("services", selectedId, payload);
       else await adminCreate("services", payload);
-      setStatus({ type: "success", message: "SERVICE_CATALOG_SYNCHRONIZED_SUCCESSFULLY" });
+      setStatus({ type: "success", message: "SERVICE CATALOG SYNCHRONIZED SUCCESSFULLY" });
       if (!selectedId) setSelectedId(null);
       await loadData();
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+      setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
     } finally { setSaving(false); }
   };
 
@@ -87,7 +87,7 @@ export default function AdminServices() {
     setSaving(true);
     try {
       await adminDelete("services", selectedId);
-      setStatus({ type: "success", message: "SERVICE_PURGED_FROM_CATALOG" });
+      setStatus({ type: "success", message: "SERVICE PURGED FROM CATALOG" });
       setSelectedId(null);
       await loadData();
     } catch (err) {
@@ -219,7 +219,7 @@ export default function AdminServices() {
                 <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-violet-400/20 to-transparent rounded-bl-full" />
                 <div className="flex items-center gap-4 mb-10">
                    <Settings size={18} className="text-violet-400" />
-                   <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Service_Technical_Parameters</h3>
+                   <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Service Technical Parameters</h3>
                 </div>
                 
                 <div className="grid md:grid-cols-2 gap-10">
