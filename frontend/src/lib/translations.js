@@ -143,6 +143,12 @@ export const translations = {
     partners: {
       title: "Trusted Partners & Accreditations",
     },
+    legal: {
+      privacy_title: "Privacy Policy",
+      agreement: "This policy establishes the protocols for data handling and structural integrity registration within our engineering studio.",
+      data_protection: "Digital Asset Protection",
+      last_updated: "Last Updated",
+    },
   },
 
   bn: {
@@ -288,6 +294,12 @@ export const translations = {
     },
     partners: {
       title: "বিশ্বস্ত অংশীদার ও স্বীকৃতিসমূহ",
+    },
+    legal: {
+      privacy_title: "প্রাইভেসি পলিসি",
+      agreement: "এই নীতিটি আমাদের ইঞ্জিনিয়ারিং স্টুডিওর মধ্যে তথ্য পরিচালনা এবং কাঠামোগত অখণ্ডতা নিবন্ধনের প্রোটোকল স্থাপন করে।",
+      data_protection: "ডিজিটাল সম্পদ সুরক্ষা",
+      last_updated: "সর্বশেষ আপডেট",
     },
   },
 };

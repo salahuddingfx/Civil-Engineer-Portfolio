@@ -7,6 +7,7 @@ import { ProjectSkeleton } from "../components/Skeleton";
 import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
+import PreviewModal from "../components/PreviewModal";
 
 const categories = ["ALL", "RESIDENTIAL", "COMMERCIAL", "INFRASTRUCTURE", "STRUCTURAL"];
 
@@ -70,6 +71,7 @@ export default function ProjectsPage() {
 
   const [loading, setLoading] = useState(true);
   const [displayProjects, setDisplayProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
     const load = async () => {
@@ -183,30 +185,31 @@ export default function ProjectsPage() {
               filtered.map((project, i) => (
                 <div
                   key={i}
-                  className="reveal-unit relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-xl transition-all duration-300 active:scale-[0.98]"
+                  className="reveal-unit relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer shadow-xl transition-all duration-300 active:scale-[0.98] group"
                   style={{ border: "1px solid var(--highlight-border)" }}
+                  onClick={() => setSelectedProject(project)}
                 >
                   <img
                     src={project.img}
                     alt={project.title}
                     loading="lazy"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
                   
                   {/* Better Overlay for Mobile */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/60 to-transparent opacity-80 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/60 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
 
                   <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end text-white">
-                    <div className="translate-y-0">
+                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <span
                         className="inline-block px-3 py-1 rounded text-[9px] md:text-[10px] tracking-widest font-bold uppercase mb-3 backdrop-blur-sm"
                         style={{ background: "var(--highlight-soft)", color: "var(--highlight)", border: "1px solid var(--highlight-border)" }}
                       >
                         {project.category} / {project.year}
                       </span>
-                      <h3 className="text-xl md:text-2xl font-bold leading-tight mb-2 text-white">{project.title}</h3>
+                      <h3 className="text-xl md:text-2xl font-bold leading-tight mb-2 text-white group-hover:text-[var(--highlight)] transition-colors">{project.title}</h3>
                       <div
-                        className="flex items-center justify-between mt-2 pt-3 md:pt-4"
+                        className="flex items-center justify-between mt-2 pt-3 md:pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
                         style={{ borderTop: "1px solid var(--highlight-border)" }}
                       >
                         <div className="flex items-center gap-2">
@@ -225,7 +228,7 @@ export default function ProjectsPage() {
 
                   {/* Focus/Arrow Icon - Smaller on Mobile */}
                   <div
-                    className="absolute top-4 right-4 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 backdrop-blur-md rounded-full flex items-center justify-center -rotate-45"
+                    className="absolute top-4 right-4 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 backdrop-blur-md rounded-full flex items-center justify-center -rotate-45 opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500"
                     style={{ background: "var(--highlight-soft)", border: "1px solid var(--highlight-border)", color: "var(--highlight)" }}
                   >
                     <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,6 +240,15 @@ export default function ProjectsPage() {
             )}
          </div>
       </section>
+
+      {/* Project Preview Modal */}
+      <PreviewModal 
+        data={selectedProject} 
+        isOpen={!!selectedProject} 
+        onClose={() => setSelectedProject(null)} 
+        type="project"
+        language={language}
+      />
 
       {/* CTA Section */}
       <section className="py-24 px-6 lg:px-10 bg-[#0A0F1C]">

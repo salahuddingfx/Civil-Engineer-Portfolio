@@ -5,9 +5,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../context/LanguageContext";
 import SeoHead from "../components/SeoHead";
 import { fetchContent } from "../lib/api";
-import { Mail, Zap, Clock, Users, ChevronRight, MessageSquare, Quote } from "lucide-react";
+import { Mail, Zap, Clock, Users, ChevronRight, MessageSquare, Quote, X } from "lucide-react";
 import { Linkedin } from "../components/BrandIcons";
 import LucideIcon from "../components/LucideIcon";
+import PreviewModal from "../components/PreviewModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -60,6 +61,7 @@ export default function AboutPage() {
   const [skills, setSkills] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [team, setTeam] = useState([]);
+  const [selectedMember, setSelectedMember] = useState(null);
 
   useEffect(() => {
     async function loadAboutData() {
@@ -190,80 +192,73 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 2. FOUNDER PROFILE (EXACT MATCH) ──────────────────────────────── */}
-      <section className="py-24 md:py-48 px-6 lg:px-10 relative overflow-hidden border-y border-[var(--highlight-border)]" style={{ background: "var(--bg-soft)" }}>
-         <div className="mx-auto max-w-[1500px] grid lg:grid-cols-2 gap-24 items-center relative z-10">
-            {/* Biography Text */}
-            <div className="reveal-unit space-y-12">
-               <div>
-                  <h2 className="text-4xl sm:text-6xl font-black mb-4 uppercase tracking-tighter font-display leading-tight" style={{ color: "var(--text)" }}>
-                    {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : bio?.title?.en || "Engr. Alam Ashik"}
+      {/* ── 2. ABOUT ME SECTION (REFINED) ─────────────────────────────────── */}
+      <section id="about-me" className="py-24 md:py-40 px-6 lg:px-10 relative overflow-hidden border-y border-[var(--highlight-border)]">
+         <div className="mx-auto max-w-[1400px] grid lg:grid-cols-2 gap-16 lg:gap-32 items-center relative z-10">
+            
+            {/* Content Side - NOW ON THE LEFT */}
+            <div className="reveal-unit space-y-10 order-2 lg:order-1">
+               <div className="space-y-4">
+                  <span className="stats-label block">About Me</span>
+                  <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter font-display leading-[0.9]" style={{ color: "var(--text)" }}>
+                    {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : (bio?.title?.en || "Engr. Alam Ashik")}
                   </h2>
-                  <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-[0.5em] italic mb-6">
-                    {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : bio?.summary?.en || "FOUNDER & LEAD CONSULTANT"}
-                  </p>
-                  <div className="w-20 h-1 bg-[var(--highlight)] mb-12" />
-               </div>
-
-               <div className="space-y-10 max-w-2xl">
-                  {/* Dynamic Quote */}
-                  <div className="relative">
-                     <p className="text-lg md:text-xl font-black italic leading-relaxed uppercase tracking-tight" style={{ color: "var(--text)" }}>
-                        "{language === "bn" ? (bio?.quote?.bn || bio?.quote?.en) : (bio?.quote?.en || "Innovation isn't just about modern tools; it's about a fundamental shift in how we perceive durability and aesthetics.")}"
-                     </p>
-                  </div>
-
-                  {/* Dynamic Bio */}
-                  <p className="text-base font-medium leading-relaxed italic" style={{ color: "var(--text-muted)" }}>
-                     {language === "bn" ? (bio?.body?.bn || bio?.body?.en) : bio?.body?.en}
+                  <p className="text-[12px] font-black text-[var(--highlight)] uppercase tracking-[0.4em] italic">
+                    {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : (bio?.summary?.en || "FOUNDER & LEAD CONSULTANT")}
                   </p>
                </div>
 
-               <Link to="/contact" 
-                 className="inline-flex items-center gap-5 px-10 py-5 bg-[var(--highlight)] text-black rounded-xl font-black text-[12px] uppercase tracking-[0.2em] transform transition-all hover:scale-105 hover:bg-[var(--highlight)] opacity-90 hover:opacity-100 shadow-[0_20px_40px_var(--highlight-glow)]">
-                  {language === "en" ? "View Executive Portfolio" : "এক্সিকিউটিভ পোর্টফোলিও"}
-                  <ChevronRight size={18} />
-               </Link>
-            </div>
+               <div className="space-y-8">
+                  <p className="text-xl md:text-2xl font-medium leading-relaxed italic" style={{ color: "var(--text-muted)" }}>
+                     {language === "bn" ? (
+                        <>হাই, আমি প্রকৌশলী আলম আশিক। {bio?.body?.bn || bio?.body?.en}</>
+                     ) : (
+                        <>Hi, I'm Engr. Alam Ashik. {bio?.body?.en || "A passionate structural consultant dedicated to blending engineering precision with architectural beauty."}</>
+                     )}
+                  </p>
 
-            {/* Portrait side */}
-            <div className="reveal-unit relative flex justify-center lg:justify-end">
-               <div className="relative group">
-                  {/* Message Icon Bubble */}
-                  <div className="absolute -top-6 -right-6 w-16 h-16 rounded-full bg-[var(--highlight)] flex items-center justify-center text-black z-20 shadow-[0_0_30px_var(--highlight)] animate-bounce">
-                    <MessageSquare size={24} />
-                  </div>
-
-                  {/* Decorative Border Line */}
-                  <div className="absolute -bottom-10 -right-10 w-full h-[80%] border-r-2 border-b-2 border-[var(--highlight-border)] rounded-br-[80px]" />
-                  
-                  {/* Main Portrait */}
-                  <div className="relative w-full max-w-[500px] aspect-[4/5] rounded-[40px] overflow-hidden border-2 border-white/5 shadow-3xl bg-[var(--bg-card)] group-hover:border-[var(--highlight-border)] transition-all duration-700">
-                     <img 
-                       src={bio?.featuredImage?.url || "https://images.squarespace-cdn.com/content/v1/5932df8946c3c43428989a31/1513238640825-J90E2L3A8K1B9T9X7L8G/Headshot.jpg"} 
-                       alt="Engr. Alam Ashik"
-                       className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-105"
-                     />
-                     
-                     {/* OVERLAY WITH NAME AND DESIGNATION ON HOVER AS REQUESTED */}
-                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center backdrop-blur-sm">
-                        <div className="transform translate-y-10 group-hover:translate-y-0 transition-transform duration-700">
-                           <h3 className="text-2xl md:text-3xl font-black text-white italic uppercase tracking-tighter mb-2 font-display">
-                             {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : (bio?.title?.en || "Engr. Alam Ashik")}
-                           </h3>
-                           <div className="h-1 w-12 bg-[var(--highlight)] mx-auto mb-4" />
-                           <p className="text-[10px] md:text-xs font-black text-[var(--highlight)] uppercase tracking-[0.4em]">
-                             {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : (bio?.summary?.en || "Principal Structural Consultant")}
-                           </p>
-                        </div>
+                  <div className="grid grid-cols-2 gap-10 pt-6 border-t border-white/5">
+                     <div className="space-y-2">
+                        <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-widest">Specialization</p>
+                        <p className="text-sm font-bold uppercase italic opacity-80" style={{ color: "var(--text)" }}>Structural Integrity</p>
                      </div>
-
-                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t via-transparent to-transparent group-hover:opacity-0 transition-opacity" style={{ backgroundImage: "linear-gradient(to top, var(--bg-soft), transparent)" }} />
+                     <div className="space-y-2">
+                        <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-widest">Consultancy</p>
+                        <p className="text-sm font-bold uppercase italic opacity-80" style={{ color: "var(--text)" }}>Civil Engineering</p>
+                     </div>
                   </div>
                </div>
+
+               <div className="pt-6">
+                  <Link to="/contact" 
+                    className="inline-flex items-center gap-4 px-10 py-5 bg-[var(--highlight)] text-black rounded-xl font-black text-[11px] uppercase tracking-[0.2em] transform transition-all hover:scale-105 shadow-[0_20px_40px_var(--highlight-glow)]">
+                     {language === "en" ? "Work With Me" : "আমার সাথে কাজ করুন"}
+                     <ChevronRight size={18} />
+                  </Link>
+               </div>
             </div>
+
+            {/* Image Side - NOW ON THE RIGHT */}
+            <div className="reveal-unit relative order-1 lg:order-2">
+               <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden border border-white/10 shadow-3xl bg-[var(--bg-card)] group">
+                  <img 
+                    src={bio?.featuredImage?.url || "/images/mission-concept.png"} 
+                    alt="Engr. Alam Ashik"
+                    className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-transparent opacity-40" />
+               </div>
+               
+               {/* Subtle Experience Badge */}
+               <div className="absolute -bottom-6 -right-6 p-6 rounded-2xl backdrop-blur-xl bg-[var(--bg-card)] border border-[var(--highlight-border)] shadow-2xl reveal-unit">
+                  <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-widest mb-1">Experience</p>
+                  <p className="text-xl font-black italic uppercase leading-none" style={{ color: "var(--text)" }}>11+ Years</p>
+               </div>
+            </div>
+
          </div>
       </section>
+
 
       {/* ── 3. SKILLSET GRID ─────────────────────────────────────────────── */}
       <section className="py-24 md:py-48 px-6 lg:px-10 relative overflow-hidden">
@@ -340,7 +335,12 @@ export default function AboutPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {team.map((member, i) => (
-              <div key={i} className="reveal-unit group relative rounded-[48px] overflow-hidden transition-all duration-500 border border-white/5 border-b-[var(--highlight-border)]" style={{ background: "var(--bg-card)" }}>
+              <div 
+                key={i} 
+                className="reveal-unit group relative rounded-[48px] overflow-hidden transition-all duration-500 border border-white/5 border-b-[var(--highlight-border)] cursor-pointer" 
+                style={{ background: "var(--bg-card)" }}
+                onClick={() => setSelectedMember(member)}
+              >
                 <div className="aspect-[4/5] overflow-hidden relative">
                   <img src={member.image?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"} alt={member.name}
                     className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-110"
@@ -350,19 +350,35 @@ export default function AboutPage() {
                   
                   <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
                      <div className="mb-4 space-y-2">
-                        <h3 className="text-xl font-black italic uppercase tracking-tight font-display" style={{ color: "var(--text)" }}>{member.name}</h3>
+                        <h3 className="text-xl font-black italic uppercase tracking-tight font-display hover:text-[var(--highlight)] transition-colors" style={{ color: "var(--text)" }}>{member.name}</h3>
                         <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-[0.4em]">{member.designation?.en}</p>
                      </div>
                      
                      <div className="flex items-center justify-between pt-4 border-t border-[var(--highlight-border)] opacity-0 group-hover:opacity-100 transition-opacity">
-                       <a href={member.socialLinks?.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-white/10 text-white hover:bg-[var(--highlight)] hover:text-black transition-all"><Linkedin size={16} /></a>
-                       <span className="text-[8px] font-black uppercase tracking-widest italic" style={{ color: "var(--text-faint)" }}>Core Staff</span>
+                        <a 
+                          href={member.socialLinks?.linkedin} 
+                          onClick={(e) => e.stopPropagation()} 
+                          target="_blank" rel="noopener noreferrer" 
+                          className="p-3 rounded-xl bg-white/10 text-white hover:bg-[var(--highlight)] hover:text-black transition-all"
+                        >
+                          <Linkedin size={16} />
+                        </a>
+                        <span className="text-[8px] font-black uppercase tracking-widest italic" style={{ color: "var(--text-faint)" }}>Core Staff</span>
                      </div>
                   </div>
-                </div>
+               </div>
               </div>
             ))}
           </div>
+
+          {/* Member Preview Modal */}
+          <PreviewModal 
+            data={selectedMember} 
+            isOpen={!!selectedMember} 
+            onClose={() => setSelectedMember(null)} 
+            type="team"
+            language={language}
+          />
         </div>
       </section>
 

@@ -30,13 +30,13 @@ export default function PrivacyPolicyPage() {
       />
       
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-6 lg:px-10 text-center">
+      <section className="relative pt-24 pb-12 px-6 lg:px-10 text-center">
          <div className="legal-reveal mx-auto max-w-[900px]">
              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(25,210,255,0.2)] bg-[#19D2FF]/5 mb-6 text-[#19D2FF] text-[10px] font-bold tracking-[0.2em] uppercase shadow-[0_0_15px_rgba(25,210,255,0.1)]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#19D2FF]"></span>
               LEGAL PROTOCOL
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold leading-[1.1] tracking-tight mb-8 uppercase text-white">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight mb-8 uppercase text-white">
               {language === 'en' ? "Privacy" : "প্রাইভেসি"} <br /> <span className="text-[#19D2FF]">{language === 'en' ? "Registry" : "রেজিস্ট্রি"}</span>
             </h1>
             <p className="text-lg text-[#CBD5E1] max-w-2xl mx-auto leading-relaxed">
@@ -45,9 +45,9 @@ export default function PrivacyPolicyPage() {
          </div>
       </section>
 
-      <section className="mt-16 max-w-4xl mx-auto px-6 md:px-10 text-left space-y-16">
+      <section className="mt-8 md:mt-16 max-w-4xl mx-auto px-6 md:px-10 text-left space-y-12">
         <div className="legal-reveal p-8 md:p-16 border border-[rgba(25,210,255,0.1)] bg-[#111827] shadow-[0_20px_40px_rgba(10,15,28,0.5)] rounded-3xl">
-          <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-8 uppercase">{t("legal.data_protection", language)}</h2>
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight mb-8 uppercase">{t("legal.data_protection", language)}</h2>
           <div className="space-y-6 text-[15px] text-[#CBD5E1] leading-relaxed">
             <p>
               {language === 'en' 

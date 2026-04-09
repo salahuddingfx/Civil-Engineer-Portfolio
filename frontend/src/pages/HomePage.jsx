@@ -12,6 +12,7 @@ import LucideIcon from "../components/LucideIcon";
 const ArchitecturalModel = lazy(() => import("../components/ArchitecturalModel"));
 import { Skeleton, ProjectSkeleton, ServiceSkeleton, TestimonialSkeleton } from "../components/Skeleton";
 import { fetchContent } from "../lib/api";
+import PreviewModal from "../components/PreviewModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -116,6 +117,7 @@ export default function HomePage({ isIntroComplete }) {
   const [displayProjects, setDisplayProjects] = useState([]);
   const [displayTestimonials, setDisplayTestimonials] = useState([]);
   const [displayServices, setDisplayServices] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   // Mock fetching / Real fetching attempt
   useEffect(() => {
@@ -472,27 +474,45 @@ export default function HomePage({ isIntroComplete }) {
               [1, 2, 3].map((i) => <ProjectSkeleton key={i} />)
             ) : (
               displayProjects.map((project, i) => (
-                <div key={i} className="relative rounded-2xl overflow-hidden aspect-[4/5] reveal-unit cursor-pointer shadow-2xl">
-                  <img src={project.img} alt={project.title} className="w-full h-full object-cover" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent opacity-90" />
+                <div 
+                  key={i} 
+                  className="relative rounded-2xl overflow-hidden aspect-[4/5] reveal-unit cursor-pointer shadow-2xl group transition-all duration-500"
+                  onClick={() => setSelectedProject(project)}
+                >
+                  <img src={project.img} alt={project.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent opacity-90 transition-opacity group-hover:opacity-100" />
                   <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                    <div className="translate-y-0">
+                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <span className="inline-block px-3 py-1 rounded-full text-[10px] tracking-widest font-bold uppercase mb-4"
                         style={{ background: "var(--highlight-soft)", color: "var(--highlight)", border: "1px solid var(--highlight-border)" }}>
                         {project.type}
                       </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{project.title}</h3>
-                      <div className="flex items-center gap-2 text-[13px] text-white/70 font-medium">
+                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 transition-colors group-hover:text-[var(--highlight)]">{project.title}</h3>
+                      <div className="flex items-center gap-2 text-[13px] text-white/70 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                         {project.location} • {project.year}
                       </div>
                     </div>
+                  </div>
+
+                  {/* Icon indicator */}
+                  <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-[var(--highlight)] text-black flex items-center justify-center opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                   </div>
                 </div>
               ))
             )}
           </div>
         </div>
+
+        {/* Project Preview Modal */}
+        <PreviewModal 
+          data={selectedProject} 
+          isOpen={!!selectedProject} 
+          onClose={() => setSelectedProject(null)} 
+          type="project"
+          language={language}
+        />
       </section>
 
       {/* ── Client Reviews ────────────────────────────────────────────────── */}

@@ -6,8 +6,25 @@
   --admin-accent: #0ea5e9;
   --admin-text-primary: #0F172A;
   --admin-text-secondary: #475569;
+  --admin-text-heading: #0F172A;
+  --admin-text-label: #334155;
+  --admin-text-muted: #64748B;
   --admin-success: #10B981;
   --admin-danger: #EF4444;
+  --admin-input-bg: #FFFFFF;
+}
+
+[data-theme="dark"] {
+  --admin-bg: #070a13;
+  --admin-card: #0c1222;
+  --admin-border: rgba(25, 210, 255, 0.15);
+  --admin-accent: #19D2FF;
+  --admin-text-primary: #F8FAFC;
+  --admin-text-secondary: #94A3B8;
+  --admin-text-heading: #FFFFFF;
+  --admin-text-label: #CBD5E1;
+  --admin-text-muted: #64748B;
+  --admin-input-bg: rgba(255, 255, 255, 0.03);
 }
 
 .admin-blueprint-grid {
@@ -30,7 +47,7 @@
 }
 
 .admin-input {
-  background: #FFFFFF;
+  background: var(--admin-input-bg);
   border: 1px solid var(--admin-border);
   color: var(--admin-text-primary);
   border-radius: 8px;
@@ -39,9 +56,11 @@
 }
 
 .admin-input:focus {
+  background: var(--admin-card);
   border-color: var(--admin-accent);
-  box-shadow: 0 0 0 2px rgba(25, 210, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(25, 210, 255, 0.15);
   outline: none;
+  color: var(--admin-text-primary);
 }
 
 /* Custom scrollbar for admin panel */

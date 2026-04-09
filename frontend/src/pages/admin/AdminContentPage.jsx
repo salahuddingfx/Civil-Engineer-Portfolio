@@ -299,13 +299,13 @@ export default function AdminContentPage() {
             <config.icon size={24} />
           </div>
           <div>
-            <div className="flex items-center gap-2 text-[9px] font-black text-slate-600 uppercase tracking-[0.3em] mb-1 italic">
+            <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.3em] mb-1 italic" style={{ color: "var(--admin-text-muted)" }}>
               <History size={10} />
               <span>Registry Hub</span>
               <ChevronRight size={10} />
               <span className="text-[#19D2FF]/60">{type}</span>
             </div>
-            <h2 className="text-3xl font-black text-slate-900 italic tracking-tighter uppercase leading-none">{config.label}</h2>
+            <h2 className="text-3xl font-black italic tracking-tighter uppercase leading-none" style={{ color: "var(--admin-text-heading)" }}>{config.label}</h2>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -336,9 +336,9 @@ export default function AdminContentPage() {
         {/* Left Side: Asset List */}
         <div className="space-y-6">
           <div className="admin-card p-6">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-200 mb-6">
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Structural Inventory</p>
-              <button onClick={reload} className="text-slate-600 hover:text-sky-600 transition-colors"><RefreshCcw size={14} className={loading ? 'animate-spin' : ''} /></button>
+            <div className="flex items-center justify-between pb-4 border-b mb-6" style={{ borderColor: "var(--admin-border)" }}>
+              <p className="text-[10px] font-black uppercase tracking-widest italic" style={{ color: "var(--admin-text-muted)" }}>Structural Inventory</p>
+              <button onClick={reload} className="hover:text-sky-600 transition-colors" style={{ color: "var(--admin-text-secondary)" }}><RefreshCcw size={14} className={loading ? 'animate-spin' : ''} /></button>
             </div>
             
             <div className="space-y-3 max-h-[70vh] overflow-y-auto admin-scrollbar pr-2">
@@ -356,10 +356,10 @@ export default function AdminContentPage() {
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">
-                      <p className={`text-sm font-bold italic truncate ${selectedId === item._id ? 'text-slate-900' : 'text-slate-600'}`}>
+                      <p className={`text-sm font-bold italic truncate ${selectedId === item._id ? 'opacity-100' : 'opacity-70'}`} style={{ color: "var(--admin-text-heading)" }}>
                         {item.title?.en || item.slug || item.name || "Untitled Asset"}
                       </p>
-                      <p className="text-[8px] font-black text-slate-700 uppercase tracking-widest mt-1">
+                      <p className="text-[8px] font-black uppercase tracking-widest mt-1" style={{ color: "var(--admin-text-muted)" }}>
                         {item.category || item.status || 'Standard Block'}
                       </p>
                     </div>
@@ -382,27 +382,28 @@ export default function AdminContentPage() {
              {type === "contactSubmissions" ? (
                <div className="space-y-10">
                  <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tighter">Communication Records</h3>
-                 <div className="grid gap-6">
+                  <div className="grid gap-6">
                     {items.map((sub) => (
-                      <div key={sub._id} className="p-8 bg-slate-50 border border-slate-200 rounded-2xl space-y-6">
+                      <div key={sub._id} className="p-8 border rounded-2xl space-y-6" style={{ background: "var(--admin-bg)", borderColor: "var(--admin-border)" }}>
                         <div className="flex flex-col md:flex-row justify-between gap-6">
                           <div>
-                            <h4 className="text-lg font-black text-slate-900 italic">{sub.name}</h4>
-                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">{sub.email} // {sub.phone}</p>
+                            <h4 className="text-lg font-black italic" style={{ color: "var(--admin-text-heading)" }}>{sub.name}</h4>
+                            <p className="text-[10px] font-bold uppercase tracking-widest mt-1" style={{ color: "var(--admin-text-muted)" }}>{sub.email} // {sub.phone}</p>
                           </div>
                           <div className="flex gap-2">
                              {['new', 'seen', 'resolved'].map(s => (
                                <button 
                                 key={s}
                                 onClick={() => onStatusUpdate(sub._id, s)}
-                                className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sub.status === s ? 'bg-sky-500 text-black' : 'text-slate-600 hover:text-slate-800 bg-slate-50'}`}
+                                className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sub.status === s ? 'bg-sky-500 text-black' : 'bg-white/5 hover:bg-white/10'}`}
+                                style={{ color: sub.status === s ? 'black' : 'var(--admin-text-secondary)' }}
                                >
                                  {s}
                                </button>
                              ))}
                           </div>
                         </div>
-                        <div className="p-6 bg-black/40 rounded-xl border border-white/5 text-slate-600 italic text-sm leading-relaxed">
+                        <div className="p-6 bg-black/10 rounded-xl border border-white/5 italic text-sm leading-relaxed" style={{ color: "var(--admin-text-secondary)" }}>
                           "{sub.message}"
                         </div>
                         <div className="flex justify-end">
@@ -415,7 +416,7 @@ export default function AdminContentPage() {
              ) : (
                <form onSubmit={onSubmit} className="space-y-12">
                  {/* Header Info */}
-                 <div className="flex justify-between items-center pb-6 border-b border-slate-200">
+                 <div className="flex justify-between items-center pb-6 border-b" style={{ borderColor: "var(--admin-border)" }}">
                     <p className="text-[10px] font-black text-sky-600 uppercase tracking-[0.4em] italic leading-none">
                       {selectedId ? 'Modify Existing Asset' : 'Initialize New Record'}
                     </p>
@@ -425,17 +426,17 @@ export default function AdminContentPage() {
                  {/* 2-Column Grid for basic fields */}
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                    <div className="space-y-3">
-                     <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Asset ID (Slug)</label>
+                     <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Asset ID (Slug)</label>
                      <input value={form.slug} onChange={onChange("slug")} required={type !== "contactDetails"} className="admin-input w-full" placeholder="url-friendly-id" />
                    </div>
                    {type === "seoMeta" ? (
                      <div className="space-y-3">
-                       <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Routepath</label>
+                       <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Routepath</label>
                        <input value={form.pagePath} onChange={onChange("pagePath")} className="admin-input w-full" placeholder="/example" />
                      </div>
                    ) : (
                      <div className="space-y-3">
-                       <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Category</label>
+                       <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Category</label>
                        <input value={form.category} onChange={onChange("category")} className="admin-input w-full" placeholder="Engineering Sector" />
                      </div>
                    )}
@@ -445,39 +446,39 @@ export default function AdminContentPage() {
                    <div className="space-y-12">
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Title (EN)</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Title (EN)</label>
                          <input value={form.titleEn} onChange={onChange("titleEn")} className="admin-input w-full" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Title (BN)</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Title (BN)</label>
                          <input value={form.titleBn} onChange={onChange("titleBn")} className="admin-input w-full" />
                        </div>
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Summary (EN)</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Summary (EN)</label>
                          <textarea rows={3} value={form.summaryEn} onChange={onChange("summaryEn")} className="admin-input w-full resize-none" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Summary (BN)</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Summary (BN)</label>
                          <textarea rows={3} value={form.summaryBn} onChange={onChange("summaryBn")} className="admin-input w-full resize-none" />
                        </div>
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Full Description (EN)</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Full Description (EN)</label>
                          <textarea rows={8} value={form.bodyEn} onChange={onChange("bodyEn")} className="admin-input w-full admin-scrollbar" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Full Description (BN)</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Full Description (BN)</label>
                          <textarea rows={8} value={form.bodyBn} onChange={onChange("bodyBn")} className="admin-input w-full admin-scrollbar" />
                        </div>
                      </div>
 
                      <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Featured Asset Media</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Featured Asset Media</label>
                          <div className="p-8 border-2 border-dashed border-white/5 rounded-2xl bg-white/[0.01]">
                             <ImageUpload value={form.featuredImageUrl} onChange={onChange("featuredImageUrl")} label="Thumbnail" />
                          </div>
@@ -485,15 +486,15 @@ export default function AdminContentPage() {
 
                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Tags</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Tags</label>
                          <input value={form.tags} onChange={onChange("tags")} className="admin-input w-full text-[10px]" placeholder="tag1, tag2" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Priority Order</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Priority Order</label>
                          <input type="number" value={form.order} onChange={onChange("order")} className="admin-input w-full" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Quality Rating</label>
+                         <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Quality Rating</label>
                          <input type="number" min="1" max="5" value={form.rating} onChange={onChange("rating")} className="admin-input w-full" />
                        </div>
                      </div>
@@ -517,14 +518,14 @@ export default function AdminContentPage() {
                  )}
 
                  {/* SEO Section */}
-                 <div className="pt-10 border-t border-slate-200 space-y-10">
+                 <div className="pt-10 border-t space-y-10" style={{ borderColor: "var(--admin-border)" }}>
                     <div className="flex items-center justify-between">
                        <div className="flex items-center gap-3">
                           <Globe size={14} className="text-sky-600" />
                           <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Search Visibility Control</h4>
                        </div>
                        <label className="flex items-center gap-3 cursor-pointer group">
-                         <span className="text-[10px] font-bold text-slate-700 uppercase tracking-widest group-hover:text-slate-400 trasition-colors">Live Production</span>
+                         <span className="text-[10px] font-bold uppercase tracking-widest group-hover:text-slate-400 trasition-colors" style={{ color: "var(--admin-text-label)" }}>Live Production</span>
                          <div className={`w-12 h-6 rounded-full relative transition-all duration-300 ${form.isPublished ? 'bg-sky-500' : 'bg-slate-800'}`}>
                             <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 ${form.isPublished ? 'left-7' : 'left-1'}`} />
                          </div>
@@ -544,7 +545,7 @@ export default function AdminContentPage() {
                     </div>
                  </div>
 
-                 <div className="flex justify-between md:items-center border-t border-slate-200 pt-10 gap-6">
+                 <div className="flex justify-between md:items-center border-t pt-10 gap-6" style={{ borderColor: "var(--admin-border)" }}">
                     <div className="flex gap-4 w-full md:w-auto">
                        <button 
                         type="submit" 

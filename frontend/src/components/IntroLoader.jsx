@@ -39,7 +39,7 @@ const IntroLoader = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="intro-overlay fixed inset-0 z-[9999] flex items-center justify-center bg-[#0A0F1C] overflow-hidden">
+    <div className="intro-overlay fixed inset-0 z-[9999] flex items-center justify-center transition-colors duration-500 overflow-hidden" style={{ background: "var(--bg)" }}>
       {/* Background Layers */}
       <div className="absolute inset-0 bg-tech-grid opacity-20" />
       <div className="absolute inset-0 blueprint-overlay blueprint-scroll opacity-10" />
@@ -47,7 +47,7 @@ const IntroLoader = ({ onComplete }) => {
       {/* Content */}
       <div className="loader-content relative z-10 text-center px-6">
         <div className="mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-white">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter" style={{ color: "var(--text)" }}>
             Engr. Alam <span className="text-[var(--highlight)] text-glow">Ashik</span>
           </h1>
           <div className="h-px w-24 bg-[var(--highlight)] mx-auto mt-4 opacity-50" />
