@@ -139,8 +139,9 @@ export default function AboutPage() {
           {/* Image & Mission Badge */}
           <div className="relative group reveal-unit order-2 lg:order-1">
              <div className="relative aspect-square rounded-[40px] overflow-hidden border border-white/5 shadow-2xl">
+                {/* FIXED IMAGE FROM PUBLIC FOLDER AS REQUESTED */}
                 <img 
-                   src="https://images.unsplash.com/photo-1503387762-592dea58ef21" 
+                   src="/images/mission-concept.png" 
                   className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
                   alt="Mission Backbone"
                 />
@@ -240,10 +241,24 @@ export default function AboutPage() {
                   <div className="relative w-full max-w-[500px] aspect-[4/5] rounded-[40px] overflow-hidden border-2 border-white/5 shadow-3xl bg-[var(--bg-card)] group-hover:border-[var(--highlight-border)] transition-all duration-700">
                      <img 
                        src={bio?.featuredImage?.url || "https://images.squarespace-cdn.com/content/v1/5932df8946c3c43428989a31/1513238640825-J90E2L3A8K1B9T9X7L8G/Headshot.jpg"} 
-                       alt="The Founder"
+                       alt="Engr. Alam Ashik"
                        className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-105"
                      />
-                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t via-transparent to-transparent" style={{ backgroundImage: "linear-gradient(to top, var(--bg-soft), transparent)" }} />
+                     
+                     {/* OVERLAY WITH NAME AND DESIGNATION ON HOVER AS REQUESTED */}
+                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center backdrop-blur-sm">
+                        <div className="transform translate-y-10 group-hover:translate-y-0 transition-transform duration-700">
+                           <h3 className="text-2xl md:text-3xl font-black text-white italic uppercase tracking-tighter mb-2 font-display">
+                             {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : (bio?.title?.en || "Engr. Alam Ashik")}
+                           </h3>
+                           <div className="h-1 w-12 bg-[var(--highlight)] mx-auto mb-4" />
+                           <p className="text-[10px] md:text-xs font-black text-[var(--highlight)] uppercase tracking-[0.4em]">
+                             {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : (bio?.summary?.en || "Principal Structural Consultant")}
+                           </p>
+                        </div>
+                     </div>
+
+                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t via-transparent to-transparent group-hover:opacity-0 transition-opacity" style={{ backgroundImage: "linear-gradient(to top, var(--bg-soft), transparent)" }} />
                   </div>
                </div>
             </div>
