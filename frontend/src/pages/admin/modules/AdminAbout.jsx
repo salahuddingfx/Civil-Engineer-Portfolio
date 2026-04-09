@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { UserCircle, PenTool, Award, Users, Zap, Clock, Plus, Trash2, Edit3, Save, CheckCircle2, ShieldAlert, ChevronRight } from "lucide-react";
+import { UserCircle, PenTool, Award, Users, Zap, Clock, Plus, Trash2, Edit3, Save, CheckCircle2, ShieldAlert, ChevronRight, Quote } from "lucide-react";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 import ImageUpload from "../../../components/admin/ImageUpload";
@@ -16,6 +16,7 @@ export default function AdminAbout() {
   const [bioForm, setBioForm] = useState({
     titleEn: "", titleBn: "",
     summaryEn: "", summaryBn: "",
+    quoteEn: "", quoteBn: "",
     bodyEn: "", bodyBn: "",
     featuredImageUrl: "",
   });
@@ -44,6 +45,8 @@ export default function AdminAbout() {
             titleBn: bioItem.title?.bn || "",
             summaryEn: bioItem.summary?.en || "",
             summaryBn: bioItem.summary?.bn || "",
+            quoteEn: bioItem.quote?.en || "",
+            quoteBn: bioItem.quote?.bn || "",
             bodyEn: bioItem.body?.en || "",
             bodyBn: bioItem.body?.bn || "",
             featuredImageUrl: bioItem.featuredImage?.url || "",
@@ -67,6 +70,7 @@ export default function AdminAbout() {
       slug: "about",
       title: { en: bioForm.titleEn, bn: bioForm.titleBn },
       summary: { en: bioForm.summaryEn, bn: bioForm.summaryBn },
+      quote: { en: bioForm.quoteEn, bn: bioForm.quoteBn },
       body: { en: bioForm.bodyEn, bn: bioForm.bodyBn },
       featuredImage: bioForm.featuredImageUrl ? { url: bioForm.featuredImageUrl } : null,
       isPublished: true,
@@ -185,7 +189,23 @@ export default function AdminAbout() {
                 <input value={bioForm.summaryBn} onChange={e => setBioForm({...bioForm, summaryBn: e.target.value})} className={inputClasses} placeholder="প্রধান কাঠামোগত পরামর্শদাতা" />
               </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-8">
+
+            {/* QUOTE SECTION */}
+            <div className="grid md:grid-cols-2 gap-8 border-t border-slate-200 pt-8">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center px-2">
+                  <label className={labelClasses}><Quote size={10} className="inline mr-2" /> Professional Quote (EN)</label>
+                  <AutoTranslate text={bioForm.quoteEn} onTranslate={val => setBioForm({...bioForm, quoteBn: val})} />
+                </div>
+                <textarea rows={3} value={bioForm.quoteEn} onChange={e => setBioForm({...bioForm, quoteEn: e.target.value})} className={`${inputClasses} resize-none`} placeholder="Innovation isn't just about modern tools..." />
+              </div>
+              <div className="space-y-2">
+                <label className={labelClasses}>Professional Quote (BN)</label>
+                <textarea rows={3} value={bioForm.quoteBn} onChange={e => setBioForm({...bioForm, quoteBn: e.target.value})} className={`${inputClasses} resize-none`} placeholder="উদ্ভাবন কেবল আধুনিক সরঞ্জামের বিষয়ে নয়..." />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 border-t border-slate-200 pt-8">
               <div className="space-y-4">
                 <div className="flex justify-between items-center px-2">
                   <label className={labelClasses}>Biography (EN)</label>
@@ -198,6 +218,7 @@ export default function AdminAbout() {
                 <textarea rows={6} value={bioForm.bodyBn} onChange={e => setBioForm({...bioForm, bodyBn: e.target.value})} className={`${inputClasses} resize-none`} />
               </div>
             </div>
+            
             <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-10">
                <ImageUpload value={bioForm.featuredImageUrl} onChange={val => setBioForm({...bioForm, featuredImageUrl: val})} label="Profile Image" />
             </div>

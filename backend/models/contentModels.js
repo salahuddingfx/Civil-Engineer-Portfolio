@@ -34,6 +34,7 @@ const baseContent = {
   title: { type: localizedTextSchema, default: () => ({}) },
   summary: { type: localizedTextSchema, default: () => ({}) },
   body: { type: localizedTextSchema, default: () => ({}) },
+  quote: { type: localizedTextSchema, default: () => ({}) },
   category: { type: String, default: "general" },
   tags: [{ type: String }],
   featuredImage: { type: imageSchema, default: null },
