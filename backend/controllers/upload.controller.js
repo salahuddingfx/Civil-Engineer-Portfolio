@@ -27,6 +27,7 @@ async function uploadImage(req, res, next) {
       height: result.height,
     });
   } catch (error) {
+    console.error("Cloudinary Upload Error:", error);
     return next(error);
   }
 }

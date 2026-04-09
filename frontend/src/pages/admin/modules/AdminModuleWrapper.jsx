@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Loader2, Save, Trash2, CheckCircle2, ShieldAlert, Cpu } from "lucide-react";
+import { ArrowLeft, Loader2, Save, Trash2, CheckCircle2, ShieldAlert, Cpu, Plus } from "lucide-react";
 import GlassCard from "../../../components/GlassCard";
 
 export default function AdminModuleWrapper({ 

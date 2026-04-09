@@ -168,10 +168,10 @@ export default function AdminServices() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-b border-white/[0.05] pb-12">
             <div>
                <h3 className="text-4xl font-black text-white italic tracking-tighter uppercase mb-3">{selectedId ? "Configure_Unit" : "Initialize_Record"}</h3>
-               <p className="text-[10px] text-slate-600 font-bold uppercase tracking-[0.4em] italic leading-none flex items-center gap-3">
+               <div className="text-[10px] text-slate-600 font-bold uppercase tracking-[0.4em] italic leading-none flex items-center gap-3">
                   <div className="h-2 w-2 rounded-full bg-cyan-400/40" />
                   {selectedId ? `System_ID: ${selectedId}` : "Protocol: New_Entry_Initialization"}
-               </p>
+               </div>
             </div>
             
             <div className="flex items-center gap-8 px-10 py-5 bg-white/[0.02] border border-white/[0.05] rounded-[32px] shadow-xl">

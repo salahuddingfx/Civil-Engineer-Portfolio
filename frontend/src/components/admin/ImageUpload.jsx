@@ -17,16 +17,27 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" })
       return;
     }
 
+    // Validate file size (4MB limit)
+    if (file.size > 4 * 1024 * 1024) {
+      setError("FILE_TOO_LARGE: MAX_4MB");
+      return;
+    }
+
     setUploading(true);
     setError("");
 
     try {
-      const formData = new FormData();
-      formData.append("image", file);
+      // Convert file to Base64 (Data URI) as expected by the backend controller
+      const reader = new FileReader();
+      const dataUri = await new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (err) => reject(err);
+        reader.readAsDataURL(file);
+      });
 
-      // We assume your backend has /api/upload/image endpoint
-      const { data } = await api.post("/upload/image", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
+      const { data } = await api.post("/upload/image", { 
+        dataUri,
+        folder: "portfolio_assets" 
       });
 
       if (data?.url) {
@@ -34,7 +45,9 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" })
       }
     } catch (err) {
       console.error("Upload failed", err);
-      setError("UPLOAD_FAILED: CONNECTION_ERROR");
+      // More descriptive error based on response
+      const errMsg = err.response?.data?.message || "UPLOAD_FAILED: CONNECTION_ERROR";
+      setError(errMsg.toUpperCase());
     } finally {
       setUploading(false);
     }

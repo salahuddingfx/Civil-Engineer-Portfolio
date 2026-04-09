@@ -34,7 +34,7 @@ app.use(
 app.use(compression());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use(express.json({ limit: "4mb" }));
+app.use(express.json({ limit: "10mb" }));
 
 app.use((req, res, next) => {
   const isDbEndpoint = req.path.startsWith("/api/auth") || req.path.startsWith("/api/content") || req.path.startsWith("/api/stats") || req.path.startsWith("/api/contact") || req.path.startsWith("/api/upload") || req.path.startsWith("/api/seo") || req.path.startsWith("/api/admin") || req.path === "/sitemap.xml" || req.path === "/robots.txt";
