@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Briefcase, Settings, Edit3, Trash2, Plus, Type, Sparkles, Cpu, Layers, Search } from "lucide-react";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
+import AutoTranslate from "../../../components/admin/AutoTranslate";
 
 export default function AdminServices() {
   const [items, setItems] = useState([]);
@@ -184,8 +185,11 @@ export default function AdminServices() {
 
           {/* Title Nodes */}
           <div className="grid md:grid-cols-2 gap-10">
-            <div className="space-y-2">
-              <label className={labelClasses}><Type size={12} className="text-blue-400" /> Identity Header (EN)</label>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center px-4">
+                <label className={labelClasses}><Type size={12} className="text-blue-400" /> Identity Header (EN)</label>
+                <AutoTranslate text={form.titleEn} onTranslate={val => setForm({...form, titleBn: val})} />
+              </div>
               <input value={form.titleEn} onChange={e => setForm({...form, titleEn: e.target.value})} className={inputClasses} placeholder="Structural Consulting Unit" />
             </div>
             <div className="space-y-2">
@@ -196,8 +200,11 @@ export default function AdminServices() {
 
           {/* Abstract Nodes */}
           <div className="grid md:grid-cols-2 gap-10">
-            <div className="space-y-2">
-              <label className={labelClasses}><Layers size={12} className="text-indigo-400" /> Capability Abstract (EN)</label>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center px-4">
+                <label className={labelClasses}><Layers size={12} className="text-indigo-400" /> Capability Abstract (EN)</label>
+                <AutoTranslate text={form.summaryEn} onTranslate={val => setForm({...form, summaryBn: val})} />
+              </div>
               <textarea rows={6} value={form.summaryEn} onChange={e => setForm({...form, summaryEn: e.target.value})} className={`${inputClasses} resize-none mb-0`} placeholder="Professional engineering analysis and structural solution deployment..." />
             </div>
             <div className="space-y-2">

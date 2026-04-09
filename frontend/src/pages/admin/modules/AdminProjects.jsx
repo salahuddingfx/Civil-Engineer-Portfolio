@@ -3,6 +3,7 @@ import { Layers, MapPin, Calendar, Tag, Plus, Trash2, Edit3, Globe, Sparkles, Im
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 import ImageUpload from "../../../components/admin/ImageUpload";
+import AutoTranslate from "../../../components/admin/AutoTranslate";
 
 export default function AdminProjects() {
   const [items, setItems] = useState([]);
@@ -212,8 +213,11 @@ export default function AdminProjects() {
 
           {/* Title Nodes */}
           <div className="grid md:grid-cols-2 gap-10">
-            <div className="space-y-2">
-              <label className={labelClasses}><Edit3 size={12} className="text-blue-400" /> Identity Header (EN)</label>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center px-4">
+                <label className={labelClasses}><Edit3 size={12} className="text-blue-400" /> Identity Header (EN)</label>
+                <AutoTranslate text={form.titleEn} onTranslate={val => setForm({...form, titleBn: val})} />
+              </div>
               <input value={form.titleEn} onChange={e => setForm({...form, titleEn: e.target.value})} className={inputClasses} placeholder="Luxury Structural Node" />
             </div>
             <div className="space-y-2">
@@ -244,8 +248,11 @@ export default function AdminProjects() {
           </div>
 
           {/* Abstract */}
-          <div className="space-y-2">
-            <label className={labelClasses}><Globe size={12} className="text-cyan-400" /> Technical Abstract (EN)</label>
+          <div className="space-y-4">
+            <div className="flex justify-between items-center px-4">
+              <label className={labelClasses}><Globe size={12} className="text-cyan-400" /> Technical Abstract (EN)</label>
+              <AutoTranslate text={form.summaryEn} onTranslate={val => setForm({...form, summaryBn: val})} />
+            </div>
             <textarea rows={3} value={form.summaryEn} onChange={e => setForm({...form, summaryEn: e.target.value})} className={`${inputClasses} resize-none`} placeholder="Brief technological overview of this asset..." />
           </div>
 
@@ -261,11 +268,19 @@ export default function AdminProjects() {
 
           {/* Extended Content */}
           <div className="space-y-6">
-            <div className="flex items-center justify-between mb-4">
-               <label className={labelClasses}><Layers size={12} className="text-indigo-400" /> Detailed Specification Legacy</label>
-               <span className="text-[8px] font-black text-slate-700 uppercase tracking-widest italic">Markdown_Enabled</span>
+            <div className="flex items-center justify-between mb-4 px-4">
+               <label className={labelClasses}><Layers size={12} className="text-indigo-400" /> Detailed Specification Legacy (EN)</label>
+               <AutoTranslate text={form.bodyEn} onTranslate={val => setForm({...form, bodyBn: val})} />
             </div>
-            <textarea rows={12} value={form.bodyEn} onChange={e => setForm({...form, bodyEn: e.target.value})} className={`${inputClasses} font-mono text-[12px] leading-relaxed resize-none custom-scrollbar`} placeholder="## Technical Specifications\n- Floor Area: 5000sqft\n- Materials: High-Tensile Steel..." />
+            <textarea rows={8} value={form.bodyEn} onChange={e => setForm({...form, bodyEn: e.target.value})} className={`${inputClasses} font-mono text-[12px] leading-relaxed resize-none custom-scrollbar`} placeholder="## Technical Specifications\n- Floor Area: 5000sqft..." />
+          </div>
+
+          <div className="space-y-6">
+            <div className="flex items-center justify-between mb-4 px-4">
+               <label className={labelClasses}><Layers size={12} className="text-indigo-400" /> Detailed Specification Legacy (BN)</label>
+               <span className="text-[8px] font-black text-slate-700 uppercase tracking-widest italic">Bengali_Sync</span>
+            </div>
+            <textarea rows={8} value={form.bodyBn} onChange={e => setForm({...form, bodyBn: e.target.value})} className={`${inputClasses} font-mono text-[12px] leading-relaxed resize-none custom-scrollbar`} placeholder="## বিস্তারিত বিবরণ..." />
           </div>
 
           {/* Tags */}
