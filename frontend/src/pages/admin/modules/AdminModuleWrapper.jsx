@@ -36,19 +36,19 @@ export default function AdminModuleWrapper({
         <div className="flex items-center gap-5">
           <button 
             onClick={() => navigate("/admin/dashboard")}
-            className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-sky-600 hover:border-sky-400 transition-all group"
+            className="p-2.5 rounded-xl bg-[var(--admin-card)] border border-[color:var(--admin-border)] text-[color:var(--admin-text-muted)] hover:text-sky-600 hover:border-sky-400 transition-all group"
           >
             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
           </button>
           
           <div className="flex flex-col">
-            <div className="flex items-center gap-2 text-[9px] font-black text-slate-600 uppercase tracking-[0.3em] italic mb-1">
+            <div className="flex items-center gap-2 text-[9px] font-black text-[color:var(--admin-text-label)] uppercase tracking-[0.3em] italic mb-1">
               <LayoutDashboard size={10} />
               <span>Dashboard</span>
               <ChevronRight size={10} />
               <span className="text-[#19D2FF]/60">{title?.split(' ')[0]}</span>
             </div>
-            <h2 className="text-3xl font-black text-slate-900 italic tracking-tighter uppercase leading-none">{title}</h2>
+            <h2 className="text-3xl font-black text-[color:var(--admin-text-heading)] italic tracking-tighter uppercase leading-none">{title}</h2>
           </div>
         </div>
 
@@ -62,9 +62,9 @@ export default function AdminModuleWrapper({
                Add New
              </button>
           )}
-           <div className="hidden sm:flex items-center gap-3 px-4 py-2.5 bg-white border border-slate-200 rounded-xl">
+           <div className="hidden sm:flex items-center gap-3 px-4 py-2.5 bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-xl">
              <Zap size={12} className="text-sky-600 animate-pulse" />
-             <span className="text-[9px] font-black text-slate-800 uppercase tracking-widest">{subtitle || 'Active Session'}</span>
+             <span className="text-[9px] font-black text-[color:var(--admin-text-primary)] uppercase tracking-widest">{subtitle || 'Active Session'}</span>
            </div>
         </div>
       </div>
@@ -89,7 +89,7 @@ export default function AdminModuleWrapper({
                <Loader2 className="animate-spin text-sky-600" size={48} strokeWidth={1.5} />
                <div className="absolute inset-0 bg-sky-100 blur-[40px] rounded-full" />
             </div>
-            <p className="text-[10px] font-black text-slate-800 uppercase tracking-[0.5em] animate-pulse italic text-center">Loading Data...</p>
+            <p className="text-[10px] font-black text-[color:var(--admin-text-primary)] uppercase tracking-[0.5em] animate-pulse italic text-center">Loading Data...</p>
           </div>
         ) : (
           <div className="admin-card p-6 md:p-12 relative overflow-hidden group/content">
@@ -103,7 +103,7 @@ export default function AdminModuleWrapper({
 
       {/* 4. Persistence Controls (Footer) - Temporary placement until modules use AdminSaveBar */}
       {loading === false && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-4 pt-10 border-t border-slate-200">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-4 pt-10 border-t border-[color:var(--admin-border)]">
           <div className="flex items-center gap-4 w-full sm:w-auto">
              <button 
               onClick={onSave}
@@ -126,7 +126,7 @@ export default function AdminModuleWrapper({
           </div>
           <div className="hidden md:flex items-center gap-4 opacity-50">
              <ShieldCheck size={14} className="text-sky-600" />
-             <p className="text-[9px] font-black text-slate-800 uppercase tracking-[0.4em] italic">Administrator Access</p>
+             <p className="text-[9px] font-black text-[color:var(--admin-text-primary)] uppercase tracking-[0.4em] italic">Administrator Access</p>
           </div>
         </div>
       )}
