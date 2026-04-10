@@ -252,14 +252,15 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
     <div ref={containerRef} className="w-full h-full relative cursor-grab active:cursor-grabbing overflow-hidden">
       <Canvas
         shadows
-        dpr={isMobile ? [1, 1.5] : [1, 2]}
+        dpr={isMobile ? [1, 1.2] : [1, 1.5]}
         gl={{ 
            antialias: true, 
            alpha: false, 
            stencil: false, 
            depth: true,
            powerPreference: "high-performance",
-           toneMapping: THREE.ACESFilmicToneMapping
+           toneMapping: THREE.ACESFilmicToneMapping,
+           failIfMajorPerformanceCaveat: true
         }}
         onCreated={({ gl }) => {
           gl.shadowMap.type = THREE.VSMShadowMap;
@@ -285,7 +286,7 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
           intensity={isDark ? 3.5 : 1.5} 
           castShadow 
           shadow-bias={-0.00005} 
-          shadow-mapSize={[1024, 1024]} 
+          shadow-mapSize={[512, 512]} 
           color={isDark ? "#e0f2fe" : "#ffffff"}
         />
         
@@ -310,7 +311,7 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
               {!isMobile && isDark ? (
                 <MeshReflectorMaterial
                   blur={[300, 100]}
-                  resolution={1024}
+                  resolution={512}
                   mixBlur={1}
                   mixStrength={2}
                   roughness={1}
