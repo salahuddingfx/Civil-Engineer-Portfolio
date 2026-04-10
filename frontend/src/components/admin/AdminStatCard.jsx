@@ -18,7 +18,7 @@ export default function AdminStatCard({
           <div>
              <p className="text-[10px] font-black text-[#444] uppercase tracking-[0.4em] mb-4 italic group-hover:text-cyan-400 transition-colors">{label}</p>
              <div className="flex items-end gap-4">
-                <h3 className="text-5xl font-black text-slate-900 tracking-tighter italic">{value}</h3>
+                <h3 className="text-5xl font-black text-[color:var(--admin-text-heading)] tracking-tighter italic">{value}</h3>
                 {trendValue && (
                   <div className={`flex items-center gap-1 mb-2 text-[11px] font-bold italic ${trend === 'up' ? 'text-emerald-400' : 'text-rose-400'}`}>
                      {trend === 'up' ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
@@ -27,7 +27,7 @@ export default function AdminStatCard({
                 )}
              </div>
           </div>
-          <div className="h-12 w-12 rounded-xl border border-white/5 bg-white/2 flex items-center justify-center text-[#444] group-hover:text-cyan-400 group-hover:scale-110 transition-all">
+          <div className="h-12 w-12 rounded-xl border border-white/5 bg-[var(--admin-card)]/2 flex items-center justify-center text-[#444] group-hover:text-cyan-400 group-hover:scale-110 transition-all">
              <Icon size={20} />
           </div>
        </div>
