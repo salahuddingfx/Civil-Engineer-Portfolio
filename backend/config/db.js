@@ -11,8 +11,8 @@ async function connectDb() {
   const options = {
     maxPoolSize: 10,
     minPoolSize: 2,
-    socketTimeoutMS: 45000,
-    serverSelectionTimeoutMS: 8000,
+    socketTimeoutMS: 60000,
+    serverSelectionTimeoutMS: 15000, // Increased for Vercel/Atlas cold start stability
     heartbeatFrequencyMS: 10000,
     retryWrites: true,
   };
