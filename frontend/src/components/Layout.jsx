@@ -39,10 +39,10 @@ export default function Layout({ isIntroComplete }) {
       {/* HUD: Corner Brackets — only visible in dark mode */}
       {isDark && (
         <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
-          <div className="absolute top-8 left-8 h-8 w-8 border-t-2 border-l-2" style={{ borderColor: "var(--highlight-border)" }} />
-          <div className="absolute top-8 right-8 h-8 w-8 border-t-2 border-r-2" style={{ borderColor: "var(--highlight-border)" }} />
-          <div className="absolute bottom-8 left-8 h-8 w-8 border-b-2 border-l-2" style={{ borderColor: "var(--highlight-border)" }} />
-          <div className="absolute bottom-8 right-8 h-8 w-8 border-b-2 border-r-2" style={{ borderColor: "var(--highlight-border)" }} />
+          <div className="absolute top-8 left-8 h-8 w-8 border-t-2 border-l-2" style={{ borderTopColor: "var(--highlight-border)", borderLeftColor: "var(--highlight-border)" }} />
+          <div className="absolute top-8 right-8 h-8 w-8 border-t-2 border-r-2" style={{ borderTopColor: "var(--highlight-border)", borderRightColor: "var(--highlight-border)" }} />
+          <div className="absolute bottom-8 left-8 h-8 w-8 border-b-2 border-l-2" style={{ borderBottomColor: "var(--highlight-border)", borderLeftColor: "var(--highlight-border)" }} />
+          <div className="absolute bottom-8 right-8 h-8 w-8 border-b-2 border-r-2" style={{ borderBottomColor: "var(--highlight-border)", borderRightColor: "var(--highlight-border)" }} />
           {/* HUD: Vertical Scale */}
           <div className="absolute top-1/2 left-4 h-32 w-px -translate-y-1/2 bg-gradient-to-b from-transparent to-transparent" style={{ background: `linear-gradient(to bottom, transparent, var(--highlight-border), transparent)` }} />
           <div className="absolute top-1/2 right-4 h-32 w-px -translate-y-1/2" style={{ background: `linear-gradient(to bottom, transparent, var(--highlight-border), transparent)` }} />
