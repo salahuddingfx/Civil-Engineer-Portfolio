@@ -336,14 +336,14 @@ export default function AdminContentPage() {
         {/* Left Side: Asset List */}
         <div className="space-y-6">
           <div className="admin-card p-6">
-            <div className="flex items-center justify-between pb-4 border-b mb-6" style={{ borderColor: "var(--admin-border)" }}>
+            <div className="flex items-center justify-between pb-4 border-b mb-6" style={{ borderBottomColor: "var(--admin-border)" }}>
               <p className="text-[10px] font-black uppercase tracking-widest italic" style={{ color: "var(--admin-text-muted)" }}>Structural Inventory</p>
               <button onClick={reload} className="hover:text-sky-600 transition-colors" style={{ color: "var(--admin-text-secondary)" }}><RefreshCcw size={14} className={loading ? 'animate-spin' : ''} /></button>
             </div>
             
             <div className="space-y-3 max-h-[70vh] overflow-y-auto admin-scrollbar pr-2">
               {loading ? (
-                <div className="py-20 text-center"><Loader2 className="animate-spin text-sky-600 mx-auto mb-4" /><p className="text-[10px] text-slate-600 uppercase tracking-widest">Scanning...</p></div>
+                <div className="py-20 text-center"><Loader2 className="animate-spin text-sky-600 mx-auto mb-4" /><p className="text-[10px] text-[color:var(--admin-text-label)] uppercase tracking-widest">Scanning...</p></div>
               ) : items.map((item) => (
                 <div 
                   key={item._id}
@@ -351,7 +351,7 @@ export default function AdminContentPage() {
                   className={`p-5 rounded-xl border cursor-pointer transition-all duration-300 ${
                     selectedId === item._id 
                     ? 'bg-sky-50 border-[#19D2FF]/40 shadow-lg' 
-                    : 'bg-white/[0.01] border-slate-200 hover:border-white/20'
+                    : 'bg-[var(--admin-card)] opacity-90 border-[color:var(--admin-border)] hover:border-white/20'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-4">
@@ -368,7 +368,7 @@ export default function AdminContentPage() {
                 </div>
               ))}
               {!loading && items.length === 0 && (
-                <div className="py-20 text-center text-slate-800 text-[10px] uppercase font-bold tracking-widest">Empty Registry</div>
+                <div className="py-20 text-center text-[color:var(--admin-text-primary)] text-[10px] uppercase font-bold tracking-widest">Empty Registry</div>
               )}
             </div>
           </div>
@@ -381,33 +381,45 @@ export default function AdminContentPage() {
              
              {type === "contactSubmissions" ? (
                <div className="space-y-10">
-                 <h3 className="text-xl font-black text-slate-900 italic uppercase tracking-tighter">Communication Records</h3>
+                 <h3 className="text-xl font-black text-[color:var(--admin-text-heading)] italic uppercase tracking-tighter">Client Inquiries</h3>
                   <div className="grid gap-6">
-                    {items.map((sub) => (
-                      <div key={sub._id} className="p-8 border rounded-2xl space-y-6" style={{ background: "var(--admin-bg)", borderColor: "var(--admin-border)" }}>
+                    {items.length === 0 ? (
+                      <div className="py-20 text-center text-[color:var(--admin-text-muted)] text-[11px] font-black uppercase tracking-widest">No submissions yet.</div>
+                    ) : items.map((sub) => (
+                      <div key={sub._id} className={`p-8 border rounded-2xl space-y-6 transition-all ${sub.status === 'new' ? 'border-[var(--highlight-border)] shadow-[0_0_20px_rgba(25,210,255,0.06)]' : 'border-[color:var(--admin-border)]'}`} style={{ background: "var(--admin-bg)" }}>
                         <div className="flex flex-col md:flex-row justify-between gap-6">
-                          <div>
-                            <h4 className="text-lg font-black italic" style={{ color: "var(--admin-text-heading)" }}>{sub.name}</h4>
-                            <p className="text-[10px] font-bold uppercase tracking-widest mt-1" style={{ color: "var(--admin-text-muted)" }}>{sub.email} // {sub.phone}</p>
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-3">
+                              <h4 className="text-lg font-black italic" style={{ color: "var(--admin-text-heading)" }}>{sub.name}</h4>
+                              {sub.status === 'new' && <span className="px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest bg-[var(--highlight)] text-black">NEW</span>}
+                            </div>
+                            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--admin-text-muted)" }}>{sub.email}{sub.phone ? ` · ${sub.phone}` : ''}</p>
+                            {sub.projectType && <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full inline-block mt-1" style={{ background: "var(--highlight-soft)", color: "var(--highlight)" }}>{sub.projectType}</span>}
+                            <p className="text-[9px] font-bold uppercase tracking-widest mt-1" style={{ color: "var(--admin-text-muted)" }}>via {sub.sourcePage} &nbsp;·&nbsp; {sub.createdAt ? new Date(sub.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : ''}</p>
                           </div>
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 flex-wrap items-start">
                              {['new', 'seen', 'resolved'].map(s => (
                                <button 
                                 key={s}
                                 onClick={() => onStatusUpdate(sub._id, s)}
-                                className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sub.status === s ? 'bg-sky-500 text-black' : 'bg-white/5 hover:bg-white/10'}`}
-                                style={{ color: sub.status === s ? 'black' : 'var(--admin-text-secondary)' }}
+                                className="px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all border"
+                                style={sub.status === s 
+                                  ? { background: "var(--highlight)", color: "#000", border: "1px solid var(--highlight)" }
+                                  : { background: "transparent", color: "var(--admin-text-secondary)", border: "1px solid var(--admin-border)" }
+                                }
                                >
                                  {s}
                                </button>
                              ))}
                           </div>
                         </div>
-                        <div className="p-6 bg-black/10 rounded-xl border border-white/5 italic text-sm leading-relaxed" style={{ color: "var(--admin-text-secondary)" }}>
+                        <div className="p-6 rounded-xl border text-sm leading-relaxed italic" style={{ background: "var(--admin-card)", border: "1px solid var(--admin-border)", color: "var(--admin-text-secondary)" }}>
                           "{sub.message}"
                         </div>
                         <div className="flex justify-end">
-                           <button onClick={() => onDeleteItem(sub._id)} className="text-red-500/40 hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
+                           <button onClick={() => onDeleteItem(sub._id)} className="text-red-500/40 hover:text-red-500 transition-colors text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                             <Trash2 size={13} /> Delete
+                           </button>
                         </div>
                       </div>
                     ))}
@@ -416,11 +428,11 @@ export default function AdminContentPage() {
              ) : (
                <form onSubmit={onSubmit} className="space-y-12">
                  {/* Header Info */}
-                 <div className="flex justify-between items-center pb-6 border-b" style={{ borderColor: "var(--admin-border)" }}">
+                 <div className="flex justify-between items-center pb-6 border-b" style={{ borderBottomColor: "var(--admin-border)" }}>
                     <p className="text-[10px] font-black text-sky-600 uppercase tracking-[0.4em] italic leading-none">
                       {selectedId ? 'Modify Existing Asset' : 'Initialize New Record'}
                     </p>
-                    {selectedId && <span className="text-[8px] font-bold text-slate-800 uppercase tracking-widest">ID: {selectedId.slice(-8)}</span>}
+                    {selectedId && <span className="text-[8px] font-bold text-[color:var(--admin-text-primary)] uppercase tracking-widest">ID: {selectedId.slice(-8)}</span>}
                  </div>
 
                  {/* 2-Column Grid for basic fields */}
@@ -479,7 +491,7 @@ export default function AdminContentPage() {
 
                      <div className="space-y-3">
                          <label className="text-[10px] font-black uppercase tracking-widest ml-1" style={{ color: "var(--admin-text-label)" }}>Featured Asset Media</label>
-                         <div className="p-8 border-2 border-dashed border-white/5 rounded-2xl bg-white/[0.01]">
+                         <div className="p-8 border-2 border-dashed border-white/5 rounded-2xl bg-[var(--admin-card)] opacity-90">
                             <ImageUpload value={form.featuredImageUrl} onChange={onChange("featuredImageUrl")} label="Thumbnail" />
                          </div>
                      </div>
@@ -505,11 +517,11 @@ export default function AdminContentPage() {
                    <div className="space-y-12">
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Phone</label>
+                         <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">Phone</label>
                          <input value={form.phone} onChange={onChange("phone")} className="admin-input w-full" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Email</label>
+                         <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">Email</label>
                          <input value={form.email} onChange={onChange("email")} className="admin-input w-full" />
                        </div>
                      </div>
@@ -518,34 +530,61 @@ export default function AdminContentPage() {
                  )}
 
                  {/* SEO Section */}
-                 <div className="pt-10 border-t space-y-10" style={{ borderColor: "var(--admin-border)" }}>
+                 <div className="pt-10 border-t space-y-10" style={{ borderTopColor: "var(--admin-border)" }}>
                     <div className="flex items-center justify-between">
                        <div className="flex items-center gap-3">
                           <Globe size={14} className="text-sky-600" />
-                          <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">Search Visibility Control</h4>
+                          <h4 className="text-[10px] font-black text-[color:var(--admin-text-muted)] uppercase tracking-widest italic">Search Visibility Control</h4>
                        </div>
                        <label className="flex items-center gap-3 cursor-pointer group">
-                         <span className="text-[10px] font-bold uppercase tracking-widest group-hover:text-slate-400 trasition-colors" style={{ color: "var(--admin-text-label)" }}>Live Production</span>
+                         <span className="text-[10px] font-bold uppercase tracking-widest group-hover:opacity-80 transition-colors" style={{ color: "var(--admin-text-label)" }}>Live Production</span>
                          <div className={`w-12 h-6 rounded-full relative transition-all duration-300 ${form.isPublished ? 'bg-sky-500' : 'bg-slate-800'}`}>
-                            <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 ${form.isPublished ? 'left-7' : 'left-1'}`} />
+                            <div className={`absolute top-1 w-4 h-4 bg-[var(--admin-card)] rounded-full transition-all duration-300 ${form.isPublished ? 'left-7' : 'left-1'}`} />
                          </div>
                          <input type="checkbox" checked={form.isPublished} onChange={onChange("isPublished")} className="hidden" />
                        </label>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                       <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">SEO Title (EN)</label>
+                        <div className="space-y-3">
+                         <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">SEO Title (EN)</label>
                          <input value={form.seoTitleEn} onChange={onChange("seoTitleEn")} className="admin-input w-full" />
                        </div>
                        <div className="space-y-3">
-                         <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">SEO Title (BN)</label>
+                         <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">SEO Title (BN)</label>
                          <input value={form.seoTitleBn} onChange={onChange("seoTitleBn")} className="admin-input w-full" />
                        </div>
                     </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                       <div className="space-y-3">
+                         <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">SEO Description (EN)</label>
+                         <textarea rows={3} value={form.seoDescriptionEn} onChange={onChange("seoDescriptionEn")} className="admin-input w-full resize-none" />
+                       </div>
+                       <div className="space-y-3">
+                         <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">SEO Description (BN)</label>
+                         <textarea rows={3} value={form.seoDescriptionBn} onChange={onChange("seoDescriptionBn")} className="admin-input w-full resize-none" />
+                       </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                       <div className="space-y-3">
+                         <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">Canonical URL</label>
+                         <input value={form.canonicalUrl} onChange={onChange("canonicalUrl")} className="admin-input w-full" placeholder="https://..." />
+                       </div>
+                       <div className="space-y-3">
+                         <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">OG / Twitter Image URL</label>
+                         <input value={form.ogImage} onChange={onChange("ogImage")} className="admin-input w-full" placeholder="https://..." />
+                       </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1">JSON-LD Metadata</label>
+                      <textarea rows={4} value={form.jsonLd} onChange={onChange("jsonLd")} className="admin-input w-full font-mono text-[9px]" placeholder="{}" />
+                    </div>
                  </div>
 
-                 <div className="flex justify-between md:items-center border-t pt-10 gap-6" style={{ borderColor: "var(--admin-border)" }}">
+                 <div className="flex justify-between md:items-center border-t pt-10 gap-6" style={{ borderTopColor: "var(--admin-border)" }}>
                     <div className="flex gap-4 w-full md:w-auto">
                        <button 
                         type="submit" 
