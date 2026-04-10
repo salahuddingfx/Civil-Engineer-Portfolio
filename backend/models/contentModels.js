@@ -148,6 +148,7 @@ const ContactSubmission = mongoose.model(
       name: { type: String, required: true, trim: true },
       email: { type: String, required: true, trim: true },
       phone: { type: String, default: "", trim: true },
+      projectType: { type: String, default: "", trim: true },
       message: { type: String, required: true, trim: true },
       sourcePage: { type: String, default: "contact" },
       status: { type: String, enum: ["new", "seen", "resolved"], default: "new" },
@@ -169,6 +170,27 @@ const SeoMeta = mongoose.model(
   )
 );
 
+const SectionBlock = mongoose.model(
+  "SectionBlock",
+  new mongoose.Schema(
+    {
+      slug: { type: String, required: true, unique: true, trim: true },
+      page: { type: String, required: true, default: "global" },
+      section: { type: String, required: true },
+      title: { type: localizedTextSchema, default: () => ({}) },
+      subtitle: { type: localizedTextSchema, default: () => ({}) },
+      body: { type: localizedTextSchema, default: () => ({}) },
+      value: { type: String, default: "" },
+      suffix: { type: String, default: "" },
+      icon: { type: String, default: "" },
+      image: { type: imageSchema, default: null },
+      order: { type: Number, default: 0 },
+      isPublished: { type: Boolean, default: true },
+    },
+    modelOptions
+  )
+);
+
 module.exports = {
   HomeContent,
   AboutContent,
@@ -182,4 +204,5 @@ module.exports = {
   ContactDetail,
   ContactSubmission,
   SeoMeta,
+  SectionBlock,
 };

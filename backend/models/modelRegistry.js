@@ -11,6 +11,7 @@ const {
   ContactDetail,
   ContactSubmission,
   SeoMeta,
+  SectionBlock,
 } = require("./contentModels");
 
 const registry = {
@@ -26,6 +27,7 @@ const registry = {
   contactDetails: ContactDetail,
   contactSubmissions: ContactSubmission,
   seoMeta: SeoMeta,
+  sectionBlocks: SectionBlock,
 };
 
 module.exports = registry;
