@@ -3,8 +3,11 @@ import gsap from "gsap";
 import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
+import { fetchContent } from "../lib/api";
+import { Skeleton } from "../components/Skeleton";
 
-const images = [
+// Fallback images if database is empty
+const defaultImages = [
   { src: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80", label: "Structural Framework", coord: "Coastal Sector Alpha", date: "2023 October", iso: "Structural Integrity", meta: "High Resolution Study" },
   { src: "https://images.unsplash.com/photo-1429497419816-9ca5cfb4571a?auto=format&fit=crop&w=1200&q=80", label: "Material Excellence", coord: "Laboratory Analysis", date: "2023 November", iso: "Quality Control", meta: "Certified Material Data" },
   { src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=80", label: "Architectural Precision", coord: "Urban Core Beta", date: "2024 January", iso: "Design Accuracy", meta: "Symmetry Alignment" },
@@ -18,7 +21,38 @@ export default function GalleryPage() {
   const [activeImage, setActiveImage] = useState(null);
   const containerRef = useRef(null);
 
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch dynamic gallery content
   useEffect(() => {
+    async function loadGallery() {
+      try {
+        const response = await fetchContent("gallery", { limit: 50 });
+        if (response.items && response.items.length > 0) {
+          const mapped = response.items.map(item => ({
+             src: item.featuredImage?.url || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+             label: language === "bn" ? (item.title?.bn || item.title?.en) : (item.title?.en),
+             coord: item.category || "Cox's Bazar",
+             date: new Date(item.createdAt).toLocaleDateString(language === "en" ? 'en-US' : 'bn-BD', { year: 'numeric', month: 'long' }),
+             iso: item.tags?.[0] || "Structural",
+             meta: language === "bn" ? (item.summary?.bn || item.summary?.en) : (item.summary?.en)
+          }));
+          setImages(mapped);
+        } else {
+          setImages(defaultImages);
+        }
+      } catch (err) {
+        setImages(defaultImages);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadGallery();
+  }, [language]);
+
+  useEffect(() => {
+    if (loading) return;
     let ctx = gsap.context(() => {
       gsap.fromTo(".reveal-unit", 
         { opacity: 0, y: 40 },
@@ -32,7 +66,7 @@ export default function GalleryPage() {
       );
     }, containerRef);
     return () => ctx.revert();
-  }, []);
+  }, [loading]);
 
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
@@ -61,6 +95,13 @@ export default function GalleryPage() {
 
       {/* Masonry Grid */}
       <section className="py-12 px-6 lg:px-10 mx-auto max-w-[1500px]">
+         {loading ? (
+             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                 <Skeleton className="h-[400px] rounded-3xl" />
+                 <Skeleton className="h-[400px] rounded-3xl" />
+                 <Skeleton className="h-[400px] rounded-3xl" />
+             </div>
+         ) : (
          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
             {images.map((img, i) => (
               <div 
@@ -93,6 +134,7 @@ export default function GalleryPage() {
               </div>
             ))}
          </div>
+         )}
       </section>
 
       {/* Lightbox Modal */}
