@@ -17,7 +17,11 @@ async function uploadImage(req, res, next) {
     const result = await cloudinary.uploader.upload(dataUri, {
       folder: folder || "alam-ashik-portfolio",
       resource_type: "image",
-      transformation: [{ quality: "auto:good" }, { fetch_format: "auto" }],
+      transformation: [
+        { width: 2000, height: 2000, crop: "limit" }, // Downscale huge images to 2K for web performance
+        { quality: "auto" }, // Auto-adjust quality for smallest file size with best visuals
+        { fetch_format: "auto" }, // Auto-convert to WebP/AVIF if supported
+      ],
     });
 
     return res.status(201).json({
