@@ -5,10 +5,12 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../context/LanguageContext";
 import { t } from "../lib/translations";
 import SeoHead from "../components/SeoHead";
+import { fetchContent } from "../lib/api";
+import { TestimonialSkeleton } from "../components/Skeleton";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const testimonials = [
+const defaultTestimonials = [
   {
     name: "Sarah Chen",
     role: "DIRECTOR OF ENGINEERING",
@@ -48,7 +50,37 @@ export default function TestimonialsPage() {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const response = await fetchContent("testimonials", { limit: 50 });
+        if (response.items && response.items.length > 0) {
+           const mapped = response.items.map(t => ({
+              name: t.title?.en || "Client",
+              role: t.summary?.en || "Executive",
+              company: t.category || "Corporate",
+              text: language === "bn" ? (t.body?.bn || t.body?.en) : (t.body?.en),
+              rating: t.rating || 5,
+              img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80"
+           }));
+           setTestimonials(mapped);
+        } else {
+           setTestimonials(defaultTestimonials);
+        }
+      } catch (err) {
+        setTestimonials(defaultTestimonials);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadTestimonials();
+  }, [language]);
+
+  useEffect(() => {
+    if (loading) return;
     let ctx = gsap.context(() => {
       gsap.fromTo(".reveal-unit", 
         { opacity: 0, y: 40 },
@@ -66,15 +98,16 @@ export default function TestimonialsPage() {
       );
     }, containerRef);
     return () => ctx.revert();
-  }, []);
+  }, [loading]);
 
   // Auto transition carousel logic
   useEffect(() => {
+    if (testimonials.length === 0) return;
     const interval = setInterval(() => {
       setActiveIndex((current) => (current === testimonials.length - 1 ? 0 : current + 1));
     }, 6000);
     return () => clearInterval(interval);
-  }, []);
+  }, [testimonials]);
 
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
@@ -106,6 +139,12 @@ export default function TestimonialsPage() {
             {/* Ambient Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#19D2FF]/5 rounded-full blur-[120px] pointer-events-none"></div>
             
+            {loading || testimonials.length === 0 ? (
+               <div className="relative z-10 min-h-[300px] flex items-center justify-center">
+                  <TestimonialSkeleton />
+               </div>
+            ) : (
+            <>
             {/* Big quote icon */}
             <div className="absolute top-10 right-10 md:top-20 md:right-20 text-[#19D2FF] opacity-10 pointer-events-none">
                <svg className="w-32 h-32 md:w-48 md:h-48" fill="currentColor" viewBox="0 0 24 24">
@@ -154,6 +193,8 @@ export default function TestimonialsPage() {
                   />
                ))}
             </div>
+            </>
+            )}
          </div>
       </section>
 
