@@ -117,6 +117,8 @@ export default function HomePage({ isIntroComplete }) {
   const [displayProjects, setDisplayProjects] = useState([]);
   const [displayTestimonials, setDisplayTestimonials] = useState([]);
   const [displayServices, setDisplayServices] = useState([]);
+  const [homeData, setHomeData] = useState(null);
+  const [homeStats, setHomeStats] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
 
   // Mock fetching / Real fetching attempt
@@ -125,11 +127,22 @@ export default function HomePage({ isIntroComplete }) {
       setLoadingData(true);
       try {
         // Try real API calls parallelly
-        const [projectsRes, servicesRes, testimonialsRes] = await Promise.allSettled([
+        const [projectsRes, servicesRes, testimonialsRes, homeRes, blocksRes] = await Promise.allSettled([
           fetchContent("projects", { limit: 6 }),
           fetchContent("services", { limit: 8 }),
-          fetchContent("testimonials", { limit: 5 })
+          fetchContent("testimonials", { limit: 5 }),
+          fetchContent("home", { limit: 1 }),
+          fetchContent("sectionBlocks", { pageFilter: "home", limit: 50 })
         ]);
+
+        if (homeRes.status === "fulfilled" && homeRes.value.items?.length > 0) {
+           setHomeData(homeRes.value.items[0]);
+        }
+
+        if (blocksRes.status === "fulfilled" && blocksRes.value.items?.length > 0) {
+           const blocks = blocksRes.value.items.sort((a,b) => a.order - b.order);
+           setHomeStats(blocks.filter(b => b.section === 'stats'));
+        }
 
         const mappedProjects = projectsRes.status === "fulfilled" && projectsRes.value.items?.length > 0
           ? projectsRes.value.items.map(p => ({
@@ -294,21 +307,30 @@ export default function HomePage({ isIntroComplete }) {
         <div className="mx-auto max-w-[1500px] grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center w-full relative z-10">
           {/* Left: Text */}
           <div className="relative flex flex-col items-center text-center lg:items-start lg:text-left">
-            <div
-              className="hero-content-reveal inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 text-xs font-bold tracking-[0.15em] uppercase"
-              style={{ border: "1px solid var(--highlight-border)", background: "var(--highlight-soft)", color: "var(--highlight)" }}
-            >
+              <div
+                className="hero-content-reveal inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 text-xs font-bold tracking-[0.15em] uppercase border border-[var(--highlight-border)] bg-[var(--highlight-soft)] text-[var(--highlight)]"
+              >
               <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "var(--highlight)" }} />
               {t("hero.available", language)}
             </div>
 
             <h1 className="hero-content-reveal text-5xl md:text-[80px] font-bold leading-[1.05] tracking-tight mb-8" style={{ color: "var(--text)" }}>
-              {t("hero.title_part1", language)} <br />
-              <span className="text-glow">{t("hero.title_highlight", language)}</span>
+              {(() => {
+                 const val = homeData?.title ? (language === "bn" ? homeData.title.bn : homeData.title.en) : "";
+                 if (val) {
+                    const words = val.trim().split(" ");
+                    if (words.length > 1) {
+                       const last = words.pop();
+                       return <>{words.join(" ")} <br /><span className="text-glow">{last}</span></>;
+                    }
+                    return val;
+                 }
+                 return <>{t("hero.title_part1", language)} <br /> <span className="text-glow">{t("hero.title_highlight", language)}</span></>;
+              })()}
             </h1>
 
             <p className="hero-content-reveal text-lg md:text-xl max-w-xl leading-relaxed mb-12 font-medium" style={{ color: "var(--text-muted)" }}>
-              {t("hero.subtitle", language)}
+              {homeData?.summary ? (language === "bn" ? homeData.summary.bn : homeData.summary.en) : t("hero.subtitle", language)}
             </p>
 
             <div className="hero-content-reveal flex flex-col sm:flex-row gap-5">
@@ -322,10 +344,7 @@ export default function HomePage({ isIntroComplete }) {
               </Link>
               <Link
                 to="/projects"
-                className="flex justify-center items-center px-8 py-4 rounded font-bold text-sm tracking-wide transition-all"
-                style={{ border: "1px solid var(--highlight-border)", color: "var(--text-muted)" }}
-                onMouseEnter={e => { e.currentTarget.style.color = "var(--highlight)"; e.currentTarget.style.borderColor = "var(--highlight)"; e.currentTarget.style.background = "var(--highlight-soft)"; }}
-                onMouseLeave={e => { e.currentTarget.style.color = "var(--text-muted)"; e.currentTarget.style.borderColor = "var(--highlight-border)"; e.currentTarget.style.background = "transparent"; }}
+                className="flex justify-center items-center px-8 py-4 rounded font-bold text-sm tracking-wide transition-all border border-[var(--highlight-border)] text-[var(--text-muted)] hover:text-[var(--highlight)] hover:border-[var(--highlight)] hover:bg-[var(--highlight-soft)]"
               >
                 {t("hero.cta_secondary", language)}
               </Link>
@@ -333,11 +352,9 @@ export default function HomePage({ isIntroComplete }) {
           </div>
 
           {/* Right: 3D Building Model (Deferred) */}
-          <div className="relative h-[480px] md:h-[620px] w-full rounded-3xl overflow-hidden mb-12 lg:mb-0"
+          <div className="relative h-[480px] md:h-[620px] w-full rounded-3xl overflow-hidden mb-12 lg:mb-0 border border-[var(--highlight-border)] bg-[var(--bg-accent)]"
             style={{ 
-              border: "1px solid var(--highlight-border)", 
               boxShadow: isDark ? "0 40px 100px -15px rgba(0,0,0,0.4), 0 0 40px var(--highlight-soft)" : "0 20px 60px rgba(0,0,0,0.1)",
-              background: "var(--bg-accent)"
             }}>
 
             {loadModel ? (
@@ -385,21 +402,29 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Stats ─────────────────────────────────────────────────────────── */}
-      <section className="py-16 px-6 lg:px-10" style={{ background: "var(--bg)", borderBottom: "1px solid var(--highlight-border)" }}>
+      <section className="py-16 px-6 lg:px-10 border-b border-[var(--highlight-border)]" style={{ background: "var(--bg)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { val: 150, suffix: "+", key: "stats.projects", icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
-              { val: 8, suffix: "+", key: "stats.experience", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
-              { val: 99, suffix: "%", key: "stats.safety", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
-              { val: 12, suffix: "", key: "stats.developments", icon: "M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM16 13a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z" },
-            ].map((stat, i) => (
+            {(homeStats.length > 0 ? homeStats : [
+              { value: "150", suffix: "+", title: { en: "Projects Done" }, icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
+              { value: "8", suffix: "+", title: { en: "Experience" }, icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
+              { value: "99", suffix: "%", title: { en: "Safety" }, icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+              { value: "12", suffix: "", title: { en: "Developments" }, icon: "M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM16 13a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z" },
+            ]).map((stat, i) => (
               <div key={i} className="p-8 rounded-2xl flex flex-col justify-center transition-all duration-300 group card-bg">
                 <div className="mb-4 opacity-70 group-hover:opacity-100 transition-opacity" style={{ color: "var(--highlight)" }}>
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={stat.icon} /></svg>
                 </div>
-                <h3 className="text-4xl font-bold mb-2" style={{ color: "var(--text)" }}><CountUp end={stat.val} suffix={stat.suffix} /></h3>
-                <span className="text-[13px] font-semibold" style={{ color: "var(--text-muted)" }}>{t(stat.key, language)}</span>
+                <h3 className="text-4xl font-bold mb-2" style={{ color: "var(--text)" }}>
+                  {typeof stat.value === 'string' && !isNaN(Number(stat.value)) ? (
+                      <CountUp end={Number(stat.value)} suffix={stat.suffix || ""} />
+                  ) : (
+                      <span>{stat.value}{stat.suffix}</span>
+                  )}
+                </h3>
+                <span className="text-[13px] font-semibold" style={{ color: "var(--text-muted)" }}>
+                  {language === "bn" ? (stat.title?.bn || stat.title?.en) : stat.title?.en}
+                </span>
               </div>
             ))}
           </div>
@@ -425,7 +450,7 @@ export default function HomePage({ isIntroComplete }) {
               displayServices.map((service, i) => (
                 <div key={i} className="p-10 rounded-2xl reveal-unit transition-all duration-300 relative overflow-hidden card-bg">
                   <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full" style={{ background: "var(--highlight-soft)" }} />
-                  <div className="mb-8 relative z-10" style={{ color: "var(--highlight)" }}>
+                  <div className="relative z-10 mt-16 pt-10 border-t" style={{ borderTopColor: "var(--highlight-border)" }}>
                     {typeof service.icon === "string" ? (
                       service.icon.startsWith("M") ? (
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -516,7 +541,7 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Client Reviews ────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-10 overflow-hidden" style={{ background: "var(--bg)", borderBottom: "1px solid var(--highlight-border)" }}>
+      <section className="py-24 px-6 lg:px-10 overflow-hidden border-b border-[var(--highlight-border)]" style={{ background: "var(--bg)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 reveal-unit">
             <div className="flex items-center gap-4">
@@ -696,10 +721,8 @@ export default function HomePage({ isIntroComplete }) {
             </div>
 
             {/* Quick Contact */}
-            <div className="p-8 rounded-2xl flex items-start gap-6 group cursor-pointer transition-all duration-300 card-bg"
+            <div className="p-8 rounded-2xl flex items-start gap-6 group cursor-pointer transition-all duration-300 card-bg border border-[var(--highlight-border)] hover:border-[var(--highlight)] hover:-translate-y-1"
               onClick={() => window.location.href = "/contact"}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--highlight)"; e.currentTarget.style.transform = "translateY(-4px)"; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--highlight-border)"; e.currentTarget.style.transform = "translateY(0)"; }}
             >
               <div className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center transition-all"
                 style={{ background: "var(--highlight)", color: "#0A0F1C" }}>
@@ -724,7 +747,7 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Partners ──────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-10 overflow-hidden" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)" }}>
+      <section className="py-24 px-6 lg:px-10 overflow-hidden border-t border-[var(--highlight-border)]" style={{ background: "var(--bg-soft)" }}>
         <div className="mx-auto max-w-[1500px]">
           <h2 className="text-[11px] font-bold uppercase tracking-[0.4em] text-center mb-16 reveal-unit" style={{ color: "var(--text-faint)" }}>
             {t("partners.title", language)}
@@ -761,8 +784,8 @@ export default function HomePage({ isIntroComplete }) {
 
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
       <section className="py-32 px-6 lg:px-10 relative overflow-hidden" style={{ background: "var(--bg)" }}>
-        <div className="max-w-[1200px] mx-auto rounded-3xl relative p-12 md:p-24 text-center reveal-unit"
-          style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "0 30px 60px rgba(0,0,0,0.15)" }}>
+        <div className="reveal-unit p-10 lg:p-16 rounded-3xl relative backdrop-blur-xl border border-[var(--highlight-border)] transition-all duration-500"
+                style={{ background: "var(--bg-card)", boxShadow: "0 30px 60px rgba(0,0,0,0.12)" }}>
           <div className="relative z-10 w-full max-w-3xl mx-auto">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight" style={{ color: "var(--text)" }}>
               {t("cta.title_part1", language)} <br />
