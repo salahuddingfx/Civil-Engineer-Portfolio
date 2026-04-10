@@ -259,11 +259,22 @@ export default function HomePage({ isIntroComplete }) {
     return () => ctx.revert();
   }, [isIntroComplete]);
 
-  // Deferred 3D Model Loading
+  // Mobile Detection for 3D Model
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 1023px)");
+    const onChange = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+
+  // Deferred 3D Model Loading (Only if not mobile)
   const [loadModel, setLoadModel] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    if (isMobile) return;
     const timer = setTimeout(() => setLoadModel(true), 1500); 
     
     // Track scroll for 3D model evolution
@@ -276,9 +287,9 @@ export default function HomePage({ isIntroComplete }) {
 
     return () => {
       clearTimeout(timer);
-      scroller.kill();
+      if (scroller) scroller.kill();
     };
-  }, []);
+  }, [isMobile]);
 
   const hl = isDark ? "var(--highlight)" : "var(--highlight)";
 
@@ -351,13 +362,13 @@ export default function HomePage({ isIntroComplete }) {
             </div>
           </div>
 
-          {/* Right: 3D Building Model (Deferred) */}
+          {/* Right: 3D Building Model (Disabled on Mobile) */}
           <div className="relative h-[480px] md:h-[620px] w-full rounded-3xl overflow-hidden mb-12 lg:mb-0 border border-[var(--highlight-border)] bg-[var(--bg-accent)]"
             style={{ 
               boxShadow: isDark ? "0 40px 100px -15px rgba(0,0,0,0.4), 0 0 40px var(--highlight-soft)" : "0 20px 60px rgba(0,0,0,0.1)",
             }}>
 
-            {loadModel ? (
+            {!isMobile && loadModel ? (
               <Suspense fallback={
                 <div className="w-full h-full flex items-center justify-center" style={{ background: "var(--bg-accent)" }}>
                   <div className="text-center">
@@ -369,27 +380,39 @@ export default function HomePage({ isIntroComplete }) {
                 <ArchitecturalModel scrollProgress={scrollProgress} />
               </Suspense>
             ) : (
-              <div className="w-full h-full transition-opacity duration-1000">
+              <div className="w-full h-full transition-opacity duration-1000 relative">
                 <img
-                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=40"
+                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80"
                   alt="Architecture Structural Model Preview"
-                  className="w-full h-full object-cover opacity-50 grayscale"
+                  className="w-full h-full object-cover grayscale brightness-50 lg:opacity-50"
+                  loading="eager"
                 />
-                <div className="absolute inset-0 flex items-center justify-center backdrop-blur-[2px]">
-                  <span className="text-[10px] uppercase font-bold tracking-[0.4em] opacity-40">System Stabilizing...</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center backdrop-blur-[1px] bg-black/20 p-6 text-center">
+                   {isMobile ? (
+                      <div className="space-y-4 reveal-unit">
+                         <div className="w-16 h-1 w-full bg-[var(--highlight)] mx-auto opacity-20" />
+                         <span className="text-[12px] uppercase font-black tracking-[0.5em] text-[var(--highlight)] block">Structural Excellence</span>
+                         <h3 className="text-2xl font-black text-white uppercase tracking-wider">Civil Engineering <br /> & Consultancy</h3>
+                         <div className="w-16 h-1 w-full bg-[var(--highlight)] mx-auto opacity-20" />
+                      </div>
+                   ) : (
+                      <span className="text-[10px] uppercase font-bold tracking-[0.4em] opacity-40">System Stabilizing...</span>
+                   )}
                 </div>
               </div>
             )}
 
-            {/* Scan line overlay */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] pointer-events-none animate-[scan_4s_ease-in-out_infinite]"
-              style={{ background: "var(--highlight)", boxShadow: "0 0 12px var(--highlight)", opacity: "var(--scanner-opacity)" }} />
+            {/* Scan line overlay - Hidden on mobile for performance */}
+            {!isMobile && (
+              <div className="absolute top-0 left-0 right-0 h-[1px] pointer-events-none animate-[scan_4s_ease-in-out_infinite]"
+                style={{ background: "var(--highlight)", boxShadow: "0 0 12px var(--highlight)", opacity: "var(--scanner-opacity)" }} />
+            )}
           </div>
         </div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll Indicator - Now visible on mobile */}
         <div
-          className="hero-content-reveal absolute bottom-12 left-1/2 -translate-x-1/2 z-20 cursor-pointer hidden md:flex"
+          className="hero-content-reveal absolute bottom-12 left-1/2 -translate-x-1/2 z-20 cursor-pointer flex"
           onClick={scrollToFooter}
         >
           <div className="mouse-scroll">
