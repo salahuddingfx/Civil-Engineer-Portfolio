@@ -73,10 +73,7 @@ export default function Footer() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-12 w-12 items-center justify-center rounded-2xl transition-all group"
-                  style={{ border: "1px solid var(--highlight-border)", background: "var(--highlight-soft)", color: "var(--text-muted)" }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--highlight)"; e.currentTarget.style.color = "var(--highlight)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--highlight-border)"; e.currentTarget.style.color = "var(--text-muted)"; }}
+                  className="flex h-12 w-12 items-center justify-center rounded-2xl transition-all group border border-[var(--highlight-border)] bg-[var(--highlight-soft)] text-[var(--text-muted)] hover:border-[var(--highlight)] hover:text-[var(--highlight)]"
                   aria-label={social.id}
                 >
                   <social.icon size={20} className="group-hover:scale-110 transition-transform" />
@@ -154,10 +151,7 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder={language === "en" ? "identity@protocol.com" : "ইমেইল @ প্রোটোকল"}
-                className="w-full rounded-2xl p-5 outline-none transition-all pr-16"
-                style={{ background: "var(--bg-accent)", border: "1px solid var(--highlight-border)", color: "var(--text)" }}
-                onFocus={e => e.currentTarget.style.borderColor = "var(--highlight)"}
-                onBlur={e => e.currentTarget.style.borderColor = "var(--highlight-border)"}
+                className="w-full rounded-2xl p-5 outline-none transition-all pr-16 bg-[var(--bg-accent)] border border-[var(--highlight-border)] text-[var(--text)] focus:border-[var(--highlight)] focus:shadow-[0_0_20px_rgba(25,210,255,0.1)]"
               />
               <button
                 className="absolute right-2 top-2 h-12 w-12 rounded-xl flex items-center justify-center transition-all bg-white text-black"
