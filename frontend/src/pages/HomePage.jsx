@@ -81,29 +81,7 @@ const services = [
   }
 ];
 
-// ── CountUp component ─────────────────────────────────────────────────────────
-function CountUp({ end, suffix = "", duration = 2000 }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  useEffect(() => {
-    let startTime, animationFrame;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        const updateCount = (timestamp) => {
-          if (!startTime) startTime = timestamp;
-          const pct = Math.min((timestamp - startTime) / duration, 1);
-          setCount(Math.floor(end * pct));
-          if (pct < 1) animationFrame = requestAnimationFrame(updateCount);
-        };
-        animationFrame = requestAnimationFrame(updateCount);
-        observer.disconnect();
-      }
-    });
-    if (ref.current) observer.observe(ref.current);
-    return () => { if (animationFrame) cancelAnimationFrame(animationFrame); observer.disconnect(); };
-  }, [end, duration]);
-  return <span ref={ref}>{count}{suffix}</span>;
-}
+import Counter from "../components/Counter";
 
 // ── Main component ────────────────────────────────────────────────────────────
 export default function HomePage({ isIntroComplete }) {
@@ -439,11 +417,7 @@ export default function HomePage({ isIntroComplete }) {
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={stat.icon} /></svg>
                 </div>
                 <h3 className="text-4xl font-bold mb-2" style={{ color: "var(--text)" }}>
-                  {typeof stat.value === 'string' && !isNaN(Number(stat.value)) ? (
-                      <CountUp end={Number(stat.value)} suffix={stat.suffix || ""} />
-                  ) : (
-                      <span>{stat.value}{stat.suffix}</span>
-                  )}
+                  <Counter value={stat.value} />
                 </h3>
                 <span className="text-[13px] font-semibold" style={{ color: "var(--text-muted)" }}>
                   {language === "bn" ? (stat.title?.bn || stat.title?.en) : stat.title?.en}

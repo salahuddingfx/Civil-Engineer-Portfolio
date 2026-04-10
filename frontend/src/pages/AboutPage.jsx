@@ -9,73 +9,10 @@ import { Mail, Zap, Clock, Users, ChevronRight, MessageSquare, Quote, X } from "
 import { Linkedin } from "../components/BrandIcons";
 import LucideIcon from "../components/LucideIcon";
 import PreviewModal from "../components/PreviewModal";
+import Counter from "../components/Counter";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Scroll-triggered count-up animation component ──────────────────────────
-function StatCountUp({ rawValue }) {
-  const elRef = useRef(null);
-  const [display, setDisplay] = useState("0");
-  const animatedRef = useRef(false);
-
-  // Parse: extract leading number, keep suffix (e.g. "500+" → num=500, suffix="+")
-  const match = String(rawValue || "").match(/^([0-9,.]+)(.*)$/);
-  const numericStr = match ? match[1].replace(/,/g, "") : null;
-  const numericVal = numericStr ? parseFloat(numericStr) : null;
-  const suffix = match ? match[2] : "";
-  const isNumeric = numericVal !== null && !isNaN(numericVal);
-
-  const runAnimation = useCallback(() => {
-    if (animatedRef.current || !isNumeric) return;
-    animatedRef.current = true;
-
-    const duration = 1800; // ms
-    const steps = 60;
-    const interval = duration / steps;
-    let current = 0;
-    const increment = numericVal / steps;
-
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= numericVal) {
-        clearInterval(timer);
-        // Format with commas if original had them
-        const formatted = numericStr?.includes(",")
-          ? Math.round(numericVal).toLocaleString()
-          : Math.round(numericVal).toString();
-        setDisplay(formatted + suffix);
-      } else {
-        const formatted = numericStr?.includes(",")
-          ? Math.round(current).toLocaleString()
-          : Math.round(current).toString();
-        setDisplay(formatted + suffix);
-      }
-    }, interval);
-  }, [isNumeric, numericVal, numericStr, suffix]);
-
-  useEffect(() => {
-    if (!isNumeric) {
-      setDisplay(rawValue || "");
-      return;
-    }
-    const el = elRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          runAnimation();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.4 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [isNumeric, rawValue, runAnimation]);
-
-  return <span ref={elRef}>{isNumeric ? display : rawValue}</span>;
-}
 
 function SkillCard({ skill, language }) {
   return (
@@ -273,7 +210,7 @@ export default function AboutPage() {
                 ]).map((stat, i) => (
                   <div key={i} className="group">
                      <p className="text-4xl font-black mb-2 transition-transform group-hover:scale-110 font-display" style={{ color: "var(--text)" }}>
-                       <StatCountUp rawValue={stat.value} />
+                       <Counter value={stat.value} />
                      </p>
                      <p className="stats-label text-[var(--highlight)] cursor-default">
                        {language === "bn" ? (stat.title?.bn || stat.title?.en) : stat.title?.en}
@@ -345,7 +282,9 @@ export default function AboutPage() {
                {/* Subtle Experience Badge */}
                <div className="absolute -bottom-6 -right-6 p-6 rounded-2xl backdrop-blur-xl bg-[var(--bg-card)] border border-[var(--highlight-border)] shadow-2xl reveal-unit">
                   <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-widest mb-1">Experience</p>
-                  <p className="text-xl font-black italic uppercase leading-none" style={{ color: "var(--text)" }}>11+ Years</p>
+                  <p className="text-xl font-black italic uppercase leading-none" style={{ color: "var(--text)" }}>
+                     <Counter value="11" suffix="+ Years" />
+                  </p>
                </div>
             </div>
 
