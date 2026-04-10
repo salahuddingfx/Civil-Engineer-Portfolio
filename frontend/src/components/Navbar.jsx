@@ -87,7 +87,7 @@ export default function Navbar({ isIntroComplete }) {
         </NavLink>
 
         {/* Desktop Nav */}
-        <nav aria-label="Primary" className="hidden items-center md:flex">
+        <nav aria-label="Primary" className="hidden items-center lg:flex">
           {links.map((link) => (
             <DesktopNavLink key={link.to} to={link.to} label={t(`nav.${link.key}`, language)} />
           ))}
@@ -96,7 +96,7 @@ export default function Navbar({ isIntroComplete }) {
         {/* Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* Language Toggle - Desktop Only */}
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <button
               onClick={toggleLanguage}
               className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.1em] transition-colors"
@@ -152,7 +152,7 @@ export default function Navbar({ isIntroComplete }) {
           <button
             type="button"
             onClick={() => setMenuOpen((prev) => !prev)}
-            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 md:hidden"
+            className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 lg:hidden"
             aria-label="Toggle Menu"
           >
             <span className={`h-[1px] w-5 transition-transform duration-300 ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`}
@@ -168,7 +168,7 @@ export default function Navbar({ isIntroComplete }) {
       {/* Mobile Drawer */}
       <div
         ref={menuRef}
-        className={`md:hidden overflow-hidden transition-all duration-500 ${menuOpen ? "max-h-[90vh] opacity-100" : "max-h-0 opacity-0"}`}
+        className={`lg:hidden overflow-hidden transition-all duration-500 ${menuOpen ? "max-h-[90vh] opacity-100" : "max-h-0 opacity-0"}`}
         style={{ background: "var(--bg)", borderBottom: "1px solid var(--highlight-border)" }}
       >
         <div className="flex flex-col p-4 px-6 gap-1">
@@ -216,7 +216,7 @@ export default function Navbar({ isIntroComplete }) {
       {/* Overlay */}
       {menuOpen && (
         <div
-          className="fixed inset-0 top-[68px] -z-10 md:hidden"
+          className="fixed inset-0 top-[68px] -z-10 lg:hidden"
           style={{ background: "rgba(0,0,0,0.4)" }}
           onClick={() => setMenuOpen(false)}
         />
