@@ -20,6 +20,9 @@ async function list(req, res, next) {
     const skip = (page - 1) * limit;
     const q = String(req.query.q || "").trim();
     const category = String(req.query.category || "").trim();
+    const pageFilter = String(req.query.pageFilter || "").trim();
+    const sectionFilter = String(req.query.section || "").trim();
+    const statusFilter = String(req.query.status || "").trim();
     const onlyPublished = req.query.published === "true";
 
     const filter = {};
@@ -32,6 +35,15 @@ async function list(req, res, next) {
     }
     if (category) {
       filter.category = category;
+    }
+    if (pageFilter) {
+      filter.page = pageFilter;
+    }
+    if (sectionFilter) {
+      filter.section = sectionFilter;
+    }
+    if (statusFilter) {
+      filter.status = statusFilter;
     }
     if (onlyPublished) {
       filter.isPublished = true;

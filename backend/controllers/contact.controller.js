@@ -5,6 +5,7 @@ const contactSchema = z.object({
   name: z.string().min(2).max(120),
   email: z.string().email(),
   phone: z.string().max(40).optional().default(""),
+  projectType: z.string().max(100).optional().default(""),
   message: z.string().min(10).max(2000),
   sourcePage: z.string().max(120).optional().default("contact"),
   website: z.string().optional().default(""),
