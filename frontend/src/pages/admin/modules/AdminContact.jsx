@@ -91,8 +91,8 @@ export default function AdminContact() {
     } finally { setSaving(false); }
   };
 
-  const inputClasses = "w-full bg-white border border-slate-200 rounded-2xl px-7 py-5 text-slate-900 outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
-  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
+  const inputClasses = "w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl px-7 py-5 text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/50 focus:bg-[var(--admin-card)] opacity-90 transition-all font-medium italic placeholder:text-[color:var(--admin-text-secondary)] shadow-inner text-sm";
+  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-muted)] italic ml-4 mb-4";
 
   return (
     <AdminModuleWrapper
@@ -118,16 +118,16 @@ export default function AdminContact() {
         </div>
 
         {/* Messaging Interface */}
-        <div className="bg-[#0d0f1a]/40 border border-slate-200 rounded-[48px] p-12 relative overflow-hidden group/whatsapp">
+        <div className="bg-[#0d0f1a]/40 border border-[color:var(--admin-border)] rounded-[48px] p-12 relative overflow-hidden group/whatsapp">
            <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-emerald-400/20 to-transparent rounded-bl-full" />
            <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-4">
                  <MessageCircle size={18} className="text-emerald-400" />
-                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Messaging Signal Center</h3>
+                 <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-[color:var(--admin-text-muted)] italic">Messaging Signal Center</h3>
               </div>
               <label className="flex items-center cursor-pointer scale-75">
                   <div className={`h-7 w-14 rounded-full transition-all duration-500 relative ${form.whatsappEnabled ? 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.3)]' : 'bg-slate-800'}`}>
-                    <div className={`h-5 w-5 bg-white rounded-full absolute top-1 transition-all duration-500 ${form.whatsappEnabled ? 'left-8' : 'left-1'}`} />
+                    <div className={`h-5 w-5 bg-[var(--admin-card)] rounded-full absolute top-1 transition-all duration-500 ${form.whatsappEnabled ? 'left-8' : 'left-1'}`} />
                   </div>
                   <input type="checkbox" checked={form.whatsappEnabled} onChange={e => setForm({...form, whatsappEnabled: e.target.checked})} className="hidden" />
               </label>
@@ -165,11 +165,11 @@ export default function AdminContact() {
 
         {/* Social Architecture Hub */}
         <div className="pt-8">
-           <div className="bg-[#090b14]/60 border border-slate-200 rounded-[56px] p-16 relative overflow-hidden group/social">
+           <div className="bg-[#090b14]/60 border border-[color:var(--admin-border)] rounded-[56px] p-16 relative overflow-hidden group/social">
               <div className="absolute top-0 left-0 h-1.5 w-80 bg-gradient-to-r from-blue-400/20 to-transparent rounded-br-full" />
               <div className="flex items-center gap-4 mb-14">
                  <Share2 size={24} className="text-blue-400" />
-                 <h3 className="text-[14px] font-black uppercase tracking-[0.5em] text-slate-900 italic">Social Grid Architecture</h3>
+                 <h3 className="text-[14px] font-black uppercase tracking-[0.5em] text-[color:var(--admin-text-heading)] italic">Social Grid Architecture</h3>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
