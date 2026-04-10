@@ -6,6 +6,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { Suspense, lazy, useState, useEffect } from "react";
 import AdminLayout from "./components/admin/AdminLayout";
 import { api } from "./lib/api";
+import { Analytics } from "@vercel/analytics/react";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
@@ -113,6 +114,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
+        <Analytics />
       </div>
     </>
   );
