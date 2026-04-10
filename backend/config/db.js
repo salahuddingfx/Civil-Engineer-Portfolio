@@ -21,17 +21,25 @@ async function connectDb() {
     try {
       await mongoose.connect(env.mongoUri, options);
       dbReady = true;
+      console.log("✔ Global MongoDB Identity Synchronized (Atlas Connected)");
       return mongoose.connection;
     } catch (error) {
-      console.warn("Primary MongoDB connection failed. Trying local fallback...");
+      console.error(`✖ Primary Identity Sync Failed: ${error.message}`);
+      if (error.name === 'MongoServerSelectionError') {
+        console.warn("TIP: This usually means your IP is not whitelisted in MongoDB Atlas. Ensure 0.0.0.0/0 is allowed.");
+      }
+      
+      console.warn("Attempting emergency local fallback (Expected to fail on Vercel)...");
       try {
         const localUri = process.env.MONGO_URI_LOCAL || "mongodb://127.0.0.1:27017/alam-ashik-portfolio";
         await mongoose.connect(localUri, options);
         dbReady = true;
+        console.log("✔ Emergency Local Record Sync Connected");
         return mongoose.connection;
       } catch (localError) {
         dbReady = false;
         connectionPromise = null; // Reset for retry
+        console.error(`FATAL: All persistence layers unreachable. Error: ${localError.message}`);
         throw localError;
       }
     }
