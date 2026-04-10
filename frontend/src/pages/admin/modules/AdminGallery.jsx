@@ -95,8 +95,8 @@ export default function AdminGallery() {
     item.category?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const inputClasses = "w-full bg-white border border-slate-200 rounded-2xl px-7 py-5 text-slate-900 outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
-  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
+  const inputClasses = "w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl px-7 py-5 text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/50 focus:bg-[var(--admin-card)] opacity-90 transition-all font-medium italic placeholder:text-[color:var(--admin-text-secondary)] shadow-inner text-sm";
+  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-muted)] italic ml-4 mb-4";
 
   return (
     <AdminModuleWrapper
@@ -115,12 +115,12 @@ export default function AdminGallery() {
         {/* Gallery Grid Sidebar */}
         <div className="space-y-8 flex flex-col">
           <div className="relative group">
-             <Search size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+             <Search size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-[color:var(--admin-text-muted)] group-focus-within:text-cyan-400 transition-colors" />
              <input 
                placeholder="Search Archive..." 
                value={searchTerm}
                onChange={e => setSearchTerm(e.target.value)}
-               className="w-full bg-white border border-slate-200 rounded-2xl pl-14 pr-6 py-5 text-[11px] font-bold uppercase tracking-widest text-slate-900 outline-none focus:border-cyan-400/40 transition-all"
+               className="w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl pl-14 pr-6 py-5 text-[11px] font-bold uppercase tracking-widest text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/40 transition-all"
              />
           </div>
 
@@ -129,19 +129,19 @@ export default function AdminGallery() {
               <div 
                 key={item._id}
                 onClick={() => setSelectedId(item._id)}
-                className={`group aspect-square rounded-[32px] border-4 overflow-hidden cursor-pointer transition-all duration-500 relative ${selectedId === item._id ? 'border-cyan-400 shadow-2xl ring-8 ring-cyan-400/10' : 'border-slate-200 opacity-40 hover:opacity-100 hover:border-white/20'}`}
+                className={`group aspect-square rounded-[32px] border-4 overflow-hidden cursor-pointer transition-all duration-500 relative ${selectedId === item._id ? 'border-cyan-400 shadow-2xl ring-8 ring-cyan-400/10' : 'border-[color:var(--admin-border)] opacity-40 hover:opacity-100 hover:border-white/20'}`}
               >
                 <img src={item.featuredImage?.url} alt="" className="w-full h-full object-cover transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
                    <p className="text-[8px] font-black uppercase tracking-widest text-sky-600 italic mb-1">{item.category}</p>
-                   <p className="text-[10px] text-slate-900 font-bold truncate italic">{item.title?.en || "Untitled Asset"}</p>
+                   <p className="text-[10px] text-[color:var(--admin-text-heading)] font-bold truncate italic">{item.title?.en || "Untitled Asset"}</p>
                 </div>
               </div>
             ))}
             {!loading && filteredItems.length === 0 && (
                <div className="col-span-2 py-20 text-center space-y-4 opacity-20">
-                  <Grid3X3 size={40} className="mx-auto text-slate-500" />
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">Empty Archive</p>
+                  <Grid3X3 size={40} className="mx-auto text-[color:var(--admin-text-muted)]" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-muted)] italic">Empty Archive</p>
                </div>
             )}
           </div>
@@ -149,10 +149,10 @@ export default function AdminGallery() {
 
         {/* Editor Form */}
         <div className="space-y-16 animate-in fade-in slide-in-from-right-4 duration-700">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-slate-200 pb-12">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-[color:var(--admin-border)] pb-12">
             <div>
-               <h3 className="text-3xl font-black text-slate-900 italic tracking-tighter uppercase mb-2">{selectedId ? "Configure Asset" : "Register Visual"}</h3>
-               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic">{selectedId ? `Refining Visual Node Hardware ID: ${selectedId}` : "Initializing Fresh Structural Asset"}</p>
+               <h3 className="text-3xl font-black text-[color:var(--admin-text-heading)] italic tracking-tighter uppercase mb-2">{selectedId ? "Configure Asset" : "Register Visual"}</h3>
+               <p className="text-[10px] text-[color:var(--admin-text-muted)] font-bold uppercase tracking-widest italic">{selectedId ? `Refining Visual Node Hardware ID: ${selectedId}` : "Initializing Fresh Structural Asset"}</p>
             </div>
             
             <div className="flex items-center gap-4 px-6 py-3 bg-cyan-400/5 border border-cyan-400/10 rounded-2xl">
@@ -179,11 +179,11 @@ export default function AdminGallery() {
 
           {/* Media Module */}
           <div className="pt-8">
-             <div className="bg-[#0d0f1a]/40 border border-slate-200 rounded-[48px] p-12 relative overflow-hidden group/media">
+             <div className="bg-[#0d0f1a]/40 border border-[color:var(--admin-border)] rounded-[48px] p-12 relative overflow-hidden group/media">
                 <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-cyan-400/20 to-transparent rounded-bl-full" />
                 <div className="flex items-center gap-4 mb-10">
                    <Camera size={18} className="text-sky-600" />
-                   <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 italic">Visual Sensor Output</h3>
+                   <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-[color:var(--admin-text-muted)] italic">Visual Sensor Output</h3>
                 </div>
                 <ImageUpload value={form.featuredImageUrl} onChange={val => setForm({...form, featuredImageUrl: val})} label="Structural Capture Output" />
              </div>
