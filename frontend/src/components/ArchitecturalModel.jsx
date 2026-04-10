@@ -31,43 +31,43 @@ const useEngineeringMaterials = (isDark, isMobile) => {
         ...(isMobile ? {} : { transmission: 0.8, thickness: 1, ior: 1.45 })
       }),
       concrete: new THREE.MeshPhysicalMaterial({
-        color: isDark ? "#1e293b" : "#f1f5f9",
-        roughness: 0.7,
-        metalness: 0.1,
+        color: isDark ? "#1a2233" : "#f1f5f9",
+        roughness: 0.6,
+        metalness: 0.2,
         flatShading: false,
-        envMapIntensity: 0.8,
+        envMapIntensity: 1.2,
       }),
       structuralSteel: new THREE.MeshStandardMaterial({
-        color: isDark ? "#4b5563" : "#94a3b8",
-        roughness: 0.2,
-        metalness: 0.9,
-        envMapIntensity: 2,
+        color: isDark ? "#334155" : "#94a3b8",
+        roughness: 0.1,
+        metalness: 1,
+        envMapIntensity: isDark ? 2.5 : 2,
       }),
       craneYellow: new THREE.MeshStandardMaterial({
         color: "#fbbf24",
         roughness: 0.3,
         metalness: 0.7,
         emissive: "#fbbf24",
-        emissiveIntensity: isDark ? 0.05 : 0,
+        emissiveIntensity: isDark ? 0.2 : 0,
       }),
       safetyNet: new THREE.MeshStandardMaterial({
         color: "#f97316",
         transparent: true,
-        opacity: 0.3,
+        opacity: 0.4,
         side: THREE.DoubleSide,
         wireframe: true,
       }),
       rebar: new THREE.MeshStandardMaterial({
-        color: "#334155",
+        color: isDark ? "#475569" : "#334155",
         roughness: 0.8,
         metalness: 0.5,
       }),
       blueprintLine: new THREE.MeshStandardMaterial({
         color: "#19D2FF",
         emissive: "#19D2FF",
-        emissiveIntensity: 1,
+        emissiveIntensity: 1.5,
         transparent: true,
-        opacity: 0.6
+        opacity: 0.8
       })
     };
   }, [isDark, isMobile]);
@@ -267,36 +267,37 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
       >
         <PerspectiveCamera 
           makeDefault 
-          position={isMobile ? [18, 14, 22] : [12, 12, 18]} 
-          fov={isMobile ? 32 : 35} 
+          position={isMobile ? [18, 14, 22] : [10, 10, 14]} 
+          fov={isMobile ? 32 : 28} 
         />
         <color attach="background" args={[isDark ? "#020617" : "#f8fafc"]} />
         
         {!isMobile && isDark && <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={0.5} />}
 
         {/* Global Illumination */}
-        <ambientLight intensity={isDark ? 0.6 : 0.9} />
+        <ambientLight intensity={isDark ? 0.75 : 1} />
         
         {/* Main Key Light */}
         <spotLight 
           position={[15, 25, 15]} 
           angle={0.3} 
           penumbra={0.5} 
-          intensity={isDark ? 3 : 1.5} 
+          intensity={isDark ? 3.5 : 1.5} 
           castShadow 
           shadow-bias={-0.00005} 
           shadow-mapSize={[1024, 1024]} 
+          color={isDark ? "#e0f2fe" : "#ffffff"}
         />
         
         {/* Fill Lights */}
-        <pointLight position={[-10, 5, -10]} intensity={isDark ? 0.8 : 0.4} color={isDark ? "#38bdf8" : "#94a3b8"} />
+        <pointLight position={[-10, 5, -10]} intensity={isDark ? 1 : 0.4} color={isDark ? "#38bdf8" : "#94a3b8"} />
         
-        {/* Blueprint Glow (Cyan Core) */}
-        <pointLight position={[0, -2, 0]} intensity={isDark ? 2.5 : 0} color="#19D2FF" distance={15} />
+        {/* Blueprint Glow (Higher up) */}
+        <pointLight position={[0, -1, 0]} intensity={isDark ? 3 : 0} color="#19D2FF" distance={20} />
 
         <Suspense fallback={null}>
           <Float speed={1.5} rotationIntensity={0.02} floatIntensity={0.05}>
-            <group position={[0, -2.5, 0]} rotation={[0, scrollProgress * Math.PI * 0.5, 0]} scale={isMobile ? 0.75 : 1}>
+            <group position={[0, -6.5, 0]} rotation={[0, scrollProgress * Math.PI * 0.5, 0]} scale={isMobile ? 0.75 : 0.75}>
               <StructuralSkeleton floors={isMobile ? 10 : 16} materials={materials} isMobile={isMobile} />
               <TowerCrane height={isMobile ? 12 : 18} materials={materials} />
             </group>
