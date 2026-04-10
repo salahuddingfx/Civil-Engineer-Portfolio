@@ -130,8 +130,8 @@ export default function AdminAbout() {
     { id: "team", label: "Team", icon: Users },
   ];
 
-  const inputClasses = "w-full bg-white border border-slate-200 rounded-xl px-6 py-4 text-slate-900 outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic text-[13px]";
-  const labelClasses = "block text-[9px] font-black uppercase tracking-[0.3em] text-slate-800 mb-3 ml-2 italic";
+  const inputClasses = "w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-xl px-6 py-4 text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/50 focus:bg-[var(--admin-card)] opacity-90 transition-all font-medium italic text-[13px]";
+  const labelClasses = "block text-[9px] font-black uppercase tracking-[0.3em] text-[color:var(--admin-text-primary)] mb-3 ml-2 italic";
 
   return (
     <AdminModuleWrapper
@@ -145,13 +145,13 @@ export default function AdminAbout() {
     >
       <div className="space-y-12">
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-4 p-2 bg-slate-50 border border-slate-200 rounded-[28px] max-w-fit">
+        <div className="flex flex-wrap gap-4 p-2 bg-[color:var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[28px] max-w-fit">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => { setActiveTab(tab.id); setEditingItem(null); }}
               className={`flex items-center gap-3 px-8 py-4 rounded-2xl transition-all duration-300 text-[10px] font-black uppercase tracking-widest ${
-                activeTab === tab.id ? 'bg-sky-500 text-black shadow-lg shadow-cyan-400/20' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                activeTab === tab.id ? 'bg-sky-500 text-black shadow-lg shadow-cyan-400/20' : 'text-[color:var(--admin-text-secondary)] hover:text-[color:var(--admin-text-heading)] hover:bg-[var(--admin-card)]'
               }`}
             >
               <tab.icon size={16} />
@@ -191,7 +191,7 @@ export default function AdminAbout() {
             </div>
 
             {/* QUOTE SECTION */}
-            <div className="grid md:grid-cols-2 gap-8 border-t border-slate-200 pt-8">
+            <div className="grid md:grid-cols-2 gap-8 border-t border-[color:var(--admin-border)] pt-8">
               <div className="space-y-4">
                 <div className="flex justify-between items-center px-2">
                   <label className={labelClasses}><Quote size={10} className="inline mr-2" /> Professional Quote (EN)</label>
@@ -205,7 +205,7 @@ export default function AdminAbout() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 border-t border-slate-200 pt-8">
+            <div className="grid md:grid-cols-2 gap-8 border-t border-[color:var(--admin-border)] pt-8">
               <div className="space-y-4">
                 <div className="flex justify-between items-center px-2">
                   <label className={labelClasses}>Biography (EN)</label>
@@ -219,7 +219,7 @@ export default function AdminAbout() {
               </div>
             </div>
             
-            <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-10">
+            <div className="bg-[color:var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[40px] p-10">
                <ImageUpload value={bioForm.featuredImageUrl} onChange={val => setBioForm({...bioForm, featuredImageUrl: val})} label="Profile Image" />
             </div>
           </div>
@@ -229,10 +229,10 @@ export default function AdminAbout() {
         {activeTab === 'skills' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
             {editingItem?.type === 'skill' ? (
-               <div className="bg-white border border-slate-200 rounded-[40px] p-12 space-y-8 relative">
+               <div className="bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-[40px] p-12 space-y-8 relative">
                   <div className="flex justify-between items-center mb-6">
-                     <h3 className="text-xl font-black text-slate-900 tracking-tighter uppercase font-display">Configure Skill</h3>
-                     <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-700 hover:text-slate-900 uppercase transition-colors">Discard</button>
+                     <h3 className="text-xl font-black text-[color:var(--admin-text-heading)] tracking-tighter uppercase font-display">Configure Skill</h3>
+                     <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-[color:var(--admin-text-secondary)] hover:text-[color:var(--admin-text-heading)] uppercase transition-colors">Discard</button>
                   </div>
                   <div className="grid md:grid-cols-2 gap-8">
                      <div className="space-y-4">
@@ -271,12 +271,12 @@ export default function AdminAbout() {
             ) : (
                <div className="grid md:grid-cols-2 gap-6">
                   {skills.map(skill => (
-                    <div key={skill._id} className="group p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-cyan-400/30 transition-all flex items-center justify-between">
+                    <div key={skill._id} className="group p-8 rounded-3xl bg-[color:var(--admin-bg)] border border-[color:var(--admin-border)] hover:border-cyan-400/30 transition-all flex items-center justify-between">
                        <div className="flex items-center gap-6">
                           <div className="h-12 w-12 rounded-xl bg-cyan-400/10 flex items-center justify-center text-sky-600 font-bold transition-transform">{skill.proficiency}%</div>
                           <div>
-                             <h4 className="text-slate-900 font-black italic tracking-tight uppercase text-lg leading-none">{skill.title?.en}</h4>
-                             <p className="text-[10px] text-slate-800 font-bold uppercase tracking-widest mt-2">ICON: {skill.icon}</p>
+                             <h4 className="text-[color:var(--admin-text-heading)] font-black italic tracking-tight uppercase text-lg leading-none">{skill.title?.en}</h4>
+                             <p className="text-[10px] text-[color:var(--admin-text-primary)] font-bold uppercase tracking-widest mt-2">ICON: {skill.icon}</p>
                           </div>
                        </div>
                        <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -285,7 +285,7 @@ export default function AdminAbout() {
                        </div>
                     </div>
                   ))}
-                  <button onClick={() => setEditingItem({ type: 'skill', data: { titleEn: '', titleBn: '', proficiency: 80, icon: 'Zap', order: skills.length + 1 } })} className="p-8 rounded-3xl border-2 border-dashed border-slate-200 flex items-center justify-center gap-4 text-slate-800 hover:text-sky-600 hover:border-sky-400 transition-all group">
+                  <button onClick={() => setEditingItem({ type: 'skill', data: { titleEn: '', titleBn: '', proficiency: 80, icon: 'Zap', order: skills.length + 1 } })} className="p-8 rounded-3xl border-2 border-dashed border-[color:var(--admin-border)] flex items-center justify-center gap-4 text-[color:var(--admin-text-primary)] hover:text-sky-600 hover:border-sky-400 transition-all group">
                      <Plus size={20} className="group-hover:rotate-90 transition-transform" />
                      <span className="text-[11px] font-black uppercase tracking-widest">Add Skill</span>
                   </button>
@@ -298,10 +298,10 @@ export default function AdminAbout() {
         {activeTab === 'timeline' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
              {editingItem?.type === 'timeline' ? (
-                <div className="bg-white border border-slate-200 rounded-[40px] p-12 space-y-8">
+                <div className="bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-[40px] p-12 space-y-8">
                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-black text-slate-900 tracking-tighter uppercase font-display">Update Timeline</h3>
-                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-700 hover:text-slate-900 uppercase transition-colors">Discard</button>
+                      <h3 className="text-xl font-black text-[color:var(--admin-text-heading)] tracking-tighter uppercase font-display">Update Timeline</h3>
+                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-[color:var(--admin-text-secondary)] hover:text-[color:var(--admin-text-heading)] uppercase transition-colors">Discard</button>
                    </div>
                    <div className="grid md:grid-cols-3 gap-8 text-left">
                       <div className="space-y-2">
@@ -354,13 +354,13 @@ export default function AdminAbout() {
              ) : (
                 <div className="space-y-4">
                    {timeline.map(item => (
-                     <div key={item._id} className="group p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-cyan-400/30 transition-all flex items-center justify-between">
+                     <div key={item._id} className="group p-8 rounded-3xl bg-[color:var(--admin-bg)] border border-[color:var(--admin-border)] hover:border-cyan-400/30 transition-all flex items-center justify-between">
                         <div className="flex items-start gap-10">
                            <div className="text-3xl font-black text-sky-500 italic">{item.year}</div>
                            <div className="text-left">
-                              <span className="text-[9px] font-black uppercase tracking-widest text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md mb-2 block w-fit">{item.category}</span>
-                              <h4 className="text-xl font-black text-slate-900 italic tracking-tighter uppercase">{item.title?.en}</h4>
-                              <p className="text-[11px] text-slate-700 mt-2 font-medium italic">{item.description?.en}</p>
+                              <span className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-primary)] bg-slate-100 px-2 py-0.5 rounded-md mb-2 block w-fit">{item.category}</span>
+                              <h4 className="text-xl font-black text-[color:var(--admin-text-heading)] italic tracking-tighter uppercase">{item.title?.en}</h4>
+                              <p className="text-[11px] text-[color:var(--admin-text-secondary)] mt-2 font-medium italic">{item.description?.en}</p>
                            </div>
                         </div>
                         <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -369,7 +369,7 @@ export default function AdminAbout() {
                         </div>
                      </div>
                    ))}
-                   <button onClick={() => setEditingItem({ type: 'timeline', data: { year: '2024', category: 'Experience', titleEn: '', titleBn: '', descEn: '', descBn: '', order: timeline.length + 1 } })} className="w-full p-10 rounded-[40px] border-2 border-dashed border-slate-200 flex items-center justify-center gap-6 text-slate-800 hover:text-sky-600 transition-all group">
+                   <button onClick={() => setEditingItem({ type: 'timeline', data: { year: '2024', category: 'Experience', titleEn: '', titleBn: '', descEn: '', descBn: '', order: timeline.length + 1 } })} className="w-full p-10 rounded-[40px] border-2 border-dashed border-[color:var(--admin-border)] flex items-center justify-center gap-6 text-[color:var(--admin-text-primary)] hover:text-sky-600 transition-all group">
                       <Plus size={24} className="group-hover:rotate-90 transition-transform duration-500" />
                       <span className="text-[12px] font-black uppercase tracking-[0.4em]">Add Timeline Event</span>
                    </button>
@@ -382,10 +382,10 @@ export default function AdminAbout() {
         {activeTab === 'team' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-right-4 duration-500">
              {editingItem?.type === 'team' ? (
-                <div className="bg-white border border-slate-200 rounded-[40px] p-12 space-y-10 text-left">
+                <div className="bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-[40px] p-12 space-y-10 text-left">
                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-black text-slate-900 tracking-tighter uppercase font-display">Team Management</h3>
-                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-slate-700 hover:text-slate-900 uppercase transition-colors">Discard</button>
+                      <h3 className="text-xl font-black text-[color:var(--admin-text-heading)] tracking-tighter uppercase font-display">Team Management</h3>
+                      <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-[color:var(--admin-text-secondary)] hover:text-[color:var(--admin-text-heading)] uppercase transition-colors">Discard</button>
                    </div>
                    <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-2">
@@ -422,22 +422,22 @@ export default function AdminAbout() {
              ) : (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
                    {team.map(member => (
-                     <div key={member._id} className="group bg-white border border-slate-200 rounded-[40px] p-8 hover:border-sky-400 transition-all overflow-hidden relative">
+                     <div key={member._id} className="group bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-[40px] p-8 hover:border-sky-400 transition-all overflow-hidden relative">
                         <div className="flex flex-col items-center text-center">
-                           <div className="h-32 w-32 rounded-3xl overflow-hidden mb-6 transition-all duration-700 shadow-2xl border border-slate-200">
+                           <div className="h-32 w-32 rounded-3xl overflow-hidden mb-6 transition-all duration-700 shadow-2xl border border-[color:var(--admin-border)]">
                               <img src={member.image?.url || "https://avatar.iran.liara.run/public"} alt={member.name} className="h-full w-full object-cover" />
                            </div>
-                           <h4 className="text-xl font-black text-slate-900 italic tracking-tighter uppercase mb-1">{member.name}</h4>
+                           <h4 className="text-xl font-black text-[color:var(--admin-text-heading)] italic tracking-tighter uppercase mb-1">{member.name}</h4>
                            <p className="text-[10px] font-bold text-sky-600 uppercase tracking-widest">{member.designation?.en}</p>
                            
                            <div className="mt-8 flex gap-4">
-                              <button onClick={() => setEditingItem({ type: 'team', data: { ...member, descEn: member.designation?.en, bioEn: member.bio?.en, imageUrl: member.image?.url, linkedin: member.socialLinks?.linkedin } })} className="p-3 bg-slate-50 hover:bg-cyan-400 hover:text-black rounded-xl transition-all text-slate-700"><Edit3 size={16} /></button>
-                              <button onClick={() => handleItemDelete('team', 'teamMembers', member._id)} className="p-3 bg-slate-50 hover:bg-rose-500 rounded-xl transition-all text-slate-700"><Trash2 size={16} /></button>
+                              <button onClick={() => setEditingItem({ type: 'team', data: { ...member, descEn: member.designation?.en, bioEn: member.bio?.en, imageUrl: member.image?.url, linkedin: member.socialLinks?.linkedin } })} className="p-3 bg-[color:var(--admin-bg)] hover:bg-cyan-400 hover:text-black rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Edit3 size={16} /></button>
+                              <button onClick={() => handleItemDelete('team', 'teamMembers', member._id)} className="p-3 bg-[color:var(--admin-bg)] hover:bg-rose-500 rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Trash2 size={16} /></button>
                            </div>
                         </div>
                      </div>
                    ))}
-                   <button onClick={() => setEditingItem({ type: 'team', data: { name: '', descEn: '', bioEn: '', imageUrl: '', linkedin: '', order: team.length + 1 } })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-6 text-slate-800 hover:text-sky-600 transition-all group">
+                   <button onClick={() => setEditingItem({ type: 'team', data: { name: '', descEn: '', bioEn: '', imageUrl: '', linkedin: '', order: team.length + 1 } })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-[color:var(--admin-border)] flex flex-col items-center justify-center gap-6 text-[color:var(--admin-text-primary)] hover:text-sky-600 transition-all group">
                       <Plus size={32} className="group-hover:rotate-180 transition-transform duration-1000" />
                       <span className="text-[10px] font-black uppercase tracking-[0.4em]">Add Team Member</span>
                    </button>
