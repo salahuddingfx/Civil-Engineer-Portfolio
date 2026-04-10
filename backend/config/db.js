@@ -9,7 +9,7 @@ async function connectDb() {
     maxPoolSize: 10,
     minPoolSize: 2,
     socketTimeoutMS: 45000,
-    serverSelectionTimeoutMS: 3000, // Fail fast if offline (3s)
+    serverSelectionTimeoutMS: 8000, // Increased for Vercel/Atlas stability
     heartbeatFrequencyMS: 10000,
     retryWrites: true,
   };

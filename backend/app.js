@@ -27,7 +27,19 @@ app.set('etag', false); // Force 200 OK instead of 304 Not Modified
 app.use(helmet());
 app.use(
   cors({
-    origin: env.corsOrigin,
+    origin: (origin, callback) => {
+      // Allow if origin is in the env list or if it's one of your known domains
+      const allowedOrigins = [
+        "https://engralamashik.vercel.app", 
+        "https://alamashik.vercel.app",
+        ...(env.corsOrigin || [])
+      ];
+      if (!origin || allowedOrigins.some(ao => origin.startsWith(ao))) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
