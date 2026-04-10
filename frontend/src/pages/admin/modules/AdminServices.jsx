@@ -100,8 +100,8 @@ export default function AdminServices() {
     item.tags?.[0]?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const inputClasses = "w-full bg-white border border-slate-200 rounded-2xl px-7 py-5 text-slate-900 outline-none focus:border-cyan-400/50 focus:bg-white/[0.05] transition-all font-medium italic placeholder:text-slate-700 shadow-inner text-sm";
-  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic ml-4 mb-4";
+  const inputClasses = "w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl px-7 py-5 text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/50 focus:bg-[var(--admin-card)] opacity-90 transition-all font-medium italic placeholder:text-[color:var(--admin-text-secondary)] shadow-inner text-sm";
+  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-muted)] italic ml-4 mb-4";
 
   return (
     <AdminModuleWrapper
@@ -120,12 +120,12 @@ export default function AdminServices() {
         {/* List Sidebar */}
         <div className="space-y-8 flex flex-col">
           <div className="relative group">
-             <Search size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-cyan-400 transition-colors" />
+             <Search size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-[color:var(--admin-text-muted)] group-focus-within:text-cyan-400 transition-colors" />
              <input 
                placeholder="Search Catalog..." 
                value={searchTerm}
                onChange={e => setSearchTerm(e.target.value)}
-               className="w-full bg-white border border-slate-200 rounded-2xl pl-14 pr-6 py-5 text-[11px] font-bold uppercase tracking-widest text-slate-900 outline-none focus:border-cyan-400/40 transition-all"
+               className="w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl pl-14 pr-6 py-5 text-[11px] font-bold uppercase tracking-widest text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/40 transition-all"
              />
           </div>
 
@@ -134,51 +134,51 @@ export default function AdminServices() {
               <div 
                 key={item._id}
                 onClick={() => setSelectedId(item._id)}
-                className={`p-6 rounded-[32px] border transition-all duration-500 cursor-pointer group flex gap-5 relative overflow-hidden ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/[0.03]' : 'border-slate-200 bg-white/[0.01] hover:border-white/10 hover:bg-white/[0.02]'}`}
+                className={`p-6 rounded-[32px] border transition-all duration-500 cursor-pointer group flex gap-5 relative overflow-hidden ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/[0.03]' : 'border-[color:var(--admin-border)] bg-[var(--admin-card)] opacity-90 hover:border-white/10 hover:bg-[var(--admin-card)] opacity-90'}`}
               >
                 {selectedId === item._id && <div className="absolute left-0 top-0 w-1 h-full bg-sky-500" />}
                 
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-white border border-slate-200 text-sky-600 group-hover:bg-cyan-400/20 transition-all duration-500 shadow-xl">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-[var(--admin-card)] border border-[color:var(--admin-border)] text-sky-600 group-hover:bg-cyan-400/20 transition-all duration-500 shadow-xl">
                   <Cpu size={28} strokeWidth={1.5} />
                 </div>
                 
                 <div className="flex-1 min-w-0 flex flex-col justify-center">
                   <div className="flex items-center justify-between mb-2">
-                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] italic ${selectedId === item._id ? 'text-sky-600' : 'text-slate-600'}`}>{item.tags?.[0] || "General"}</span>
+                    <span className={`text-[8px] font-black uppercase tracking-[0.2em] italic ${selectedId === item._id ? 'text-sky-600' : 'text-[color:var(--admin-text-label)]'}`}>{item.tags?.[0] || "General"}</span>
                     <div className={`h-2 w-2 rounded-full ${item.isPublished ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' : 'bg-slate-800'}`} />
                   </div>
-                  <p className="text-sm font-black text-slate-900 italic truncate tracking-tight mb-1 uppercase">{item.title?.en || "Untitled Service"}</p>
+                  <p className="text-sm font-black text-[color:var(--admin-text-heading)] italic truncate tracking-tight mb-1 uppercase">{item.title?.en || "Untitled Service"}</p>
                   <div className="flex items-center gap-3 mt-2">
-                    <span className="text-[8px] font-black uppercase text-slate-700 tracking-widest bg-slate-50 px-2 py-0.5 rounded">SLUG: {item.slug || "N/A"}</span>
-                    <span className="text-[8px] font-black uppercase text-slate-700 tracking-widest bg-slate-50 px-2 py-0.5 rounded">CHARS: {item.summary?.en?.length || 0}</span>
+                    <span className="text-[8px] font-black uppercase text-[color:var(--admin-text-secondary)] tracking-widest bg-[color:var(--admin-bg)] px-2 py-0.5 rounded">SLUG: {item.slug || "N/A"}</span>
+                    <span className="text-[8px] font-black uppercase text-[color:var(--admin-text-secondary)] tracking-widest bg-[color:var(--admin-bg)] px-2 py-0.5 rounded">CHARS: {item.summary?.en?.length || 0}</span>
                   </div>
                 </div>
               </div>
             ))}
             {!loading && filteredItems.length === 0 && (
                <div className="py-20 text-center space-y-4 opacity-20">
-                  <Briefcase size={40} className="mx-auto text-slate-500" />
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500 italic">No Services Found</p>
+                  <Briefcase size={40} className="mx-auto text-[color:var(--admin-text-muted)]" />
+                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-muted)] italic">No Services Found</p>
                </div>
             )}
           </div>
         </div>
 
         <div className="space-y-16 animate-in fade-in slide-in-from-right-8 duration-1000">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-b border-slate-200 pb-12">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 border-b border-[color:var(--admin-border)] pb-12">
             <div>
-               <h3 className="text-4xl font-black text-slate-900 italic tracking-tighter uppercase mb-3">{selectedId ? "Configure Unit" : "Initialize Record"}</h3>
-               <div className="text-[10px] text-slate-600 font-bold uppercase tracking-[0.4em] italic leading-none flex items-center gap-3">
+               <h3 className="text-4xl font-black text-[color:var(--admin-text-heading)] italic tracking-tighter uppercase mb-3">{selectedId ? "Configure Unit" : "Initialize Record"}</h3>
+               <div className="text-[10px] text-[color:var(--admin-text-label)] font-bold uppercase tracking-[0.4em] italic leading-none flex items-center gap-3">
                   <div className="h-2 w-2 rounded-full bg-cyan-400/40" />
                   {selectedId ? `System ID: ${selectedId}` : "Protocol: New Entry Initialization"}
                </div>
             </div>
             
-            <div className="flex items-center gap-8 px-10 py-5 bg-slate-50 border border-slate-200 rounded-[32px] shadow-xl">
-               <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] italic">Visible In Network</span>
+            <div className="flex items-center gap-8 px-10 py-5 bg-[color:var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[32px] shadow-xl">
+               <span className="text-[10px] font-black text-[color:var(--admin-text-muted)] uppercase tracking-[0.4em] italic">Visible In Network</span>
                <label className="flex items-center cursor-pointer group scale-110">
                   <div className={`h-8 w-16 rounded-full transition-all duration-700 relative border border-white/5 ${form.isPublished ? 'bg-cyan-500 shadow-[0_0_25px_rgba(34,211,238,0.4)]' : 'bg-slate-900'}`}>
-                    <div className={`h-6 w-6 bg-white rounded-full absolute top-1 transition-all duration-700 shadow-xl ${form.isPublished ? 'left-9' : 'left-1'}`} />
+                    <div className={`h-6 w-6 bg-[var(--admin-card)] rounded-full absolute top-1 transition-all duration-700 shadow-xl ${form.isPublished ? 'left-9' : 'left-1'}`} />
                   </div>
                   <input type="checkbox" checked={form.isPublished} onChange={e => setForm({...form, isPublished: e.target.checked})} className="hidden" />
                </label>
@@ -217,15 +217,15 @@ export default function AdminServices() {
 
             {/* Technical Node */}
             <div className="pt-10">
-               <div className="bg-[#0d0f1a]/40 border border-slate-200 rounded-[48px] p-12 md:p-16 relative overflow-hidden group/tech shadow-2xl backdrop-blur-3xl">
+               <div className="bg-[#0d0f1a]/40 border border-[color:var(--admin-border)] rounded-[48px] p-12 md:p-16 relative overflow-hidden group/tech shadow-2xl backdrop-blur-3xl">
                   <div className="absolute top-0 right-0 h-1.5 w-80 bg-gradient-to-l from-violet-500/30 to-transparent rounded-bl-full" />
                   <div className="flex items-center gap-6 mb-12">
                      <div className="p-4 rounded-2xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
                         <Settings size={22} strokeWidth={1.5} />
                      </div>
                      <div>
-                        <h3 className="text-[12px] font-black uppercase tracking-[0.4em] text-slate-900 italic mb-1">Technical Protocol</h3>
-                        <p className="text-[9px] text-slate-700 font-bold uppercase tracking-[0.2em] italic">Routing And Visual Identifiers</p>
+                        <h3 className="text-[12px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-heading)] italic mb-1">Technical Protocol</h3>
+                        <p className="text-[9px] text-[color:var(--admin-text-secondary)] font-bold uppercase tracking-[0.2em] italic">Routing And Visual Identifiers</p>
                      </div>
                   </div>
                   
