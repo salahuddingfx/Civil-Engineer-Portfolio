@@ -28,13 +28,23 @@ app.use(helmet());
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow if origin is in the env list or if it's one of your known domains
-      const allowedOrigins = [
-        "https://engralamashik.vercel.app", 
-        "https://alamashik.vercel.app",
-        ...(env.corsOrigin || [])
+      // Allow list including your custom domains and vercel subdomains
+      const allowedPatterns = [
+        /^https:\/\/engralamashik\.com$/,
+        /^https:\/\/www\.engralamashik\.com$/,
+        /^https:\/\/engralamashik\.vercel\.app$/,
+        /^https:\/\/alamashik\.vercel\.app$/,
+        /^http:\/\/localhost:\d+$/
       ];
-      if (!origin || allowedOrigins.some(ao => origin.startsWith(ao))) {
+
+      // Also allow any origins from the environment variable list
+      const envOrigins = env.corsOrigin || [];
+      
+      const isAllowed = !origin || 
+        allowedPatterns.some(pattern => pattern.test(origin)) ||
+        envOrigins.some(eo => origin.startsWith(eo));
+
+      if (isAllowed) {
         callback(null, true);
       } else {
         callback(new Error("Not allowed by CORS"));
