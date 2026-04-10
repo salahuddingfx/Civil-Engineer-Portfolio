@@ -304,18 +304,24 @@ export default function HomePage({ isIntroComplete }) {
             </div>
 
             <h1 className="hero-content-reveal text-5xl md:text-[80px] font-bold leading-[1.05] tracking-tight mb-8" style={{ color: "var(--text)" }}>
-              {(() => {
-                 const val = homeData?.title ? (language === "bn" ? homeData.title.bn : homeData.title.en) : "";
-                 if (val) {
-                    const words = val.trim().split(" ");
-                    if (words.length > 1) {
-                       const last = words.pop();
-                       return <>{words.join(" ")} <br /><span className="text-glow">{last}</span></>;
-                    }
-                    return val;
-                 }
-                 return <>{t("hero.title_part1", language)} <br /> <span className="text-glow">{t("hero.title_highlight", language)}</span></>;
-              })()}
+                {(() => {
+                   const val = homeData?.title ? (language === "bn" ? homeData.title.bn : homeData.title.en) : "";
+                   if (val) {
+                      // Support for '|' separator to define the "Glow" section
+                      if (val.includes("|")) {
+                        const parts = val.split("|");
+                        return <>{parts[0].trim()} <br /><span className="text-glow">{parts[1].trim()}</span></>;
+                      }
+                      
+                      const words = val.trim().split(" ");
+                      if (words.length > 1) {
+                         const last = words.pop();
+                         return <>{words.join(" ")} <br /><span className="text-glow">{last}</span></>;
+                      }
+                      return val;
+                   }
+                   return <>{t("hero.title_part1", language)} <br /> <span className="text-glow">{t("hero.title_highlight", language)}</span></>;
+                })()}
             </h1>
 
             <p className="hero-content-reveal text-lg md:text-xl max-w-xl leading-relaxed mb-12 font-medium" style={{ color: "var(--text-muted)" }}>
