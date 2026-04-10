@@ -17,6 +17,7 @@ const schema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().optional(),
+  projectType: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -78,11 +79,11 @@ export default function ContactPage() {
     setStatus("");
     try {
       await submitContact({ ...values, sourcePage: "contact" });
-      setStatus("INQUIRY RECEIVED SUBMITTED");
+      setStatus("success");
       reset();
-      setTimeout(() => setStatus(""), 5000);
+      setTimeout(() => setStatus(""), 6000);
     } catch {
-      setStatus("SUBMISSION FAILED");
+      setStatus("error");
     }
   };
 
@@ -141,7 +142,7 @@ export default function ContactPage() {
                         </div>
                         <div>
                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2" style={{ color: "var(--text-faint)" }}>EMAIL</p>
-                           <p className="text-lg font-bold tracking-tight" style={{ color: "var(--text)" }}>info@engralamashik.com</p>
+                           <p className="text-lg font-bold tracking-tight break-all" style={{ color: "var(--text)" }}>info@engralamashik.com</p>
                         </div>
                      </div>
                   </div>
@@ -178,8 +179,8 @@ export default function ContactPage() {
             </div>
 
             {/* Right Column: Inquiry Form Panel */}
-            <div className="reveal-unit p-10 lg:p-16 rounded-3xl relative backdrop-blur-xl border transition-all duration-500"
-                style={{ background: "var(--bg-card)", borderColor: "var(--highlight-border)", boxShadow: "0 30px 60px rgba(0,0,0,0.12)" }}>
+            <div className="reveal-unit p-10 lg:p-16 rounded-3xl relative backdrop-blur-xl border border-[var(--highlight-border)] transition-all duration-500"
+                style={{ background: "var(--bg-card)", boxShadow: "0 30px 60px rgba(0,0,0,0.12)" }}>
                <div className="absolute inset-0 opacity-[0.03] hidden md:block rounded-3xl pointer-events-none" style={{ background: "var(--highlight)" }}></div>
 
                <div className="relative z-10 mb-12">
@@ -220,6 +221,24 @@ export default function ContactPage() {
                      />
                   </div>
 
+                  <div className="space-y-3">
+                     <label className="text-[10px] font-bold tracking-[0.2em] uppercase ml-1" style={{ color: "var(--text-faint)" }}>PROJECT TYPE</label>
+                     <select
+                        {...register("projectType")}
+                        className="w-full bg-[var(--bg)] border border-[rgba(25,210,255,0.1)] rounded-xl p-5 text-[var(--text)] outline-none focus:border-[#19D2FF] focus:shadow-[0_0_20px_rgba(25,210,255,0.15)] transition-all text-[15px] appearance-none cursor-pointer"
+                     >
+                        <option value="">Select a project type...</option>
+                        <option value="Residential Building">Residential Building</option>
+                        <option value="Commercial Structure">Commercial Structure</option>
+                        <option value="Hospitality / Hotel">Hospitality / Hotel</option>
+                        <option value="Industrial Facility">Industrial Facility</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="Structural Consultancy">Structural Consultancy</option>
+                        <option value="Architectural Design">Architectural Design</option>
+                        <option value="Other">Other</option>
+                     </select>
+                  </div>
+
                   <div className="space-y-3 relative">
                      <label className="text-[10px] font-bold tracking-[0.2em] uppercase ml-1" style={{ color: "var(--text-faint)" }}>PROJECT DETAILS / MESSAGE</label>
                      <textarea 
@@ -244,16 +263,23 @@ export default function ContactPage() {
                      )}
                   </button>
 
-                  {status && (
-                    <div className="p-4 rounded-xl backdrop-blur-md border border-[#19D2FF]/30 text-[#19D2FF] text-[11px] font-bold uppercase tracking-widest text-center mt-6 shadow-[0_0_15px_rgba(25,210,255,0.1)]"
-                      style={{ background: "var(--highlight-soft)" }}>
-                       {status}
+                  {status === "success" && (
+                    <div className="p-5 rounded-xl backdrop-blur-md border border-emerald-500/30 text-emerald-400 text-[12px] font-black uppercase tracking-widest text-center mt-6 flex items-center justify-center gap-3"
+                      style={{ background: "rgba(16,185,129,0.08)" }}>
+                       <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7"/></svg>
+                       Inquiry submitted! We will contact you within 24 hours.
+                    </div>
+                  )}
+                  {status === "error" && (
+                    <div className="p-5 rounded-xl backdrop-blur-md border border-red-500/30 text-red-400 text-[12px] font-black uppercase tracking-widest text-center mt-6"
+                      style={{ background: "rgba(239,68,68,0.08)" }}>
+                       Submission failed. Please try again or contact us directly.
                     </div>
                   )}
                </form>
 
                {/* Social Identity Section */}
-               <div className="relative z-10 mt-16 pt-10 border-t" style={{ borderColor: "var(--highlight-border)" }}>
+               <div className="relative z-10 mt-16 pt-10 border-t" style={{ borderTopColor: "var(--highlight-border)" }}>
                   <p className="text-[10px] font-black tracking-[0.4em] uppercase mb-8 text-center" style={{ color: "var(--text-faint)" }}>Digital Network Identity</p>
                   <div className="flex flex-wrap justify-center gap-6">
                      {[
@@ -268,11 +294,8 @@ export default function ContactPage() {
                            href={social.url}
                            target="_blank"
                            rel="noopener noreferrer"
-                           className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all group"
-                           style={{ background: "var(--bg)", border: "1px solid var(--highlight-border)", color: "var(--text-muted)" }}
+                           className="w-14 h-14 rounded-2xl flex items-center justify-center transition-all group border border-[var(--highlight-border)] bg-[var(--bg)] text-[var(--text-muted)] hover:border-[var(--highlight)] hover:text-[var(--highlight)] hover:shadow-[0_0_20px_rgba(25,210,255,0.2)]"
                            aria-label={social.id}
-                           onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--highlight)"; e.currentTarget.style.color = "var(--highlight)"; e.currentTarget.style.boxShadow = "0 0 20px rgba(25,210,255,0.2)"; }}
-                           onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--highlight-border)"; e.currentTarget.style.color = "var(--text-muted)"; e.currentTarget.style.boxShadow = "none"; }}
                         >
                            <social.icon size={22} className="group-hover:scale-110 transition-transform" />
                         </a>
