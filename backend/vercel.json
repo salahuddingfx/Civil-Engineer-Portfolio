@@ -1,15 +1,22 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "app.js",
-      "use": "@vercel/node"
+      "source": "/api/(.*)",
+      "destination": "app.js"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "app.js"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "app.js"
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "app.js"
+  "functions": {
+    "app.js": {
+      "maxDuration": 14
     }
-  ]
+  }
 }
