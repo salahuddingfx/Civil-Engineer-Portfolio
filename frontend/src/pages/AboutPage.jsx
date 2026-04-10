@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,6 +11,71 @@ import LucideIcon from "../components/LucideIcon";
 import PreviewModal from "../components/PreviewModal";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// ── Scroll-triggered count-up animation component ──────────────────────────
+function StatCountUp({ rawValue }) {
+  const elRef = useRef(null);
+  const [display, setDisplay] = useState("0");
+  const animatedRef = useRef(false);
+
+  // Parse: extract leading number, keep suffix (e.g. "500+" → num=500, suffix="+")
+  const match = String(rawValue || "").match(/^([0-9,.]+)(.*)$/);
+  const numericStr = match ? match[1].replace(/,/g, "") : null;
+  const numericVal = numericStr ? parseFloat(numericStr) : null;
+  const suffix = match ? match[2] : "";
+  const isNumeric = numericVal !== null && !isNaN(numericVal);
+
+  const runAnimation = useCallback(() => {
+    if (animatedRef.current || !isNumeric) return;
+    animatedRef.current = true;
+
+    const duration = 1800; // ms
+    const steps = 60;
+    const interval = duration / steps;
+    let current = 0;
+    const increment = numericVal / steps;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= numericVal) {
+        clearInterval(timer);
+        // Format with commas if original had them
+        const formatted = numericStr?.includes(",")
+          ? Math.round(numericVal).toLocaleString()
+          : Math.round(numericVal).toString();
+        setDisplay(formatted + suffix);
+      } else {
+        const formatted = numericStr?.includes(",")
+          ? Math.round(current).toLocaleString()
+          : Math.round(current).toString();
+        setDisplay(formatted + suffix);
+      }
+    }, interval);
+  }, [isNumeric, numericVal, numericStr, suffix]);
+
+  useEffect(() => {
+    if (!isNumeric) {
+      setDisplay(rawValue || "");
+      return;
+    }
+    const el = elRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          runAnimation();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.4 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isNumeric, rawValue, runAnimation]);
+
+  return <span ref={elRef}>{isNumeric ? display : rawValue}</span>;
+}
 
 function SkillCard({ skill, language }) {
   return (
@@ -61,23 +126,32 @@ export default function AboutPage() {
   const [skills, setSkills] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [team, setTeam] = useState([]);
+  const [aboutStats, setAboutStats] = useState([]);
+  const [aboutMission, setAboutMission] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
 
   useEffect(() => {
     async function loadAboutData() {
       setLoading(true);
       try {
-        const [bioRes, skillsRes, timelineRes, teamRes] = await Promise.all([
+        const [bioRes, skillsRes, timelineRes, teamRes, blocksRes] = await Promise.all([
           fetchContent("about", { limit: 1 }),
           fetchContent("skills", { sort: "order" }),
           fetchContent("timelineEntries", { sort: "order" }),
-          fetchContent("teamMembers", { sort: "order" })
+          fetchContent("teamMembers", { sort: "order" }),
+          fetchContent("sectionBlocks", { pageFilter: "about", limit: 50 })
         ]);
 
         setBio(bioRes.items?.[0] || null);
         setSkills(skillsRes.items || []);
         setTimeline(timelineRes.items || []);
         setTeam(teamRes.items || []);
+
+        if (blocksRes.items) {
+           const blocks = blocksRes.items;
+           setAboutStats(blocks.filter(b => b.section === 'stats').sort((a,b) => a.order - b.order));
+           setAboutMission(blocks.find(b => b.section === 'mission'));
+        }
       } catch (err) {
         console.warn("Failed to sync about data.");
       } finally {
@@ -143,7 +217,7 @@ export default function AboutPage() {
              <div className="relative aspect-square rounded-[40px] overflow-hidden border border-white/5 shadow-2xl">
                 {/* FIXED IMAGE FROM PUBLIC FOLDER AS REQUESTED */}
                 <img 
-                   src="/images/mission-concept.png" 
+                  src={aboutMission?.image?.url || "/images/mission-concept.png"} 
                   className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
                   alt="Mission Backbone"
                 />
@@ -152,7 +226,9 @@ export default function AboutPage() {
 
              {/* SINCE 2013 Badge */}
              <div className="absolute bottom-10 left-10 p-8 rounded-[32px] mission-card max-w-sm transform -translate-x-4 group-hover:translate-x-0 transition-transform duration-700">
-                <p className="text-[9px] font-black tracking-[0.3em] text-[var(--highlight)] mb-3 uppercase italic">SINCE 2013</p>
+                <p className="text-[9px] font-black tracking-[0.3em] text-[var(--highlight)] mb-3 uppercase italic">
+                  {aboutMission?.subtitle ? (language === "en" ? aboutMission.subtitle.en : aboutMission.subtitle.bn) : "SINCE 2013"}
+                </p>
                 <p className="text-xs font-black leading-relaxed uppercase border-l-2 border-[var(--highlight)] pl-4 italic" style={{ color: "var(--text)" }}>
                    {language === "en" 
                      ? "Engineering excellence through precision and architectural foresight." 
@@ -166,25 +242,42 @@ export default function AboutPage() {
              <div>
                 <span className="stats-label mb-6 block font-display">Mission Statement</span>
                 <h1 className="text-5xl sm:text-7xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase mb-8 font-display">
-                   {language === "en" ? <>CRAFTING <br /> THE <span className="text-glow-cyan italic">FUTURE</span></> : <>ভবিষ্যত <br /> নির্মাণে <span className="text-glow-cyan italic">নিপুণতা</span></>}
+                   {aboutMission?.title ? (
+                      language === "bn" ? aboutMission.title.bn : aboutMission.title.en
+                   ) : (
+                      language === "en" ? <>CRAFTING <br /> THE <span className="text-glow-cyan italic">FUTURE</span></> : <>ভবিষ্যত <br /> নির্মাণে <span className="text-glow-cyan italic">নিপুণতা</span></>
+                   )}
                 </h1>
                 <p className="text-lg md:text-xl max-w-xl font-medium leading-relaxed italic" style={{ color: "var(--text-muted)" }}>
-                   {language === "en" 
+                   {aboutMission?.body ? (language === "bn" ? aboutMission.body.bn : aboutMission.body.en) : (language === "en" 
                      ? "To redefine the landscape of technical consultancy by merging architectural beauty with structural integrity. We don't just build structures; we engineer legacies."
-                     : "স্থাপত্য সৌন্দর্যের সাথে কাঠামোগত অখণ্ডতা মিশিয়ে প্রযুক্তিগত পরামর্শের রূপরেখা নতুনভাবে সংজ্ঞায়িত করা। আমরা কেবল কাঠামো তৈরি করি না; আমরা লিগ্যাসি নির্মাণ করি।"}
+                     : "স্থাপত্য সৌন্দর্যের সাথে কাঠামোগত অখণ্ডতা মিশিয়ে প্রযুক্তিগত পরামর্শের রূপরেখা নতুনভাবে সংজ্ঞায়িত করা। আমরা কেবল কাঠামো তৈরি করি না; আমরা লিগ্যাসি নির্মাণ করি।")}
                 </p>
              </div>
 
              {/* Stats Bar */}
              <div className="flex flex-wrap gap-12 pt-10 border-t border-[var(--highlight-border)]">
-                {[
-                  { val: "500+", label: language === "en" ? "PROJECTS DONE" : "সম্পন্ন প্রকল্প" },
-                  { val: "12",   label: language === "en" ? "AWARDS WON" : "অর্জিত পুরস্কার" },
-                  { val: "100%", label: language === "en" ? "SAFETY RATING" : "নিরাপত্তা রেটিং" },
-                ].map((stat, i) => (
+                {(aboutStats.length > 0 ? aboutStats : [
+                  { 
+                    value: "500+", 
+                    title: { en: "PROJECTS DONE", bn: "সম্পন্ন প্রকল্প" }
+                  },
+                  { 
+                    value: "12", 
+                    title: { en: "AWARDS WON", bn: "অর্জিত পুরস্কার" }
+                  },
+                  { 
+                    value: "100%", 
+                    title: { en: "SAFETY RATING", bn: "নিরাপত্তা রেটিং" }
+                  },
+                ]).map((stat, i) => (
                   <div key={i} className="group">
-                     <p className="text-4xl font-black mb-2 transition-transform group-hover:scale-110 font-display" style={{ color: "var(--text)" }}>{stat.val}</p>
-                     <p className="stats-label text-[var(--highlight)]">{stat.label}</p>
+                     <p className="text-4xl font-black mb-2 transition-transform group-hover:scale-110 font-display" style={{ color: "var(--text)" }}>
+                       <StatCountUp rawValue={stat.value} />
+                     </p>
+                     <p className="stats-label text-[var(--highlight)] cursor-default">
+                       {language === "bn" ? (stat.title?.bn || stat.title?.en) : stat.title?.en}
+                     </p>
                   </div>
                 ))}
              </div>
