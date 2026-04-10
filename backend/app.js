@@ -58,12 +58,19 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   const isDbEndpoint = req.path.startsWith("/api/auth") || req.path.startsWith("/api/content") || req.path.startsWith("/api/stats") || req.path.startsWith("/api/contact") || req.path.startsWith("/api/upload") || req.path.startsWith("/api/seo") || req.path.startsWith("/api/admin") || req.path === "/sitemap.xml" || req.path === "/robots.txt";
-  if (!isDbReady() && isDbEndpoint && req.path !== "/api/health") {
-    return res.status(503).json({
-      message: "Database unavailable. Start MongoDB or update MONGO_URI to a reachable instance.",
-    });
+  
+  if (isDbEndpoint && req.path !== "/api/health") {
+    try {
+      // Instead of failing with 503, we WAIT for the connection to finish
+      // This solves the cold-start race condition on Vercel
+      await connectDb();
+    } catch (err) {
+      return res.status(503).json({
+        message: "Database unavailable. Ensure MONGO_URI is correct and IP is whitelisted in Atlas.",
+      });
+    }
   }
   return next();
 });

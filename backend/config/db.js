@@ -3,37 +3,41 @@ const net = require("net");
 const env = require("./env");
 
 let dbReady = false;
+let connectionPromise = null;
 
 async function connectDb() {
+  if (connectionPromise) return connectionPromise;
+
   const options = {
     maxPoolSize: 10,
     minPoolSize: 2,
     socketTimeoutMS: 45000,
-    serverSelectionTimeoutMS: 8000, // Increased for Vercel/Atlas stability
+    serverSelectionTimeoutMS: 8000,
     heartbeatFrequencyMS: 10000,
     retryWrites: true,
   };
 
-  try {
-    // Try primary URI (usually Atlas)
-    await mongoose.connect(env.mongoUri, options);
-    dbReady = true;
-    return mongoose.connection;
-  } catch (error) {
-    console.warn("Primary MongoDB connection failed. Trying local fallback...");
-    
+  connectionPromise = (async () => {
     try {
-      // Fallback to local MongoDB
-      const localUri = process.env.MONGO_URI_LOCAL || "mongodb://127.0.0.1:27017/alam-ashik-portfolio";
-      await mongoose.connect(localUri, options);
-      console.log("Connected to Local MongoDB (Offline Mode)");
+      await mongoose.connect(env.mongoUri, options);
       dbReady = true;
       return mongoose.connection;
-    } catch (localError) {
-      dbReady = false;
-      throw new Error("Both Primary and Local MongoDB connections failed.");
+    } catch (error) {
+      console.warn("Primary MongoDB connection failed. Trying local fallback...");
+      try {
+        const localUri = process.env.MONGO_URI_LOCAL || "mongodb://127.0.0.1:27017/alam-ashik-portfolio";
+        await mongoose.connect(localUri, options);
+        dbReady = true;
+        return mongoose.connection;
+      } catch (localError) {
+        dbReady = false;
+        connectionPromise = null; // Reset for retry
+        throw localError;
+      }
     }
-  }
+  })();
+
+  return connectionPromise;
 }
 
 function setDbReady(value) {
