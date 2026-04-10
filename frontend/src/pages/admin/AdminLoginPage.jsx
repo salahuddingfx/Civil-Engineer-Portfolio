@@ -68,20 +68,20 @@ export default function AdminLoginPage() {
             {/* Brand Header */}
             <div className="mb-12 text-center">
                <div className="flex justify-center mb-6">
-                 <div className="p-4 rounded-2xl bg-white border border-slate-200 text-sky-600 shadow-inner">
+                 <div className="p-4 rounded-2xl bg-[var(--admin-card)] border border-[color:var(--admin-border)] text-sky-600 shadow-inner">
                     <ShieldCheck size={32} strokeWidth={1.5} />
                  </div>
                </div>
-                <h1 className="text-2xl font-black text-slate-900 tracking-tight uppercase">
+                <h1 className="text-2xl font-black text-[color:var(--admin-text-heading)] tracking-tight uppercase">
                    Admin Access
                 </h1>
-                <p className="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Engr. Alam Ashik</p>
+                <p className="mt-2 text-[10px] font-bold text-[color:var(--admin-text-muted)] opacity-80 uppercase tracking-widest">Engr. Alam Ashik</p>
             </div>
 
             <form onSubmit={onSubmit} className="space-y-6">
                {/* Email Input */}
                <div className="space-y-2">
-                   <label className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">
+                   <label className="flex items-center gap-2 text-[10px] font-bold text-[color:var(--admin-text-muted)] uppercase tracking-widest ml-1">
                     <Mail size={12} /> 
                     Email Address
                   </label>
@@ -97,7 +97,7 @@ export default function AdminLoginPage() {
 
                {/* Password Input */}
                <div className="space-y-2">
-                   <label className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">
+                   <label className="flex items-center gap-2 text-[10px] font-bold text-[color:var(--admin-text-muted)] uppercase tracking-widest ml-1">
                     <Lock size={12} /> 
                     Password
                   </label>
@@ -113,7 +113,7 @@ export default function AdminLoginPage() {
                      <button 
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-sky-600 transition-colors"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[color:var(--admin-text-label)] hover:text-sky-600 transition-colors"
                      >
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                      </button>
@@ -134,7 +134,7 @@ export default function AdminLoginPage() {
                   disabled={isLoading}
                   className="w-full h-14 bg-sky-500 text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50 flex items-center justify-center gap-3 relative overflow-hidden group/btn"
                >
-                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
+                  <div className="absolute inset-0 bg-[var(--admin-card)] opacity-70 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
                    {isLoading ? (
                     <>
                       <Loader2 size={18} className="animate-spin" />
@@ -149,13 +149,13 @@ export default function AdminLoginPage() {
                </button>
             </form>
 
-             <div className="mt-8 flex justify-center border-t border-slate-100 pt-8">
-               <div className="px-4 text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em]">SECURE PORTAL</div>
+             <div className="mt-8 flex justify-center border-t border-[color:var(--admin-border)] pt-8">
+               <div className="px-4 text-[9px] font-bold text-[color:var(--admin-text-muted)] opacity-60 uppercase tracking-[0.3em]">SECURE PORTAL</div>
              </div>
          </div>
          
          {/* Footer Attribution */}
-         <p className="mt-10 text-center text-[9px] font-black text-slate-700 uppercase tracking-[0.3em] italic">
+         <p className="mt-10 text-center text-[9px] font-black text-[color:var(--admin-text-secondary)] uppercase tracking-[0.3em] italic">
             © 2026 Studio Arch Consultancy
          </p>
       </div>
