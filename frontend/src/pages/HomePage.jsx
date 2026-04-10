@@ -380,11 +380,7 @@ export default function HomePage({ isIntroComplete }) {
               </div>
             )}
 
-            {/* Scan line overlay - Hidden on mobile for performance */}
-            {!isMobile && (
-              <div className="absolute top-0 left-0 right-0 h-[1px] pointer-events-none animate-[scan_4s_ease-in-out_infinite]"
-                style={{ background: "var(--highlight)", boxShadow: "0 0 12px var(--highlight)", opacity: "var(--scanner-opacity)" }} />
-            )}
+            {/* Scan line overlay removed for visual stability */}
           </div>
         </div>
 
