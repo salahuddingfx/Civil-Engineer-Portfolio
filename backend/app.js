@@ -15,14 +15,14 @@ const adminRoutes = require("./routes/admin.routes");
 const { sitemap, robots } = require("./controllers/seo.controller");
 const { connectDb, isDbReady } = require("./config/db");
 
-// Initialize Database Connection (Essential for Serverless/Vercel)
-connectDb().catch(err => console.error("Database connection failed", err));
+// Database connection is managed by server initialization (local) 
+// or by the auto-connect middleware below (serverless/Vercel)
 const { notFound, errorHandler } = require("./middleware/error.middleware");
 
 const { cacheMiddleware } = require("./middleware/cache.middleware");
 
 const app = express();
-app.set('etag', false); // Force 200 OK instead of 304 Not Modified
+app.set('etag', false); // Disable 304 responses as per user preference (prefers 200)
 
 app.use(helmet());
 app.use(
