@@ -258,9 +258,9 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
            alpha: false, 
            stencil: false, 
            depth: true,
-           powerPreference: "high-performance",
+           powerPreference: "default",
            toneMapping: THREE.ACESFilmicToneMapping,
-           failIfMajorPerformanceCaveat: true
+           failIfMajorPerformanceCaveat: false
         }}
         onCreated={({ gl }) => {
           gl.shadowMap.type = THREE.VSMShadowMap;
@@ -299,7 +299,7 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
         <Suspense fallback={null}>
           <Float speed={1.5} rotationIntensity={0.02} floatIntensity={0.05}>
             <group position={[0, -6.5, 0]} rotation={[0, scrollProgress * Math.PI * 0.5, 0]} scale={isMobile ? 0.75 : 0.75}>
-              <StructuralSkeleton floors={isMobile ? 10 : 16} materials={materials} isMobile={isMobile} />
+              <StructuralSkeleton floors={isMobile ? 8 : 12} materials={materials} isMobile={isMobile} />
               <TowerCrane height={isMobile ? 12 : 18} materials={materials} />
             </group>
           </Float>
