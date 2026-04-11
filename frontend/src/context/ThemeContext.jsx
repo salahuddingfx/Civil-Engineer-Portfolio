@@ -7,8 +7,8 @@ export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("theme");
     if (saved) return saved;
-    // Default to dark
-    return "dark";
+    // Default to light
+    return "light";
   });
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export function ThemeProvider({ children }) {
 
   // Apply on initial mount synchronously to prevent FOUC
   useEffect(() => {
-    const saved = localStorage.getItem("theme") || "dark";
+    const saved = localStorage.getItem("theme") || "light";
     document.documentElement.setAttribute("data-theme", saved);
   }, []);
 
