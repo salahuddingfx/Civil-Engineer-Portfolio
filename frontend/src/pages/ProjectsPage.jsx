@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useTheme } from "../context/ThemeContext";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -20,7 +21,7 @@ const projects = [
     category: "RESIDENTIAL",
     year: "2024",
     status: "COMPLETED",
-    img: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+    img: "/images/architecture-fallback.png",
   },
   {
     title: "Nexus Corporate Hub",
@@ -28,7 +29,7 @@ const projects = [
     category: "COMMERCIAL",
     year: "2023",
     status: "COMPLETED",
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+    img: "/images/project-fallback.png",
   },
   {
     title: "Marine Drive Bridge",
@@ -36,7 +37,7 @@ const projects = [
     category: "INFRASTRUCTURE",
     year: "2024",
     status: "IN PROGRESS",
-    img: "https://images.unsplash.com/photo-1545524673-9ea72f778d1e?auto=format&fit=crop&w=800&q=80",
+    img: "/images/project-fallback.png",
   },
   {
     title: "The Archon Complex",
@@ -44,7 +45,7 @@ const projects = [
     category: "STRUCTURAL",
     year: "2022",
     status: "COMPLETED",
-    img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+    img: "/images/project-fallback.png",
   },
   {
     title: "Sapphire Coast Resort",
@@ -52,7 +53,7 @@ const projects = [
     category: "COMMERCIAL",
     year: "2025",
     status: "FOUNDATION PHASE",
-    img: "https://images.unsplash.com/photo-1582610116397-ed860c29415c?auto=format&fit=crop&w=800&q=80",
+    img: "/images/project-fallback.png",
   },
   {
     title: "Azure Skyline Estate",
@@ -60,12 +61,13 @@ const projects = [
     category: "RESIDENTIAL",
     year: "2024",
     status: "FINAL STAGE",
-    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+    img: "/images/project-fallback.png",
   }
 ];
 
 export default function ProjectsPage() {
   const { language } = useLanguage();
+  const { isDark } = useTheme();
   const [activeCategory, setActiveCategory] = useState("ALL");
   const containerRef = useRef(null);
 
@@ -83,7 +85,7 @@ export default function ProjectsPage() {
             ...p,
             title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
             category: p.category?.toUpperCase() || "STRUCTURAL",
-            img: p.featuredImage?.url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+            img: p.featuredImage?.url || "/images/project-fallback.png",
             year: p.tags?.[0] || "2024",
             location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
             status: "Completed"
@@ -92,7 +94,7 @@ export default function ProjectsPage() {
         } else {
           setDisplayProjects(projects);
         }
-        await new Promise(r => setTimeout(r, 800));
+        // Removed artificial delay
       } catch (err) {
         console.warn("Projects API failed, using fallback", err);
         setDisplayProjects(projects);
@@ -130,7 +132,7 @@ export default function ProjectsPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead 
-        title="Project Portfolio | Engr. Alam Ashik | Cox's Bazar" 
+                title="Projects | Engr. Alam Ashik | Civil Engineer in Cox's Bazar" 
         description="A curated portfolio of architectural design, structural engineering, and commercial developments across Cox's Bazar and Bangladesh." 
         path="/projects" 
       />
@@ -193,13 +195,14 @@ export default function ProjectsPage() {
                     src={project.img}
                     alt={project.title}
                     loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
                   
-                  {/* Better Overlay for Mobile */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/60 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+                  {/* Better Overlay for Cinematic Contrast */}
+                  <div className={`absolute inset-0 ${isDark ? "bg-gradient-to-t from-black via-black/40" : "bg-gradient-to-t from-white via-white/20"} to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100`} />
 
-                  <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-end text-white">
+                  <div className={`absolute inset-0 p-6 md:p-8 flex flex-col justify-end ${isDark ? "text-white" : "text-slate-900"}`}>
                     <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <span
                         className="inline-block px-3 py-1 rounded text-[9px] md:text-[10px] tracking-widest font-bold uppercase mb-3 backdrop-blur-sm"
@@ -207,19 +210,19 @@ export default function ProjectsPage() {
                       >
                         {project.category} / {project.year}
                       </span>
-                      <h3 className="text-xl md:text-2xl font-bold leading-tight mb-2 text-white group-hover:text-[var(--highlight)] transition-colors">{project.title}</h3>
+                      <h3 className={`text-xl md:text-2xl font-bold leading-tight mb-2 ${isDark ? "text-white" : "text-slate-900"} group-hover:text-[var(--highlight)] transition-colors`}>{project.title}</h3>
                       <div
                         className="flex items-center justify-between mt-2 pt-3 md:pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
-                        style={{ borderTop: "1px solid var(--highlight-border)" }}
+                        style={{ borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}` }}
                       >
                         <div className="flex items-center gap-2">
                           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: "var(--highlight)" }}>
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                           </svg>
-                          <span className="text-[11px] md:text-[12px] text-white/90 font-semibold">{project.location}</span>
+                          <span className={`text-[11px] md:text-[12px] ${isDark ? "text-white/90" : "text-slate-700"} font-semibold`}>{project.location}</span>
                         </div>
-                        <span className="px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[8px] md:text-[10px] font-bold uppercase text-white shadow-sm">
+                        <span className={`px-2 py-0.5 rounded ${isDark ? "bg-white/10 border-white/20 text-white" : "bg-slate-100 border-slate-200 text-slate-800"} border text-[8px] md:text-[10px] font-bold uppercase shadow-sm`}>
                           {project.status}
                         </span>
                       </div>
