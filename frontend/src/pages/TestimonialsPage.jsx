@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,12 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const defaultTestimonials = [
   {
-    name: "Sarah Chen",
-    role: "DIRECTOR OF ENGINEERING",
-    company: "NEXACORE DEVELOPMENTS",
-    text: "The integration of structural integrity with modern architectural design was seamless. Truly a technical mastermind who understands the nuance of enterprise scale in Cox's Bazar's coastal conditions.",
-    rating: 5,
-    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+    img: "/images/hero-concept.png"
   },
   {
     name: "Marcus Thorne",
@@ -25,7 +21,7 @@ const defaultTestimonials = [
     company: "APEX HORIZON BUILDERS",
     text: "Reliable, precise, and highly communicative throughout the entire lifecycle of our infrastructure overhaul. The best civil engineering partner we've had in Bangladesh.",
     rating: 5,
-    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
+    img: "/images/mission-concept.png"
   },
   {
     name: "Jonathan Vance",
@@ -33,7 +29,7 @@ const defaultTestimonials = [
     company: "STRATOS STUDIOS",
     text: "Alam's approach to engineering is purely architectural. He doesn't just calculate load capacities; he designs structural foundations that scale with absolute safety and elegance.",
     rating: 5,
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80"
+    img: "/images/hero-concept.png"
   },
   {
     name: "Elena Rodriguez",
@@ -41,12 +37,13 @@ const defaultTestimonials = [
     company: "GLOBAL TECH RESORTS",
     text: "Exceeded our expectations at every phase of the marine drive resort build. The localized knowledge and structural solutions provided saved us millions in long-term maintenance.",
     rating: 5,
-    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80"
+    img: "/images/mission-concept.png"
   }
 ];
 
 export default function TestimonialsPage() {
   const { language } = useLanguage();
+  const { isDark } = useTheme();
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -64,7 +61,7 @@ export default function TestimonialsPage() {
               company: t.category || "Corporate",
               text: language === "bn" ? (t.body?.bn || t.body?.en) : (t.body?.en),
               rating: t.rating || 5,
-              img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80"
+              img: t.featuredImage?.url || "/images/hero-concept.png"
            }));
            setTestimonials(mapped);
         } else {
@@ -112,7 +109,7 @@ export default function TestimonialsPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead
-        title="Client Testimonials | Engr. Alam Ashik | Cox's Bazar"
+        title="Testimonials | Engr. Alam Ashik | Civil Engineer in Cox's Bazar"
         description="Read what global leaders and local developers say about our premium civil engineering and architectural consultancy services."
         path="/testimonials"
       />
@@ -124,20 +121,25 @@ export default function TestimonialsPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#19D2FF]"></span>
               Trusted by Leaders
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-8 text-white">
-              CLIENT <span className="text-[#19D2FF] text-glow">INTELLIGENCE</span>
+            <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-8" style={{ color: "var(--text)" }}>
+              {t("testimonials_page.title_part1", language)} <span className="text-[#19D2FF] text-glow">{t("testimonials_page.title_highlight", language)}</span>
             </h1>
-            <p className="text-lg text-[#CBD5E1] max-w-2xl mx-auto leading-relaxed font-medium">
-              The true measure of our engineering success is reflected in the trust and strict structural integrity provided to our partners across Cox's Bazar and globally.
+            <p className="text-lg max-w-2xl mx-auto leading-relaxed font-medium" style={{ color: "var(--text-muted)" }}>
+              {t("testimonials_page.subtitle", language)}
             </p>
          </div>
       </section>
 
       {/* Auto-Rotating Premium Carousel */}
       <section className="reveal-unit py-12 px-6 lg:px-10 mx-auto max-w-[1500px]">
-         <div className="relative bg-[#111827] rounded-3xl border border-[rgba(25,210,255,0.05)] shadow-[0_30px_60px_rgba(10,15,28,0.5)] p-10 md:p-20 overflow-hidden">
+         <div className="relative rounded-3xl overflow-hidden p-10 md:p-20"
+           style={{ 
+             background: "var(--bg-card)", 
+             border: "1px solid var(--highlight-border)",
+             boxShadow: isDark ? "0 30px 60px rgba(10, 15, 28, 0.5)" : "0 20px 40px rgba(0,0,0,0.05)" 
+           }}>
             {/* Ambient Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#19D2FF]/5 rounded-full blur-[120px] pointer-events-none"></div>
+            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full ${isDark ? "bg-[#19D2FF]/5" : "bg-[#19D2FF]/3"} rounded-full blur-[120px] pointer-events-none`}></div>
             
             {loading || testimonials.length === 0 ? (
                <div className="relative z-10 min-h-[300px] flex items-center justify-center">
@@ -161,7 +163,8 @@ export default function TestimonialsPage() {
                   ))}
                </div>
                
-               <p className="text-2xl md:text-3xl leading-relaxed text-white mb-12 font-medium max-w-4xl transition-all duration-500 min-h-[160px] md:min-h-[120px]">
+               <p className="text-2xl md:text-3xl leading-relaxed mb-12 font-medium max-w-4xl transition-all duration-500 min-h-[160px] md:min-h-[120px]"
+                 style={{ color: "var(--text)" }}>
                  "{testimonials[activeIndex].text}"
                </p>
 
@@ -170,13 +173,14 @@ export default function TestimonialsPage() {
                      <img 
                         src={testimonials[activeIndex].img} 
                         alt={testimonials[activeIndex].name} 
-                        className="w-full h-full rounded-full object-cover border-4 border-[#111827]" 
+                        className="w-full h-full rounded-full object-cover border-4 border-[#111827]"
+                        decoding="async"
                      />
                   </div>
                   <div>
-                     <h4 className="font-bold text-xl text-white mb-1">{testimonials[activeIndex].name}</h4>
+                     <h4 className="font-bold text-xl mb-1" style={{ color: "var(--text)" }}>{testimonials[activeIndex].name}</h4>
                      <p className="text-[11px] text-[#19D2FF] font-bold tracking-[0.15em] uppercase">
-                        {testimonials[activeIndex].role} <span className="text-[#CBD5E1]">@ {testimonials[activeIndex].company}</span>
+                        {testimonials[activeIndex].role} <span style={{ color: "var(--text-muted)" }}>@ {testimonials[activeIndex].company}</span>
                      </p>
                   </div>
                </div>
@@ -202,21 +206,21 @@ export default function TestimonialsPage() {
       <section className="reveal-unit py-16 px-6 lg:px-10 mx-auto max-w-[1500px]">
          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((item, i) => (
-               <div key={i} className="bg-[#111827] p-8 rounded-2xl border border-[rgba(25,210,255,0.05)] hover:border-[#19D2FF]/30 transition-all shadow-lg flex flex-col justify-between">
+               <div key={i} className="p-8 rounded-2xl transition-all flex flex-col justify-between card-bg">
                   <div>
                      <div className="flex gap-1.5 mb-4">
                         {[...Array(item.rating)].map((_, idx) => (
                           <svg key={idx} className="w-4 h-4 text-[#19D2FF]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.97a1 1 0 00.95.69h4.162c.969 0 1.371 1.24.588 1.81l-3.37 2.448a1 1 0 00-.364 1.118l1.286 3.97c.3.921-.755 1.688-1.54 1.118l-3.37-2.448a1 1 0 00-1.175 0l-3.37 2.448c-.784.57-1.838-.197-1.539-1.118l1.285-3.97a1 1 0 00-.364-1.118L2.05 9.397c-.783-.57-.38-1.81.588-1.81h4.162a1 1 0 00.95-.69l1.286-3.97z"/></svg>
                         ))}
                      </div>
-                     <p className="text-[14px] leading-relaxed text-[#CBD5E1] mb-8">
+                     <p className="text-[14px] leading-relaxed mb-8" style={{ color: "var(--text-muted)" }}>
                        "{item.text}"
                      </p>
                   </div>
-                  <div className="flex items-center gap-4 pt-4 border-t border-[rgba(25,210,255,0.05)]">
+                  <div className="flex items-center gap-4 pt-4 border-t" style={{ borderTopColor: "var(--highlight-border)" }}>
                      <img src={item.img} alt={item.name} className="w-10 h-10 rounded-full object-cover grayscale opacity-80" />
                      <div>
-                        <h4 className="font-bold text-white text-sm">{item.name}</h4>
+                        <h4 className="font-bold text-sm" style={{ color: "var(--text)" }}>{item.name}</h4>
                         <p className="text-[9px] text-[#19D2FF] font-bold tracking-widest uppercase">{item.company}</p>
                      </div>
                   </div>
@@ -226,23 +230,23 @@ export default function TestimonialsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-6 lg:px-10 bg-[#0A0F1C]">
-         <div className="max-w-[1500px] mx-auto rounded-3xl bg-[#111827] relative p-16 md:p-24 text-center reveal-unit border border-[#19D2FF]/20 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
-            <div className="absolute inset-0 bg-[#19D2FF]/5 hidden md:block rounded-3xl pointer-events-none"></div>
+      <section className="py-24 px-6 lg:px-10" style={{ background: "var(--bg)" }}>
+         <div className="max-w-[1500px] mx-auto rounded-3xl relative p-16 md:p-24 text-center reveal-unit card-bg shadow-premium">
+            <div className={`absolute inset-0 ${isDark ? "bg-[#19D2FF]/5" : "bg-[#19D2FF]/2"} rounded-3xl pointer-events-none`}></div>
             
             <div className="relative z-10 w-full max-w-3xl mx-auto">
-               <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-                  Join Our <span className="text-[#19D2FF] text-glow">Elite Network</span>
+               <h2 className="text-4xl md:text-5xl font-bold mb-6 truncate-tight" style={{ color: "var(--text)" }}>
+                  {t("testimonials_page.cta_title_part1", language)} <span className="text-[#19D2FF] text-glow">{t("testimonials_page.cta_title_highlight", language)}</span>
                </h2>
-               <p className="text-[#CBD5E1] mb-12 text-lg leading-relaxed">
-                  Join our verified network of clients and transform your technical vision into a high-performance reality with assured structural integrity.
+               <p className="mb-12 text-lg leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                  {t("testimonials_page.cta_subtitle", language)}
                </p>
                <div className="flex justify-center">
                   <Link 
                     to="/contact" 
                     className="flex items-center justify-center gap-3 px-10 py-5 rounded bg-[#19D2FF] text-[#0A0F1C] text-[15px] font-bold hover:bg-white hover:scale-105 transition-all shadow-[0_10px_30px_rgba(25,210,255,0.25)] cta-pulse tracking-wide"
                   >
-                    Start a Consultation
+                    {t("testimonials_page.cta_button", language)}
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                   </Link>
                </div>
