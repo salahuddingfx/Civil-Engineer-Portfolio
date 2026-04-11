@@ -139,7 +139,7 @@ export default function AboutPage() {
   return (
     <div ref={containerRef} className="min-h-screen selection:bg-[var(--highlight)] selection:text-black font-body transition-colors duration-500" style={{ background: "var(--bg)", color: "var(--text)" }}>
       <SeoHead
-        title="About Engr. Alam Ashik | Civil Engineer & Structural Consultant"
+        title="About | Engr. Alam Ashik | Civil Engineer in Cox's Bazar"
         description="Redefining technical consultancy by merging architectural beauty with structural integrity."
         path="/about"
       />
@@ -154,9 +154,10 @@ export default function AboutPage() {
              <div className="relative aspect-square rounded-[40px] overflow-hidden border border-white/5 shadow-2xl">
                 {/* FIXED IMAGE FROM PUBLIC FOLDER AS REQUESTED */}
                 <img 
-                  src={aboutMission?.image?.url || "/images/mission-concept.png"} 
+                  src={aboutMission?.image?.url || "/images/architecture-fallback.png"} 
                   className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
                   alt="Mission Backbone"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t via-transparent to-transparent opacity-60" style={{ backgroundImage: "linear-gradient(to top, var(--bg), transparent)" }} />
              </div>
@@ -272,9 +273,10 @@ export default function AboutPage() {
             <div className="reveal-unit relative order-1 lg:order-2">
                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden border border-white/10 shadow-3xl bg-[var(--bg-card)] group">
                   <img 
-                    src={bio?.featuredImage?.url || "/images/mission-concept.png"} 
+                    src={bio?.featuredImage?.url || "/images/hero-concept.png"} 
                     alt="Engr. Alam Ashik"
                     className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-transparent opacity-40" />
                </div>
@@ -374,8 +376,9 @@ export default function AboutPage() {
                 onClick={() => setSelectedMember(member)}
               >
                 <div className="aspect-[4/5] overflow-hidden relative">
-                  <img src={member.image?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"} alt={member.name}
+                  <img src={member.image?.url || "/images/hero-concept.png"} alt={member.name}
                     className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-110"
+                    decoding="async"
                   />
                   
                   <div className="absolute inset-x-0 bottom-0 h-1/2 via-transparent to-transparent opacity-80" style={{ backgroundImage: "linear-gradient(to top, var(--bg), transparent)" }} />
