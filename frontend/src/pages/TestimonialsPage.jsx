@@ -37,7 +37,7 @@ const defaultTestimonials = [
     company: "GLOBAL TECH RESORTS",
     text: "Exceeded our expectations at every phase of the marine drive resort build. The localized knowledge and structural solutions provided saved us millions in long-term maintenance.",
     rating: 5,
-    img: "/images/mission-concept.png"
+    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
   }
 ];
 
@@ -178,7 +178,7 @@ export default function TestimonialsPage() {
                      />
                   </div>
                   <div>
-                     <h4 className="font-bold text-xl mb-1" style={{ color: "var(--text)" }}>{testimonials[activeIndex].name}</h4>
+                     <h2 className="font-bold text-xl mb-1" style={{ color: "var(--text)" }}>{testimonials[activeIndex].name}</h2>
                      <p className="text-[11px] text-[#19D2FF] font-bold tracking-[0.15em] uppercase">
                         {testimonials[activeIndex].role} <span style={{ color: "var(--text-muted)" }}>@ {testimonials[activeIndex].company}</span>
                      </p>
@@ -220,7 +220,7 @@ export default function TestimonialsPage() {
                   <div className="flex items-center gap-4 pt-4 border-t" style={{ borderTopColor: "var(--highlight-border)" }}>
                      <img src={item.img} alt={item.name} className="w-10 h-10 rounded-full object-cover grayscale opacity-80" />
                      <div>
-                        <h4 className="font-bold text-sm" style={{ color: "var(--text)" }}>{item.name}</h4>
+                        <h3 className="font-bold text-sm" style={{ color: "var(--text)" }}>{item.name}</h3>
                         <p className="text-[9px] text-[#19D2FF] font-bold tracking-widest uppercase">{item.company}</p>
                      </div>
                   </div>

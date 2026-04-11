@@ -154,7 +154,7 @@ export default function AboutPage() {
              <div className="relative aspect-square rounded-[40px] overflow-hidden border border-white/5 shadow-2xl">
                 {/* FIXED IMAGE FROM PUBLIC FOLDER AS REQUESTED */}
                 <img 
-                  src={aboutMission?.image?.url || "/images/architecture-fallback.png"} 
+                  src={aboutMission?.image?.url ? `${aboutMission.image.url}&w=1000&q=80&auto=format` : "/images/architecture-fallback.png"} 
                   className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
                   alt="Mission Backbone"
                   decoding="async"
@@ -273,7 +273,7 @@ export default function AboutPage() {
             <div className="reveal-unit relative order-1 lg:order-2">
                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden border border-white/10 shadow-3xl bg-[var(--bg-card)] group">
                   <img 
-                    src={bio?.featuredImage?.url || "/images/hero-concept.png"} 
+                    src={bio?.featuredImage?.url ? `${bio.featuredImage.url}&w=1000&q=80&auto=format` : "/images/hero-concept.png"} 
                     alt="Engr. Alam Ashik"
                     className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-105"
                     decoding="async"

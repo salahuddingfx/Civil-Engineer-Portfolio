@@ -41,7 +41,6 @@ const useEngineeringMaterials = (isDark, isMobile) => {
         color: isDark ? "#334155" : "#94a3b8",
         roughness: 0.1,
         metalness: 1,
-        envMapIntensity: isDark ? 2.5 : 2,
       }),
       craneYellow: new THREE.MeshStandardMaterial({
         color: "#fbbf24",
@@ -286,7 +285,7 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
           intensity={isDark ? 3.5 : 1.5} 
           castShadow 
           shadow-bias={-0.00005} 
-          shadow-mapSize={[512, 512]} 
+          shadow-mapSize={[256, 256]} 
           color={isDark ? "#e0f2fe" : "#ffffff"}
         />
         

@@ -123,7 +123,7 @@ export default function GalleryPage() {
                         style={{ background: "var(--highlight-soft)", color: "var(--highlight)", border: "1px solid var(--highlight-border)" }}>
                         {img.iso}
                       </span>
-                      <h3 className={`text-xl md:text-2xl font-bold mb-2 leading-tight ${isDark ? "text-white" : "text-slate-900"}`}>{img.label}</h3>
+                      <h2 className={`text-xl md:text-2xl font-bold mb-2 leading-tight ${isDark ? "text-white" : "text-slate-900"}`}>{img.label}</h2>
                       <div className={`flex items-center justify-between pt-3 md:pt-4 border-t ${isDark ? "border-white/10" : "border-slate-200"} opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity`}>
                          <span className={`text-[10px] ${isDark ? "text-slate-400" : "text-slate-600"} font-bold uppercase tracking-widest`}>{img.coord}</span>
                       </div>
@@ -151,6 +151,7 @@ export default function GalleryPage() {
              {/* Close Button */}
              <button 
                onClick={() => setActiveImage(null)}
+               aria-label="Close Gallery Modal"
                className={`absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all z-20 shadow-lg ${isDark ? "bg-black/50 border-white/20 text-white" : "bg-white/80 border-slate-200 text-slate-900"} border hover:bg-[var(--highlight)] hover:text-white`}
              >
                <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
