@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Home, Type, AlignLeft, Image as ImageIcon, Sparkles, BarChart3, Plus, Trash2, Save } from "lucide-react";
+import { Home, Type, AlignLeft, Image as ImageIcon, Sparkles, BarChart3, Plus, Trash2, Save, ShieldCheck } from "lucide-react";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 import ImageUpload from "../../../components/admin/ImageUpload";
@@ -20,9 +20,10 @@ export default function AdminHome() {
   const [status, setStatus] = useState({ type: "", message: "" });
   const [recordId, setRecordId] = useState(null);
 
-  // Stats state
+  // Dynamic blocks state
   const [stats, setStats] = useState([]);
-  const [editingStat, setEditingStat] = useState(null);
+  const [partners, setPartners] = useState([]);
+  const [editingBlock, setEditingBlock] = useState(null);
 
   useEffect(() => {
     async function loadData() {
@@ -44,7 +45,9 @@ export default function AdminHome() {
             featuredImageUrl: item.featuredImage?.url || "",
           });
         }
-        setStats((blocksRes.items || []).filter(b => b.section === 'stats').sort((a,b) => a.order - b.order));
+        const blocks = blocksRes.items || [];
+        setStats(blocks.filter(b => b.section === 'stats').sort((a,b) => a.order - b.order));
+        setPartners(blocks.filter(b => b.section === 'partners').sort((a,b) => a.order - b.order));
       } catch (err) {
         setStatus({ type: "error", message: "LOAD_FAILED: Check Infrastructure" });
       } finally {
@@ -81,41 +84,45 @@ export default function AdminHome() {
     }
   };
 
-  const handleStatSave = async (stat) => {
+  const handleBlockSave = async (block, section) => {
     setSaving(true);
     try {
       const payload = {
         page: "home",
-        section: "stats",
-        slug: stat._id ? stat.slug : `home-stat-${Date.now()}`,
-        title: { en: stat.titleEn, bn: stat.titleBn || "" },
-        value: stat.value,
-        suffix: stat.suffix || "",
-        icon: stat.icon || "",
-        order: stat.order || 0,
+        section: section,
+        slug: block._id ? block.slug : `home-${section}-${Date.now()}`,
+        title: { en: block.titleEn || "", bn: block.titleBn || "" },
+        value: block.value || "",
+        suffix: block.suffix || (section === "partners" ? "circle" : ""),
+        icon: block.icon || "",
+        order: block.order || 0,
         isPublished: true,
       };
-      if (stat._id) {
-        await adminUpdate("sectionBlocks", stat._id, payload);
+      if (block._id) {
+        await adminUpdate("sectionBlocks", block._id, payload);
       } else {
         await adminCreate("sectionBlocks", payload);
       }
       const refreshed = await adminList("sectionBlocks", { pageFilter: "home", limit: 50 });
-      setStats((refreshed.items || []).filter(b => b.section === 'stats').sort((a,b) => a.order - b.order));
-      setEditingStat(null);
-      setStatus({ type: "success", message: "Stat block saved." });
+      const items = refreshed.items || [];
+      if (section === "stats") setStats(items.filter(b => b.section === 'stats').sort((a,b) => a.order - b.order));
+      if (section === "partners") setPartners(items.filter(b => b.section === 'partners').sort((a,b) => a.order - b.order));
+      
+      setEditingBlock(null);
+      setStatus({ type: "success", message: `${section} block saved.` });
     } catch (err) {
-      setStatus({ type: "error", message: "Failed to save stat." });
+      setStatus({ type: "error", message: "Failed to save block." });
     } finally { setSaving(false); }
   };
 
-  const handleStatDelete = async (id) => {
-    if (!window.confirm("Delete this stat block?")) return;
+  const handleBlockDelete = async (id, section) => {
+    if (!window.confirm("Delete this block?")) return;
     setSaving(true);
     try {
       await adminDelete("sectionBlocks", id);
-      setStats(stats.filter(s => s._id !== id));
-      setStatus({ type: "success", message: "Stat deleted." });
+      if (section === "stats") setStats(stats.filter(s => s._id !== id));
+      if (section === "partners") setPartners(partners.filter(p => p._id !== id));
+      setStatus({ type: "success", message: "Block deleted." });
     } catch (err) {
       setStatus({ type: "error", message: "Delete failed." });
     } finally { setSaving(false); }
@@ -128,6 +135,7 @@ export default function AdminHome() {
   const tabs = [
     { id: "hero", label: "Hero Text", icon: Sparkles },
     { id: "stats", label: "Stats", icon: BarChart3 },
+    { id: "partners", label: "Partners", icon: ShieldCheck },
   ];
 
   return (
@@ -143,7 +151,7 @@ export default function AdminHome() {
       {/* Tabs */}
       <div className="flex gap-2 mb-10 p-2 rounded-2xl" style={{ background: "var(--admin-bg)", border: "1px solid var(--admin-border)" }}>
         {tabs.map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+          <button key={tab.id} onClick={() => { setActiveTab(tab.id); setEditingBlock(null); }}
             className="flex items-center gap-2 px-6 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all"
             style={activeTab === tab.id
               ? { background: "var(--highlight)", color: "#000" }
@@ -203,36 +211,51 @@ export default function AdminHome() {
         </div>
       )}
 
-      {activeTab === "stats" && (
+      {(activeTab === "stats" || activeTab === "partners") && (
         <div className="space-y-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[color:var(--admin-text-muted)]">Homepage Stats Bar</p>
-              <p className="text-xs mt-1" style={{ color: "var(--admin-text-secondary)" }}>These numbers appear in the stats row below the hero section.</p>
+              <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[color:var(--admin-text-muted)]">
+                {activeTab === "stats" ? "Homepage Stats Bar" : "Authorized Partners & Accreditations"}
+              </p>
+              <p className="text-xs mt-1" style={{ color: "var(--admin-text-secondary)" }}>
+                {activeTab === "stats" 
+                  ? "These numbers appear in the stats row below the hero section." 
+                  : "These symbols appear in the trusted partners section near the footer."}
+              </p>
             </div>
-            <button onClick={() => setEditingStat({ titleEn: "", titleBn: "", value: "", suffix: "", icon: "", order: stats.length + 1 })}
+            <button onClick={() => setEditingBlock({ titleEn: "", titleBn: "", value: "", suffix: activeTab === "partners" ? "circle" : "", icon: "", order: (activeTab === "stats" ? stats : partners).length + 1 })}
               className="flex items-center gap-2 px-5 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all"
               style={{ background: "var(--highlight)", color: "#000" }}
             >
-              <Plus size={14} /> Add Stat
+              <Plus size={14} /> Add {activeTab === "stats" ? "Stat" : "Partner"}
             </button>
           </div>
 
-          {/* Stat Cards */}
+          {/* List Cards */}
           <div className="space-y-4">
-            {stats.map((stat) => (
-              <div key={stat._id} className="flex items-center gap-6 p-6 rounded-2xl" style={{ background: "var(--admin-card)", border: "1px solid var(--admin-border)" }}>
-                <div className="text-3xl font-black" style={{ color: "var(--highlight)" }}>{stat.value}{stat.suffix}</div>
+            {(activeTab === "stats" ? stats : partners).map((block) => (
+              <div key={block._id} className="flex items-center gap-6 p-6 rounded-2xl" style={{ background: "var(--admin-card)", border: "1px solid var(--admin-border)" }}>
+                <div className={`w-12 h-12 flex items-center justify-center font-black ${block.suffix === "square" ? "rounded-lg" : "rounded-full"}`} 
+                     style={{ border: "2px dashed var(--admin-border)", color: "var(--highlight)" }}>
+                  {activeTab === "stats" ? (
+                    <span className="text-xl">{block.value}</span>
+                  ) : (
+                    <span className="text-xs">{block.title?.en}</span>
+                  )}
+                </div>
                 <div className="flex-1">
-                  <p className="font-bold text-[13px]" style={{ color: "var(--admin-text-heading)" }}>{stat.title?.en}</p>
-                  <p className="text-xs" style={{ color: "var(--admin-text-secondary)" }}>{stat.title?.bn || "—"}</p>
+                  <p className="font-bold text-[13px]" style={{ color: "var(--admin-text-heading)" }}>
+                    {activeTab === "stats" ? block.title?.en : block.value}
+                  </p>
+                  {activeTab === "stats" && <p className="text-xs" style={{ color: "var(--admin-text-secondary)" }}>{block.title?.bn || "—"}</p>}
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => setEditingStat({ ...stat, titleEn: stat.title?.en || "", titleBn: stat.title?.bn || "" })}
+                  <button onClick={() => setEditingBlock({ ...block, titleEn: block.title?.en || "", titleBn: block.title?.bn || "" })}
                     className="px-4 py-2 rounded-lg text-[11px] font-black uppercase transition-all hover:opacity-80"
                     style={{ border: "1px solid var(--highlight-border)", color: "var(--highlight)" }}
                   >Edit</button>
-                  <button onClick={() => handleStatDelete(stat._id)}
+                  <button onClick={() => handleBlockDelete(block._id, activeTab)}
                     className="px-4 py-2 rounded-lg text-[11px] font-black uppercase transition-all hover:opacity-80"
                     style={{ border: "1px solid #ef444440", color: "#ef4444" }}
                   ><Trash2 size={13} /></button>
@@ -241,44 +264,68 @@ export default function AdminHome() {
             ))}
           </div>
 
-          {/* Editing Form */}
-          {editingStat && (
+          {/* Block Editing Form */}
+          {editingBlock && (
             <div className="p-8 rounded-2xl mt-6 space-y-6" style={{ background: "var(--admin-bg)", border: "2px solid var(--highlight-border)" }}>
               <h3 className="text-[11px] font-black uppercase tracking-[0.3em]" style={{ color: "var(--highlight)" }}>
-                {editingStat._id ? "Edit Stat Block" : "New Stat Block"}
+                {editingBlock._id ? `Edit ${activeTab}` : `New ${activeTab}`}
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div>
-                  <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Value</label>
-                  <input value={editingStat.value} onChange={e => setEditingStat({...editingStat, value: e.target.value})} className={smInput} placeholder="150" />
+              
+              {activeTab === "stats" ? (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Value</label>
+                    <input value={editingBlock.value} onChange={e => setEditingBlock({...editingBlock, value: e.target.value})} className={smInput} placeholder="150" />
+                  </div>
+                  <div>
+                    <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Suffix</label>
+                    <input value={editingBlock.suffix} onChange={e => setEditingBlock({...editingBlock, suffix: e.target.value})} className={smInput} placeholder="+" />
+                  </div>
+                  <div>
+                    <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Label (EN)</label>
+                    <input value={editingBlock.titleEn} onChange={e => setEditingBlock({...editingBlock, titleEn: e.target.value})} className={smInput} placeholder="Projects Done" />
+                  </div>
+                  <div>
+                    <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Label (BN)</label>
+                    <input value={editingBlock.titleBn} onChange={e => setEditingBlock({...editingBlock, titleBn: e.target.value})} className={smInput} placeholder="প্রকল্প" />
+                  </div>
                 </div>
-                <div>
-                  <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Suffix</label>
-                  <input value={editingStat.suffix} onChange={e => setEditingStat({...editingStat, suffix: e.target.value})} className={smInput} placeholder="+" />
+              ) : (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Short Code (e.g. IEB)</label>
+                    <input value={editingBlock.titleEn} onChange={e => setEditingBlock({...editingBlock, titleEn: e.target.value})} className={smInput} placeholder="IEB" />
+                  </div>
+                  <div>
+                    <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Full Label (e.g. Member IEB)</label>
+                    <input value={editingBlock.value} onChange={e => setEditingBlock({...editingBlock, value: e.target.value})} className={smInput} placeholder="MEMBER IEB" />
+                  </div>
+                  <div>
+                    <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Shape</label>
+                    <select value={editingBlock.suffix} onChange={e => setEditingBlock({...editingBlock, suffix: e.target.value})} className={smInput}>
+                      <option value="circle">Circular</option>
+                      <option value="square">Square</option>
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Label (EN)</label>
-                  <input value={editingStat.titleEn} onChange={e => setEditingStat({...editingStat, titleEn: e.target.value})} className={smInput} placeholder="Projects Done" />
-                </div>
-                <div>
-                  <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Label (BN)</label>
-                  <input value={editingStat.titleBn} onChange={e => setEditingStat({...editingStat, titleBn: e.target.value})} className={smInput} placeholder="প্রকল্প" />
-                </div>
-              </div>
+              )}
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">Sort Order</label>
-                  <input type="number" value={editingStat.order} onChange={e => setEditingStat({...editingStat, order: Number(e.target.value)})} className={smInput} />
+                  <input type="number" value={editingBlock.order} onChange={e => setEditingBlock({...editingBlock, order: Number(e.target.value)})} className={smInput} />
                 </div>
-                <div>
-                  <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">SVG Icon Path (d="...")</label>
-                  <input value={editingStat.icon} onChange={e => setEditingStat({...editingStat, icon: e.target.value})} className={smInput} placeholder="M19 21V5..." />
-                </div>
+                {activeTab === "stats" && (
+                  <div>
+                    <label className="text-[9px] font-black uppercase tracking-widest text-[color:var(--admin-text-muted)] ml-1 mb-2 block">SVG Icon Path (d="...")</label>
+                    <input value={editingBlock.icon} onChange={e => setEditingBlock({...editingBlock, icon: e.target.value})} className={smInput} placeholder="M19 21V5..." />
+                  </div>
+                )}
               </div>
               <div className="flex gap-3 justify-end">
-                <button onClick={() => setEditingStat(null)} className="px-6 py-3 rounded-xl text-[11px] font-black uppercase" style={{ border: "1px solid var(--admin-border)", color: "var(--admin-text-secondary)" }}>Cancel</button>
-                <button onClick={() => handleStatSave(editingStat)} className="flex items-center gap-2 px-6 py-3 rounded-xl text-[11px] font-black uppercase" style={{ background: "var(--highlight)", color: "#000" }}>
-                  <Save size={13} /> Save Stat
+                <button onClick={() => setEditingBlock(null)} className="px-6 py-3 rounded-xl text-[11px] font-black uppercase" style={{ border: "1px solid var(--admin-border)", color: "var(--admin-text-secondary)" }}>Cancel</button>
+                <button onClick={() => handleBlockSave(editingBlock, activeTab)} className="flex items-center gap-2 px-6 py-3 rounded-xl text-[11px] font-black uppercase" style={{ background: "var(--highlight)", color: "#000" }}>
+                  <Save size={13} /> Save {activeTab}
                 </button>
               </div>
             </div>
