@@ -6,11 +6,7 @@ const { clearCache } = require("./middleware/cache.middleware");
 // Purge cache on startup
 clearCache();
 
-// Routes
-app.use("/api/content", require("./routes/content.routes"));
-app.use("/api/admin", require("./routes/admin.routes"));
-app.use("/api/stats", require("./routes/stats.routes"));
-app.use("/api/auth", require("./routes/auth.routes"));
+// Routes are managed in app.js
 
 const { ensureAdminSeed } = require("./controllers/auth.controller");
 
