@@ -9,18 +9,21 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes("react-router-dom") || id.includes("react-dom") || id.includes("/react/")) {
-            return "react";
+          if (id.includes("node_modules/three") || id.includes("node_modules/@react-three")) {
+            return "three-bundle";
           }
-          if (id.includes("gsap")) {
-            return "animation";
+          if (id.includes("node_modules/lucide-react")) {
+            return "icons";
           }
-          if (id.includes("react-hook-form") || id.includes("@hookform/resolvers") || id.includes("zod")) {
-            return "forms";
+          if (id.includes("node_modules/react-router-dom") || id.includes("node_modules/react-dom") || id.includes("node_modules/react/")) {
+            return "react-core";
           }
-          return undefined;
+          if (id.includes("node_modules/gsap")) {
+            return "animations";
+          }
         },
       },
     },
+    chunkSizeWarningLimit: 1000,
   },
 })
