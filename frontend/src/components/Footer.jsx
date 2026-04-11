@@ -74,7 +74,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-12 w-12 items-center justify-center rounded-2xl transition-all group border border-[var(--highlight-border)] bg-[var(--highlight-soft)] text-[var(--text-muted)] hover:border-[var(--highlight)] hover:text-[var(--highlight)]"
-                  aria-label={social.id}
+                  aria-label={social.id.charAt(0).toUpperCase() + social.id.slice(1)}
                 >
                   <social.icon size={20} className="group-hover:scale-110 transition-transform" />
                 </a>
@@ -85,11 +85,10 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigation */}
           <div className="space-y-8">
-            <h4 className="text-[18px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
+            <h3 className="text-[18px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
               {language === "en" ? "EXPLORE" : "অন্বেষণ"}
-            </h4>
+            </h3>
             <ul className="space-y-4">
               {[
                 { to: "/", key: "nav.home" },
@@ -113,9 +112,9 @@ export default function Footer() {
 
           {/* Resources */}
           <div className="space-y-8">
-            <h4 className="text-[18px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
+            <h3 className="text-[18px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
               {language === "en" ? "RESOURCES" : "রিসোর্স"}
-            </h4>
+            </h3>
             <ul className="space-y-4">
               {[
                 { to: "/about", label: language === "en" ? "About Studio" : "স্টুডিও সম্পর্কে" },
@@ -139,9 +138,9 @@ export default function Footer() {
           {/* Newsletter */}
           <div className="col-span-2 lg:col-span-1 space-y-10">
             <div className="space-y-4">
-              <h4 className="text-[11px] font-black uppercase tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.4em]" style={{ color: "var(--highlight)" }}>
                 {language === "en" ? "System Updates" : "সিস্টেম আপডেট"}
-              </h4>
+              </h3>
               <p className="text-[12px] leading-relaxed" style={{ color: "var(--text-muted)" }}>
                 {language === "en" ? "Subscribe to receive professional structural engineering insights." : "ইঞ্জিনিয়ারিং ইনসাইট পেতে সাবস্ক্রাইব করুন।"}
               </p>
@@ -172,7 +171,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Engr. Alam Ashik / Professionals civil engineer
           </p>
           
-          <p className="text-[10px] flex items-center gap-3 font-black tracking-[0.3em] uppercase" style={{ color: "var(--text-faint)" }}>
+          <p className="text-[10px] flex items-center gap-3 font-black tracking-[0.3em] uppercase" style={{ color: "var(--text-muted)" }}>
             <span>{t("footer.developed_by", language)}</span>
             <a href="https://salahuddin.codes" target="_blank" rel="noopener noreferrer"
               className="px-3 py-1.5 rounded-lg transition-all"

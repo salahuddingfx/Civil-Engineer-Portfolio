@@ -32,6 +32,7 @@ export const translations = {
       title: "Premium Services",
       subtitle: "Specialized engineering solutions in Cox's Bazar that harmonize aesthetic brilliance with undeniable structural integrity.",
       explore: "EXPLORE",
+      schedule: "SCHEDULE CONSULTATION",
     },
     services_items: {
       arch_title: "Architectural Design",
@@ -184,6 +185,7 @@ export const translations = {
       title: "প্রিমিয়াম সেবাসমূহ",
       subtitle: "কক্সবাজারে বিশেষ ইঞ্জিনিয়ারিং সমাধান যা নান্দনিক উজ্জ্বলতার সাথে অনস্বীকার্য কাঠামোগত অখণ্ডতাকে সমন্বিত করে।",
       explore: "বিস্তারিত",
+      schedule: "পরামর্শ বুক করুন",
     },
     services_items: {
       arch_title: "স্থাপত্য নকশা",
