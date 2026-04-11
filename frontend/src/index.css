@@ -1,37 +1,9 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════
-   DARK MODE (Default)
-═══════════════════════════════════════════════ */
+   LIGHT MODE (Default)
+   ═══════════════════════════════════════════════ */
 :root,
-:root[data-theme="dark"] {
-  --bg: #070a13;
-  --bg-soft: #0a0f1d;
-  --bg-accent: #0f172a;
-  --bg-card: #0c1222;
-  --text: #F8FAFC;
-  --text-muted: #94A3B8;
-  --text-faint: #475569;
-  --highlight: #19D2FF;
-  --highlight-soft: rgba(25, 210, 255, 0.08);
-  --highlight-border: rgba(25, 210, 255, 0.15);
-  --highlight-glow: rgba(25, 210, 255, 0.25);
-  --navbar-bg: rgba(3, 7, 18, 0.82);
-  --navbar-border: rgba(255, 255, 255, 0.04);
-  --glass-bg: rgba(8, 12, 20, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.05);
-  --shadow-premium: 0 40px 100px -20px rgba(0, 0, 0, 0.7), 0 0 40px rgba(34, 211, 238, 0.03);
-  --grid-color: rgba(34, 211, 238, 0.03);
-  --border-aurora: linear-gradient(135deg, rgba(34, 211, 238, 0.3) 0%, rgba(34, 211, 238, 0.04) 50%, rgba(34, 211, 238, 0.3) 100%);
-  --font-display: "Outfit", "Inter", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --scanner-opacity: 0.4;
-  --blueprint-opacity: 0.12;
-}
-
-/* ═══════════════════════════════════════════════
-   LIGHT MODE
-═══════════════════════════════════════════════ */
 :root[data-theme="light"] {
   --bg: #F1F5F9;
   --bg-soft: #E8EEFA;
@@ -51,9 +23,39 @@
   --shadow-premium: 0 20px 60px -10px rgba(15, 23, 42, 0.12), 0 0 25px rgba(14, 165, 233, 0.08);
   --grid-color: rgba(14, 165, 233, 0.06);
   --border-aurora: linear-gradient(135deg, rgba(14, 165, 233, 0.4) 0%, rgba(14, 165, 233, 0.05) 50%, rgba(14, 165, 233, 0.4) 100%);
+  --font-display: "Outfit", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
   --scanner-opacity: 0.25;
   --blueprint-opacity: 0.07;
 }
+
+/* ═══════════════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════════════ */
+:root[data-theme="dark"] {
+  --bg: #070a13;
+  --bg-soft: #0a0f1d;
+  --bg-accent: #0f172a;
+  --bg-card: #0c1222;
+  --text: #F8FAFC;
+  --text-muted: #94A3B8;
+  --text-faint: #475569;
+  --highlight: #19D2FF;
+  --highlight-soft: rgba(25, 210, 255, 0.08);
+  --highlight-border: rgba(25, 210, 255, 0.15);
+  --highlight-glow: rgba(25, 210, 255, 0.25);
+  --navbar-bg: rgba(3, 7, 18, 0.82);
+  --navbar-border: rgba(255, 255, 255, 0.04);
+  --glass-bg: rgba(8, 12, 20, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --shadow-premium: 0 40px 100px -20px rgba(0, 0, 0, 0.7), 0 0 40px rgba(34, 211, 238, 0.03);
+  --grid-color: rgba(34, 211, 238, 0.03);
+  --border-aurora: linear-gradient(135deg, rgba(34, 211, 238, 0.3) 0%, rgba(34, 211, 238, 0.04) 50%, rgba(34, 211, 238, 0.3) 100%);
+  --scanner-opacity: 0.4;
+  --blueprint-opacity: 0.12;
+}
+
+
 
 /* ═══════════════════════════════════════════════
    GLOBAL RESETS
