@@ -47,7 +47,17 @@ async function login(req, res, next) {
 async function refresh(req, res, next) {
   try {
     const { refreshToken } = req.body;
-    const payload = verifyRefreshToken(refreshToken);
+    if (!refreshToken) {
+      return res.status(401).json({ message: "Refresh token is required" });
+    }
+
+    let payload;
+    try {
+      payload = verifyRefreshToken(refreshToken);
+    } catch (err) {
+      return res.status(401).json({ message: "Invalid or expired refresh token" });
+    }
+
     const admin = await Admin.findById(payload.sub);
 
     if (!admin || !admin.refreshTokenHash) {
