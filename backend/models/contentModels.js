@@ -170,9 +170,7 @@ const SeoMeta = mongoose.model(
   )
 );
 
-const SectionBlock = mongoose.model(
-  "SectionBlock",
-  new mongoose.Schema(
+const sectionBlockSchema = new mongoose.Schema(
     {
       slug: { type: String, required: true, unique: true, trim: true },
       page: { type: String, required: true, default: "global" },
@@ -188,8 +186,9 @@ const SectionBlock = mongoose.model(
       isPublished: { type: Boolean, default: true },
     },
     modelOptions
-  )
-);
+  );
+sectionBlockSchema.index({ isPublished: 1, page: 1, order: 1 });
+const SectionBlock = mongoose.model("SectionBlock", sectionBlockSchema);
 
 module.exports = {
   HomeContent,
