@@ -127,12 +127,12 @@ export default function HomePage({ isIntroComplete }) {
               ...p,
               title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
               category: p.category || "Engineering",
-              img: p.featuredImage?.url || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+              img: p.featuredImage?.url || "/images/project-fallback.png",
               year: p.tags?.[0] || "2024",
               location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
               status: "Completed"
             })).slice(0, 6)
-          : projects;
+          : projects.map(p => ({ ...p, img: "/images/project-fallback.png" }));
 
         let mappedServices = services;
         if (servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0) {
@@ -168,7 +168,7 @@ export default function HomePage({ isIntroComplete }) {
               role: t.summary?.en,
               company: t.tags?.[0] || "Client",
               text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
-              img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+              img: t.featuredImage?.url || "/images/hero-concept.png",
               rating: 5
             }))
           : (testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0 
@@ -178,17 +178,16 @@ export default function HomePage({ isIntroComplete }) {
                   role: t.summary?.en,
                   company: t.tags?.[0] || "Client",
                   text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
-                  img: t.featuredImage?.url || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e",
+                  img: t.featuredImage?.url || "/images/hero-concept.png",
                   rating: 5
                 }))
-              : testimonials);
+              : testimonials.map(t => ({ ...t, img: "/images/hero-concept.png" })));
 
         setDisplayProjects(mappedProjects);
         setDisplayServices(mappedServices);
         setDisplayTestimonials(mappedTestimonials);
 
-        // Natural settle time
-        await new Promise(r => setTimeout(r, 800));
+        // No artificial delay needed
       } catch (err) {
         console.warn("API load failed, using local mock data", err);
         setDisplayProjects(projects);
@@ -253,7 +252,7 @@ export default function HomePage({ isIntroComplete }) {
 
   useEffect(() => {
     if (isMobile) return;
-    const timer = setTimeout(() => setLoadModel(true), 1500); 
+    const timer = setTimeout(() => setLoadModel(true), 500); 
     
     // Track scroll for 3D model evolution
     const scroller = ScrollTrigger.create({
@@ -281,7 +280,7 @@ export default function HomePage({ isIntroComplete }) {
   return (
     <div ref={homeRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="selection:bg-[var(--highlight-soft)] selection:text-[var(--text)]">
       <SeoHead
-        title="Civil Engineer in Cox's Bazar | Engr. Alam Ashik"
+        title="Engr. Alam Ashik | Professional Civil Engineer in Cox's Bazar"
         description="Premium civil engineering, structural design, and architectural consultancy services in Cox's Bazar, Bangladesh."
         path="/"
       />
@@ -366,10 +365,12 @@ export default function HomePage({ isIntroComplete }) {
             ) : (
               <div className="w-full h-full transition-opacity duration-1000 relative">
                 <img
-                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80"
+                  src="/images/project-fallback.png"
                   alt="Architecture Structural Model Preview"
                   className="w-full h-full object-cover grayscale brightness-50 lg:opacity-50"
                   loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center backdrop-blur-[1px] bg-black/20 p-6 text-center">
                    {isMobile ? (
@@ -503,16 +504,16 @@ export default function HomePage({ isIntroComplete }) {
                   className="relative rounded-2xl overflow-hidden aspect-[4/5] reveal-unit cursor-pointer shadow-2xl group transition-all duration-500"
                   onClick={() => setSelectedProject(project)}
                 >
-                  <img src={project.img} alt={project.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1C] via-[#0A0F1C]/40 to-transparent opacity-90 transition-opacity group-hover:opacity-100" />
-                  <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                  <img src={project.img || "/images/project-fallback.png"} alt={project.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" decoding="async" />
+                  <div className={`absolute inset-0 ${isDark ? "bg-gradient-to-t from-black/80 via-black/40" : "bg-gradient-to-t from-white via-white/20"} to-transparent opacity-90 transition-opacity group-hover:opacity-100`} />
+                  <div className={`absolute inset-0 p-8 flex flex-col justify-end ${isDark ? "text-white" : "text-slate-900"}`}>
                     <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <span className="inline-block px-3 py-1 rounded-full text-[10px] tracking-widest font-bold uppercase mb-4"
                         style={{ background: "var(--highlight-soft)", color: "var(--highlight)", border: "1px solid var(--highlight-border)" }}>
                         {project.type}
                       </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 transition-colors group-hover:text-[var(--highlight)]">{project.title}</h3>
-                      <div className="flex items-center gap-2 text-[13px] text-white/70 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <h3 className={`text-2xl md:text-3xl font-bold ${isDark ? "text-white" : "text-slate-900"} mb-2 transition-colors group-hover:text-[var(--highlight)]`}>{project.title}</h3>
+                      <div className={`flex items-center gap-2 text-[13px] ${isDark ? "text-white/80" : "text-slate-600"} font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100`}>
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                         {project.location} • {project.year}
                       </div>
@@ -569,7 +570,7 @@ export default function HomePage({ isIntroComplete }) {
             </div>
           </div>
 
-          <div className="relative overflow-hidden reveal-unit rounded-3xl" style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "0 20px 40px rgba(0,0,0,0.15)" }}>
+          <div className="relative overflow-hidden reveal-unit rounded-3xl" style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "var(--shadow-premium)" }}>
             <div className="flex transition-transform duration-700 ease-in-out" style={{ transform: `translateX(-${testiIdx * 100}%)` }}>
               {loadingData ? (
                 <div className="min-w-full"><TestimonialSkeleton /></div>
