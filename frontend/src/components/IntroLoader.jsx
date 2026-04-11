@@ -7,31 +7,30 @@ const IntroLoader = ({ onComplete }) => {
       onComplete: () => onComplete && onComplete(),
     });
 
-    // Initial sequence
+    // Initial sequence (Sub-second)
     tl.fromTo(".loader-content",
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+      { opacity: 0, scale: 0.95 },
+      { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
     )
       .to(".loader-ring", {
         opacity: 1,
-        duration: 0.5
-      }, "-=0.5")
+        duration: 0.2
+      }, "-=0.2")
 
-      // Hold for a bit
-      .to({}, { duration: 1.5 })
+      // No hold duration for maximum speed
 
       // Exit
       .to(".intro-overlay", {
         y: "-100%",
-        duration: 1.2,
+        duration: 0.4,
         ease: "expo.inOut",
       })
       .to(".loader-content", {
         opacity: 0,
-        y: -50,
-        duration: 0.8,
+        y: -30,
+        duration: 0.3,
         ease: "power2.in",
-      }, "-=1.2");
+      }, "-=0.4");
 
     return () => {
       tl.kill();
