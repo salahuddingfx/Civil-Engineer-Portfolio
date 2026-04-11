@@ -20,7 +20,13 @@ export default function ScrollToTopButton() {
   return (
     <button
       type="button"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={() => {
+        if (window.lenis) {
+          window.lenis.scrollTo(0);
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }}
       aria-label="Scroll to top"
       className="fixed left-5 bottom-5 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-[var(--highlight-border)] bg-[var(--glass-bg)] text-[var(--highlight)] shadow-[var(--shadow-premium)] backdrop-blur-md transition hover:-translate-y-1 hover:border-[var(--highlight)]"
     >
