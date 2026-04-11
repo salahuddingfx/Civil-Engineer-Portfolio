@@ -70,7 +70,7 @@ export default function ServicesPage() {
         } else {
           setDisplayServices(servicesFallback);
         }
-        await new Promise(r => setTimeout(r, 800));
+        // No artificial delay
       } catch (err) {
         console.warn("Services API failed, using fallback", err);
         setDisplayServices(servicesFallback);
@@ -97,7 +97,7 @@ export default function ServicesPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead
-        title="Engineering Services | Structural Consultancy Cox's Bazar"
+        title="Services | Engr. Alam Ashik | Civil Engineer in Cox's Bazar"
         description="Explore our range of premium structural engineering, architectural blueprinting, and CAD visualization services tailored for Cox's Bazar."
         path="/services"
       />
