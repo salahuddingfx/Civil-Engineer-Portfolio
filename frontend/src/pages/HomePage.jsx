@@ -24,7 +24,7 @@ const testimonials = [
     company: "NEXACORE DEVELOPMENTS",
     text: "The integration of structural integrity with modern architectural design was seamless. Truly a technical mastermind who understands the nuance of enterprise scale in Cox's Bazar's coastal conditions.",
     rating: 5,
-    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=60"
+    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80&auto=format"
   },
   {
     name: "Marcus Thorne",
@@ -32,7 +32,7 @@ const testimonials = [
     company: "APEX HORIZON BUILDERS",
     text: "Reliable, precise, and highly communicative throughout the entire lifecycle of our infrastructure overhaul. The best civil engineering partner we've had in Bangladesh.",
     rating: 5,
-    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=60"
+    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80&auto=format"
   },
   {
     name: "Jonathan Vance",
@@ -40,7 +40,7 @@ const testimonials = [
     company: "STRATOS STUDIOS",
     text: "Alam's approach to engineering is purely architectural. He doesn't just calculate load capacities; he designs structural foundations that scale with absolute safety and elegance.",
     rating: 5,
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=60"
+    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80&auto=format"
   },
   {
     name: "Elena Rodriguez",
@@ -48,14 +48,14 @@ const testimonials = [
     company: "GLOBAL TECH RESORTS",
     text: "Exceeded our expectations at every phase of the marine drive resort build. The localized knowledge and structural solutions provided saved us millions in long-term maintenance.",
     rating: 5,
-    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=60"
+    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80&auto=format"
   }
 ];
 
 const projects = [
-  { title: "Bayline Villa", type: "RESIDENTIAL", location: "Cox's Bazar", year: "2024", img: "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=600&q=70" },
-  { title: "Vertex Corporate Tower", type: "COMMERCIAL", location: "Dhaka", year: "2023", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=70" },
-  { title: "Marine Drive Resort", type: "HOSPITALITY", location: "Cox's Bazar", year: "2024", img: "https://images.unsplash.com/photo-1582610116397-ed860c29415c?auto=format&fit=crop&w=600&q=70" }
+  { title: "Bayline Villa", type: "RESIDENTIAL", location: "Cox's Bazar", year: "2024", img: "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=800&q=80" },
+  { title: "Vertex Corporate Tower", type: "COMMERCIAL", location: "Dhaka", year: "2023", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" },
+  { title: "Marine Drive Resort", type: "HOSPITALITY", location: "Cox's Bazar", year: "2024", img: "https://images.unsplash.com/photo-1582610116397-ed860c29415c?auto=format&fit=crop&w=800&q=80" }
 ];
 
 const services = [
@@ -97,6 +97,7 @@ export default function HomePage({ isIntroComplete }) {
   const [displayServices, setDisplayServices] = useState([]);
   const [homeData, setHomeData] = useState(null);
   const [homeStats, setHomeStats] = useState([]);
+  const [homePartners, setHomePartners] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
 
   // Mock fetching / Real fetching attempt
@@ -119,7 +120,8 @@ export default function HomePage({ isIntroComplete }) {
 
         if (blocksRes.status === "fulfilled" && blocksRes.value.items?.length > 0) {
            const blocks = blocksRes.value.items.sort((a,b) => a.order - b.order);
-           setHomeStats(blocks.filter(b => b.section === 'stats'));
+            setHomeStats(blocks.filter(b => b.section === 'stats'));
+            setHomePartners(blocks.filter(b => b.section === 'partners'));
         }
 
         const mappedProjects = projectsRes.status === "fulfilled" && projectsRes.value.items?.length > 0
@@ -377,7 +379,7 @@ export default function HomePage({ isIntroComplete }) {
                       <div className="space-y-4 reveal-unit">
                          <div className="w-16 h-1 w-full bg-[var(--highlight)] mx-auto opacity-20" />
                          <span className="text-[12px] uppercase font-black tracking-[0.5em] text-[var(--highlight)] block">Structural Excellence</span>
-                         <h3 className="text-2xl font-black text-white uppercase tracking-wider">Civil Engineering <br /> & Consultancy</h3>
+                         <div className="text-2xl font-black text-white uppercase tracking-wider">{language === "en" ? "Civil Engineering" : "সিভিল ইঞ্জিনিয়ারিং"} <br /> {language === "en" ? "& Consultancy" : "& কনসালটেন্সি"}</div>
                          <div className="w-16 h-1 w-full bg-[var(--highlight)] mx-auto opacity-20" />
                       </div>
                    ) : (
@@ -419,9 +421,9 @@ export default function HomePage({ isIntroComplete }) {
                 <div className="mb-4 opacity-70 group-hover:opacity-100 transition-opacity" style={{ color: "var(--highlight)" }}>
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={stat.icon} /></svg>
                 </div>
-                <h3 className="text-4xl font-bold mb-2" style={{ color: "var(--text)" }}>
+                <div className="text-4xl font-bold mb-2" style={{ color: "var(--text)" }}>
                   <Counter value={stat.value} />
-                </h3>
+                </div>
                 <span className="text-[13px] font-semibold" style={{ color: "var(--text-muted)" }}>
                   {language === "bn" ? (stat.title?.bn || stat.title?.en) : stat.title?.en}
                 </span>
@@ -448,30 +450,39 @@ export default function HomePage({ isIntroComplete }) {
               [1, 2, 3, 4].map((i) => <ServiceSkeleton key={i} />)
             ) : (
               displayServices.map((service, i) => (
-                <div key={i} className="p-10 rounded-2xl reveal-unit transition-all duration-300 relative overflow-hidden card-bg">
-                  <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full" style={{ background: "var(--highlight-soft)" }} />
-                  <div className="relative z-10 mt-16 pt-10 border-t" style={{ borderTopColor: "var(--highlight-border)" }}>
-                    {typeof service.icon === "string" ? (
-                      service.icon.startsWith("M") ? (
-                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d={service.icon} />
-                        </svg>
+                <div key={i} className="p-8 pb-12 rounded-[24px] reveal-unit transition-all duration-500 relative overflow-hidden card-bg group">
+                  {/* Soft Corner Accent */}
+                  <div className="blueprint-corner" />
+
+                  <div className="relative z-10 mb-10 mt-4">
+                    <div className="icon-badge">
+                      {typeof service.icon === "string" ? (
+                        service.icon.startsWith("M") ? (
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={service.icon} />
+                          </svg>
+                        ) : (
+                          <LucideIcon name={service.icon} size={24} />
+                        )
                       ) : (
-                        <LucideIcon name={service.icon} size={32} />
-                      )
-                    ) : (
-                      service.icon
-                    )}
+                        service.icon
+                      )}
+                    </div>
                   </div>
-                  <h3 className="font-bold text-xl mb-4 relative z-10" style={{ color: "var(--text)" }}>
+
+                  <h3 className="font-bold text-2xl mb-4 relative z-10 tracking-tight" style={{ color: "var(--text)" }}>
                     {service.titleKey ? t(service.titleKey, language) : (language === "bn" ? service.titleBn : service.title)}
                   </h3>
-                  <p className="text-[15px] mb-8 leading-relaxed min-h-[90px] relative z-10" style={{ color: "var(--text-muted)" }}>
+                  <p className="text-[15px] mb-8 leading-relaxed min-h-[80px] relative z-10 opacity-70" style={{ color: "var(--text)" }}>
                     {service.descKey ? t(service.descKey, language) : (language === "bn" ? service.descBn : service.desc)}
                   </p>
-                  <Link to="/services" className="text-[12px] font-bold tracking-[0.1em] uppercase flex items-center gap-2 relative z-10 opacity-80" style={{ color: "var(--highlight)" }}>
-                    {t("services_section.explore", language)}
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+
+                  {/* Visual Divider */}
+                  <div className="card-divider" />
+
+                  <Link to="/contact" className="explore-link text-[11px] font-black tracking-[0.15em] uppercase flex items-center gap-2 relative z-10" style={{ color: "var(--highlight)" }}>
+                    {t("services_section.schedule", language)}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                   </Link>
                 </div>
               ))
@@ -550,24 +561,26 @@ export default function HomePage({ isIntroComplete }) {
                 {t("reviews.title", language)}
               </span>
             </div>
-            <div className="flex gap-4">
-              <button onClick={prevTesti}
-                className="w-12 h-12 flex items-center justify-center rounded-full transition-all"
-                style={{ border: "1px solid var(--highlight-border)", color: "var(--highlight)" }}
-                onMouseEnter={e => { e.currentTarget.style.background = "var(--highlight)"; e.currentTarget.style.color = "#0A0F1C"; }}
-                onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--highlight)"; }}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
-              </button>
-              <button onClick={nextTesti}
-                className="w-12 h-12 flex items-center justify-center rounded-full transition-all"
-                style={{ border: "1px solid var(--highlight-border)", color: "var(--highlight)" }}
-                onMouseEnter={e => { e.currentTarget.style.background = "var(--highlight)"; e.currentTarget.style.color = "#0A0F1C"; }}
-                onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--highlight)"; }}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
-              </button>
-            </div>
+              <div className="flex gap-4">
+                <button onClick={prevTesti}
+                  aria-label="Previous Testimonial"
+                  className="w-12 h-12 flex items-center justify-center rounded-full transition-all"
+                  style={{ border: "1px solid var(--highlight-border)", color: "var(--highlight)" }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "var(--highlight)"; e.currentTarget.style.color = "#0A0F1C"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--highlight)"; }}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+                </button>
+                <button onClick={nextTesti}
+                  aria-label="Next Testimonial"
+                  className="w-12 h-12 flex items-center justify-center rounded-full transition-all"
+                  style={{ border: "1px solid var(--highlight-border)", color: "var(--highlight)" }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "var(--highlight)"; e.currentTarget.style.color = "#0A0F1C"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--highlight)"; }}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+                </button>
+              </div>
           </div>
 
           <div className="relative overflow-hidden reveal-unit rounded-3xl" style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "var(--shadow-premium)" }}>
@@ -645,24 +658,22 @@ export default function HomePage({ isIntroComplete }) {
                 desc: t("process.step04_desc", language),
               },
             ].map((item, i) => (
-              <div key={i} className="relative p-8 rounded-2xl reveal-unit group transition-all duration-300 card-bg"
-                onMouseEnter={e => e.currentTarget.style.transform = "translateY(-4px)"}
-                onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
+              <div key={i} className="relative p-8 rounded-[24px] reveal-unit group transition-all duration-300 card-bg overflow-hidden translate-y-0"
               >
-                <div className="absolute top-6 right-6 text-[48px] font-black leading-none select-none"
-                  style={{ color: "var(--highlight-soft)", fontVariantNumeric: "tabular-nums" }}>
-                  {item.step}
+                {/* Soft Corner Accent */}
+                <div className="blueprint-corner" style={{ width: '100px', height: '100px' }} />
+
+                <div className="mb-6 relative z-10 transition-all">
+                  <div className="icon-badge">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                    </svg>
+                  </div>
                 </div>
-                <div className="mb-6 w-12 h-12 rounded-xl flex items-center justify-center"
-                  style={{ background: "var(--highlight-soft)", color: "var(--highlight)" }}>
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-bold mb-3" style={{ color: "var(--text)" }}>
+                <h3 className="text-xl font-bold mb-3 relative z-10 tracking-tight" style={{ color: "var(--text)" }}>
                   {item.title}
                 </h3>
-                <p className="text-[14px] leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                <p className="text-[14px] leading-relaxed relative z-10 opacity-70" style={{ color: "var(--text)" }}>
                   {item.desc}
                 </p>
                 {i < 3 && (
@@ -753,31 +764,47 @@ export default function HomePage({ isIntroComplete }) {
             {t("partners.title", language)}
           </h2>
           <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all duration-700 reveal-unit">
-            {/* Local Authorities & Technical Symbols */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-full border-2 border-dashed flex items-center justify-center" style={{ borderColor: 'var(--text-faint)' }}>
-                <span className="font-bold text-xs">IEB</span>
-              </div>
-              <span className="text-[9px] font-bold tracking-widest">MEMBER IEB</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-lg border-2 border-dashed flex items-center justify-center" style={{ borderColor: 'var(--text-faint)' }}>
-                <span className="font-bold text-xs uppercase">Cox</span>
-              </div>
-              <span className="text-[9px] font-bold tracking-widest">MUNICIPALITY</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-full border-2 border-dashed flex items-center justify-center" style={{ borderColor: 'var(--text-faint)' }}>
-                <span className="font-bold text-xs uppercase">BIM</span>
-              </div>
-              <span className="text-[9px] font-bold tracking-widest">CERTIFIED</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-lg border-2 border-dashed flex items-center justify-center" style={{ borderColor: 'var(--text-faint)' }}>
-                <span className="font-bold text-xs uppercase">BSTI</span>
-              </div>
-              <span className="text-[9px] font-bold tracking-widest">COMPLIANT</span>
-            </div>
+            {homePartners.length > 0 ? (
+              homePartners.sort((a,b) => a.order - b.order).map((partner, i) => (
+                <div key={i} className="flex flex-col items-center gap-2 group transition-all">
+                  <div 
+                    className={`w-16 h-16 border-2 border-dashed flex items-center justify-center transition-all group-hover:border-solid group-hover:scale-110 ${partner.suffix === 'square' ? 'rounded-lg' : 'rounded-full'}`} 
+                    style={{ borderColor: 'var(--text-faint)' }}
+                  >
+                    <span className="font-bold text-xs uppercase">{partner.title?.en}</span>
+                  </div>
+                  <span className="text-[9px] font-bold tracking-widest text-center">{partner.value || partner.summary?.en}</span>
+                </div>
+              ))
+            ) : (
+              <>
+                {/* Fallback to hardcoded if no dynamic partners found */}
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-16 h-16 rounded-full border-2 border-dashed flex items-center justify-center" style={{ borderColor: 'var(--text-faint)' }}>
+                    <span className="font-bold text-xs">IEB</span>
+                  </div>
+                  <span className="text-[9px] font-bold tracking-widest">MEMBER IEB</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-16 h-16 rounded-lg border-2 border-dashed flex items-center justify-center" style={{ borderColor: 'var(--text-faint)' }}>
+                    <span className="font-bold text-xs uppercase">Cox</span>
+                  </div>
+                  <span className="text-[9px] font-bold tracking-widest">MUNICIPALITY</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-16 h-16 rounded-full border-2 border-dashed flex items-center justify-center" style={{ borderColor: 'var(--text-faint)' }}>
+                    <span className="font-bold text-xs uppercase">BIM</span>
+                  </div>
+                  <span className="text-[9px] font-bold tracking-widest">CERTIFIED</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-16 h-16 rounded-lg border-2 border-dashed flex items-center justify-center" style={{ borderColor: 'var(--text-faint)' }}>
+                    <span className="font-bold text-xs uppercase">BSTI</span>
+                  </div>
+                  <span className="text-[9px] font-bold tracking-widest">COMPLIANT</span>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
