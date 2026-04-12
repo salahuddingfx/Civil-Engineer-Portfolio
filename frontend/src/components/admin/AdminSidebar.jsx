@@ -62,7 +62,7 @@ export default function AdminSidebar({ onClose }) {
           <div className="h-7 w-7 rounded-lg bg-sky-500 flex items-center justify-center text-black font-black text-xs rotate-3 group-hover:rotate-0 transition-transform">
              A
           </div>
-          <span className="text-lg font-black tracking-tight uppercase" style={{ color: "var(--admin-text-primary)" }}>ENGR. ALAM ASHIK</span>
+          <span className="text-lg font-black tracking-tight uppercase" style={{ color: "var(--admin-text-primary)" }}>ENGR ALAM ASHIK</span>
         </Link>
         <button 
           className="p-2 rounded-lg hover:bg-[color:var(--admin-bg)]0/10 lg:hidden"
