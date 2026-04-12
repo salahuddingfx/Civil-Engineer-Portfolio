@@ -111,6 +111,7 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 <div align="center">
 
 ### 👷 Developed with precision by **Salah Uddin Kader**
+#### *Full Stack Developer & Digital Architect*
 #### *Build for an civilian*
 
 [![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://fb.com/salahuddingfx)
