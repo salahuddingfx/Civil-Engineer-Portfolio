@@ -24,7 +24,7 @@ export default function TermsPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="selection:bg-[#19D2FF]/30 min-h-screen pb-40">
       <SeoHead 
-        title="Terms | Engr. Alam Ashik | Civil Engineer in Cox's Bazar" 
+        title="Terms | Engr Alam Ashik | Civil Engineer in Cox's Bazar" 
         description="Establishing technical engagement standards and structural consultancy liability protocols for Cox's Bazar engineering standards." 
         path="/terms" 
       />
@@ -51,7 +51,7 @@ export default function TermsPage() {
           <div className="space-y-6 text-[15px] leading-relaxed" style={{ color: "var(--text-muted)" }}>
             <p>
               {language === 'en' 
-                ? "Engr. Alam Ashik provides structural designs and architectural visions based on the technical parameters submitted by the client. Any deviation from on-site execution without studio authorization nullifies structural safety guarantees." 
+                ? "Engr Alam Ashik provides structural designs and architectural visions based on the technical parameters submitted by the client. Any deviation from on-site execution without studio authorization nullifies structural safety guarantees." 
                 : "ইঞ্জিনিয়ার আলম আশিক ক্লায়েন্টের জমা দেওয়া টেকনিক্যাল প্যারামিটারের ওপর ভিত্তি করে স্ট্রাকচারাল ডিজাইন এবং আর্কিটেকচারাল ভিশন প্রদান করেন। স্টুডিওর অনুমোদন ছাড়া অন-সাইট এক্সিকিউশন থেকে যেকোনো বিচ্যুতি কাঠামোগত নিরাপত্তার গ্যারান্টি বাতিল করবে।"}
             </p>
           </div>
@@ -71,7 +71,7 @@ export default function TermsPage() {
             <h3 className="text-lg md:text-xl font-bold mb-4 uppercase" style={{ color: "var(--text)" }}>{language === 'en' ? "Intellectual Property" : "মেধা সম্পদ"}</h3>
             <p className="text-[15px] leading-relaxed" style={{ color: "var(--text-muted)" }}>
               {language === 'en'
-                ? "All CAD blueprints, structural calculations, and 3D visualization assets remain the high-fidelity intellectual property of Engr. Alam Ashik Studio unless otherwise authorized in the final engagement deed."
+                ? "All CAD blueprints, structural calculations, and 3D visualization assets remain the high-fidelity intellectual property of Engr Alam Ashik Studio unless otherwise authorized in the final engagement deed."
                 : "সমস্ত CAD ব্লুপ্রিন্ট, কাঠামোগত গণনা এবং 3D ভিজ্যুয়ালাইজেশন অ্যাসেটগুলি অন্যথায় চুক্তিবদ্ধ না হলে ইঞ্জিনিয়ার আলম আশিক স্টুডিওর মেধা সম্পত্তি হিসেবে থাকবে।"}
             </p>
           </div>
