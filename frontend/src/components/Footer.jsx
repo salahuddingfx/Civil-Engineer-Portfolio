@@ -45,7 +45,7 @@ export default function Footer() {
           <div className="col-span-2 lg:col-span-1 space-y-10">
             <div className="space-y-4">
               <Link to="/" className="flex items-center gap-1.5 font-display text-[24px] font-black tracking-[0.06em]" style={{ color: "var(--text)" }}>
-                Engr. Alam<span style={{ color: "var(--highlight)" }}> Ashik</span>
+                Engr Alam<span style={{ color: "var(--highlight)" }}> Ashik</span>
               </Link>
               <p className="text-[14px] leading-relaxed max-w-sm" style={{ color: "var(--text-muted)" }}>
                 {t("footer.tagline", language)}
@@ -168,7 +168,7 @@ export default function Footer() {
         <div className="mt-24 pt-10 flex flex-col md:flex-row justify-between items-center gap-8"
           style={{ borderTop: "1px solid var(--highlight-border)" }}>
           <p className="text-[10px] font-black tracking-[0.4em] uppercase" style={{ color: "var(--text-faint)" }}>
-            © {new Date().getFullYear()} Engr. Alam Ashik / Professionals civil engineer
+            © {new Date().getFullYear()} Engr Alam Ashik / Professionals civil engineer
           </p>
           
           <p className="text-[10px] flex items-center gap-3 font-black tracking-[0.3em] uppercase" style={{ color: "var(--text-muted)" }}>
