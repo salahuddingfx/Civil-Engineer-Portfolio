@@ -3,6 +3,7 @@ import { MessageSquare, Star, Type, User, Quote, Trash2, Sparkles, CheckCircle2,
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 import ImageUpload from "../../../components/admin/ImageUpload";
+import AutoTranslate from "../../../components/admin/AutoTranslate";
 
 export default function AdminTestimonials() {
   const [items, setItems] = useState([]);
@@ -64,7 +65,7 @@ export default function AdminTestimonials() {
     setSaving(true);
     setStatus({ type: "", message: "" });
     const payload = {
-      slug: (form.name || "client").toLowerCase().replace(/\s+/g, '-'),
+      slug: selectedId ? form.slug : `${(form.name || "client").toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
       title: { en: form.name, bn: form.name },
       summary: { en: form.role, bn: form.role },
       category: form.company,
@@ -76,27 +77,40 @@ export default function AdminTestimonials() {
     };
 
     try {
-      if (selectedId) await adminUpdate("testimonials", selectedId, payload);
-      else await adminCreate("testimonials", payload);
-      setStatus({ type: "success", message: "Testimonial updated successfully." });
-      if (!selectedId) setSelectedId(null);
-      await loadData();
+      if (selectedId) {
+        console.log(`[ADMIN_TESTIMONIALS] Committing update to feedback node: ${selectedId}`);
+        await adminUpdate("testimonials", selectedId, payload);
+      } else {
+        console.log("[ADMIN_TESTIMONIALS] Initializing new client endorsement record...");
+        await adminCreate("testimonials", payload);
+      }
+      
+      setStatus({ type: "success", message: "TESTIMONIAL SYNCHRONIZED SUCCESSFULLY" });
     } catch (err) {
-      setStatus({ type: "error", message: "Failed to save testimonial." });
-    } finally { setSaving(false); }
+      console.error("[ADMIN_TESTIMONIAL_ERROR] Save Protocol Failure:", err);
+      setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
+    } finally { 
+      setSaving(false); 
+      // Force clean reload to bypass cache and state lag
+      setTimeout(() => window.location.reload(), 2000);
+    }
   };
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     setSaving(true);
+    setStatus({ type: "", message: "" });
     try {
+      console.log(`[ADMIN_TESTIMONIALS] Purging feedback from registry: ${selectedId}`);
       await adminDelete("testimonials", selectedId);
-      setStatus({ type: "success", message: "Testimonial deleted successfully." });
-      setSelectedId(null);
-      await loadData();
+      setStatus({ type: "success", message: "FEEDBACK PURGED SUCCESSFULLY" });
     } catch (err) {
-      setStatus({ type: "error", message: "Failed to delete testimonial." });
-    } finally { setSaving(false); }
+      console.error("[ADMIN_TESTIMONIAL_ERROR] Delete Protocol Failure:", err);
+      setStatus({ type: "error", message: "PURGE_FAILURE" });
+    } finally { 
+      setSaving(false); 
+      setTimeout(() => window.location.reload(), 1500);
+    }
   };
 
   const filteredItems = items.filter(item => 
@@ -220,7 +234,10 @@ export default function AdminTestimonials() {
                <textarea rows={5} value={form.text} onChange={e => setForm({...form, text: e.target.value})} className={`${inputClasses} resize-none leading-relaxed`} placeholder="Client feedback text..." />
             </div>
             <div className="space-y-2">
-               <label className={labelClasses}>Testimonial Content (BN)</label>
+               <div className="flex justify-between items-center px-4">
+                  <label className={labelClasses}>Testimonial Content (BN)</label>
+                  <AutoTranslate text={form.text} onTranslate={val => setForm({...form, textBn: val})} />
+               </div>
                <textarea rows={5} value={form.textBn} onChange={e => setForm({...form, textBn: e.target.value})} className={`${inputClasses} resize-none leading-relaxed`} placeholder="ক্লায়েন্ট ফিডব্যাক..." />
             </div>
           </div>
