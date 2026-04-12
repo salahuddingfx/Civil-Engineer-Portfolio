@@ -3,9 +3,17 @@ function notFound(req, res) {
 }
 
 function errorHandler(err, req, res, next) {
-  const statusCode = err.statusCode || 500;
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Internal server error";
+
+  // Handle Mongoose Duplicate Key Error
+  if (err.code === 11000) {
+    statusCode = 409;
+    message = "CONTRADICTION_ERROR: DATA_RECORD_EXISTS (Duplicate ID)";
+  }
+
   res.status(statusCode).json({
-    message: err.message || "Internal server error",
+    message,
     details: err.details || null,
   });
 }
