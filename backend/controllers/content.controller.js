@@ -1,4 +1,5 @@
 const registry = require("../models/modelRegistry");
+const { clearCache } = require("../middleware/cache.middleware");
 
 function getModel(type) {
   console.log(`[GET_MODEL] Requested: "${type}" | Available Keys: ${Object.keys(registry)}`);
@@ -80,6 +81,7 @@ async function create(req, res, next) {
   try {
     const model = getModel(req.params.type);
     const item = await model.create(req.body);
+    clearCache("/api/content"); // Invalidate cache on success
     return res.status(201).json(item);
   } catch (error) {
     return next(error);
@@ -98,6 +100,7 @@ async function update(req, res, next) {
       return res.status(404).json({ message: "Item not found" });
     }
 
+    clearCache("/api/content"); // Invalidate cache on success
     return res.json(item);
   } catch (error) {
     return next(error);
@@ -113,6 +116,7 @@ async function remove(req, res, next) {
       return res.status(404).json({ message: "Item not found" });
     }
 
+    clearCache("/api/content"); // Invalidate cache on success
     return res.json({ message: "Deleted" });
   } catch (error) {
     return next(error);
