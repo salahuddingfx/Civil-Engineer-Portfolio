@@ -9,8 +9,12 @@ export const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("adminAccessToken");
-  if (token && !config.headers.Authorization) {
-    config.headers.Authorization = `Bearer ${token}`;
+  if (token) {
+    // Ensuring the Authorization header is set correctly, ignoring case sensitivity of existing headers
+    const hasAuth = config.headers.Authorization || config.headers.authorization;
+    if (!hasAuth) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
   return config;
 });
@@ -24,9 +28,12 @@ api.interceptors.response.use(
     }
 
     const isAuthRoute = originalRequest.url?.includes("/auth/login") || originalRequest.url?.includes("/auth/refresh");
+    
+    // Auto-refresh logic for 401 errors
     if (error.response?.status === 401 && !originalRequest._retry && !isAuthRoute) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("adminRefreshToken");
+      
       if (!refreshToken) {
         return Promise.reject(error);
       }
@@ -35,11 +42,18 @@ api.interceptors.response.use(
         const { data } = await api.post("/auth/refresh", { refreshToken });
         localStorage.setItem("adminAccessToken", data.accessToken);
         localStorage.setItem("adminRefreshToken", data.refreshToken);
+        
+        // Update both common cases for the retry
         originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+        if (originalRequest.headers.authorization) {
+          originalRequest.headers.authorization = `Bearer ${data.accessToken}`;
+        }
+        
         return api(originalRequest);
       } catch (refreshError) {
         localStorage.removeItem("adminAccessToken");
         localStorage.removeItem("adminRefreshToken");
+        window.location.href = "/admin/login"; // Force re-login on refresh failure
         return Promise.reject(refreshError);
       }
     }
