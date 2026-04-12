@@ -64,7 +64,7 @@ export default function AdminServices() {
     setSaving(true);
     setStatus({ type: "", message: "" });
     const payload = {
-      slug: form.slug || form.titleEn.toLowerCase().replace(/\s+/g, '-'),
+      slug: selectedId ? form.slug : `${(form.slug || form.titleEn.toLowerCase().replace(/\s+/g, '-'))}-${Date.now()}`,
       title: { en: form.titleEn, bn: form.titleBn },
       summary: { en: form.summaryEn, bn: form.summaryBn },
       tags: [form.icon],
@@ -72,27 +72,40 @@ export default function AdminServices() {
     };
 
     try {
-      if (selectedId) await adminUpdate("services", selectedId, payload);
-      else await adminCreate("services", payload);
+      if (selectedId) {
+        console.log(`[ADMIN_SERVICES] Committing update to service node: ${selectedId}`);
+        await adminUpdate("services", selectedId, payload);
+      } else {
+        console.log("[ADMIN_SERVICES] Initializing new service record protocol...");
+        await adminCreate("services", payload);
+      }
+      
       setStatus({ type: "success", message: "SERVICE CATALOG SYNCHRONIZED SUCCESSFULLY" });
-      if (!selectedId) setSelectedId(null);
-      await loadData();
     } catch (err) {
+      console.error("[ADMIN_SERVICE_ERROR] Save Protocol Failure:", err);
       setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
-    } finally { setSaving(false); }
+    } finally { 
+      setSaving(false); 
+      // Force clean reload to bypass cache and state lag
+      setTimeout(() => window.location.reload(), 2000);
+    }
   };
 
   const handleDelete = async () => {
     if (!window.confirm("DESTROY_SERVICE_RECORD: CONFIRM_PERMANENT?")) return;
     setSaving(true);
+    setStatus({ type: "", message: "" });
     try {
+      console.log(`[ADMIN_SERVICES] Purging service from catalog: ${selectedId}`);
       await adminDelete("services", selectedId);
       setStatus({ type: "success", message: "SERVICE PURGED FROM CATALOG" });
-      setSelectedId(null);
-      await loadData();
     } catch (err) {
+      console.error("[ADMIN_SERVICE_ERROR] Delete Protocol Failure:", err);
       setStatus({ type: "error", message: "PURGE_FAILURE" });
-    } finally { setSaving(false); }
+    } finally { 
+      setSaving(false); 
+      setTimeout(() => window.location.reload(), 1500);
+    }
   };
 
   const filteredItems = items.filter(item => 
@@ -217,7 +230,7 @@ export default function AdminServices() {
 
             {/* Technical Node */}
             <div className="pt-10">
-               <div className="bg-[#0d0f1a]/40 border border-[color:var(--admin-border)] rounded-[48px] p-12 md:p-16 relative overflow-hidden group/tech shadow-2xl backdrop-blur-3xl">
+               <div className="bg-[var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[40px] p-10 md:p-12 relative overflow-hidden group/tech shadow-inner backdrop-blur-3xl">
                   <div className="absolute top-0 right-0 h-1.5 w-80 bg-gradient-to-l from-violet-500/30 to-transparent rounded-bl-full" />
                   <div className="flex items-center gap-6 mb-12">
                      <div className="p-4 rounded-2xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
