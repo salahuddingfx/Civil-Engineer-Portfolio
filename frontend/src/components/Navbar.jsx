@@ -83,7 +83,7 @@ export default function Navbar({ isIntroComplete }) {
           className="flex items-center gap-1.5 font-display text-[13px] sm:text-[14px] font-extrabold tracking-[0.12em] whitespace-nowrap"
           style={{ color: "var(--text)" }}
         >
-          Engr. Alam<span style={{ color: "var(--highlight)" }}> Ashik</span>
+          Engr Alam<span style={{ color: "var(--highlight)" }}> Ashik</span>
         </NavLink>
 
         {/* Desktop Nav */}
