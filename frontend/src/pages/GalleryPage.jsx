@@ -73,7 +73,7 @@ export default function GalleryPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead
-        title="Gallery | Engr. Alam Ashik | Civil Engineer in Cox's Bazar"
+        title="Gallery | Engr Alam Ashik | Civil Engineer in Cox's Bazar"
         description="A professional registry of structural achievements and architectural visual intelligence in Cox's Bazar."
         path="/gallery"
       />
@@ -86,10 +86,10 @@ export default function GalleryPage() {
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--highlight)" }} />
               {t("gallery_page.eyebrow", language)}
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-8 uppercase" style={{ color: "var(--text)" }}>
+            <h1 className="text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight mb-8 uppercase" style={{ color: "var(--text)" }}>
               {t("gallery_page.title", language).split(" ")[0]} <span className="text-glow">{t("gallery_page.title", language).split(" ").slice(1).join(" ")}</span>
             </h1>
-            <p className="text-lg max-w-2xl mx-auto leading-relaxed" style={{ color: "var(--text-muted)" }}>
+            <p className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed" style={{ color: "var(--text-muted)" }}>
               {t("gallery_page.subtitle", language)}
             </p>
          </div>
@@ -123,7 +123,7 @@ export default function GalleryPage() {
                         style={{ background: "var(--highlight-soft)", color: "var(--highlight)", border: "1px solid var(--highlight-border)" }}>
                         {img.iso}
                       </span>
-                      <h2 className={`text-xl md:text-2xl font-bold mb-2 leading-tight ${isDark ? "text-white" : "text-slate-900"}`}>{img.label}</h2>
+                      <h2 className={`text-lg md:text-xl font-bold mb-2 leading-tight ${isDark ? "text-white" : "text-slate-900"}`}>{img.label}</h2>
                       <div className={`flex items-center justify-between pt-3 md:pt-4 border-t ${isDark ? "border-white/10" : "border-slate-200"} opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity`}>
                          <span className={`text-[10px] ${isDark ? "text-slate-400" : "text-slate-600"} font-bold uppercase tracking-widest`}>{img.coord}</span>
                       </div>
@@ -165,7 +165,7 @@ export default function GalleryPage() {
                 <div className="absolute bottom-0 right-0 w-64 h-64 bg-[var(--highlight)] opacity-[0.03] rounded-tl-full blur-3xl pointer-events-none"></div>
 
                 <span className="text-[var(--highlight)] text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase mb-3">Intelligence Archive</span>
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 tracking-tight leading-tight" style={{ color: "var(--text)" }}>{activeImage.label}</h2>
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6 tracking-tight leading-tight" style={{ color: "var(--text)" }}>{activeImage.label}</h2>
                 
                 <p className="text-[13px] md:text-[15px] leading-relaxed mb-6 md:mb-10" style={{ color: "var(--text-muted)" }}>
                   Detailed analysis: {activeImage.meta}. Ensuring structural components meet premium architectural standards under rigorous stress conditions.
