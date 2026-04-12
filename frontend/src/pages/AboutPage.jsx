@@ -139,7 +139,7 @@ export default function AboutPage() {
   return (
     <div ref={containerRef} className="min-h-screen selection:bg-[var(--highlight)] selection:text-black font-body transition-colors duration-500" style={{ background: "var(--bg)", color: "var(--text)" }}>
       <SeoHead
-        title="About | Engr. Alam Ashik | Civil Engineer in Cox's Bazar"
+        title="About | Engr Alam Ashik | Civil Engineer in Cox's Bazar"
         description="Redefining technical consultancy by merging architectural beauty with structural integrity."
         path="/about"
       />
@@ -154,7 +154,7 @@ export default function AboutPage() {
              <div className="relative aspect-square rounded-[40px] overflow-hidden border border-white/5 shadow-2xl">
                 {/* FIXED IMAGE FROM PUBLIC FOLDER AS REQUESTED */}
                 <img 
-                  src={aboutMission?.image?.url ? `${aboutMission.image.url}&w=1000&q=80&auto=format` : "/images/architecture-fallback.png"} 
+                  src={aboutMission?.image?.url ? (aboutMission.image.url.includes('?') ? `${aboutMission.image.url}&w=1000&q=80&auto=format` : `${aboutMission.image.url}?w=1000&q=80&auto=format`) : "/images/architecture-fallback.png"} 
                   className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
                   alt="Mission Backbone"
                   decoding="async"
@@ -179,7 +179,7 @@ export default function AboutPage() {
           <div className="reveal-unit order-1 lg:order-2 space-y-10">
              <div>
                 <span className="stats-label mb-6 block font-display">Mission Statement</span>
-                <h1 className="text-5xl sm:text-7xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase mb-8 font-display">
+                <h1 className="text-4xl sm:text-6xl md:text-7xl font-black leading-[0.9] tracking-tighter uppercase mb-8 font-display">
                    {aboutMission?.title ? (
                       language === "bn" ? aboutMission.title.bn : aboutMission.title.en
                    ) : (
@@ -231,8 +231,8 @@ export default function AboutPage() {
             <div className="reveal-unit space-y-10 order-2 lg:order-1">
                <div className="space-y-4">
                   <span className="stats-label block">About Me</span>
-                  <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter font-display leading-[0.9]" style={{ color: "var(--text)" }}>
-                    {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : (bio?.title?.en || "Engr. Alam Ashik")}
+                  <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter font-display leading-[0.9]" style={{ color: "var(--text)" }}>
+                    {language === "bn" ? (bio?.title?.bn || bio?.title?.en) : (bio?.title?.en || "Engr Alam Ashik")}
                   </h2>
                   <p className="text-[12px] font-black text-[var(--highlight)] uppercase tracking-[0.4em] italic">
                     {language === "bn" ? (bio?.summary?.bn || bio?.summary?.en) : (bio?.summary?.en || "FOUNDER & LEAD CONSULTANT")}
@@ -244,7 +244,7 @@ export default function AboutPage() {
                      {language === "bn" ? (
                         <>হাই, আমি প্রকৌশলী আলম আশিক। {bio?.body?.bn || bio?.body?.en}</>
                      ) : (
-                        <>Hi, I'm Engr. Alam Ashik. {bio?.body?.en || "A passionate structural consultant dedicated to blending engineering precision with architectural beauty."}</>
+                        <>Hi, I'm Engr Alam Ashik. {bio?.body?.en || "A passionate structural consultant dedicated to blending engineering precision with architectural beauty."}</>
                      )}
                   </p>
 
@@ -273,8 +273,8 @@ export default function AboutPage() {
             <div className="reveal-unit relative order-1 lg:order-2">
                <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden border border-white/10 shadow-3xl bg-[var(--bg-card)] group">
                   <img 
-                    src={bio?.featuredImage?.url ? `${bio.featuredImage.url}&w=1000&q=80&auto=format` : "/images/hero-concept.png"} 
-                    alt="Engr. Alam Ashik"
+                    src={bio?.featuredImage?.url ? (bio.featuredImage.url.includes('?') ? `${bio.featuredImage.url}&w=1000&q=80&auto=format` : `${bio.featuredImage.url}?w=1000&q=80&auto=format`) : "/images/hero-concept.png"} 
+                    alt="Engr Alam Ashik"
                     className="w-full h-full object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-105"
                     decoding="async"
                   />
@@ -301,7 +301,7 @@ export default function AboutPage() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-10 reveal-unit">
             <div>
               <p className="stats-label mb-6">{language === "en" ? "CORE COMPETENCIES" : "প্রযুক্তিগত দক্ষতা"}</p>
-              <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter font-display" style={{ color: "var(--text)" }}>{language === "en" ? "SKILLS & EXPERTISE" : "দক্ষতা এবং অভিজ্ঞতা"}</h2>
+              <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter font-display" style={{ color: "var(--text)" }}>{language === "en" ? "SKILLS & EXPERTISE" : "দক্ষতা এবং অভিজ্ঞতা"}</h2>
             </div>
             <p className="text-base max-w-md md:text-right font-medium italic" style={{ color: "var(--text-muted)" }}>
               {language === "en" 
@@ -323,7 +323,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-20 reveal-unit">
              <p className="stats-label mb-6">{language === "en" ? "PROFESSIONAL JOURNEY" : "কার্যক্রমের ধারাবাহিকতা"}</p>
-             <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter font-display" style={{ color: "var(--text)" }}>{language === "en" ? "CAREER TIMELINE" : "ক্যারিয়ার টাইমলাইন"}</h2>
+             <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter font-display" style={{ color: "var(--text)" }}>{language === "en" ? "CAREER TIMELINE" : "ক্যারিয়ার টাইমলাইন"}</h2>
           </div>
 
           <div className="timeline-container relative max-w-5xl mx-auto pt-10">
@@ -363,7 +363,7 @@ export default function AboutPage() {
           <div className="flex justify-between items-end mb-20 reveal-unit">
              <div>
                 <p className="stats-label mb-6">{language === "en" ? "CONSULTANCY TEAM" : "কর্মী তালিকা"}</p>
-                <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter font-display" style={{ color: "var(--text)" }}>{language === "en" ? "CORE TEAM" : "কোর টিম"}</h2>
+                <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter font-display" style={{ color: "var(--text)" }}>{language === "en" ? "CORE TEAM" : "কোর টিম"}</h2>
              </div>
           </div>
 
@@ -420,7 +420,7 @@ export default function AboutPage() {
       {/* Footer Branding */}
       <div className="py-20 px-10 border-t border-[var(--highlight-border)] flex flex-col md:flex-row justify-between items-center gap-10 opacity-50 hover:opacity-100 transition-opacity">
          <div className="text-[10px] font-black uppercase tracking-[0.5em] font-display italic" style={{ color: "var(--text-faint)" }}>
-            ENGR. ALAM ASHIK · Professional Excellence
+            ENGR ALAM ASHIK · Professional Excellence
          </div>
          <div className="text-[8px] font-bold uppercase tracking-widest italic" style={{ color: "var(--text-faint)" }}>
             {new Date().getFullYear()} © ALL RIGHTS RESERVED
