@@ -47,7 +47,7 @@ const IntroLoader = ({ onComplete }) => {
       <div className="loader-content relative z-10 text-center px-6">
         <div className="mb-12">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tighter" style={{ color: "var(--text)" }}>
-            Engr. Alam <span className="text-[var(--highlight)] text-glow">Ashik</span>
+            Engr Alam <span className="text-[var(--highlight)] text-glow">Ashik</span>
           </h1>
           <div className="h-px w-24 bg-[var(--highlight)] mx-auto mt-4 opacity-50" />
         </div>
