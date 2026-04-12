@@ -132,7 +132,7 @@ export default function ProjectsPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead 
-                title="Projects | Engr. Alam Ashik | Civil Engineer in Cox's Bazar" 
+                title="Projects | Engr Alam Ashik | Civil Engineer in Cox's Bazar" 
         description="A curated portfolio of architectural design, structural engineering, and commercial developments across Cox's Bazar and Bangladesh." 
         path="/projects" 
       />
@@ -145,10 +145,10 @@ export default function ProjectsPage() {
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--highlight)" }} />
               {t("projects_page.eyebrow", language)}
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-6 uppercase" style={{ color: "var(--text)" }}>
+            <h1 className="text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight mb-6 uppercase" style={{ color: "var(--text)" }}>
               {t("projects_page.title", language).split(" ")[0]} <span className="text-glow">{t("projects_page.title", language).split(" ").slice(1).join(" ")}</span>
             </h1>
-            <p className="text-lg max-w-2xl leading-relaxed" style={{ color: "var(--text-muted)" }}>
+            <p className="text-base md:text-lg max-w-2xl leading-relaxed" style={{ color: "var(--text-muted)" }}>
               {t("projects_page.subtitle", language)}
             </p>
          </div>
@@ -210,7 +210,7 @@ export default function ProjectsPage() {
                       >
                         {project.category} / {project.year}
                       </span>
-                      <h3 className={`text-xl md:text-2xl font-bold leading-tight mb-2 ${isDark ? "text-white" : "text-slate-900"} group-hover:text-[var(--highlight)] transition-colors`}>{project.title}</h3>
+                      <h3 className={`text-lg md:text-xl font-bold leading-tight mb-2 ${isDark ? "text-white" : "text-slate-900"} group-hover:text-[var(--highlight)] transition-colors`}>{project.title}</h3>
                       <div
                         className="flex items-center justify-between mt-2 pt-3 md:pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
                         style={{ borderTop: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}` }}
