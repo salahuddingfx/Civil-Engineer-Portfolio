@@ -97,7 +97,7 @@ export default function ServicesPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead
-        title="Services | Engr. Alam Ashik | Civil Engineer in Cox's Bazar"
+        title="Services | Engr Alam Ashik | Civil Engineer in Cox's Bazar"
         description="Explore our range of premium structural engineering, architectural blueprinting, and CAD visualization services tailored for Cox's Bazar."
         path="/services"
       />
@@ -110,7 +110,7 @@ export default function ServicesPage() {
             <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--highlight)" }} />
             {t("services_page.eyebrow", language)}
           </span>
-          <h1 className="text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight mb-8">
+          <h1 className="text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight mb-8">
             {t("services_page.title", language).split(" ").slice(0, -1).join(" ")} <br />
             <span className="text-glow">{t("services_page.title", language).split(" ").slice(-1)}</span>
           </h1>
@@ -210,7 +210,7 @@ export default function ServicesPage() {
             </h2>
             <p className="max-w-lg mx-auto mb-10 text-lg" style={{ color: "var(--text-muted)" }}>
               {language === "en"
-                ? "Partner with Engr. Alam Ashik for innovative structural solutions that redefine the architectural landscape."
+                ? "Partner with Engr Alam Ashik for innovative structural solutions that redefine the architectural landscape."
                 : "উদ্ভাবনী কাঠামোগত সমাধানের জন্য ইঞ্জিনিয়ার আলম আশিকের সাথে অংশীদারিত্ব করুন।"}
             </p>
             <Link to="/contact"
