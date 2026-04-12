@@ -204,7 +204,7 @@ export default function AdminDashboardPage() {
               <div className="absolute -top-4 -right-4 p-2 opacity-[0.05]">
                  <ShieldCheck size={120} className="text-sky-600" />
               </div>
-              <p className="text-[9px] font-black text-sky-600 uppercase tracking-[0.5em] mb-2">Engr. Alam Ashik</p>
+              <p className="text-[9px] font-black text-sky-600 uppercase tracking-[0.5em] mb-2">Engr Alam Ashik</p>
               <h4 className="text-lg font-black text-[color:var(--admin-text-heading)] uppercase tracking-widest">Authorized Access</h4>
               <p className="text-[10px] text-[color:var(--admin-text-label)] font-medium mt-2 leading-relaxed">
                 Welcome to your management portal. All changes made here are reflected live on the public portfolio.
