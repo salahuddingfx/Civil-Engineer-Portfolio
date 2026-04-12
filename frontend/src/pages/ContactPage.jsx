@@ -36,27 +36,46 @@ export default function ContactPage() {
     twitter: "https://twitter.com/alamashik"
   });
 
+  const [contactInfo, setContactInfo] = useState({
+    phone: "+880 1234-567890",
+    email: "info@engralamashik.com",
+    address: { en: "Cox's Bazar, Bangladesh", bn: "কক্সবাজার, বাংলাদেশ" },
+    mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d118830.24285070288!2d91.90299534335938!3d21.43973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30adc92136603a11%3A0x6334af2a4d0f5e13!2sCox's%20Bazar!5e0!3m2!1sen!2sbd!4v1712215324538!5m2!1sen!2sbd"
+  });
+
   useEffect(() => {
-    async function loadSocials() {
+    async function loadResources() {
       try {
         const response = await fetchContent("contactDetails", { limit: 1 });
-        if (response.items?.[0]?.socialLinks) {
-          const links = response.items[0].socialLinks;
-          // Only update if the links are actually provided
-          setSocials(prev => ({
-            ...prev,
-            ...(links.facebook && { facebook: links.facebook }),
-            ...(links.linkedin && { linkedin: links.linkedin }),
-            ...(links.instagram && { instagram: links.instagram }),
-            ...(links.twitter && { twitter: links.twitter }),
-            ...(links.youtube && { youtube: links.youtube }),
-          }));
+        const item = response.items?.[0];
+        if (item) {
+          if (item.socialLinks) {
+             const links = item.socialLinks;
+             setSocials(prev => ({
+               ...prev,
+               ...(links.facebook && { facebook: links.facebook }),
+               ...(links.linkedin && { linkedin: links.linkedin }),
+               ...(links.instagram && { instagram: links.instagram }),
+               ...(links.twitter && { twitter: links.twitter }),
+               ...(links.youtube && { youtube: links.youtube }),
+             }));
+          }
+
+          setContactInfo({
+            phone: item.phone || "+880 1234-567890",
+            email: item.email || "info@engralamashik.com",
+            address: {
+               en: item.address?.en || "Cox's Bazar, Bangladesh",
+               bn: item.address?.bn || "কক্সবাজার, বাংলাদেশ"
+            },
+            mapUrl: item.googleMapEmbedUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d118830.24285070288!2d91.90299534335938!3d21.43973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30adc92136603a11%3A0x6334af2a4d0f5e13!2sCox's%20Bazar!5e0!3m2!1sen!2sbd!4v1712215324538!5m2!1sen!2sbd"
+          });
         }
       } catch (err) {
         console.warn("Server offline or API error. Using static identity fallback.");
       }
     }
-    loadSocials();
+    loadResources();
   }, []);
 
   useEffect(() => {
@@ -90,7 +109,7 @@ export default function ContactPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen relative overflow-hidden">
       <SeoHead
-        title="Contact | Engr. Alam Ashik | Civil Engineer in Cox's Bazar"
+        title="Contact | Engr Alam Ashik | Civil Engineer in Cox's Bazar"
         description="Connect with Cox's Bazar's premier civil engineering consultancy for high-end residential, commercial, and structural projects."
         path="/contact"
       />
@@ -130,7 +149,7 @@ export default function ContactPage() {
                         </div>
                         <div>
                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2" style={{ color: "var(--text-faint)" }}>PHONE</p>
-                           <p className="text-lg font-bold tracking-tight" style={{ color: "var(--text)" }}>+880 1234-567890</p>
+                           <p className="text-lg font-bold tracking-tight" style={{ color: "var(--text)" }}>{contactInfo.phone}</p>
                         </div>
                      </div>
 
@@ -142,7 +161,7 @@ export default function ContactPage() {
                         </div>
                         <div>
                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2" style={{ color: "var(--text-faint)" }}>EMAIL</p>
-                           <p className="text-lg font-bold tracking-tight break-all" style={{ color: "var(--text)" }}>info@engralamashik.com</p>
+                           <p className="text-lg font-bold tracking-tight break-all" style={{ color: "var(--text)" }}>{contactInfo.email}</p>
                         </div>
                      </div>
                   </div>
@@ -155,7 +174,7 @@ export default function ContactPage() {
                      </div>
                      <div>
                         <p className="text-[10px] font-bold uppercase tracking-[0.2em] mb-2" style={{ color: "var(--text-faint)" }}>COX'S BAZAR HQ</p>
-                        <p className="text-lg font-bold tracking-tight leading-snug" style={{ color: "var(--text)" }}>Cox's Bazar, Bangladesh</p>
+                        <p className="text-lg font-bold tracking-tight leading-snug" style={{ color: "var(--text)" }}>{language === "bn" ? contactInfo.address.bn : contactInfo.address.en}</p>
                      </div>
                   </div>
 
@@ -165,7 +184,7 @@ export default function ContactPage() {
                      <div className="absolute inset-0 bg-[#0A0F1C]/10 transition-all duration-1000 z-10 pointer-events-none group-hover:bg-transparent" />
                      <iframe
                         title="Cox's Bazar HQ"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d118830.24285070288!2d91.90299534335938!3d21.43973!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30adc92136603a11%3A0x6334af2a4d0f5e13!2sCox's%20Bazar!5e0!3m2!1sen!2sbd!4v1712215324538!5m2!1sen!2sbd"
+                        src={contactInfo.mapUrl}
                         className="w-full h-full grayscale opacity-80 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000 object-cover rounded-2xl"
                         loading="lazy"
                      />
