@@ -74,7 +74,7 @@ export default function AdminLayout({ children }) {
 
               <div className="flex items-center gap-3">
                 <div className="hidden lg:block text-right">
-                   <p className="text-[10px] font-black uppercase tracking-wider" style={{ color: "var(--admin-text-primary)" }}>ENGR. ALAM ASHIK</p>
+                   <p className="text-[10px] font-black uppercase tracking-wider" style={{ color: "var(--admin-text-primary)" }}>ENGR ALAM ASHIK</p>
                    <p className="text-[8px] font-bold text-sky-500 uppercase tracking-widest">Master Admin</p>
                 </div>
                 <div className="h-10 w-10 rounded-xl p-[1px] border border-[var(--admin-border)]" style={{ background: "var(--admin-bg)" }}>
@@ -94,7 +94,7 @@ export default function AdminLayout({ children }) {
 
         {/* Sticky Mobile Save Hint / Info (Optional) */}
         <footer className="mt-auto px-10 py-6 border-t" style={{ borderTopColor: "var(--admin-border)", opacity: 0.5 }}>
-           <p className="text-[9px] font-bold uppercase tracking-widest italic" style={{ color: "var(--admin-text-secondary)" }}>© {new Date().getFullYear()} ENGR. ALAM ASHIK · Professional Portfolio</p>
+           <p className="text-[9px] font-bold uppercase tracking-widest italic" style={{ color: "var(--admin-text-secondary)" }}>© {new Date().getFullYear()} ENGR ALAM ASHIK · Professional Portfolio</p>
         </footer>
       </main>
     </div>
