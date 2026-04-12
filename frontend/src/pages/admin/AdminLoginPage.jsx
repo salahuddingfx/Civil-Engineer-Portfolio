@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
 
   return (
     <div ref={containerRef} className="admin-layout min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-      <SeoHead title="System Access | Engr. Alam Ashik" description="Secure entry for authorized personnel." path="/admin" />
+      <SeoHead title="System Access | Engr Alam Ashik" description="Secure entry for authorized personnel." path="/admin" />
       
       {/* 1. Backdrop Grid */}
       <div className="admin-blueprint-grid" />
@@ -75,7 +75,7 @@ export default function AdminLoginPage() {
                 <h1 className="text-2xl font-black text-[color:var(--admin-text-heading)] tracking-tight uppercase">
                    Admin Access
                 </h1>
-                <p className="mt-2 text-[10px] font-bold text-[color:var(--admin-text-muted)] opacity-80 uppercase tracking-widest">Engr. Alam Ashik</p>
+                <p className="mt-2 text-[10px] font-bold text-[color:var(--admin-text-muted)] opacity-80 uppercase tracking-widest">Engr Alam Ashik</p>
             </div>
 
             <form onSubmit={onSubmit} className="space-y-6">
