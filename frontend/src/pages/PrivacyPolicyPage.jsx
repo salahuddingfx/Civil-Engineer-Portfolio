@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="selection:bg-[#19D2FF]/30 min-h-screen pb-40">
       <SeoHead 
-        title="Privacy Policy | Engr. Alam Ashik | Civil Engineer in Cox's Bazar" 
+        title="Privacy Policy | Engr Alam Ashik | Civil Engineer in Cox's Bazar" 
         description="Standardizing data protection and privacy protocols for professional engineering consultancy in Cox's Bazar." 
         path="/privacy-policy" 
       />
