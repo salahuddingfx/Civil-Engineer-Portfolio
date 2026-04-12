@@ -81,10 +81,32 @@ export default function AdminAbout() {
         const res = await adminCreate("about", payload);
         setRecordId(res._id);
       }
-      setStatus({ type: "success", message: "Biography updated successfully." });
+
+      console.log("[ADMIN_ABOUT] Synchronization successful. Initiating verification pulse...");
+      const verifyRes = await adminList("about", { limit: 1 });
+      const verifyItem = verifyRes.items?.[0];
+      if (verifyItem) {
+        setBioForm({
+          titleEn: verifyItem.title?.en || "",
+          titleBn: verifyItem.title?.bn || "",
+          summaryEn: verifyItem.summary?.en || "",
+          summaryBn: verifyItem.summary?.bn || "",
+          quoteEn: verifyItem.quote?.en || "",
+          quoteBn: verifyItem.quote?.bn || "",
+          bodyEn: verifyItem.body?.en || "",
+          bodyBn: verifyItem.body?.bn || "",
+          featuredImageUrl: verifyItem.featuredImage?.url || "",
+        });
+      }
+
+      setStatus({ type: "success", message: "Biography synchronized successfully." });
     } catch (err) {
-      setStatus({ type: "error", message: "Failed to update biography." });
-    } finally { setSaving(false); }
+      console.error("[ADMIN_ABOUT_ERROR] Save Protocol Failure:", err);
+      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+    } finally { 
+      setSaving(false); 
+      setTimeout(() => window.location.reload(), 2000); // Reliable cache bust
+    }
   };
 
   const handleItemAction = async (type, collection, data) => {
@@ -98,29 +120,28 @@ export default function AdminAbout() {
            setStatus({ type: "success", message: `NEW ${type.toUpperCase()} ADDED` });
         }
         // Refresh local state
-        const refresh = await adminList(collection, { sort: "order" });
-        if (type === 'skill') setSkills(refresh.items);
-        if (type === 'timeline') setTimeline(refresh.items);
-        if (type === 'team') setTeam(refresh.items);
-        setEditingItem(null);
-     } catch (err) {
-        setStatus({ type: "error", message: "OPERATION_FAILED" });
-     } finally { setSaving(false); }
+         setStatus({ type: "success", message: `${type.toUpperCase()} SYNCHRONIZED` });
+      } catch (err) {
+         console.error(`[ADMIN_ABOUT_ERROR] ${type.toUpperCase()} Action Failure:`, err);
+         setStatus({ type: "error", message: "OPERATION_FAILED" });
+      } finally { 
+         setSaving(false); 
+         setTimeout(() => window.location.reload(), 2000); 
+      }
   };
 
   const handleItemDelete = async (type, collection, id) => {
      if (!window.confirm("CONFIRM_PERMANENT_DELETION?")) return;
      setSaving(true);
      try {
-        await adminDelete(collection, id);
-        const refresh = await adminList(collection, { sort: "order" });
-        if (type === 'skill') setSkills(refresh.items);
-        if (type === 'timeline') setTimeline(refresh.items);
-        if (type === 'team') setTeam(refresh.items);
-        setStatus({ type: "success", message: "Deleted successfully." });
-     } catch (err) {
-        setStatus({ type: "error", message: "PURGE_FAILURE" });
-     } finally { setSaving(false); }
+         setStatus({ type: "success", message: "PURGE_COMPLETE" });
+      } catch (err) {
+         console.error("[ADMIN_ABOUT_ERROR] Delete Protocol Failure:", err);
+         setStatus({ type: "error", message: "PURGE_FAILURE" });
+      } finally { 
+         setSaving(false); 
+         setTimeout(() => window.location.reload(), 1500);
+      }
   };
 
   const tabs = [
@@ -169,7 +190,7 @@ export default function AdminAbout() {
                   <label className={labelClasses}>Full Title (EN)</label>
                   <AutoTranslate text={bioForm.titleEn} onTranslate={val => setBioForm({...bioForm, titleBn: val})} />
                 </div>
-                <input value={bioForm.titleEn} onChange={e => setBioForm({...bioForm, titleEn: e.target.value})} className={inputClasses} placeholder="Engr. Alam Ashik" />
+                <input value={bioForm.titleEn} onChange={e => setBioForm({...bioForm, titleEn: e.target.value})} className={inputClasses} placeholder="Engr Alam Ashik" />
               </div>
               <div className="space-y-2">
                 <label className={labelClasses}>Full Title (BN)</label>
