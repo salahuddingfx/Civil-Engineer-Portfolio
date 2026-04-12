@@ -2,9 +2,9 @@
 
 ![Architectural Banner](readme-banner.png)
 
-# 🏗️ Engr. Alam Ashik Portfolio
+# 🏗️ Engr Alam Ashik Portfolio
 ### Premium Civil Engineering & Architectural Showcase
-**Developed by [Salah Uddin Kader](https://salahuddin.codes) for Engr. Alam Ashik**
+**Developed by [Salah Uddin Kader](https://salahuddin.codes) for Engr Alam Ashik**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-Contributor%20Covenant-ff69b4.svg)](CODE_OF_CONDUCT.md)
@@ -19,7 +19,7 @@
 
 ## 🌟 Overview
 
-A state-of-the-art, localized (EN/BN), MERN-stack portfolio platform designed for **Engr. Alam Ashik**. This project integrates modern web technologies with core civil engineering principles, featuring interactive 3D structural models and a production-ready CMS.
+A state-of-the-art, localized (EN/BN), MERN-stack portfolio platform designed for **Engr Alam Ashik**. This project integrates modern web technologies with core civil engineering principles, featuring interactive 3D structural models and a production-ready CMS.
 
 ---
 
