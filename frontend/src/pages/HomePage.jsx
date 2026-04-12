@@ -99,6 +99,7 @@ export default function HomePage({ isIntroComplete }) {
   const [homeStats, setHomeStats] = useState([]);
   const [homePartners, setHomePartners] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [contactData, setContactData] = useState(null);
 
   // Mock fetching / Real fetching attempt
   useEffect(() => {
@@ -106,12 +107,13 @@ export default function HomePage({ isIntroComplete }) {
       setLoadingData(true);
       try {
         // Try real API calls parallelly
-        const [projectsRes, servicesRes, testimonialsRes, homeRes, blocksRes] = await Promise.allSettled([
+        const [projectsRes, servicesRes, testimonialsRes, homeRes, blocksRes, contactRes] = await Promise.allSettled([
           fetchContent("projects", { limit: 6 }),
           fetchContent("services", { limit: 8 }),
           fetchContent("testimonials", { limit: 5 }),
           fetchContent("home", { limit: 1 }),
-          fetchContent("sectionBlocks", { pageFilter: "home", limit: 50 })
+          fetchContent("sectionBlocks", { pageFilter: "home", limit: 50 }),
+          fetchContent("contactDetails", { limit: 1 })
         ]);
 
         if (homeRes.status === "fulfilled" && homeRes.value.items?.length > 0) {
@@ -122,6 +124,10 @@ export default function HomePage({ isIntroComplete }) {
            const blocks = blocksRes.value.items.sort((a,b) => a.order - b.order);
             setHomeStats(blocks.filter(b => b.section === 'stats'));
             setHomePartners(blocks.filter(b => b.section === 'partners'));
+        }
+
+        if (contactRes.status === "fulfilled" && contactRes.value.items?.length > 0) {
+           setContactData(contactRes.value.items[0]);
         }
 
         const mappedProjects = projectsRes.status === "fulfilled" && projectsRes.value.items?.length > 0
@@ -282,7 +288,7 @@ export default function HomePage({ isIntroComplete }) {
   return (
     <div ref={homeRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="selection:bg-[var(--highlight-soft)] selection:text-[var(--text)]">
       <SeoHead
-        title="Engr. Alam Ashik | Professional Civil Engineer in Cox's Bazar"
+        title="Engr Alam Ashik | Professional Civil Engineer in Cox's Bazar"
         description="Premium civil engineering, structural design, and architectural consultancy services in Cox's Bazar, Bangladesh."
         path="/"
       />
@@ -304,7 +310,7 @@ export default function HomePage({ isIntroComplete }) {
               {t("hero.available", language)}
             </div>
 
-            <h1 className="hero-content-reveal text-5xl md:text-[80px] font-bold leading-[1.05] tracking-tight mb-8" style={{ color: "var(--text)" }}>
+            <h1 className="hero-content-reveal text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight mb-8" style={{ color: "var(--text)" }}>
                 {(() => {
                    const val = homeData?.title ? (language === "bn" ? homeData.title.bn : homeData.title.en) : "";
                    if (val) {
@@ -439,7 +445,7 @@ export default function HomePage({ isIntroComplete }) {
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="reveal-unit">
               <p className="text-[12px] tracking-[0.2em] font-bold uppercase mb-4" style={{ color: "var(--highlight)" }}>{t("services_section.eyebrow", language)}</p>
-              <h2 className="text-4xl md:text-5xl font-bold" style={{ color: "var(--text)" }}>{t("services_section.title", language)}</h2>
+              <h2 className="text-3xl md:text-5xl font-bold" style={{ color: "var(--text)" }}>{t("services_section.title", language)}</h2>
             </div>
             <p className="text-[15px] max-w-lg md:text-right reveal-unit" style={{ color: "var(--text-muted)" }}>
               {t("services_section.subtitle", language)}
@@ -495,7 +501,7 @@ export default function HomePage({ isIntroComplete }) {
       <section className="py-24 px-6 lg:px-10" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)", borderBottom: "1px solid var(--highlight-border)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
-            <h2 className="text-4xl md:text-5xl font-bold" style={{ color: "var(--text)" }}>{t("featured.title", language)}</h2>
+            <h2 className="text-3xl md:text-5xl font-bold" style={{ color: "var(--text)" }}>{t("featured.title", language)}</h2>
             <Link to="/projects"
               className="px-8 py-3 rounded text-[12px] font-bold uppercase tracking-widest transition-all"
               style={{ border: "1px solid var(--highlight-border)", color: "var(--text-muted)" }}
@@ -523,7 +529,7 @@ export default function HomePage({ isIntroComplete }) {
                         style={{ background: "var(--highlight-soft)", color: "var(--highlight)", border: "1px solid var(--highlight-border)" }}>
                         {project.type}
                       </span>
-                      <h3 className={`text-2xl md:text-3xl font-bold ${isDark ? "text-white" : "text-slate-900"} mb-2 transition-colors group-hover:text-[var(--highlight)]`}>{project.title}</h3>
+                      <h3 className={`text-xl md:text-2xl font-bold ${isDark ? "text-white" : "text-slate-900"} mb-2 transition-colors group-hover:text-[var(--highlight)]`}>{project.title}</h3>
                       <div className={`flex items-center gap-2 text-[13px] ${isDark ? "text-white/80" : "text-slate-600"} font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100`}>
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                         {project.location} • {project.year}
@@ -626,7 +632,7 @@ export default function HomePage({ isIntroComplete }) {
             <p className="text-[12px] tracking-[0.2em] font-bold uppercase mb-4" style={{ color: "var(--highlight)" }}>
               {t("process.eyebrow", language)}
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold" style={{ color: "var(--text)" }}>
+            <h2 className="text-3xl md:text-5xl font-bold" style={{ color: "var(--text)" }}>
               {t("process.title", language)}
             </h2>
           </div>
@@ -703,9 +709,11 @@ export default function HomePage({ isIntroComplete }) {
                 <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={{ color: "var(--highlight)" }}>
                   {t("location_strip.location_title", language)}
                 </p>
-                <p className="font-bold text-[16px]" style={{ color: "var(--text)" }}>{t("location_strip.location_value", language)}</p>
+                <p className="font-bold text-[16px]" style={{ color: "var(--text)" }}>
+                    {contactData?.address?.[language] || t("location_strip.location_value", language)}
+                </p>
                 <p className="text-[13px] mt-1" style={{ color: "var(--text-muted)" }}>
-                  {t("location_strip.location_desc", language)}
+                  {contactData?.address ? (language === "en" ? "Official HQ" : "প্রধান কার্যালয়") : t("location_strip.location_desc", language)}
                 </p>
               </div>
             </div>
@@ -723,10 +731,10 @@ export default function HomePage({ isIntroComplete }) {
                   {t("location_strip.hours_title", language)}
                 </p>
                 <p className="font-bold text-[16px]" style={{ color: "var(--text)" }}>
-                  {t("location_strip.hours_value", language)}
+                   {contactData?.phone || t("location_strip.hours_value", language)}
                 </p>
                 <p className="text-[13px] mt-1" style={{ color: "var(--text-muted)" }}>
-                  {t("location_strip.hours_desc", language)}
+                  {contactData?.phone ? (language === "en" ? "Available 24/7" : "২৪/৭ খোলা") : t("location_strip.hours_desc", language)}
                 </p>
               </div>
             </div>
@@ -746,10 +754,10 @@ export default function HomePage({ isIntroComplete }) {
                   {t("location_strip.cta_title", language)}
                 </p>
                 <p className="font-bold text-[16px] group-hover:underline transition-all" style={{ color: "var(--text)" }}>
-                  {t("location_strip.cta_value", language)}
+                   {contactData?.email || t("location_strip.cta_value", language)}
                 </p>
                 <p className="text-[13px] mt-1" style={{ color: "var(--text-muted)" }}>
-                  {t("location_strip.cta_desc", language)}
+                  {contactData?.email ? (language === "en" ? "Official Channel" : "অফিসিয়াল চ্যানেল") : t("location_strip.cta_desc", language)}
                 </p>
               </div>
             </div>
