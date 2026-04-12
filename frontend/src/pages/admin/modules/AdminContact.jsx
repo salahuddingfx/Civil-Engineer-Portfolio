@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, Globe, MessageCircle, Share2, Users, Sparkles, Map
 import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "../../../components/BrandIcons";
 import { adminList, adminUpdate, adminCreate } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
+import AutoTranslate from "../../../components/admin/AutoTranslate";
 
 export default function AdminContact() {
   const [form, setForm] = useState({
@@ -60,35 +61,73 @@ export default function AdminContact() {
   const handleSave = async () => {
     setSaving(true);
     setStatus({ type: "", message: "" });
+    console.log("[ADMIN_CONTACT] Initiating synchronization protocol with payload bundle...");
+
     const payload = {
-      slug: "primary",
-      phone: form.phone,
-      email: form.email,
-      whatsapp: form.whatsapp,
+      slug: "primary", // Explicitly enforce primary identity
+      phone: form.phone.trim(),
+      email: form.email.trim(),
+      whatsapp: form.whatsapp.trim(),
       whatsappEnabled: form.whatsappEnabled,
       whatsappLabel: form.whatsappLabel,
-      address: { en: form.addressEn, bn: form.addressBn },
-      googleMapEmbedUrl: form.googleMapEmbedUrl,
+      address: { 
+        en: form.addressEn.trim(), 
+        bn: form.addressBn.trim() 
+      },
+      googleMapEmbedUrl: form.googleMapEmbedUrl.trim(),
       socialLinks: {
-        facebook: form.facebook,
-        linkedin: form.linkedin,
-        youtube: form.youtube,
-        instagram: form.instagram,
-        twitter: form.twitter,
+        facebook: form.facebook.trim(),
+        linkedin: form.linkedin.trim(),
+        youtube: form.youtube.trim(),
+        instagram: form.instagram.trim(),
+        twitter: form.twitter.trim(),
       },
       isPublished: true,
     };
 
     try {
-      if (recordId) await adminUpdate("contactDetails", recordId, payload);
-      else {
-        const res = await adminCreate("contactDetails", payload);
-        setRecordId(res._id);
+      let result;
+      if (recordId) {
+        console.log(`[ADMIN_CONTACT] Committing update to legacy record node: ${recordId}`);
+        result = await adminUpdate("contactDetails", recordId, payload);
+      } else {
+        console.log("[ADMIN_CONTACT] Initializing new contact infrastructure node...");
+        result = await adminCreate("contactDetails", payload);
+        setRecordId(result._id);
       }
+
+      // DATA INTEGRITY CHECK: Re-fetch to confirm persistence and bypass caches
+      console.log("[ADMIN_CONTACT] Verification sequence initiated. Re-fetching synchronized state...");
+      const verifyRes = await adminList("contactDetails", { limit: 1 });
+      const verifiedItem = verifyRes.items?.[0];
+      
+      if (verifiedItem) {
+        setForm({
+          phone: verifiedItem.phone || "",
+          email: verifiedItem.email || "",
+          whatsapp: verifiedItem.whatsapp || "",
+          whatsappEnabled: verifiedItem.whatsappEnabled ?? true,
+          whatsappLabel: verifiedItem.whatsappLabel || "WhatsApp Chat",
+          addressEn: verifiedItem.address?.en || "",
+          addressBn: verifiedItem.address?.bn || "",
+          googleMapEmbedUrl: verifiedItem.googleMapEmbedUrl || "",
+          facebook: verifiedItem.socialLinks?.facebook || "",
+          linkedin: verifiedItem.socialLinks?.linkedin || "",
+          youtube: verifiedItem.socialLinks?.youtube || "",
+          instagram: verifiedItem.socialLinks?.instagram || "",
+          twitter: verifiedItem.socialLinks?.twitter || "",
+        });
+      }
+
       setStatus({ type: "success", message: "CONTACT INFRASTRUCTURE SYNCHRONIZED SUCCESSFULLY" });
     } catch (err) {
-      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
-    } finally { setSaving(false); }
+      console.error("[ADMIN_CONTACT_ERROR] Protocol Failure:", err);
+      setStatus({ type: "error", message: `COMMIT_FAILED: ${err.response?.data?.message || "Protocol Error"}` });
+    } finally { 
+      setSaving(false); 
+      // Force clean reload of the dashboard state if globally cached
+      setTimeout(() => window.location.reload(), 2000);
+    }
   };
 
   const inputClasses = "w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl px-7 py-5 text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/50 focus:bg-[var(--admin-card)] opacity-90 transition-all font-medium italic placeholder:text-[color:var(--admin-text-secondary)] shadow-inner text-sm";
@@ -118,7 +157,7 @@ export default function AdminContact() {
         </div>
 
         {/* Messaging Interface */}
-        <div className="bg-[#0d0f1a]/40 border border-[color:var(--admin-border)] rounded-[48px] p-12 relative overflow-hidden group/whatsapp">
+        <div className="bg-[var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[40px] p-10 relative overflow-hidden group/whatsapp">
            <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-emerald-400/20 to-transparent rounded-bl-full" />
            <div className="flex items-center justify-between mb-10">
               <div className="flex items-center gap-4">
@@ -152,7 +191,10 @@ export default function AdminContact() {
             <textarea rows={4} value={form.addressEn} onChange={e => setForm({...form, addressEn: e.target.value})} className={`${inputClasses} resize-none leading-relaxed`} placeholder="Architectural Floor, Tech Center, Dhaka" />
           </div>
           <div className="space-y-2">
-            <label className={labelClasses}>Studio Headquarters (BN)</label>
+            <div className="flex justify-between items-center px-4">
+              <label className={labelClasses}>Studio Headquarters (BN)</label>
+              <AutoTranslate text={form.addressEn} onTranslate={val => setForm({...form, addressBn: val})} />
+            </div>
             <textarea rows={4} value={form.addressBn} onChange={e => setForm({...form, addressBn: e.target.value})} className={`${inputClasses} resize-none leading-relaxed`} placeholder="আর্কিটেকচারাল ফ্লোর, টেক সেন্টার, ঢাকা" />
           </div>
         </div>
@@ -165,7 +207,7 @@ export default function AdminContact() {
 
         {/* Social Architecture Hub */}
         <div className="pt-8">
-           <div className="bg-[#090b14]/60 border border-[color:var(--admin-border)] rounded-[56px] p-16 relative overflow-hidden group/social">
+           <div className="bg-[var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[40px] p-12 relative overflow-hidden group/social shadow-inner">
               <div className="absolute top-0 left-0 h-1.5 w-80 bg-gradient-to-r from-blue-400/20 to-transparent rounded-br-full" />
               <div className="flex items-center gap-4 mb-14">
                  <Share2 size={24} className="text-blue-400" />
