@@ -3,6 +3,7 @@ import { Image as ImageIcon, Camera, Tag, Trash2, Plus, Type, Sparkles, Layers, 
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
 import ImageUpload from "../../../components/admin/ImageUpload";
+import AutoTranslate from "../../../components/admin/AutoTranslate";
 
 export default function AdminGallery() {
   const [items, setItems] = useState([]);
@@ -67,27 +68,40 @@ export default function AdminGallery() {
     };
 
     try {
-      if (selectedId) await adminUpdate("gallery", selectedId, payload);
-      else await adminCreate("gallery", payload);
+      if (selectedId) {
+        console.log(`[ADMIN_GALLERY] Committing update to visual node: ${selectedId}`);
+        await adminUpdate("gallery", selectedId, payload);
+      } else {
+        console.log("[ADMIN_GALLERY] Initializing new visual asset record...");
+        await adminCreate("gallery", payload);
+      }
+      
       setStatus({ type: "success", message: "VISUAL ASSET SYNCHRONIZED SUCCESSFULLY" });
-      if (!selectedId) setSelectedId(null);
-      await loadData();
     } catch (err) {
+      console.error("[ADMIN_GALLERY_ERROR] Save Protocol Failure:", err);
       setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
-    } finally { setSaving(false); }
+    } finally { 
+      setSaving(false); 
+      // Force clean reload to bypass cache and state lag
+      setTimeout(() => window.location.reload(), 2000);
+    }
   };
 
   const handleDelete = async () => {
     if (!window.confirm("DESTROY_VISUAL_ASSET: CONFIRM_PERMANENT?")) return;
     setSaving(true);
+    setStatus({ type: "", message: "" });
     try {
+      console.log(`[ADMIN_GALLERY] Purging asset from archive: ${selectedId}`);
       await adminDelete("gallery", selectedId);
       setStatus({ type: "success", message: "ASSET PURGED FROM ARCHIVE" });
-      setSelectedId(null);
-      await loadData();
     } catch (err) {
+      console.error("[ADMIN_GALLERY_ERROR] Delete Protocol Failure:", err);
       setStatus({ type: "error", message: "PURGE_FAILURE" });
-    } finally { setSaving(false); }
+    } finally { 
+      setSaving(false); 
+      setTimeout(() => window.location.reload(), 1500);
+    }
   };
 
   const filteredItems = items.filter(item => 
@@ -162,8 +176,11 @@ export default function AdminGallery() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-10">
-            <div className="space-y-2">
-              <label className={labelClasses}><Type size={12} className="text-blue-400" /> Meta Identity Header</label>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center px-4">
+                <label className={labelClasses}><Type size={12} className="text-blue-400" /> Meta Identity Header (EN)</label>
+                <AutoTranslate text={form.titleEn} onTranslate={val => {/* Gallery schema uses EN as base, but we can store BN if needed */}} />
+              </div>
               <input value={form.titleEn} onChange={e => setForm({...form, titleEn: e.target.value})} className={inputClasses} placeholder="Structural Foundation Detail" />
             </div>
             <div className="space-y-2">
@@ -179,7 +196,7 @@ export default function AdminGallery() {
 
           {/* Media Module */}
           <div className="pt-8">
-             <div className="bg-[#0d0f1a]/40 border border-[color:var(--admin-border)] rounded-[48px] p-12 relative overflow-hidden group/media">
+             <div className="bg-[var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[40px] p-10 relative overflow-hidden group/media shadow-inner">
                 <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-cyan-400/20 to-transparent rounded-bl-full" />
                 <div className="flex items-center gap-4 mb-10">
                    <Camera size={18} className="text-sky-600" />
