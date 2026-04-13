@@ -74,7 +74,7 @@ export default function PreviewModal({ data, isOpen, onClose, type = "project", 
             {/* Project/Member Badge */}
             <div className="absolute bottom-8 left-8">
                <span className="px-5 py-2 rounded-full bg-[var(--highlight-soft)] border border-[var(--highlight-border)] text-[10px] font-black uppercase tracking-[0.2em] text-[var(--highlight)] shadow-[0_0_20px_var(--highlight-glow)]">
-                 {isProject ? (data.category || "Project Preview") : (data.designation?.en || "Core Staff")}
+                 {isProject ? (language === "bn" ? (data.category_bn || data.category) : data.category || "Project Preview") : (language === "bn" ? (data.designation?.bn || data.designation?.en) : data.designation?.en || "Core Staff")}
                </span>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function PreviewModal({ data, isOpen, onClose, type = "project", 
                 </h2>
                 {!isProject && (
                   <p className="text-sm font-bold uppercase italic opacity-60 text-[var(--highlight)] italic">
-                    {data.designation?.en || "Specialist"}
+                    {language === "bn" ? (data.designation?.bn || data.designation?.en) : (data.designation?.en || "Specialist")}
                   </p>
                 )}
               </div>
