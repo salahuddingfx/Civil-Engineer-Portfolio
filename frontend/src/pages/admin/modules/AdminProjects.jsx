@@ -105,8 +105,7 @@ export default function AdminProjects() {
       setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
     } finally { 
       setSaving(false); 
-      // Force clean reload to bypass any complex React state lag or caching
-      setTimeout(() => window.location.reload(), 2000);
+      await loadData();
     }
   };
 
@@ -123,7 +122,8 @@ export default function AdminProjects() {
       setStatus({ type: "error", message: "PURGE_FAILURE" });
     } finally { 
       setSaving(false); 
-      setTimeout(() => window.location.reload(), 1500);
+      setSelectedId(null);
+      await loadData();
     }
   };
 
