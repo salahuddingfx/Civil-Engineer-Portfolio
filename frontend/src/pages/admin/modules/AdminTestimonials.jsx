@@ -10,8 +10,10 @@ export default function AdminTestimonials() {
   const [selectedId, setSelectedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [form, setForm] = useState({
-    name: "",
-    role: "",
+    nameEn: "",
+    nameBn: "",
+    roleEn: "",
+    roleBn: "",
     company: "",
     text: "",
     textBn: "",
@@ -46,8 +48,10 @@ export default function AdminTestimonials() {
       const item = items.find(i => i._id === selectedId);
       if (item) {
         setForm({
-          name: item.title?.en || "",
-          role: item.summary?.en || "",
+          nameEn: item.title?.en || "",
+          nameBn: item.title?.bn || "",
+          roleEn: item.summary?.en || "",
+          roleBn: item.summary?.bn || "",
           company: item.category || "",
           text: item.body?.en || "",
           textBn: item.body?.bn || "",
@@ -57,7 +61,7 @@ export default function AdminTestimonials() {
         });
       }
     } else {
-      setForm({ name: "", role: "", company: "", text: "", textBn: "", rating: 5, featuredImageUrl: "", isFeatured: false });
+      setForm({ nameEn: "", nameBn: "", roleEn: "", roleBn: "", company: "", text: "", textBn: "", rating: 5, featuredImageUrl: "", isFeatured: false });
     }
   }, [selectedId, items]);
 
@@ -65,9 +69,9 @@ export default function AdminTestimonials() {
     setSaving(true);
     setStatus({ type: "", message: "" });
     const payload = {
-      slug: selectedId ? form.slug : `${(form.name || "client").toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
-      title: { en: form.name, bn: form.name },
-      summary: { en: form.role, bn: form.role },
+      slug: selectedId ? items.find(i => i._id === selectedId)?.slug : `${(form.nameEn || "client").toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+      title: { en: form.nameEn, bn: form.nameBn },
+      summary: { en: form.roleEn, bn: form.roleBn },
       category: form.company,
       body: { en: form.text, bn: form.textBn },
       rating: Number(form.rating),
@@ -91,8 +95,7 @@ export default function AdminTestimonials() {
       setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
     } finally { 
       setSaving(false); 
-      // Force clean reload to bypass cache and state lag
-      setTimeout(() => window.location.reload(), 2000);
+      await loadData();
     }
   };
 
@@ -109,7 +112,8 @@ export default function AdminTestimonials() {
       setStatus({ type: "error", message: "PURGE_FAILURE" });
     } finally { 
       setSaving(false); 
-      setTimeout(() => window.location.reload(), 1500);
+      setSelectedId(null);
+      await loadData();
     }
   };
 
@@ -206,20 +210,37 @@ export default function AdminTestimonials() {
 
           {/* Client Identity */}
           <div className="grid md:grid-cols-2 gap-10">
-            <div className="space-y-2">
-              <label className={labelClasses}><User size={12} className="text-sky-600" /> Client Name (EN)</label>
-              <input value={form.name} onChange={e => setForm({...form, name: e.target.value})} className={inputClasses} placeholder="John Doe" />
+            <div className="space-y-4">
+              <div className="flex items-center justify-between px-2">
+                 <label className={labelClasses}><User size={12} className="text-sky-600" /> Client Name (EN)</label>
+                 <AutoTranslate text={form.nameEn} onTranslate={val => setForm({...form, nameBn: val})} />
+              </div>
+              <input value={form.nameEn} onChange={e => setForm({...form, nameEn: e.target.value})} className={inputClasses} placeholder="John Doe" />
             </div>
             <div className="space-y-2">
-               <label className={labelClasses}>Company / Organization</label>
-               <input value={form.company} onChange={e => setForm({...form, company: e.target.value})} className={inputClasses} placeholder="Engineering Firm" />
+               <label className={labelClasses}>Client Name (BN)</label>
+               <input value={form.nameBn} onChange={e => setForm({...form, nameBn: e.target.value})} className={inputClasses} placeholder="জন ডো" />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-10">
+            <div className="space-y-4">
+               <div className="flex items-center justify-between px-2">
+                  <label className={labelClasses}>Professional Role (EN)</label>
+                  <AutoTranslate text={form.roleEn} onTranslate={val => setForm({...form, roleBn: val})} />
+               </div>
+               <input value={form.roleEn} onChange={e => setForm({...form, roleEn: e.target.value})} className={inputClasses} placeholder="Project Manager" />
+            </div>
+            <div className="space-y-2">
+               <label className={labelClasses}>Professional Role (BN)</label>
+               <input value={form.roleBn} onChange={e => setForm({...form, roleBn: e.target.value})} className={inputClasses} placeholder="প্রজেক্ট ম্যানেজার" />
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-10">
             <div className="space-y-2">
-              <label className={labelClasses}>Professional Role / Designation</label>
-              <input value={form.role} onChange={e => setForm({...form, role: e.target.value})} className={inputClasses} placeholder="Project Manager" />
+               <label className={labelClasses}>Company / Organization</label>
+               <input value={form.company} onChange={e => setForm({...form, company: e.target.value})} className={inputClasses} placeholder="Engineering Firm" />
             </div>
             <div className="space-y-2 text-left">
               <label className={labelClasses}><Star size={12} className="text-yellow-500" /> Rating (1-5)</label>
