@@ -321,16 +321,20 @@ export default function HomePage({ isIntroComplete }) {
                           <div className="flex flex-col gap-4">
                             <span>{name.trim()}</span>
                             <div className="hero-designation-row border-none mt-4 pt-0">
-                              {designations.map((d, i) => (
-                                <span key={i} className="flex items-center">
-                                  <span className={`designation-item ${i === designations.length - 1 ? "active" : ""}`}>
-                                    {d.trim()}
+                              {designations.map((d, i) => {
+                                const isEngineer = d.toLowerCase().includes("engineer");
+                                const isLast = i === designations.length - 1;
+                                return (
+                                  <span key={i} className="flex items-center">
+                                    <span className={`designation-item ${isEngineer || isLast ? "active" : ""}`}>
+                                      {d.trim()}
+                                    </span>
+                                    {i < designations.length - 1 && (
+                                      <div className="designation-separator mx-3 md:mx-4" />
+                                    )}
                                   </span>
-                                  {i < designations.length - 1 && (
-                                    <div className="designation-separator mx-3 md:mx-4" />
-                                  )}
-                                </span>
-                              ))}
+                                );
+                              })}
                             </div>
                           </div>
                         );
