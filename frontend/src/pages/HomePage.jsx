@@ -310,24 +310,38 @@ export default function HomePage({ isIntroComplete }) {
               {t("hero.available", language)}
             </div>
 
-            <h1 className="hero-content-reveal text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight mb-8" style={{ color: "var(--text)" }}>
+            <h1 className="hero-content-reveal text-4xl md:text-6xl font-black leading-[1.05] tracking-tighter mb-8" style={{ color: "var(--text)" }}>
                 {(() => {
                    const val = homeData?.title ? (language === "bn" ? homeData.title.bn : homeData.title.en) : "";
                    if (val) {
-                      // Support for '|' separator to define the "Glow" section
+                      // Support for '|' separator to define Name vs Designations
                       if (val.includes("|")) {
-                        const parts = val.split("|");
-                        return <>{parts[0].trim()} <br /><span className="text-glow">{parts[1].trim()}</span></>;
+                        const [name, ...designations] = val.split("|");
+                        return (
+                          <div className="flex flex-col gap-4">
+                            <span>{name.trim()}</span>
+                            <div className="hero-designation-row border-none mt-4 pt-0">
+                              {designations.map((d, i) => (
+                                <span key={i} className="flex items-center">
+                                  <span className="designation-item">{d.trim()}</span>
+                                  {i < designations.length - 1 && (
+                                    <div className="designation-separator mx-4" />
+                                  )}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        );
                       }
                       
                       const words = val.trim().split(" ");
                       if (words.length > 1) {
                          const last = words.pop();
-                         return <>{words.join(" ")} <br /><span className="text-glow">{last}</span></>;
+                         return <>{words.join(" ")} <br /><span className="text-glow-cyan">{last}</span></>;
                       }
                       return val;
                    }
-                   return <>{t("hero.title_part1", language)} <br /> <span className="text-glow">{t("hero.title_highlight", language)}</span></>;
+                   return <>{t("hero.title_part1", language)} <br /> <span className="text-glow-cyan">{t("hero.title_highlight", language)}</span></>;
                 })()}
             </h1>
 
