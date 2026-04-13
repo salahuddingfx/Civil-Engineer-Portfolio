@@ -18,6 +18,7 @@ export default function AdminAbout() {
     summaryEn: "", summaryBn: "",
     quoteEn: "", quoteBn: "",
     bodyEn: "", bodyBn: "",
+    experience: "11",
     featuredImageUrl: "",
   });
   const [skills, setSkills] = useState([]);
@@ -49,6 +50,7 @@ export default function AdminAbout() {
             quoteBn: bioItem.quote?.bn || "",
             bodyEn: bioItem.body?.en || "",
             bodyBn: bioItem.body?.bn || "",
+            experience: bioItem.experience || "11",
             featuredImageUrl: bioItem.featuredImage?.url || "",
           });
         }
@@ -72,6 +74,7 @@ export default function AdminAbout() {
       summary: { en: bioForm.summaryEn, bn: bioForm.summaryBn },
       quote: { en: bioForm.quoteEn, bn: bioForm.quoteBn },
       body: { en: bioForm.bodyEn, bn: bioForm.bodyBn },
+      experience: bioForm.experience,
       featuredImage: bioForm.featuredImageUrl ? { url: bioForm.featuredImageUrl } : null,
       isPublished: true,
     };
@@ -95,6 +98,7 @@ export default function AdminAbout() {
           quoteBn: verifyItem.quote?.bn || "",
           bodyEn: verifyItem.body?.en || "",
           bodyBn: verifyItem.body?.bn || "",
+          experience: verifyItem.experience || "11",
           featuredImageUrl: verifyItem.featuredImage?.url || "",
         });
       }
@@ -105,7 +109,38 @@ export default function AdminAbout() {
       setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
     } finally { 
       setSaving(false); 
-      setTimeout(() => window.location.reload(), 2000); // Reliable cache bust
+      // Synchronize data instead of reloading
+      const response = await adminList("about", { limit: 1 });
+      if (response.items?.[0]) {
+        const bioItem = response.items[0];
+        setBioForm({
+          titleEn: bioItem.title?.en || "",
+          titleBn: bioItem.title?.bn || "",
+          summaryEn: bioItem.summary?.en || "",
+          summaryBn: bioItem.summary?.bn || "",
+          quoteEn: bioItem.quote?.en || "",
+          quoteBn: bioItem.quote?.bn || "",
+          bodyEn: bioItem.body?.en || "",
+          bodyBn: bioItem.body?.bn || "",
+          experience: bioItem.experience || "11",
+          featuredImageUrl: bioItem.featuredImage?.url || "",
+        });
+      }
+    }
+  };
+
+  const loadCollections = async () => {
+    try {
+      const [skillsRes, timelineRes, teamRes] = await Promise.all([
+        adminList("skills", { sort: "order" }),
+        adminList("timelineEntries", { sort: "order" }),
+        adminList("teamMembers", { sort: "order" })
+      ]);
+      setSkills(skillsRes.items || []);
+      setTimeline(timelineRes.items || []);
+      setTeam(teamRes.items || []);
+    } catch (err) {
+      console.warn("Refetch failed");
     }
   };
 
@@ -125,9 +160,10 @@ export default function AdminAbout() {
          console.error(`[ADMIN_ABOUT_ERROR] ${type.toUpperCase()} Action Failure:`, err);
          setStatus({ type: "error", message: "OPERATION_FAILED" });
       } finally { 
-         setSaving(false); 
-         setTimeout(() => window.location.reload(), 2000); 
-      }
+        setSaving(false); 
+        setEditingItem(null);
+        await loadCollections();
+     }
   };
 
   const handleItemDelete = async (type, collection, id) => {
@@ -140,7 +176,7 @@ export default function AdminAbout() {
          setStatus({ type: "error", message: "PURGE_FAILURE" });
       } finally { 
          setSaving(false); 
-         setTimeout(() => window.location.reload(), 1500);
+         await loadCollections();
       }
   };
 
@@ -227,16 +263,9 @@ export default function AdminAbout() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-8 border-t border-[color:var(--admin-border)] pt-8">
-              <div className="space-y-4">
-                <div className="flex justify-between items-center px-2">
-                  <label className={labelClasses}>Biography (EN)</label>
-                  <AutoTranslate text={bioForm.bodyEn} onTranslate={val => setBioForm({...bioForm, bodyBn: val})} />
-                </div>
-                <textarea rows={6} value={bioForm.bodyEn} onChange={e => setBioForm({...bioForm, bodyEn: e.target.value})} className={`${inputClasses} resize-none`} />
-              </div>
               <div className="space-y-2">
-                <label className={labelClasses}>Biography (BN)</label>
-                <textarea rows={6} value={bioForm.bodyBn} onChange={e => setBioForm({...bioForm, bodyBn: e.target.value})} className={`${inputClasses} resize-none`} />
+                <label className={labelClasses}>Years of Experience</label>
+                <input value={bioForm.experience} onChange={e => setBioForm({...bioForm, experience: e.target.value})} className={inputClasses} placeholder="11" />
               </div>
             </div>
             
@@ -408,32 +437,58 @@ export default function AdminAbout() {
                       <h3 className="text-xl font-black text-[color:var(--admin-text-heading)] tracking-tighter uppercase font-display">Team Management</h3>
                       <button onClick={() => setEditingItem(null)} className="text-[10px] font-bold text-[color:var(--admin-text-secondary)] hover:text-[color:var(--admin-text-heading)] uppercase transition-colors">Discard</button>
                    </div>
-                   <div className="grid md:grid-cols-2 gap-8">
+                   <div className="grid md:grid-cols-2 gap-8 text-left">
                       <div className="space-y-2">
                          <label className={labelClasses}>Full Name</label>
                          <input value={editingItem.data.name} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, name: e.target.value}})} className={inputClasses} />
                       </div>
-                      <div className="space-y-2">
-                         <label className={labelClasses}>Designation (EN)</label>
+                      <div className="space-y-4">
+                         <div className="flex justify-between items-center px-2">
+                            <label className={labelClasses}>Designation (EN)</label>
+                            <AutoTranslate text={editingItem.data.descEn} onTranslate={val => setEditingItem({...editingItem, data: {...editingItem.data, descBn: val}})} />
+                         </div>
                          <input value={editingItem.data.descEn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, descEn: e.target.value}})} className={inputClasses} />
                       </div>
                    </div>
                    <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-2">
-                         <label className={labelClasses}>Bio (EN)</label>
-                         <textarea rows={3} value={editingItem.data.bioEn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, bioEn: e.target.value}})} className={`${inputClasses} resize-none`} />
+                         <label className={labelClasses}>Designation (BN)</label>
+                         <input value={editingItem.data.descBn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, descBn: e.target.value}})} className={inputClasses} />
                       </div>
                       <div className="space-y-2">
                          <label className={labelClasses}>LinkedIn Profile URL</label>
                          <input value={editingItem.data.linkedin} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, linkedin: e.target.value}})} className={inputClasses} />
                       </div>
                    </div>
+                   <div className="grid md:grid-cols-2 gap-8">
+                      <div className="space-y-4">
+                         <div className="flex justify-between items-center px-2">
+                            <label className={labelClasses}>Bio (EN)</label>
+                            <AutoTranslate text={editingItem.data.bioEn} onTranslate={val => setEditingItem({...editingItem, data: {...editingItem.data, bioBn: val}})} />
+                         </div>
+                         <textarea rows={3} value={editingItem.data.bioEn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, bioEn: e.target.value}})} className={`${inputClasses} resize-none`} />
+                      </div>
+                      <div className="space-y-2">
+                         <label className={labelClasses}>Bio (BN)</label>
+                         <textarea rows={3} value={editingItem.data.bioBn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, bioBn: e.target.value}})} className={`${inputClasses} resize-none`} />
+                      </div>
+                   </div>
+                   <div className="grid md:grid-cols-2 gap-8">
+                      <div className="space-y-2">
+                         <label className={labelClasses}>LinkedIn Profile URL</label>
+                         <input value={editingItem.data.linkedin} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, linkedin: e.target.value}})} className={inputClasses} />
+                      </div>
+                      <div className="space-y-2">
+                         <label className={labelClasses}>Sort Order</label>
+                         <input type="number" value={editingItem.data.order} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, order: e.target.value}})} className={inputClasses} />
+                      </div>
+                   </div>
                    <ImageUpload value={editingItem.data.imageUrl} onChange={val => setEditingItem({...editingItem, data: {...editingItem.data, imageUrl: val}})} label="Profile Image" />
                    
                    <button onClick={() => handleItemAction('team', 'teamMembers', { 
                      ...editingItem.data, 
-                     designation: { en: editingItem.data.descEn },
-                     bio: { en: editingItem.data.bioEn },
+                     designation: { en: editingItem.data.descEn, bn: editingItem.data.descBn },
+                     bio: { en: editingItem.data.bioEn, bn: editingItem.data.bioBn },
                      image: editingItem.data.imageUrl ? { url: editingItem.data.imageUrl } : null,
                      socialLinks: { linkedin: editingItem.data.linkedin }
                    })} className="w-full py-5 rounded-2xl bg-sky-500 text-black font-black uppercase text-[11px] tracking-widest hover:bg-cyan-300 transition-all flex items-center justify-center gap-3">
@@ -452,13 +507,13 @@ export default function AdminAbout() {
                            <p className="text-[10px] font-bold text-sky-600 uppercase tracking-widest">{member.designation?.en}</p>
                            
                            <div className="mt-8 flex gap-4">
-                              <button onClick={() => setEditingItem({ type: 'team', data: { ...member, descEn: member.designation?.en, bioEn: member.bio?.en, imageUrl: member.image?.url, linkedin: member.socialLinks?.linkedin } })} className="p-3 bg-[color:var(--admin-bg)] hover:bg-cyan-400 hover:text-black rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Edit3 size={16} /></button>
+                              <button onClick={() => setEditingItem({ type: 'team', data: { ...member, descEn: member.designation?.en, descBn: member.designation?.bn, bioEn: member.bio?.en, bioBn: member.bio?.bn, imageUrl: member.image?.url, linkedin: member.socialLinks?.linkedin } })} className="p-3 bg-[color:var(--admin-bg)] hover:bg-cyan-400 hover:text-black rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Edit3 size={16} /></button>
                               <button onClick={() => handleItemDelete('team', 'teamMembers', member._id)} className="p-3 bg-[color:var(--admin-bg)] hover:bg-rose-500 rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Trash2 size={16} /></button>
                            </div>
                         </div>
                      </div>
                    ))}
-                   <button onClick={() => setEditingItem({ type: 'team', data: { name: '', descEn: '', bioEn: '', imageUrl: '', linkedin: '', order: team.length + 1 } })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-[color:var(--admin-border)] flex flex-col items-center justify-center gap-6 text-[color:var(--admin-text-primary)] hover:text-sky-600 transition-all group">
+                   <button onClick={() => setEditingItem({ type: 'team', data: { name: '', descEn: '', descBn: '', bioEn: '', bioBn: '', imageUrl: '', linkedin: '', order: team.length + 1 } })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-[color:var(--admin-border)] flex flex-col items-center justify-center gap-6 text-[color:var(--admin-text-primary)] hover:text-sky-600 transition-all group">
                       <Plus size={32} className="group-hover:rotate-180 transition-transform duration-1000" />
                       <span className="text-[10px] font-black uppercase tracking-[0.4em]">Add Team Member</span>
                    </button>
