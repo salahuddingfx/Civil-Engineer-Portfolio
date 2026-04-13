@@ -11,7 +11,8 @@ import {
   Stars,
   Instances,
   Instance,
-  Text
+  Text,
+  Html
 } from "@react-three/drei";
 import * as THREE from "three";
 import { useTheme } from "../context/ThemeContext";
@@ -40,9 +41,9 @@ const usePremiumMaterials = (isDark, isMobile) => {
       internalGlow: new THREE.MeshStandardMaterial({
         color: "#19D2FF",
         emissive: "#19D2FF",
-        emissiveIntensity: isDark ? 4 : 2,
+        emissiveIntensity: isDark ? 4 : 1.5,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.6
       }),
       floorPlate: new THREE.MeshStandardMaterial({
         color: isDark ? "#0f172a" : "#f1f5f9",
@@ -52,27 +53,107 @@ const usePremiumMaterials = (isDark, isMobile) => {
       accentLine: new THREE.MeshStandardMaterial({
         color: "#19D2FF",
         emissive: "#19D2FF",
-        emissiveIntensity: 12,
+        emissiveIntensity: 10,
+      }),
+      latticeMaterial: new THREE.MeshStandardMaterial({
+        color: isDark ? "#19D2FF" : "#0ea5e9",
+        emissive: "#19D2FF",
+        emissiveIntensity: isDark ? 1.5 : 0.5,
+        transparent: true,
+        opacity: 0.8,
+        wireframe: true
       })
     };
   }, [isDark, isMobile]);
 };
 
-// ── Component: ArchMasterpiece (The New Hero Model) ───────────────────────────
-function ArchMasterpiece({ floors = 14, scale = 1, materials, isMobile }) {
-  const groupRef = useRef();
-  const floorHeight = 0.8;
-  const radius = 2.5;
+// ── Sub-Component: StructuralLattice (X-Bracing) ─────────────────────────────
+function StructuralLattice({ radius, floors, floorHeight, material }) {
+  const latticeGeo = useMemo(() => new THREE.CylinderGeometry(radius + 0.12, radius + 0.12, floors * floorHeight, 6, 1, true), [radius, floors, floorHeight]);
+  
+  return (
+    <mesh position={[0, (floors * floorHeight) / 2, 0]} rotation={[0, Math.PI / 6, 0]}>
+      <primitive object={latticeGeo} attach="geometry" />
+      <primitive object={material} attach="material" />
+    </mesh>
+  );
+}
 
-  // Geometry definitions for instancing
-  const sliceGeometry = useMemo(() => new THREE.CylinderGeometry(radius, radius, 0.05, 24, 1, false, 0, Math.PI * 1.5), [radius]);
-  const coreGeometry = useMemo(() => new THREE.BoxGeometry(1.5, floors * floorHeight, 1.5), [floors, floorHeight]);
-  const windowGeometry = useMemo(() => new THREE.BoxGeometry(0.1, 0.1, 0.1), []);
+// ── Sub-Component: FloorSystem (Optimized Instances) ───────────────────────────
+function FloorSystem({ floors, floorHeight, radius, material }) {
+  const sliceGeometry = useMemo(() => new THREE.CylinderGeometry(radius, radius, 0.04, 24, 1, false, 0, Math.PI * 1.5), [radius]);
+  
+  return (
+    <Instances range={floors} geometry={sliceGeometry} material={material}>
+      {Array.from({ length: floors }).map((_, i) => (
+        <Instance 
+          key={`floor-${i}`} 
+          position={[0, i * floorHeight, 0]} 
+          rotation={[0, i * 0.08, 0]} 
+        />
+      ))}
+    </Instances>
+  );
+}
+
+// ── Sub-Component: BlueprintScanner (Animated Effect) ─────────────────────────
+function BlueprintScanner({ floors, floorHeight, radius }) {
+  const scanRef = useRef();
+  
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    if (scanRef.current) {
+      scanRef.current.position.y = (Math.sin(t * 0.8) * 0.5 + 0.5) * (floors * floorHeight);
+    }
+  });
+
+  return (
+    <group ref={scanRef}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[radius - 0.2, radius + 0.4, 32]} />
+        <meshStandardMaterial 
+          color="#19D2FF" 
+          emissive="#19D2FF" 
+          emissiveIntensity={15} 
+          transparent 
+          opacity={0.4} 
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+      <pointLight color="#19D2FF" intensity={4} distance={6} />
+    </group>
+  );
+}
+
+// ── Sub-Component: TechnicalCallouts ──────────────────────────────────────────
+function TechnicalCallout({ position, label, isDark }) {
+  return (
+    <Html position={position} center distanceFactor={12}>
+      <div className={`px-3 py-1 border whitespace-nowrap pointer-events-none select-none backdrop-blur-md transition-all duration-500 flex items-center gap-2 ${
+        isDark ? 'bg-black/40 border-cyan-500/30 text-cyan-400' : 'bg-white/40 border-sky-600/30 text-sky-700'
+      }`}>
+        <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+        <span className="text-[8px] font-black uppercase tracking-[0.2em]">{label}</span>
+      </div>
+    </Html>
+  );
+}
+
+// ── Component: ArchMasterpiece (The Refined Hero Model) ────────────────────────
+function ArchMasterpiece({ floors = 16, scale = 1, materials, isMobile, isDark }) {
+  const groupRef = useRef();
+  const floorHeight = 0.75;
+  const radius = 2.4;
+
+  const coreGeometry = useMemo(() => new THREE.BoxGeometry(1.6, floors * floorHeight, 1.6), [floors, floorHeight]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(t * 0.05) * 0.1;
+      // Smooth continuous base rotation
+      groupRef.current.rotation.y = t * 0.08;
+      // Gentle floating oscillation
+      groupRef.current.position.y = Math.sin(t * 0.5) * 0.1;
     }
   });
 
@@ -83,65 +164,38 @@ function ArchMasterpiece({ floors = 14, scale = 1, materials, isMobile }) {
         <primitive object={coreGeometry} attach="geometry" />
         <meshStandardMaterial 
           color={materials.brushedMetal.color} 
-          roughness={0.4} 
-          metalness={0.8} 
+          roughness={0.3} 
+          metalness={0.9} 
+          envMapIntensity={2}
         />
       </mesh>
 
-      {/* Internal Floor Plates (Stacked) */}
-      <Instances range={floors} geometry={sliceGeometry} material={materials.floorPlate}>
-        {Array.from({ length: floors }).map((_, i) => (
-          <Instance 
-            key={`floor-${i}`} 
-            position={[0, i * floorHeight, 0]} 
-            rotation={[0, i * 0.1, 0]} // Subtle spiral effect
-          />
-        ))}
-      </Instances>
+      {/* Structural Systems */}
+      <FloorSystem floors={floors} floorHeight={floorHeight} radius={radius} material={materials.floorPlate} />
+      {!isMobile && (
+        <>
+          <StructuralLattice radius={radius} floors={floors} floorHeight={floorHeight} material={materials.latticeMaterial} />
+          <BlueprintScanner floors={floors} floorHeight={floorHeight} radius={radius} />
+        </>
+      )}
 
-      {/* Main Glass Facade (Curved Envelope) */}
+      {/* Main Glass Facade */}
       <mesh position={[0, (floors * floorHeight) / 2, 0]} rotation={[0, -Math.PI / 4, 0]}>
         <cylinderGeometry args={[radius + 0.1, radius + 0.1, floors * floorHeight, 24, 1, true, 0, Math.PI * 1.5]} />
         <primitive object={materials.glassFacade} attach="material" />
       </mesh>
 
-      {/* Structural Mullions (Vertical Lines) */}
-      {!isMobile && Array.from({ length: 4 }).map((_, i) => {
-        const angle = (i / 3) * (Math.PI * 1.5);
-        const x = Math.cos(angle) * (radius + 0.15);
-        const z = Math.sin(angle) * (radius + 0.15);
-        return (
-          <mesh key={`mullion-${i}`} position={[x, (floors * floorHeight) / 2, z]}>
-            <boxGeometry args={[0.08, floors * floorHeight, 0.08]} />
-            <meshStandardMaterial color={materials.brushedMetal.color} />
-          </mesh>
-        );
-      })}
+      {/* Technical Labels */}
+      {!isMobile && (
+        <>
+          <TechnicalCallout position={[radius + 1, floors * floorHeight * 0.8, 0]} label="Structural Core V4" isDark={isDark} />
+          <TechnicalCallout position={[-radius - 1, floors * floorHeight * 0.3, radius]} label="Dynamic Load Analysis" isDark={isDark} />
+        </>
+      )}
 
-      {/* Internal Glow Lights (Simulated Occupancy) - Reduced for Performance */}
-      <Instances range={floors * 4} geometry={windowGeometry} material={materials.internalGlow}>
-        {Array.from({ length: floors }).map((_, fIdx) => (
-          Array.from({ length: 4 }).map((_, wIdx) => {
-            const angle = (wIdx / 4) * Math.PI * 2;
-            const r = radius * (0.4 + Math.random() * 0.4);
-            const x = Math.cos(angle) * r;
-            const z = Math.sin(angle) * r;
-            const visible = Math.random() > 0.5; 
-            
-            return visible ? (
-              <Instance 
-                key={`glow-${fIdx}-${wIdx}`} 
-                position={[x, fIdx * floorHeight + 0.4, z]} 
-                scale={Math.random() * 2}
-              />
-            ) : null;
-          })
-        ))}
-      </Instances>
-
-      {/* Signature Top Accent */}
-      <mesh position={[0, floors * floorHeight + 0.1, 0]}>
-        <torusGeometry args={[radius * 0.8, 0.02, 16, 100]} rotation={[Math.PI / 2, 0, 0]} />
+      {/* Signature Top Ring */}
+      <mesh position={[0, floors * floorHeight + 0.05, 0]}>
+        <torusGeometry args={[radius * 0.8, 0.02, 16, 100]} />
         <primitive object={materials.accentLine} attach="material" />
       </mesh>
     </group>
@@ -155,7 +209,6 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
   const containerRef = useRef();
 
   useEffect(() => {
-    // Silence library-level deprecation warnings that clutter the console
     const originalWarn = console.warn;
     console.warn = (...args) => {
       if (typeof args[0] === 'string' && (args[0].includes('THREE.Clock') || args[0].includes('PCFSoftShadowMap'))) return;
@@ -167,7 +220,7 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
-      console.warn = originalWarn; // Restore on unmount
+      console.warn = originalWarn;
     };
   }, []);
 
@@ -177,11 +230,10 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
     <div ref={containerRef} className="w-full h-full relative cursor-grab active:cursor-grabbing overflow-hidden">
       <Canvas
         shadows={{ type: THREE.VSMShadowMap }}
-        dpr={isMobile ? [1, 1.2] : [1, 1.25]} // Optimized DPR for performance
+        dpr={isMobile ? [1, 1.2] : [1, 1.5]}
         gl={{ 
            antialias: true, 
            alpha: false, 
-           stencil: false, 
            depth: true,
            powerPreference: "high-performance",
            toneMapping: THREE.ACESFilmicToneMapping,
@@ -189,66 +241,55 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
       >
         <PerspectiveCamera 
           makeDefault 
-          position={isMobile ? [15, 12, 18] : [12, 10, 14]} 
-          fov={isMobile ? 35 : 28} 
+          position={isMobile ? [18, 14, 22] : [14, 12, 16]} 
+          fov={isMobile ? 32 : 24} 
         />
         <color attach="background" args={[isDark ? "#020617" : "#f8fafc"]} />
         
-        {!isMobile && isDark && <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={0.5} />}
+        {!isMobile && isDark && <Stars radius={100} depth={50} count={3000} factor={6} saturation={0} fade speed={1} />}
 
-        {/* Cinematic Global Illumination */}
-        <ambientLight intensity={isDark ? 0.5 : 0.8} />
-        
-        {/* Main Key Light (Sunset/Golden Hour Feel) */}
+        <ambientLight intensity={isDark ? 0.4 : 0.7} />
         <spotLight 
-          position={[20, 30, 20]} 
-          angle={0.25} 
+          position={[25, 40, 25]} 
+          angle={0.2} 
           penumbra={1} 
-          intensity={isDark ? 4 : 2} 
+          intensity={isDark ? 5 : 2.5} 
           castShadow 
           shadow-bias={-0.0001} 
-          color={isDark ? "#bae6fd" : "#fff"}
         />
         
-        {/* Back Rim Light */}
-        <pointLight position={[-15, 10, -15]} intensity={isDark ? 2 : 1} color={isDark ? "#38bdf8" : "#94a3b8"} />
-        
-        {/* Core Blueprint Glow */}
-        <pointLight position={[0, -2, 0]} intensity={isDark ? 5 : 0} color="#19D2FF" distance={30} />
+        <pointLight position={[-20, 15, -20]} intensity={isDark ? 3 : 1.5} color="#38bdf8" />
+        <pointLight position={[0, -4, 0]} intensity={isDark ? 8 : 0} color="#19D2FF" distance={40} />
 
         <Suspense fallback={null}>
-          <Float speed={1.2} rotationIntensity={0.05} floatIntensity={0.1}>
-            <group position={[0, -5, 0]} rotation={[0, scrollProgress * Math.PI * 0.8, 0]}>
-              <ArchMasterpiece floors={isMobile ? 10 : 16} materials={materials} isMobile={isMobile} />
+          <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.2}>
+            <group position={[0, -5, 0]} rotation={[0, scrollProgress * Math.PI * 1.2, 0]}>
+              <ArchMasterpiece floors={isMobile ? 12 : 20} materials={materials} isMobile={isMobile} isDark={isDark} />
             </group>
           </Float>
 
-          {/* Premium Ground System */}
+          {/* Premium Environment */}
           <group position={[0, -5, 0]}>
             <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
               <planeGeometry args={[100, 100]} />
               {!isMobile && isDark ? (
                 <MeshReflectorMaterial
                   blur={[400, 100]}
-                  resolution={512} // Reduced from 1024 for significant performance boost
+                  resolution={1024}
                   mixBlur={1}
-                  mixStrength={4}
+                  mixStrength={6}
                   roughness={1}
                   depthScale={1.2}
                   minDepthThreshold={0.4}
                   maxDepthThreshold={1.4}
                   color="#020617"
-                  metalness={0.8}
+                  metalness={0.9}
                 />
               ) : (
-                <meshStandardMaterial 
-                  color={isDark ? "#020617" : "#f1f5f9"} 
-                  roughness={0.8}
-                />
+                <meshStandardMaterial color={isDark ? "#020617" : "#f1f5f9"} roughness={0.9} />
               )}
             </mesh>
             
-            {/* Engineering Coordinate Grid */}
             <Grid 
               infiniteGrid 
               cellSize={1.2} 
@@ -257,23 +298,22 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
               sectionColor={isDark ? "#19D2FF" : "#0ea5e9"} 
               fadeDistance={50} 
               position={[0, 0.05, 0]}
-              fadeStrength={1}
             />
           </group>
 
-          <Environment preset={isDark ? "night" : "city"} />
-          {!isMobile && <ContactShadows position={[0, -4.9, 0]} opacity={0.4} scale={30} blur={2.5} far={6} />}
+          <Environment preset={isDark ? "night" : "warehouse"} />
+          {!isMobile && <ContactShadows position={[0, -4.95, 0]} opacity={0.5} scale={40} blur={2} far={10} />}
         </Suspense>
 
         <OrbitControls 
           enableZoom={false} 
           enablePan={false} 
           autoRotate 
-          autoRotateSpeed={0.15} 
+          autoRotateSpeed={0.4} 
           enableDamping
-          dampingFactor={0.06}
+          dampingFactor={0.05}
           minPolarAngle={Math.PI / 4} 
-          maxPolarAngle={Math.PI / 2.15} 
+          maxPolarAngle={Math.PI / 2.1} 
         />
       </Canvas>
     </div>
