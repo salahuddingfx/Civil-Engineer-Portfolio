@@ -99,7 +99,7 @@ export default function AdminHome() {
       setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
     } finally {
       setSaving(false);
-      setTimeout(() => window.location.reload(), 2000); // Reliable reload
+      // Data is already verified in lines 82-94, no reload needed
     }
   };
 
@@ -134,7 +134,6 @@ export default function AdminHome() {
       setStatus({ type: "error", message: "BLOCK_SAVE_FAILED" });
     } finally { 
       setSaving(false); 
-      setTimeout(() => window.location.reload(), 2000);
     }
   };
 
@@ -148,7 +147,6 @@ export default function AdminHome() {
       setStatus({ type: "error", message: "DELETE_FAILED" });
     } finally { 
       setSaving(false); 
-      setTimeout(() => window.location.reload(), 1500);
     }
   };
 
@@ -197,8 +195,11 @@ export default function AdminHome() {
             </div>
             <div className="grid md:grid-cols-2 gap-10">
               <div className="space-y-2">
-                <label className={labelClasses}><Type size={12} className="text-blue-400" /> Identity Header (EN)</label>
-                <input value={form.titleEn} onChange={e => setForm({ ...form, titleEn: e.target.value })} className={inputClasses} placeholder="I Build Structural Foundations" />
+                <div className="flex items-center justify-between">
+                  <label className={labelClasses}><Type size={12} className="text-blue-400" /> Identity Header (EN)</label>
+                  <span className="text-[9px] font-bold text-cyan-400/60 uppercase tracking-widest mr-4 mb-4">Use | to separate name & designations</span>
+                </div>
+                <input value={form.titleEn} onChange={e => setForm({ ...form, titleEn: e.target.value })} className={inputClasses} placeholder="Alam Uddin Ashik | Engineer | Architect" />
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
