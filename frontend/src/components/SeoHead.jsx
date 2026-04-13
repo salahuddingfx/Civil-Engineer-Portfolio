@@ -8,6 +8,10 @@ export default function SeoHead({
 }) {
   const siteUrl = "https://engralamashik.com";
   const absoluteUrl = `${siteUrl}${path}`;
+  
+  // Ensure image is an absolute URL for cross-platform compatibility
+  const absoluteImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
+
   const schemaGraph = {
     "@context": "https://schema.org",
     "@graph": [
@@ -15,7 +19,7 @@ export default function SeoHead({
         "@type": "LocalBusiness",
         "@id": `${siteUrl}/#local-business`,
         name: "Engr Alam Ashik - Civil Engineering Services",
-        image,
+        image: absoluteImage,
         description: "Premium civil engineering, structural design, and consultancy services in Cox's Bazar.",
         areaServed: {
           "@type": "City",
@@ -73,14 +77,14 @@ export default function SeoHead({
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={absoluteImage} />
       <meta property="og:url" content={absoluteUrl} />
       <meta property="og:locale" content="en_US" />
       <meta property="og:site_name" content="Engr Alam Ashik" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={absoluteImage} />
       <meta name="twitter:site" content="@alamashik" />
       <script type="application/ld+json">
         {JSON.stringify(schemaGraph)}
