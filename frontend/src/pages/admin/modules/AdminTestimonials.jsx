@@ -82,10 +82,8 @@ export default function AdminTestimonials() {
 
     try {
       if (selectedId) {
-        console.log(`[ADMIN_TESTIMONIALS] Committing update to feedback node: ${selectedId}`);
         await adminUpdate("testimonials", selectedId, payload);
       } else {
-        console.log("[ADMIN_TESTIMONIALS] Initializing new client endorsement record...");
         await adminCreate("testimonials", payload);
       }
       
@@ -104,7 +102,6 @@ export default function AdminTestimonials() {
     setSaving(true);
     setStatus({ type: "", message: "" });
     try {
-      console.log(`[ADMIN_TESTIMONIALS] Purging feedback from registry: ${selectedId}`);
       await adminDelete("testimonials", selectedId);
       setStatus({ type: "success", message: "FEEDBACK PURGED SUCCESSFULLY" });
     } catch (err) {
