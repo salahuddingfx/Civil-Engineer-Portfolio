@@ -240,12 +240,8 @@ export default function AboutPage() {
                </div>
 
                <div className="space-y-8">
-                  <p className="text-xl md:text-2xl font-medium leading-relaxed italic" style={{ color: "var(--text-muted)" }}>
-                     {language === "bn" ? (
-                        <>হাই, আমি প্রকৌশলী আলম আশিক। {bio?.body?.bn || bio?.body?.en}</>
-                     ) : (
-                        <>Hi, I'm Engr Alam Ashik. {bio?.body?.en || "A passionate structural consultant dedicated to blending engineering precision with architectural beauty."}</>
-                     )}
+                  <p className="text-xl md:text-2xl font-medium leading-relaxed italic whitespace-pre-line" style={{ color: "var(--text-muted)" }}>
+                     {language === "bn" ? (bio?.body?.bn || bio?.body?.en) : (bio?.body?.en || "A dedicated structural consultant dedicated to blending engineering precision with architectural beauty.")}
                   </p>
 
                   <div className="grid grid-cols-2 gap-10 pt-6 border-t border-white/5">
@@ -285,7 +281,7 @@ export default function AboutPage() {
                <div className="absolute -bottom-6 -right-6 p-6 rounded-2xl backdrop-blur-xl bg-[var(--bg-card)] border border-[var(--highlight-border)] shadow-2xl reveal-unit">
                   <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-widest mb-1">Experience</p>
                   <p className="text-xl font-black italic uppercase leading-none" style={{ color: "var(--text)" }}>
-                     <Counter value="11" suffix="+ Years" />
+                     <Counter value={bio?.experience || "11"} suffix="+ Years" />
                   </p>
                </div>
             </div>
@@ -386,7 +382,7 @@ export default function AboutPage() {
                   <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 transition-all duration-700">
                      <div className="mb-4 space-y-2">
                         <h3 className="text-xl font-black italic uppercase tracking-tight font-display hover:text-[var(--highlight)] transition-colors" style={{ color: "var(--text)" }}>{member.name}</h3>
-                        <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-[0.4em]">{member.designation?.en}</p>
+                        <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-[0.4em]">{language === "bn" ? (member.designation?.bn || member.designation?.en) : member.designation?.en}</p>
                      </div>
                      
                      <div className="flex items-center justify-between pt-4 border-t border-[var(--highlight-border)] opacity-0 group-hover:opacity-100 transition-opacity">
