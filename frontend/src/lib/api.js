@@ -21,7 +21,7 @@ function subscribeTokenRefresh(cb) {
 }
 
 function onRefreshed(token) {
-  refreshSubscribers.map((cb) => cb(token));
+  refreshSubscribers.forEach((cb) => cb(token));
   refreshSubscribers = [];
 }
 
