@@ -12,7 +12,7 @@ const env = {
   // Secrets - Must be set in .env
   jwtAccessSecret: process.env.JWT_ACCESS_SECRET,
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
-  accessTokenTtl: process.env.ACCESS_TOKEN_TTL || "15m",
+  accessTokenTtl: process.env.ACCESS_TOKEN_TTL || "30m",
   refreshTokenTtl: process.env.REFRESH_TOKEN_TTL || "7d",
 
   // Admin Credentials
