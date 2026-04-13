@@ -229,7 +229,7 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
           penumbra={1} 
           intensity={isDark ? 5 : 2.5} 
           castShadow 
-          shadow-bias={-0.0001} 
+          shadow-bias={-0.0005} 
         />
         
         <pointLight position={[-20, 15, -20]} intensity={isDark ? 3 : 1.5} color="#38bdf8" />
@@ -237,19 +237,20 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
 
         <Suspense fallback={null}>
           <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.2}>
-            <group position={[0, -5, 0]} rotation={[0, scrollProgress * Math.PI * 1.2, 0]}>
+            {/* Lifted group to [0, -4.8, 0] to avoid z-fighting with ground at -5 */}
+            <group position={[0, -4.8, 0]} rotation={[0, scrollProgress * Math.PI * 1.2, 0]}>
               <ArchMasterpiece floors={isMobile ? 12 : 20} materials={materials} isMobile={isMobile} isDark={isDark} />
             </group>
           </Float>
 
-          {/* Premium Environment */}
+          {/* Premium Environment System */}
           <group position={[0, -5, 0]}>
             <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
               <planeGeometry args={[100, 100]} />
               {!isMobile && isDark ? (
                 <MeshReflectorMaterial
                   blur={[400, 100]}
-                  resolution={1024}
+                  resolution={512}
                   mixBlur={1}
                   mixStrength={6}
                   roughness={1}
@@ -264,6 +265,7 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
               )}
             </mesh>
             
+            {/* Adjusted Grid to 0.01 to stay just above ground but below shadows */}
             <Grid 
               infiniteGrid 
               cellSize={1.2} 
@@ -271,12 +273,13 @@ export default function ArchitecturalModel({ scrollProgress = 0 }) {
               cellColor={isDark ? "#1e293b" : "#cbd5e1"} 
               sectionColor={isDark ? "#19D2FF" : "#0ea5e9"} 
               fadeDistance={50} 
-              position={[0, 0.05, 0]}
+              position={[0, 0.01, 0]}
             />
           </group>
 
           <Environment preset={isDark ? "night" : "warehouse"} />
-          {!isMobile && <ContactShadows position={[0, -4.95, 0]} opacity={0.5} scale={40} blur={2} far={10} />}
+          {/* Shadows at -4.98 to stay between grid(0.01) and model(-4.8) */}
+          {!isMobile && <ContactShadows position={[0, -4.98, 0]} opacity={0.5} scale={40} blur={2.2} far={10} />}
         </Suspense>
 
         <OrbitControls 
