@@ -41,6 +41,7 @@ const baseContent = {
   gallery: { type: [imageSchema], default: [] },
   rating: { type: Number, min: 1, max: 5, default: 5 },
   order: { type: Number, default: 0 },
+  experience: { type: String, default: "" },
   isPublished: { type: Boolean, default: true },
   seo: { type: seoSchema, default: () => ({}) },
 };
