@@ -125,8 +125,7 @@ export default function AdminContact() {
       setStatus({ type: "error", message: `COMMIT_FAILED: ${err.response?.data?.message || "Protocol Error"}` });
     } finally { 
       setSaving(false); 
-      // Force clean reload of the dashboard state if globally cached
-      setTimeout(() => window.location.reload(), 2000);
+      // Verification logic already updates state in lines 105-120
     }
   };
 
