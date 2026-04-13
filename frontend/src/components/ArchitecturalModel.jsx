@@ -10,9 +10,7 @@ import {
   PerspectiveCamera,
   Stars,
   Instances,
-  Instance,
-  Text,
-  Html
+  Instance
 } from "@react-three/drei";
 import * as THREE from "three";
 import { useTheme } from "../context/ThemeContext";
@@ -125,20 +123,6 @@ function BlueprintScanner({ floors, floorHeight, radius }) {
   );
 }
 
-// ── Sub-Component: TechnicalCallouts ──────────────────────────────────────────
-function TechnicalCallout({ position, label, isDark }) {
-  return (
-    <Html position={position} center distanceFactor={12}>
-      <div className={`px-3 py-1 border whitespace-nowrap pointer-events-none select-none backdrop-blur-md transition-all duration-500 flex items-center gap-2 ${
-        isDark ? 'bg-black/40 border-cyan-500/30 text-cyan-400' : 'bg-white/40 border-sky-600/30 text-sky-700'
-      }`}>
-        <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-        <span className="text-[8px] font-black uppercase tracking-[0.2em]">{label}</span>
-      </div>
-    </Html>
-  );
-}
-
 // ── Component: ArchMasterpiece (The Refined Hero Model) ────────────────────────
 function ArchMasterpiece({ floors = 16, scale = 1, materials, isMobile, isDark }) {
   const groupRef = useRef();
@@ -152,8 +136,6 @@ function ArchMasterpiece({ floors = 16, scale = 1, materials, isMobile, isDark }
     if (groupRef.current) {
       // Smooth continuous base rotation
       groupRef.current.rotation.y = t * 0.08;
-      // Gentle floating oscillation
-      groupRef.current.position.y = Math.sin(t * 0.5) * 0.1;
     }
   });
 
@@ -184,14 +166,6 @@ function ArchMasterpiece({ floors = 16, scale = 1, materials, isMobile, isDark }
         <cylinderGeometry args={[radius + 0.1, radius + 0.1, floors * floorHeight, 24, 1, true, 0, Math.PI * 1.5]} />
         <primitive object={materials.glassFacade} attach="material" />
       </mesh>
-
-      {/* Technical Labels */}
-      {!isMobile && (
-        <>
-          <TechnicalCallout position={[radius + 1, floors * floorHeight * 0.8, 0]} label="Structural Core V4" isDark={isDark} />
-          <TechnicalCallout position={[-radius - 1, floors * floorHeight * 0.3, radius]} label="Dynamic Load Analysis" isDark={isDark} />
-        </>
-      )}
 
       {/* Signature Top Ring */}
       <mesh position={[0, floors * floorHeight + 0.05, 0]}>
