@@ -323,9 +323,11 @@ export default function HomePage({ isIntroComplete }) {
                             <div className="hero-designation-row border-none mt-4 pt-0">
                               {designations.map((d, i) => (
                                 <span key={i} className="flex items-center">
-                                  <span className="designation-item">{d.trim()}</span>
+                                  <span className={`designation-item ${i === designations.length - 1 ? "active" : ""}`}>
+                                    {d.trim()}
+                                  </span>
                                   {i < designations.length - 1 && (
-                                    <div className="designation-separator mx-4" />
+                                    <div className="designation-separator mx-3 md:mx-4" />
                                   )}
                                 </span>
                               ))}
