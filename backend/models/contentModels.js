@@ -101,7 +101,7 @@ const timelineSchema = new mongoose.Schema({
 timelineSchema.index({ isPublished: 1, category: 1, order: 1 });
 const TimelineEntry = mongoose.model("TimelineEntry", timelineSchema);
 
-const TeamMember = mongoose.model("TeamMember", new mongoose.Schema({
+const teamMemberSchema = new mongoose.Schema({
   slug: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   designation: { type: localizedTextSchema, default: () => ({}) },
@@ -114,33 +114,32 @@ const TeamMember = mongoose.model("TeamMember", new mongoose.Schema({
   },
   order: { type: Number, default: 0 },
   isPublished: { type: Boolean, default: true },
-}, modelOptions));
+}, modelOptions);
+const TeamMember = mongoose.model("TeamMember", teamMemberSchema);
 
-const ContactDetail = mongoose.model(
-  "ContactDetail",
-  new mongoose.Schema(
-    {
-      slug: { type: String, default: "primary", unique: true },
-      phone: { type: String, default: "" },
-      email: { type: String, default: "" },
-      whatsapp: { type: String, default: "" },
-      whatsappEnabled: { type: Boolean, default: true },
-      whatsappLabel: { type: String, default: "WhatsApp Chat" },
-      address: { type: localizedTextSchema, default: () => ({}) },
-      googleMapEmbedUrl: { type: String, default: "" },
-      socialLinks: {
-        facebook: { type: String, default: "" },
-        linkedin: { type: String, default: "" },
-        instagram: { type: String, default: "" },
-        twitter: { type: String, default: "" },
-        youtube: { type: String, default: "" },
-      },
-      isPublished: { type: Boolean, default: true },
-      seo: { type: seoSchema, default: () => ({}) },
+const contactDetailSchema = new mongoose.Schema(
+  {
+    slug: { type: String, default: "primary", unique: true },
+    phone: { type: String, default: "" },
+    email: { type: String, default: "" },
+    whatsapp: { type: String, default: "" },
+    whatsappEnabled: { type: Boolean, default: true },
+    whatsappLabel: { type: String, default: "WhatsApp Chat" },
+    address: { type: localizedTextSchema, default: () => ({}) },
+    googleMapEmbedUrl: { type: String, default: "" },
+    socialLinks: {
+      facebook: { type: String, default: "" },
+      linkedin: { type: String, default: "" },
+      instagram: { type: String, default: "" },
+      twitter: { type: String, default: "" },
+      youtube: { type: String, default: "" },
     },
-    modelOptions
-  )
+    isPublished: { type: Boolean, default: true },
+    seo: { type: seoSchema, default: () => ({}) },
+  },
+  modelOptions
 );
+const ContactDetail = mongoose.model("ContactDetail", contactDetailSchema);
 
 const ContactSubmission = mongoose.model(
   "ContactSubmission",
@@ -158,18 +157,16 @@ const ContactSubmission = mongoose.model(
   )
 );
 
-const SeoMeta = mongoose.model(
-  "SeoMeta",
-  new mongoose.Schema(
-    {
-      slug: { type: String, required: true, unique: true, trim: true },
-      pagePath: { type: String, required: true, trim: true },
-      seo: { type: seoSchema, default: () => ({}) },
-      isPublished: { type: Boolean, default: true },
-    },
-    modelOptions
-  )
+const seoMetaSchema = new mongoose.Schema(
+  {
+    slug: { type: String, required: true, unique: true, trim: true },
+    pagePath: { type: String, required: true, trim: true },
+    seo: { type: seoSchema, default: () => ({}) },
+    isPublished: { type: Boolean, default: true },
+  },
+  modelOptions
 );
+const SeoMeta = mongoose.model("SeoMeta", seoMetaSchema);
 
 const sectionBlockSchema = new mongoose.Schema(
     {
