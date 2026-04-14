@@ -452,12 +452,22 @@ export default function AdminAbout() {
                    </div>
                    <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-2">
-                         <label className={labelClasses}>Designation (BN)</label>
-                         <input value={editingItem.data.descBn} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, descBn: e.target.value}})} className={inputClasses} />
+                         <label className={labelClasses}>LinkedIn Profile URL</label>
+                         <input value={editingItem.data.linkedin} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, linkedin: e.target.value}})} className={inputClasses} placeholder="https://linkedin.com/in/..." />
                       </div>
                       <div className="space-y-2">
-                         <label className={labelClasses}>LinkedIn Profile URL</label>
-                         <input value={editingItem.data.linkedin} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, linkedin: e.target.value}})} className={inputClasses} />
+                         <label className={labelClasses}>Facebook Profile URL</label>
+                         <input value={editingItem.data.facebook} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, facebook: e.target.value}})} className={inputClasses} placeholder="https://facebook.com/..." />
+                      </div>
+                   </div>
+                   <div className="grid md:grid-cols-2 gap-8">
+                      <div className="space-y-2">
+                         <label className={labelClasses}>Instagram Profile URL</label>
+                         <input value={editingItem.data.instagram} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, instagram: e.target.value}})} className={inputClasses} placeholder="https://instagram.com/..." />
+                      </div>
+                      <div className="space-y-2">
+                         <label className={labelClasses}>Twitter (X) Profile URL</label>
+                         <input value={editingItem.data.twitter} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, twitter: e.target.value}})} className={inputClasses} placeholder="https://twitter.com/..." />
                       </div>
                    </div>
                    <div className="grid md:grid-cols-2 gap-8">
@@ -475,10 +485,6 @@ export default function AdminAbout() {
                    </div>
                    <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-2">
-                         <label className={labelClasses}>LinkedIn Profile URL</label>
-                         <input value={editingItem.data.linkedin} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, linkedin: e.target.value}})} className={inputClasses} />
-                      </div>
-                      <div className="space-y-2">
                          <label className={labelClasses}>Sort Order</label>
                          <input type="number" value={editingItem.data.order} onChange={e => setEditingItem({...editingItem, data: {...editingItem.data, order: e.target.value}})} className={inputClasses} />
                       </div>
@@ -490,7 +496,12 @@ export default function AdminAbout() {
                      designation: { en: editingItem.data.descEn, bn: editingItem.data.descBn },
                      bio: { en: editingItem.data.bioEn, bn: editingItem.data.bioBn },
                      image: editingItem.data.imageUrl ? { url: editingItem.data.imageUrl } : null,
-                     socialLinks: { linkedin: editingItem.data.linkedin }
+                     socialLinks: { 
+                        linkedin: editingItem.data.linkedin,
+                        facebook: editingItem.data.facebook,
+                        instagram: editingItem.data.instagram,
+                        twitter: editingItem.data.twitter
+                     }
                    })} className="w-full py-5 rounded-2xl bg-sky-500 text-black font-black uppercase text-[11px] tracking-widest hover:bg-cyan-300 transition-all flex items-center justify-center gap-3">
                       <Save size={16} /> Save Team Member
                    </button>
@@ -507,13 +518,42 @@ export default function AdminAbout() {
                            <p className="text-[10px] font-bold text-sky-600 uppercase tracking-widest">{member.designation?.en}</p>
                            
                            <div className="mt-8 flex gap-4">
-                              <button onClick={() => setEditingItem({ type: 'team', data: { ...member, descEn: member.designation?.en, descBn: member.designation?.bn, bioEn: member.bio?.en, bioBn: member.bio?.bn, imageUrl: member.image?.url, linkedin: member.socialLinks?.linkedin } })} className="p-3 bg-[color:var(--admin-bg)] hover:bg-cyan-400 hover:text-black rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Edit3 size={16} /></button>
+                              <button onClick={() => setEditingItem({ 
+                                 type: 'team', 
+                                 data: { 
+                                   ...member, 
+                                   descEn: member.designation?.en, 
+                                   descBn: member.designation?.bn, 
+                                   bioEn: member.bio?.en, 
+                                   bioBn: member.bio?.bn, 
+                                   imageUrl: member.image?.url, 
+                                   linkedin: member.socialLinks?.linkedin,
+                                   facebook: member.socialLinks?.facebook,
+                                   instagram: member.socialLinks?.instagram,
+                                   twitter: member.socialLinks?.twitter
+                                 } 
+                               })} className="p-3 bg-[color:var(--admin-bg)] hover:bg-cyan-400 hover:text-black rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Edit3 size={16} /></button>
                               <button onClick={() => handleItemDelete('team', 'teamMembers', member._id)} className="p-3 bg-[color:var(--admin-bg)] hover:bg-rose-500 rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Trash2 size={16} /></button>
                            </div>
                         </div>
                      </div>
                    ))}
-                   <button onClick={() => setEditingItem({ type: 'team', data: { name: '', descEn: '', descBn: '', bioEn: '', bioBn: '', imageUrl: '', linkedin: '', order: team.length + 1 } })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-[color:var(--admin-border)] flex flex-col items-center justify-center gap-6 text-[color:var(--admin-text-primary)] hover:text-sky-600 transition-all group">
+                   <button onClick={() => setEditingItem({ 
+                      type: 'team', 
+                      data: { 
+                        name: '', 
+                        descEn: '', 
+                        descBn: '', 
+                        bioEn: '', 
+                        bioBn: '', 
+                        imageUrl: '', 
+                        linkedin: '', 
+                        facebook: '',
+                        instagram: '',
+                        twitter: '',
+                        order: team.length + 1 
+                      } 
+                    })} className="h-full min-h-[300px] rounded-[48px] border-2 border-dashed border-[color:var(--admin-border)] flex flex-col items-center justify-center gap-6 text-[color:var(--admin-text-primary)] hover:text-sky-600 transition-all group">
                       <Plus size={32} className="group-hover:rotate-180 transition-transform duration-1000" />
                       <span className="text-[10px] font-black uppercase tracking-[0.4em]">Add Team Member</span>
                    </button>

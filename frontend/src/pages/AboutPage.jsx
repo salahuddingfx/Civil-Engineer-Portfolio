@@ -6,7 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 import SeoHead from "../components/SeoHead";
 import { fetchContent } from "../lib/api";
 import { Mail, Zap, Clock, Users, ChevronRight, MessageSquare, Quote, X } from "lucide-react";
-import { Linkedin } from "../components/BrandIcons";
+import { Facebook, Instagram, Twitter, Linkedin } from "../components/BrandIcons";
 import LucideIcon from "../components/LucideIcon";
 import PreviewModal from "../components/PreviewModal";
 import Counter from "../components/Counter";
@@ -385,17 +385,50 @@ export default function AboutPage() {
                         <p className="text-[10px] font-black text-[var(--highlight)] uppercase tracking-[0.4em]">{language === "bn" ? (member.designation?.bn || member.designation?.en) : member.designation?.en}</p>
                      </div>
                      
-                     <div className="flex items-center justify-between pt-4 border-t border-[var(--highlight-border)] opacity-0 group-hover:opacity-100 transition-opacity">
-                        <a 
-                          href={member.socialLinks?.linkedin} 
-                          onClick={(e) => e.stopPropagation()} 
-                          target="_blank" rel="noopener noreferrer" 
-                          className="p-3 rounded-xl bg-white/10 text-white hover:bg-[var(--highlight)] hover:text-black transition-all"
-                        >
-                          <Linkedin size={16} />
-                        </a>
-                        <span className="text-[8px] font-black uppercase tracking-widest italic" style={{ color: "var(--text-faint)" }}>Core Staff</span>
-                     </div>
+                      <div className="flex items-center gap-3 pt-4 border-t border-[var(--highlight-border)] opacity-0 group-hover:opacity-100 transition-opacity">
+                         {member.socialLinks?.linkedin && (
+                           <a 
+                             href={member.socialLinks.linkedin} 
+                             onClick={(e) => e.stopPropagation()} 
+                             target="_blank" rel="noopener noreferrer" 
+                             className="p-3 rounded-xl bg-white/10 text-white hover:bg-[#0077b5] hover:text-white transition-all"
+                           >
+                             <Linkedin size={16} />
+                           </a>
+                         )}
+                         {member.socialLinks?.facebook && (
+                           <a 
+                             href={member.socialLinks.facebook} 
+                             onClick={(e) => e.stopPropagation()} 
+                             target="_blank" rel="noopener noreferrer" 
+                             className="p-3 rounded-xl bg-white/10 text-white hover:bg-[#1877f2] hover:text-white transition-all"
+                           >
+                             <Facebook size={16} />
+                           </a>
+                         )}
+                         {member.socialLinks?.instagram && (
+                           <a 
+                             href={member.socialLinks.instagram} 
+                             onClick={(e) => e.stopPropagation()} 
+                             target="_blank" rel="noopener noreferrer" 
+                             className="p-3 rounded-xl bg-white/10 text-white hover:bg-[#e4405f] hover:text-white transition-all"
+                           >
+                             <Instagram size={16} />
+                           </a>
+                         )}
+                         {member.socialLinks?.twitter && (
+                           <a 
+                             href={member.socialLinks.twitter} 
+                             onClick={(e) => e.stopPropagation()} 
+                             target="_blank" rel="noopener noreferrer" 
+                             className="p-3 rounded-xl bg-white/10 text-white hover:bg-[#1da1f2] hover:text-white transition-all"
+                           >
+                             <Twitter size={16} />
+                           </a>
+                         )}
+                         <div className="flex-1" />
+                         <span className="text-[8px] font-black uppercase tracking-widest italic" style={{ color: "var(--text-faint)" }}>Core Staff</span>
+                      </div>
                   </div>
                </div>
               </div>

@@ -111,6 +111,7 @@ const teamMemberSchema = new mongoose.Schema({
     facebook: { type: String, default: "" },
     linkedin: { type: String, default: "" },
     instagram: { type: String, default: "" },
+    twitter: { type: String, default: "" },
   },
   order: { type: Number, default: 0 },
   isPublished: { type: Boolean, default: true },
