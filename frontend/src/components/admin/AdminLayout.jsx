@@ -39,7 +39,7 @@ export default function AdminLayout({ children }) {
         
         {/* Top Bar - Functional & Minimal */}
         <header className={`
-          h-20 px-6 sm:px-10 flex items-center justify-between sticky top-0 z-40 transition-all duration-300
+          h-20 px-4 sm:px-10 flex items-center justify-between sticky top-0 z-40 transition-all duration-300
           ${isScrolled ? "backdrop-blur-xl border-b" : "bg-transparent"}
         `} style={{ 
           background: isScrolled ? "var(--admin-card)" : "transparent",
@@ -88,7 +88,7 @@ export default function AdminLayout({ children }) {
         </header>
 
         {/* Page Content */}
-        <div className="p-6 sm:p-10 flex-1 flex flex-col">
+        <div className="p-3 sm:p-10 flex-1 flex flex-col overflow-x-hidden">
            {children}
         </div>
 
