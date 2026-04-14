@@ -132,8 +132,8 @@ export default function AdminProjects() {
     item.category?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const inputClasses = "w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl px-7 py-5 text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/50 focus:bg-[var(--admin-card)] opacity-90 transition-all font-medium italic placeholder:text-[color:var(--admin-text-secondary)] shadow-inner text-sm";
-  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-muted)] italic ml-4 mb-4";
+  const inputClasses = "w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl px-4 sm:px-7 py-4 sm:py-5 text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/50 focus:bg-[var(--admin-card)] opacity-90 transition-all font-medium italic placeholder:text-[color:var(--admin-text-secondary)] shadow-inner text-sm";
+  const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-muted)] italic ml-2 sm:ml-4 mb-2 sm:mb-4";
 
   return (
     <AdminModuleWrapper
@@ -148,17 +148,17 @@ export default function AdminProjects() {
       allowCreate={!!selectedId}
       onNew={() => setSelectedId(null)}
     >
-      <div className="grid lg:grid-cols-[380px_1fr] gap-16">
+      <div className="grid lg:grid-cols-[380px_1fr] gap-8 lg:gap-16">
         {/* List Sidebar */}
         <div className="space-y-8 flex flex-col">
           <div className="relative group">
              <Search size={16} className="absolute left-6 top-1/2 -translate-y-1/2 text-[color:var(--admin-text-muted)] group-focus-within:text-cyan-400 transition-colors" />
-             <input 
-               placeholder="Search Registry..." 
-               value={searchTerm}
-               onChange={e => setSearchTerm(e.target.value)}
-               className="w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl pl-14 pr-6 py-5 text-[11px] font-bold uppercase tracking-widest text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/40 transition-all"
-             />
+              <input 
+                placeholder="Search Registry..." 
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="w-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] rounded-2xl pl-12 sm:pl-14 pr-4 sm:pr-6 py-4 sm:py-5 text-[11px] font-bold uppercase tracking-widest text-[color:var(--admin-text-heading)] outline-none focus:border-cyan-400/40 transition-all"
+              />
           </div>
 
           <div className="space-y-4 max-h-[800px] overflow-y-auto pr-4 custom-scrollbar">
@@ -166,7 +166,7 @@ export default function AdminProjects() {
               <div 
                 key={item._id}
                 onClick={() => setSelectedId(item._id)}
-                className={`p-6 rounded-[32px] border transition-all duration-500 cursor-pointer group flex gap-5 relative overflow-hidden ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/[0.03]' : 'border-[color:var(--admin-border)] bg-[var(--admin-card)] opacity-90 hover:border-white/10 hover:bg-[var(--admin-card)] opacity-90'}`}
+                className={`p-4 sm:p-6 rounded-[32px] border transition-all duration-500 cursor-pointer group flex gap-5 relative overflow-hidden ${selectedId === item._id ? 'border-cyan-400/40 bg-cyan-400/[0.03]' : 'border-[color:var(--admin-border)] bg-[var(--admin-card)] opacity-90 hover:border-white/10 hover:bg-[var(--admin-card)] opacity-90'}`}
               >
                 {selectedId === item._id && <div className="absolute left-0 top-0 w-1 h-full bg-sky-500" />}
                 
@@ -206,8 +206,8 @@ export default function AdminProjects() {
         </div>
 
         {/* Editor Form */}
-        <div className="space-y-16 animate-in fade-in slide-in-from-right-4 duration-700">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-[color:var(--admin-border)] pb-12">
+        <div className="space-y-10 sm:space-y-16 animate-in fade-in slide-in-from-right-4 duration-700">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8 border-b border-[color:var(--admin-border)] pb-6 sm:pb-12">
             <div>
                <h3 className="text-3xl font-black text-[color:var(--admin-text-heading)] italic tracking-tighter uppercase mb-2">{selectedId ? "Configure Unit" : "Initialize New Record"}</h3>
                <p className="text-[10px] text-[color:var(--admin-text-muted)] font-bold uppercase tracking-widest italic">{selectedId ? `Refining Asset Hardware ID: ${selectedId}` : "Initializing Fresh Structural Asset"}</p>
@@ -225,7 +225,7 @@ export default function AdminProjects() {
           </div>
 
           {/* Title Nodes */}
-          <div className="grid md:grid-cols-2 gap-10">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-10">
             <div className="space-y-4">
               <div className="flex justify-between items-center px-4">
                 <label className={labelClasses}><Edit3 size={12} className="text-blue-400" /> Identity Header (EN)</label>
@@ -240,7 +240,7 @@ export default function AdminProjects() {
           </div>
 
           {/* Metadata Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-10">
             <div className="space-y-2">
               <label className={labelClasses}><MapPin size={12} className="text-emerald-400" /> Location Node</label>
               <input value={form.location} onChange={e => setForm({...form, location: e.target.value})} className={inputClasses} placeholder="Cox's Bazar, BD" />
@@ -270,7 +270,7 @@ export default function AdminProjects() {
           </div>
 
           {/* Visual Environment */}
-          <div className="bg-[var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[40px] p-10 relative overflow-hidden group/media shadow-inner">
+          <div className="bg-[var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[40px] p-6 sm:p-10 relative overflow-hidden group/media shadow-inner">
              <div className="absolute top-0 right-0 h-1.5 w-60 bg-gradient-to-l from-cyan-400/20 to-transparent rounded-bl-full" />
              <div className="flex items-center gap-4 mb-10">
                 <ImageIcon size={18} className="text-sky-600" />
