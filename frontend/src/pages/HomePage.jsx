@@ -715,9 +715,9 @@ export default function HomePage({ isIntroComplete }) {
       {/* ── Location / Contact Quick Strip ────────────────────────────────── */}
       <section className="py-20 px-6 lg:px-10" style={{ background: "var(--bg)" }}>
         <div className="mx-auto max-w-[1500px]">
-          <div className="grid lg:grid-cols-3 gap-6 reveal-unit">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 reveal-unit">
             {/* Location */}
-            <div className="p-8 rounded-2xl flex items-start gap-6 card-bg">
+            <div className="p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 card-bg">
               <div className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center"
                 style={{ background: "var(--highlight-soft)", color: "var(--highlight)" }}>
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -729,7 +729,7 @@ export default function HomePage({ isIntroComplete }) {
                 <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={{ color: "var(--highlight)" }}>
                   {t("location_strip.location_title", language)}
                 </p>
-                <p className="font-bold text-[16px]" style={{ color: "var(--text)" }}>
+                <p className="font-bold text-[16px] break-words" style={{ color: "var(--text)" }}>
                     {contactData?.address?.[language] || t("location_strip.location_value", language)}
                 </p>
                 <p className="text-[13px] mt-1" style={{ color: "var(--text-muted)" }}>
@@ -739,7 +739,7 @@ export default function HomePage({ isIntroComplete }) {
             </div>
 
             {/* Working Hours */}
-            <div className="p-8 rounded-2xl flex items-start gap-6 card-bg">
+            <div className="p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 card-bg">
               <div className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center"
                 style={{ background: "var(--highlight-soft)", color: "var(--highlight)" }}>
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -750,7 +750,7 @@ export default function HomePage({ isIntroComplete }) {
                 <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={{ color: "var(--highlight)" }}>
                   {t("location_strip.hours_title", language)}
                 </p>
-                <p className="font-bold text-[16px]" style={{ color: "var(--text)" }}>
+                <p className="font-bold text-[16px] break-words" style={{ color: "var(--text)" }}>
                    {contactData?.phone || t("location_strip.hours_value", language)}
                 </p>
                 <p className="text-[13px] mt-1" style={{ color: "var(--text-muted)" }}>
@@ -760,7 +760,7 @@ export default function HomePage({ isIntroComplete }) {
             </div>
 
             {/* Quick Contact */}
-            <div className="p-8 rounded-2xl flex items-start gap-6 group cursor-pointer transition-all duration-300 card-bg border border-[var(--highlight-border)] hover:border-[var(--highlight)] hover:-translate-y-1"
+            <div className="p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer transition-all duration-300 card-bg border border-[var(--highlight-border)] hover:border-[var(--highlight)] hover:-translate-y-1"
               onClick={() => window.location.href = "/contact"}
             >
               <div className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center transition-all"
@@ -773,7 +773,7 @@ export default function HomePage({ isIntroComplete }) {
                 <p className="text-[11px] uppercase tracking-widest font-bold mb-1" style={{ color: "var(--highlight)" }}>
                   {t("location_strip.cta_title", language)}
                 </p>
-                <p className="font-bold text-[16px] group-hover:underline transition-all" style={{ color: "var(--text)" }}>
+                <p className="font-bold text-[16px] group-hover:underline transition-all break-all sm:break-words" style={{ color: "var(--text)" }}>
                    {contactData?.email || t("location_strip.cta_value", language)}
                 </p>
                 <p className="text-[13px] mt-1" style={{ color: "var(--text-muted)" }}>
