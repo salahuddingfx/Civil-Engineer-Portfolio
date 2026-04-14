@@ -52,7 +52,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div ref={containerRef} className="admin-layout min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    <div ref={containerRef} className="admin-layout min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       <SeoHead title="System Access | Engr Alam Ashik" description="Secure entry for authorized personnel." path="/admin" />
       
       {/* 1. Backdrop Grid */}
@@ -62,7 +62,7 @@ export default function AdminLoginPage() {
 
       {/* 2. Login Card */}
       <div ref={cardRef} className="w-full max-w-[420px] relative">
-         <div className="admin-card p-10 md:p-12 relative overflow-hidden">
+         <div className="admin-card p-6 sm:p-10 md:p-12 relative overflow-hidden">
             <div className="absolute top-0 right-0 h-1 w-32 bg-gradient-to-l from-[#19D2FF]/20 to-transparent" />
             
             {/* Brand Header */}
@@ -72,7 +72,7 @@ export default function AdminLoginPage() {
                     <ShieldCheck size={32} strokeWidth={1.5} />
                  </div>
                </div>
-                <h1 className="text-2xl font-black text-[color:var(--admin-text-heading)] tracking-tight uppercase">
+                <h1 className="text-xl sm:text-2xl font-black text-[color:var(--admin-text-heading)] tracking-tight uppercase">
                    Admin Access
                 </h1>
                 <p className="mt-2 text-[10px] font-bold text-[color:var(--admin-text-muted)] opacity-80 uppercase tracking-widest">Engr Alam Ashik</p>
@@ -132,7 +132,7 @@ export default function AdminLoginPage() {
                <button 
                   type="submit"
                   disabled={isLoading}
-                  className="w-full h-14 bg-sky-500 text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50 flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+                  className="w-full h-14 bg-sky-500 text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50 flex items-center justify-center gap-2 relative overflow-hidden group/btn"
                >
                   <div className="absolute inset-0 bg-[var(--admin-card)] opacity-70 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
                    {isLoading ? (
