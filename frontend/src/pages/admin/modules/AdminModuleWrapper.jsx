@@ -32,7 +32,7 @@ export default function AdminModuleWrapper({
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-7xl mx-auto pb-32">
       {/* 1. Simplified Breadcrumbs & Navigation */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-4">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-2 sm:px-4">
         <div className="flex items-center gap-5">
           <button 
             onClick={() => navigate("/admin/dashboard")}
@@ -48,7 +48,7 @@ export default function AdminModuleWrapper({
               <ChevronRight size={10} />
               <span className="text-[#19D2FF]/60">{title?.split(' ')[0]}</span>
             </div>
-            <h2 className="text-3xl font-black text-[color:var(--admin-text-heading)] italic tracking-tighter uppercase leading-none">{title}</h2>
+            <h2 className="text-xl sm:text-3xl font-black text-[color:var(--admin-text-heading)] italic tracking-tighter uppercase leading-none">{title}</h2>
           </div>
         </div>
 
@@ -82,7 +82,7 @@ export default function AdminModuleWrapper({
       )}
 
       {/* 3. Main Content Container */}
-      <div className="px-4">
+      <div className="px-2 sm:px-4">
         {loading ? (
           <div className="admin-card h-[400px] flex flex-col items-center justify-center gap-8">
             <div className="relative">
@@ -92,7 +92,7 @@ export default function AdminModuleWrapper({
             <p className="text-[10px] font-black text-[color:var(--admin-text-primary)] uppercase tracking-[0.5em] animate-pulse italic text-center">Loading Data...</p>
           </div>
         ) : (
-          <div className="admin-card p-6 md:p-12 relative overflow-hidden group/content">
+          <div className="admin-card p-3 sm:p-6 md:p-12 relative overflow-hidden group/content">
              <div className="absolute top-0 right-0 h-1 w-64 bg-gradient-to-l from-[#19D2FF]/20 to-transparent" />
              <div className="relative z-10 transition-all duration-700 animate-in fade-in slide-in-from-bottom-2">
                 {children}
@@ -103,7 +103,7 @@ export default function AdminModuleWrapper({
 
       {/* 4. Persistence Controls (Footer) - Temporary placement until modules use AdminSaveBar */}
       {loading === false && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-4 pt-10 border-t border-[color:var(--admin-border)]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 px-2 sm:px-4 pt-10 border-t border-[color:var(--admin-border)]">
           <div className="flex items-center gap-4 w-full sm:w-auto">
              <button 
               onClick={onSave}
