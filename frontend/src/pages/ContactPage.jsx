@@ -109,8 +109,8 @@ export default function ContactPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen relative overflow-hidden">
       <SeoHead
-        title="Contact | Engr Alam Ashik | Civil Engineer in Cox's Bazar"
-        description="Connect with Cox's Bazar's premier civil engineering consultancy for high-end residential, commercial, and structural projects."
+        title="Engr Alam Ashik | Civil Engineering & Consultancy | Contact"
+        description="Connect with Bangladesh's premier civil engineering consultancy for high-end residential, commercial, and structural projects."
         path="/contact"
       />
 
