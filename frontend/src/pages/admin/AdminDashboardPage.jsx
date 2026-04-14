@@ -79,7 +79,7 @@ export default function AdminDashboardPage() {
       {/* 1. Professional Header */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-[color:var(--admin-border)] pb-6">
         <div>
-          <h2 className="text-2xl font-black text-[color:var(--admin-text-heading)] tracking-widest uppercase leading-none">Management Dashboard</h2>
+          <h2 className="text-lg sm:text-2xl font-black text-[color:var(--admin-text-heading)] tracking-widest uppercase leading-none">Management Dashboard</h2>
           <p className="text-[10px] text-sky-600 font-bold uppercase tracking-[0.3em] mt-2">Operations Summary</p>
         </div>
         <div className="flex items-center gap-4 bg-[color:var(--admin-bg)] border border-[color:var(--admin-border)] p-1.5 rounded-lg">
@@ -90,9 +90,9 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* 2. Simplified Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((stat, i) => (
-          <div key={i} className="admin-card p-5 flex flex-col gap-4 relative overflow-hidden group">
+          <div key={i} className="admin-card p-4 sm:p-5 flex flex-col gap-4 relative overflow-hidden group">
             {/* Sharp side accent */}
             <div className={`absolute top-0 left-0 w-1 h-full opacity-50 transition-all duration-300 group-hover:opacity-100 ${stat.color.replace('text-', 'bg-')}`} />
             
@@ -134,7 +134,7 @@ export default function AdminDashboardPage() {
                 { label: "Register Service", to: "/admin/services", icon: Briefcase, desc: "Define consultancy package" },
                 { label: "Media Intake", to: "/admin/gallery", icon: ImageIcon, desc: "Upload architectural renders" },
               ].map((action, i) => (
-                <Link key={i} to={action.to} className="admin-card p-5 flex items-center gap-5 group hover:border-sky-400 transition-colors">
+                <Link key={i} to={action.to} className="admin-card p-4 sm:p-5 flex items-center gap-4 group hover:border-sky-400 transition-colors">
                    <div className="h-10 w-10 flex-shrink-0 rounded-lg bg-[color:var(--admin-bg)] border border-[color:var(--admin-border)] flex items-center justify-center text-[color:var(--admin-text-label)] group-hover:text-sky-600 group-hover:border-sky-300 transition-all">
                       <action.icon size={20} />
                    </div>
@@ -148,12 +148,12 @@ export default function AdminDashboardPage() {
            </div>
 
            {/* Core Navigation Nodes (Secondary) */}
-           <div className="admin-card p-6">
+           <div className="admin-card p-4 sm:p-6">
                <div className="flex items-center justify-between mb-6 pb-4 border-b border-[color:var(--admin-border)]">
                   <p className="text-[9px] font-black uppercase tracking-[0.4em] text-[color:var(--admin-text-muted)]">System Configuration</p>
                   <Link to="/admin/home" className="text-[9px] font-bold text-sky-600 hover:text-[color:var(--admin-text-heading)] transition-colors uppercase tracking-widest">Update Landing Details</Link>
                </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 sm:gap-6">
                 {[
                   { label: "About", to: "/admin/about", icon: UserCircle },
                   { label: "Details", to: "/admin/contact", icon: MapPin },
@@ -179,7 +179,7 @@ export default function AdminDashboardPage() {
               <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-[color:var(--admin-text-label)]">Recent Activity</h3>
            </div>
 
-           <div className="admin-card p-6 space-y-6">
+           <div className="admin-card p-4 sm:p-6 space-y-6">
               {recentLogs.map((log) => (
                 <div key={log.id} className="flex items-start gap-4 relative group">
                   <div className={`mt-1.5 h-2 w-2 rounded-full ring-2 ring-white ${log.color.replace('text-', 'bg-')}`} />
@@ -200,7 +200,7 @@ export default function AdminDashboardPage() {
            </div>
            
            {/* Studio Branding Card */}
-           <div className="admin-card p-6 border-l-4 border-l-sky-500 relative overflow-hidden bg-[color:var(--admin-bg)]">
+           <div className="admin-card p-4 sm:p-6 border-l-4 border-l-sky-500 relative overflow-hidden bg-[color:var(--admin-bg)]">
               <div className="absolute -top-4 -right-4 p-2 opacity-[0.05]">
                  <ShieldCheck size={120} className="text-sky-600" />
               </div>
