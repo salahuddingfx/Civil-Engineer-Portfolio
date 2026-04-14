@@ -73,7 +73,7 @@ export default function ImageUpload({ value, onChange, label = "Structural Media
 
       <div 
         onClick={() => !uploading && fileInputRef.current?.click()}
-        className={`relative group cursor-pointer overflow-hidden rounded-2xl border transition-all duration-500 min-h-[160px] flex flex-col items-center justify-center ${
+        className={`relative group cursor-pointer overflow-hidden rounded-2xl border transition-all duration-500 min-h-[120px] sm:min-h-[160px] flex flex-col items-center justify-center ${
           value 
             ? "border-[color:var(--admin-border)] bg-[var(--admin-card)] opacity-90" 
             : "border-[color:var(--admin-border)] border-dashed bg-[var(--admin-card)] opacity-90 hover:border-sky-400 hover:bg-[#19D2FF]/[0.02]"
@@ -100,13 +100,13 @@ export default function ImageUpload({ value, onChange, label = "Structural Media
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-4 text-center p-8">
-            <div className="p-4 rounded-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] text-[color:var(--admin-text-label)] group-hover:text-sky-600 group-hover:border-sky-300 group-hover:scale-110 transition-all duration-500">
-              <Upload size={20} />
+          <div className="flex flex-col items-center gap-4 text-center p-4 sm:p-8">
+            <div className="p-3 sm:p-4 rounded-full bg-[var(--admin-card)] border border-[color:var(--admin-border)] text-[color:var(--admin-text-label)] group-hover:text-sky-600 group-hover:border-sky-300 group-hover:scale-110 transition-all duration-500">
+              <Upload size={18} />
             </div>
             <div className="space-y-1">
-              <p className="text-[10px] font-black text-[color:var(--admin-text-heading)] uppercase tracking-[0.1em] italic">Deploy Media Unit</p>
-              <p className="text-[8px] text-[color:var(--admin-text-secondary)] uppercase tracking-widest font-black">Archive Requirements: IMG LIMIT 5MB</p>
+              <p className="text-[9px] sm:text-[10px] font-black text-[color:var(--admin-text-heading)] uppercase tracking-[0.1em] italic">Deploy Media Unit</p>
+              <p className="text-[7px] sm:text-[8px] text-[color:var(--admin-text-secondary)] uppercase tracking-widest font-black">Archive Requirements: IMG LIMIT 5MB</p>
             </div>
           </div>
         )}
