@@ -80,3 +80,11 @@
 .admin-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.25);
 }
+
+/* 345px / Small Mobile Optimization */
+@media (max-width: 400px) {
+  .admin-card-tight {
+    padding: 1rem !important;
+  }
+}
+
