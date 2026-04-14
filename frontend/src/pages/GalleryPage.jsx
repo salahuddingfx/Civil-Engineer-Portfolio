@@ -73,8 +73,8 @@ export default function GalleryPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead
-        title="Gallery | Engr Alam Ashik | Civil Engineer in Cox's Bazar"
-        description="A professional registry of structural achievements and architectural visual intelligence in Cox's Bazar."
+        title="Engr Alam Ashik | Civil Engineering & Consultancy | Gallery"
+        description="A professional registry of structural achievements and architectural visual intelligence across Bangladesh."
         path="/gallery"
       />
 
