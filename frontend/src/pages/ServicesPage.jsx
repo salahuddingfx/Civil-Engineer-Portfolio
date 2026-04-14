@@ -97,8 +97,8 @@ export default function ServicesPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead
-        title="Services | Engr Alam Ashik | Civil Engineer in Cox's Bazar"
-        description="Explore our range of premium structural engineering, architectural blueprinting, and CAD visualization services tailored for Cox's Bazar."
+        title="Engr Alam Ashik | Civil Engineering & Consultancy | Services"
+        description="Explore our range of premium structural engineering, architectural blueprinting, and CAD visualization services across Bangladesh."
         path="/services"
       />
 
