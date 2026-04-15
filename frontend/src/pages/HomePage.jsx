@@ -633,7 +633,7 @@ export default function HomePage({ isIntroComplete }) {
                         </div>
                         <div className="text-left">
                           <div className="font-bold text-lg tracking-wide" style={{ color: "var(--text)" }}>{item.name}</div>
-                          <div className="text-[10px] uppercase tracking-widest font-bold mt-1" style={{ color: "var(--highlight)" }}>{item.role} @ {item.company}</div>
+
                         </div>
                       </div>
                     </div>
