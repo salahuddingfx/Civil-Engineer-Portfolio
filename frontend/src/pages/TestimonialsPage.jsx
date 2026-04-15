@@ -179,9 +179,6 @@ export default function TestimonialsPage() {
                   </div>
                   <div>
                      <h2 className="font-bold text-xl mb-1" style={{ color: "var(--text)" }}>{testimonials[activeIndex].name}</h2>
-                     <p className="text-[11px] text-[#19D2FF] font-bold tracking-[0.15em] uppercase">
-                        {testimonials[activeIndex].role} <span style={{ color: "var(--text-muted)" }}>@ {testimonials[activeIndex].company}</span>
-                     </p>
                   </div>
                </div>
             </div>
@@ -221,7 +218,6 @@ export default function TestimonialsPage() {
                      <img src={item.img} alt={item.name} className="w-10 h-10 rounded-full object-cover grayscale opacity-80" />
                      <div>
                         <h3 className="font-bold text-sm" style={{ color: "var(--text)" }}>{item.name}</h3>
-                        <p className="text-[9px] text-[#19D2FF] font-bold tracking-widest uppercase">{item.company}</p>
                      </div>
                   </div>
                </div>
