@@ -107,6 +107,8 @@ export default function SeoHead({
       <meta name="description" content={description} />
       <meta name="keywords" content="civil engineer Bangladesh, structural engineer Bangladesh, architectural design Bangladesh, Engr Alam Ashik, engineering consultancy Bangladesh, building design Bangladesh, 3D architectural design, structural consultancy Bangladesh, Cox's Bazar civil engineer, best engineer Bangladesh, sustainable construction Bangladesh, building safety audit" />
       <meta name="author" content="Engr Alam Ashik" />
+      <meta name="application-name" content="Engr Alam Ashik" />
+      <meta name="apple-mobile-web-app-title" content="Engr Alam Ashik" />
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <link rel="canonical" href={absoluteUrl} />
       <meta property="og:locale" content="en_US" />

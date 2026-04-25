@@ -14,7 +14,7 @@ export const translations = {
     hero: {
       eyebrow: "Cox's Bazar Engineering Consultancy",
       available: "Available For New Projects",
-      title_part1: "Hi, I'm Alam Ashik",
+      title_part1: "Hi, I'm Engr Alam Ashik",
       title_highlight: "I Engineer Structural Foundations",
       title_part2: "",
       subtitle: "Engineer | Architect | Consultant — specializing in safe, precise, and high-performance architectural solutions that stand the test of time.",
@@ -167,7 +167,7 @@ export const translations = {
     hero: {
       eyebrow: "কক্সবাজার ইঞ্জিনিয়ারিং কনসালট্যান্সি",
       available: "নতুন প্রকল্পের জন্য উপলব্ধ",
-      title_part1: "হাই, আমি আলম আশিক",
+      title_part1: "হাই, আমি ইঞ্জিনিয়ার আলম আশিক",
       title_highlight: "আমি কাঠামোগত ভিত্তি প্রকৌশল করি",
       title_part2: "",
       subtitle: "ইঞ্জিনিয়ার | আর্কিটেক্ট | কনসালট্যান্ট — নিরাপদ, নির্ভুল এবং উচ্চ-ক্ষমতাসম্পন্ন স্থাপত্য সমাধান তৈরি করতে প্রতিশ্রুতিবদ্ধ যা সময়ের পরীক্ষায় টিকে থাকে।",
