@@ -33,8 +33,8 @@ export const ProjectSkeleton = () => (
  * Skeleton for Service Cards
  */
 export const ServiceSkeleton = () => (
-  <div className="p-10 rounded-2xl border border-[var(--highlight-border)] bg-[var(--bg-card)] relative overflow-hidden">
-    <Skeleton className="w-12 h-12 rounded-xl mb-8" />
+  <div className="p-8 pb-12 rounded-[24px] border border-[var(--highlight-border)] bg-[var(--bg-card)] relative overflow-hidden">
+    <Skeleton className="w-12 h-12 rounded-full mb-10 mt-4" />
     <Skeleton className="h-7 w-3/4 mb-4" />
     <div className="space-y-3 mb-8">
       <Skeleton className="h-4 w-full" />
