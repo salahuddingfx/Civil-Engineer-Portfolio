@@ -205,8 +205,8 @@ export default function HomePage({ isIntroComplete }) {
         setLoadingData(false);
         // Refresh ScrollTrigger after data is set and DOM updates
         setTimeout(() => {
-          ScrollTrigger.refresh();
-        }, 100);
+          ScrollTrigger.refresh(true);
+        }, 200);
       }
     };
     loadAll();
@@ -475,7 +475,7 @@ export default function HomePage({ isIntroComplete }) {
               {t("services_section.subtitle", language)}
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {loadingData ? (
               [1, 2, 3, 4].map((i) => <ServiceSkeleton key={i} />)
             ) : (
@@ -535,7 +535,7 @@ export default function HomePage({ isIntroComplete }) {
               {t("featured.view_all", language)}
             </Link>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {loadingData ? (
               [1, 2, 3].map((i) => <ProjectSkeleton key={i} />)
             ) : (
