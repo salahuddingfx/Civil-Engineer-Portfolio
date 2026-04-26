@@ -203,6 +203,10 @@ export default function HomePage({ isIntroComplete }) {
         setDisplayTestimonials(testimonials);
       } finally {
         setLoadingData(false);
+        // Refresh ScrollTrigger after data is set and DOM updates
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 100);
       }
     };
     loadAll();
@@ -242,7 +246,7 @@ export default function HomePage({ isIntroComplete }) {
       });
     }, homeRef);
     return () => ctx.revert();
-  }, [isIntroComplete]);
+  }, [isIntroComplete, loadingData]);
 
   // Mobile Detection for 3D Model
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -274,7 +278,7 @@ export default function HomePage({ isIntroComplete }) {
       clearTimeout(timer);
       if (scroller) scroller.kill();
     };
-  }, [isMobile]);
+  }, [isMobile, loadingData]); // Refresh trigger when data loads as page height changes
 
   const hl = isDark ? "var(--highlight)" : "var(--highlight)";
 
@@ -476,7 +480,7 @@ export default function HomePage({ isIntroComplete }) {
               [1, 2, 3, 4].map((i) => <ServiceSkeleton key={i} />)
             ) : (
               displayServices.map((service, i) => (
-                <div key={i} className="p-8 pb-12 rounded-[24px] reveal-unit transition-all duration-500 relative overflow-hidden card-bg group">
+                <div key={i} className="p-8 pb-12 rounded-[24px] reveal-unit transition-all duration-500 relative card-bg group">
                   {/* Soft Corner Accent */}
                   <div className="blueprint-corner" />
 
@@ -496,10 +500,10 @@ export default function HomePage({ isIntroComplete }) {
                     </div>
                   </div>
 
-                  <h3 className="font-bold text-2xl mb-4 relative z-10 tracking-tight" style={{ color: "var(--text)" }}>
+                  <h3 className="font-bold text-2xl mb-4 relative z-10 tracking-tight leading-tight break-words" style={{ color: "var(--text)" }}>
                     {service.titleKey ? t(service.titleKey, language) : (language === "bn" ? service.titleBn : service.title)}
                   </h3>
-                  <p className="text-[15px] mb-8 leading-relaxed min-h-[80px] relative z-10 opacity-70" style={{ color: "var(--text)" }}>
+                  <p className="text-[15px] mb-8 leading-relaxed min-h-[60px] md:min-h-[80px] relative z-10 opacity-70" style={{ color: "var(--text)" }}>
                     {service.descKey ? t(service.descKey, language) : (language === "bn" ? service.descBn : service.desc)}
                   </p>
 
