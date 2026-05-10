@@ -25,28 +25,28 @@ const navigation = [
     ]
   },
   {
-    title: "Content Management",
+    title: "Edit Website",
     items: [
-      { label: "Home", icon: Home, to: "/admin/home", id: "home" },
-      { label: "About", icon: UserCircle, to: "/admin/about", id: "about" },
+      { label: "Home Page", icon: Home, to: "/admin/home", id: "home" },
+      { label: "About Me", icon: UserCircle, to: "/admin/about", id: "about" },
       { label: "Services", icon: Briefcase, to: "/admin/services", id: "services" },
       { label: "Projects", icon: Layers, to: "/admin/projects", id: "projects" },
       { label: "Testimonials", icon: MessageSquare, to: "/admin/testimonials", id: "testimonials" },
-      { label: "Gallery", icon: ImageIcon, to: "/admin/gallery", id: "gallery" },
+      { label: "Photo Gallery", icon: ImageIcon, to: "/admin/gallery", id: "gallery" },
     ]
   },
   {
-    title: "Communication",
+    title: "Messages",
     items: [
-      { label: "Contact", icon: Mail, to: "/admin/contact", id: "contact" },
+      { label: "Inbox", icon: Mail, to: "/admin/dashboard/contactSubmissions", id: "contact" },
+      { label: "Contact Details", icon: Settings, to: "/admin/contact", id: "contact-info" },
     ]
   },
   {
-    title: "System",
+    title: "Settings",
     items: [
-      { label: "Account", icon: UserCircle, to: "/admin/account", id: "account" },
-      { label: "Security", icon: Lock, to: "/admin/security", id: "security" },
-      { label: "SEO Settings", icon: Globe, to: "/admin/dashboard/seoMeta", id: "seo" },
+      { label: "My Account", icon: UserCircle, to: "/admin/account", id: "account" },
+      { label: "Google / SEO", icon: Globe, to: "/admin/dashboard/seoMeta", id: "seo" },
     ]
   }
 ];
@@ -62,7 +62,7 @@ export default function AdminSidebar({ onClose }) {
           <div className="h-7 w-7 rounded-lg bg-sky-500 flex items-center justify-center text-black font-black text-xs rotate-3 group-hover:rotate-0 transition-transform">
              A
           </div>
-          <span className="text-lg font-black tracking-tight uppercase" style={{ color: "var(--admin-text-primary)" }}>ENGR ALAM ASHIK</span>
+          <span className="text-lg font-black tracking-tight uppercase" style={{ color: "var(--admin-text-primary)" }}>Admin Panel</span>
         </Link>
         <button 
           className="p-2 rounded-lg hover:bg-[color:var(--admin-bg)]0/10 lg:hidden"
@@ -115,13 +115,16 @@ export default function AdminSidebar({ onClose }) {
       </nav>
 
       {/* Quick Access Footer */}
-      <div className="p-6 border-t" style={{ borderTopColor: "var(--admin-border)", background: "var(--admin-bg)" }}>
-          <div className="p-4 rounded-xl border" style={{ background: "var(--admin-card)", borderColor: "var(--admin-border)" }}>
-             <div className="flex items-center justify-between">
-                <span className="text-[9px] font-bold uppercase tracking-widest opacity-50" style={{ color: "var(--admin-text-primary)" }}>Server Status</span>
-                <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
-             </div>
-          </div>
+      <div className="p-6 border-t space-y-4" style={{ borderTopColor: "var(--admin-border)", background: "var(--admin-bg)" }}>
+          <a 
+            href="/" 
+            target="_blank"
+            className="flex items-center justify-between p-4 rounded-xl border group hover:border-sky-500 transition-all" 
+            style={{ background: "var(--admin-card)", borderColor: "var(--admin-border)" }}
+          >
+             <span className="text-[9px] font-black uppercase tracking-widest text-sky-500">View Website</span>
+             <Globe size={14} className="text-sky-500 group-hover:rotate-12 transition-transform" />
+          </a>
       </div>
     </div>
   );
