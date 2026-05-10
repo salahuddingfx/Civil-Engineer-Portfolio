@@ -155,7 +155,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Filter Pills */}
-      <section className="reveal-unit py-8 px-6 lg:px-10 mx-auto max-w-[1500px] mb-4" style={{ borderBottom: "1px solid var(--highlight-border)" }}>
+      <section className="reveal-unit py-6 px-4 sm:px-6 lg:px-10 mx-auto max-w-[1500px] mb-4" style={{ borderBottom: "1px solid var(--highlight-border)" }}>
          <div className="flex flex-wrap gap-4">
             {categories.map((cat, i) => {
               const isActive = activeCategory === cat;
@@ -179,7 +179,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Projects Grid */}
-      <section className="py-16 px-6 lg:px-10 mx-auto max-w-[1500px]">
+      <section className="py-8 px-4 sm:px-6 lg:px-10 mx-auto max-w-[1500px]">
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {loading ? (
               [1, 2, 3, 4, 5, 6].map((i) => <ProjectSkeleton key={i} />)
@@ -254,8 +254,8 @@ export default function ProjectsPage() {
       />
 
       {/* CTA Section */}
-      <section className="py-24 px-6 lg:px-10 bg-[#0A0F1C]">
-         <div className="max-w-[1500px] mx-auto rounded-3xl bg-[#111827] relative p-16 md:p-24 text-center reveal-unit border border-[#19D2FF]/20 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+      <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-10 bg-[#0A0F1C]">
+         <div className="max-w-[1500px] mx-auto rounded-3xl bg-[#111827] relative p-8 md:p-16 lg:p-24 text-center reveal-unit border border-[#19D2FF]/20 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
             <div className="absolute inset-0 bg-[#19D2FF]/5 hidden md:block rounded-3xl pointer-events-none"></div>
             
             <div className="relative z-10 w-full max-w-3xl mx-auto">
