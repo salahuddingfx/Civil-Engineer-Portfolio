@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
 
   return (
     <div ref={containerRef} className="admin-layout min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      <SeoHead title="System Access | Engr Alam Ashik" description="Secure entry for authorized personnel." path="/admin" />
+      <SeoHead title="Admin Login — Engr. Alam Ashik" description="Secure entry for authorized personnel." path="/admin" />
       
       {/* 1. Backdrop Grid */}
       <div className="admin-blueprint-grid" />
@@ -138,7 +138,7 @@ export default function AdminLoginPage() {
                    {isLoading ? (
                     <>
                       <Loader2 size={18} className="animate-spin" />
-                      Signing In...
+                      Entering...
                     </>
                   ) : (
                     <>
@@ -150,7 +150,7 @@ export default function AdminLoginPage() {
             </form>
 
              <div className="mt-8 flex justify-center border-t border-[color:var(--admin-border)] pt-8">
-               <div className="px-4 text-[9px] font-bold text-[color:var(--admin-text-muted)] opacity-60 uppercase tracking-[0.3em]">SECURE PORTAL</div>
+               <div className="px-4 text-[9px] font-bold text-[color:var(--admin-text-muted)] opacity-60 uppercase tracking-[0.3em]">ADMIN PANEL</div>
              </div>
          </div>
          
