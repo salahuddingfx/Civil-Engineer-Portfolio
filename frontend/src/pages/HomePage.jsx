@@ -301,9 +301,12 @@ export default function HomePage({ isIntroComplete }) {
           <div className="absolute bottom-[20%] right-[5%] w-px h-24 bg-gradient-to-b from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
           <div className="absolute bottom-[20%] right-[5%] h-px w-24 bg-gradient-to-r from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
           
-          <div className="absolute top-1/2 left-10 -translate-y-1/2 flex flex-col gap-8 opacity-20 hidden xl:flex">
+          <div className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 flex flex-col gap-12 opacity-[0.07] hidden xl:flex pointer-events-none">
              {[ "01", "02", "03", "04" ].map(n => (
-               <span key={n} className="text-[10px] font-black tracking-widest vertical-text" style={{ color: "var(--text)" }}>SEC_{n}</span>
+               <div key={n} className="flex items-center gap-3">
+                 <div className="w-8 h-[1px] bg-[var(--highlight)]" />
+                 <span className="text-[8px] font-black tracking-[0.3em] uppercase" style={{ color: "var(--highlight)" }}>MRK_{n}</span>
+               </div>
              ))}
           </div>
         </div>
