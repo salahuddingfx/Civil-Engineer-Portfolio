@@ -452,7 +452,7 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Services ──────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-10 relative" style={{ background: "var(--bg)" }}>
+      <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-10 relative" style={{ background: "var(--bg)" }}>
         <div className="mx-auto max-w-[1500px] relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div className="reveal-unit">
@@ -570,7 +570,7 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Client Reviews ────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-10 overflow-hidden border-b border-[var(--highlight-border)]" style={{ background: "var(--bg)" }}>
+      <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-10 overflow-hidden border-b border-[var(--highlight-border)]" style={{ background: "var(--bg)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6 reveal-unit">
             <div className="flex items-center gap-4">
@@ -705,7 +705,7 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Location / Contact Quick Strip ────────────────────────────────── */}
-      <section className="py-20 px-6 lg:px-10" style={{ background: "var(--bg)" }}>
+      <section className="py-12 md:py-20 px-4 sm:px-6 lg:px-10" style={{ background: "var(--bg)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 reveal-unit">
             {/* Location */}
@@ -778,7 +778,7 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Partners ──────────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-10 overflow-hidden border-t border-[var(--highlight-border)]" style={{ background: "var(--bg-soft)" }}>
+      <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-10 overflow-hidden border-t border-[var(--highlight-border)]" style={{ background: "var(--bg-soft)" }}>
         <div className="mx-auto max-w-[1500px]">
           <h2 className="text-[11px] font-bold uppercase tracking-[0.4em] text-center mb-16 reveal-unit" style={{ color: "var(--text-faint)" }}>
             {t("partners.title", language)}
@@ -830,8 +830,8 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── CTA ───────────────────────────────────────────────────────────── */}
-      <section className="py-32 px-6 lg:px-10 relative overflow-hidden" style={{ background: "var(--bg)" }}>
-        <div className="reveal-unit p-10 lg:p-16 rounded-3xl relative backdrop-blur-xl border border-[var(--highlight-border)] transition-all duration-500"
+      <section className="py-16 md:py-32 px-4 sm:px-6 lg:px-10 relative overflow-hidden" style={{ background: "var(--bg)" }}>
+        <div className="reveal-unit p-6 sm:p-10 lg:p-16 rounded-3xl relative backdrop-blur-xl border border-[var(--highlight-border)] transition-all duration-500"
                 style={{ background: "var(--bg-card)", boxShadow: "0 30px 60px rgba(0,0,0,0.12)" }}>
           <div className="relative z-10 w-full max-w-3xl mx-auto">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight" style={{ color: "var(--text)" }}>
