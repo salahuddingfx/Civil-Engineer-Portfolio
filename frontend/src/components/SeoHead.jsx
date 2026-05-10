@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 export default function SeoHead({
   title = "Civil Engineer in Cox's Bazar | Engr Alam Ashik",
-  description = "Premium civil engineering, structural design, and consultancy services in Cox's Bazar.",
+  description = "Professional civil engineering, structural design, and consultancy services in Cox's Bazar.",
   path = "/",
   image = "/og-identity.jpg",
 }) {
@@ -20,7 +20,7 @@ export default function SeoHead({
       url: siteUrl,
       name: "Engr Alam Ashik",
       alternateName: ["Alam Ashik", "Engineer Alam Ashik"],
-      description: "Premium Civil Engineering & Structural Design Portfolio",
+      description: "Professional Civil Engineering & Structural Design Portfolio",
       inLanguage: ["en", "bn"],
       publisher: { "@id": `${siteUrl}/#person` }
     },
