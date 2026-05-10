@@ -92,12 +92,12 @@ export default function ProjectsPage() {
           }));
           setDisplayProjects(mapped);
         } else {
-          setDisplayProjects(projects);
+          setDisplayProjects([]);
         }
         // Removed artificial delay
       } catch (err) {
-        console.warn("Projects API failed, using fallback", err);
-        setDisplayProjects(projects);
+        console.warn("Projects API failed", err);
+        setDisplayProjects([]);
       } finally {
         setLoading(false);
       }
