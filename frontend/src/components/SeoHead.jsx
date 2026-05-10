@@ -20,6 +20,7 @@ export default function SeoHead({
       url: siteUrl,
       name: "Engr Alam Ashik",
       alternateName: ["Alam Ashik", "Engineer Alam Ashik"],
+      description: "Premium Civil Engineering & Structural Design Portfolio",
       inLanguage: ["en", "bn"],
       publisher: { "@id": `${siteUrl}/#person` }
     },
@@ -28,8 +29,9 @@ export default function SeoHead({
       "@id": `${siteUrl}/#person`,
       name: "Engr Alam Ashik",
       jobTitle: "Civil Engineer & Structural Consultant",
+      description: "Engr Alam Ashik is a professional civil engineer specializing in structural integrity, architectural design, and CAD visualization across Bangladesh.",
       url: siteUrl,
-      image: `${siteUrl}/images/alam-ashik-profile.jpg`, // Placeholder - would be better if actual exists
+      image: absoluteImage,
       sameAs: [
         "https://facebook.com/ce.alam",
         "https://linkedin.com/in/engr-alam-ashik",
@@ -37,6 +39,25 @@ export default function SeoHead({
         "https://twitter.com/Engr_Alam_Ashik"
       ],
       worksFor: { "@id": `${siteUrl}/#professional-service` }
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${absoluteUrl}/#webpage`,
+      url: absoluteUrl,
+      name: title,
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      primaryImageOfPage: { "@id": `${absoluteImage}/#primaryimage` },
+      description: description,
+      breadcrumb: { "@id": `${absoluteUrl}/#breadcrumb` },
+      inLanguage: ["en", "bn"]
+    },
+    {
+      "@type": "ImageObject",
+      "@id": `${absoluteImage}/#primaryimage`,
+      url: absoluteImage,
+      contentUrl: absoluteImage,
+      width: 1200,
+      height: 630
     }
   ];
 
@@ -49,6 +70,7 @@ export default function SeoHead({
       image: absoluteImage,
       description: description,
       url: siteUrl,
+      logo: absoluteImage,
       telephone: "+8801829618805",
       priceRange: "$$",
       address: {
