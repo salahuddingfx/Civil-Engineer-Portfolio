@@ -61,10 +61,9 @@ export default function AdminContact() {
   const handleSave = async () => {
     setSaving(true);
     setStatus({ type: "", message: "" });
-    console.log("[ADMIN_CONTACT] Initiating synchronization protocol with payload bundle...");
 
     const payload = {
-      slug: "primary", // Explicitly enforce primary identity
+      slug: "primary",
       phone: form.phone.trim(),
       email: form.email.trim(),
       whatsapp: form.whatsapp.trim(),
@@ -86,46 +85,19 @@ export default function AdminContact() {
     };
 
     try {
-      let result;
       if (recordId) {
-        console.log(`[ADMIN_CONTACT] Committing update to legacy record node: ${recordId}`);
-        result = await adminUpdate("contactDetails", recordId, payload);
+        await adminUpdate("contactDetails", recordId, payload);
       } else {
-        console.log("[ADMIN_CONTACT] Initializing new contact infrastructure node...");
-        result = await adminCreate("contactDetails", payload);
+        const result = await adminCreate("contactDetails", payload);
         setRecordId(result._id);
       }
 
-      // DATA INTEGRITY CHECK: Re-fetch to confirm persistence and bypass caches
-      console.log("[ADMIN_CONTACT] Verification sequence initiated. Re-fetching synchronized state...");
-      const verifyRes = await adminList("contactDetails", { limit: 1 });
-      const verifiedItem = verifyRes.items?.[0];
-      
-      if (verifiedItem) {
-        setForm({
-          phone: verifiedItem.phone || "",
-          email: verifiedItem.email || "",
-          whatsapp: verifiedItem.whatsapp || "",
-          whatsappEnabled: verifiedItem.whatsappEnabled ?? true,
-          whatsappLabel: verifiedItem.whatsappLabel || "WhatsApp Chat",
-          addressEn: verifiedItem.address?.en || "",
-          addressBn: verifiedItem.address?.bn || "",
-          googleMapEmbedUrl: verifiedItem.googleMapEmbedUrl || "",
-          facebook: verifiedItem.socialLinks?.facebook || "",
-          linkedin: verifiedItem.socialLinks?.linkedin || "",
-          youtube: verifiedItem.socialLinks?.youtube || "",
-          instagram: verifiedItem.socialLinks?.instagram || "",
-          twitter: verifiedItem.socialLinks?.twitter || "",
-        });
-      }
-
-      setStatus({ type: "success", message: "CONTACT INFRASTRUCTURE SYNCHRONIZED SUCCESSFULLY" });
+      setStatus({ type: "success", message: "Contact information saved successfully!" });
     } catch (err) {
-      console.error("[ADMIN_CONTACT_ERROR] Protocol Failure:", err);
-      setStatus({ type: "error", message: `COMMIT_FAILED: ${err.response?.data?.message || "Protocol Error"}` });
+      console.error("[ADMIN_CONTACT_ERROR] Save Failure:", err);
+      setStatus({ type: "error", message: "Failed to save contact information." });
     } finally { 
       setSaving(false); 
-      // Verification logic already updates state in lines 105-120
     }
   };
 
