@@ -253,5 +253,6 @@ export default function AdminServices() {
         </div>
       </div>
     </AdminModuleWrapper>
+    </>
   );
 }
