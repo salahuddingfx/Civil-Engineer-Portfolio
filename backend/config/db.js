@@ -11,37 +11,24 @@ async function connectDb() {
   const options = {
     maxPoolSize: 10,
     minPoolSize: 2,
-    socketTimeoutMS: 60000,
-    serverSelectionTimeoutMS: 15000, // Increased for Vercel/Atlas cold start stability
+    socketTimeoutMS: 45000,
+    serverSelectionTimeoutMS: 30000, // Increased for Vercel stability
     heartbeatFrequencyMS: 10000,
     retryWrites: true,
+    connectTimeoutMS: 30000,
   };
 
   connectionPromise = (async () => {
     try {
       await mongoose.connect(env.mongoUri, options);
       dbReady = true;
-      console.log("✔ Global MongoDB Identity Synchronized (Atlas Connected)");
+      console.log("✔ MongoDB Atlas Connected Successfully");
       return mongoose.connection;
     } catch (error) {
-      console.error(`✖ Primary Identity Sync Failed: ${error.message}`);
-      if (error.name === 'MongoServerSelectionError') {
-        console.warn("TIP: This usually means your IP is not whitelisted in MongoDB Atlas. Ensure 0.0.0.0/0 is allowed.");
-      }
-      
-      console.warn("Attempting emergency local fallback (Expected to fail on Vercel)...");
-      try {
-        const localUri = process.env.MONGO_URI_LOCAL || "mongodb://127.0.0.1:27017/alam-ashik-portfolio";
-        await mongoose.connect(localUri, options);
-        dbReady = true;
-        console.log("✔ Emergency Local Record Sync Connected");
-        return mongoose.connection;
-      } catch (localError) {
-        dbReady = false;
-        connectionPromise = null; // Reset for retry
-        console.error(`FATAL: All persistence layers unreachable. Error: ${localError.message}`);
-        throw localError;
-      }
+      console.error(`✖ MongoDB Connection Failed: ${error.message}`);
+      dbReady = false;
+      connectionPromise = null;
+      throw error;
     }
   })();
 
