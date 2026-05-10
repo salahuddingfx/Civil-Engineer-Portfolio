@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Briefcase, Settings, Edit3, Trash2, Plus, Type, Sparkles, Cpu, Layers, Search } from "lucide-react";
+import { toast } from "sonner";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
+import AdminConfirm from "../../../components/admin/AdminConfirm";
 import AutoTranslate from "../../../components/admin/AutoTranslate";
 
 export default function AdminServices() {
@@ -20,7 +22,7 @@ export default function AdminServices() {
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" });
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const loadData = async () => {
     try {
@@ -31,7 +33,7 @@ export default function AdminServices() {
         setSelectedId(fetchedItems[0]._id);
       }
     } catch (err) {
-      setStatus({ type: "error", message: "LOAD_FAILED: Check Infrastructure" });
+      toast.error("Failed to load services.");
     } finally {
       setLoading(false);
     }
@@ -62,7 +64,6 @@ export default function AdminServices() {
 
   const handleSave = async () => {
     setSaving(true);
-    setStatus({ type: "", message: "" });
     const payload = {
       slug: selectedId ? form.slug : `${(form.slug || form.titleEn.toLowerCase().replace(/\s+/g, '-'))}-${Date.now()}`,
       title: { en: form.titleEn, bn: form.titleBn },
@@ -78,10 +79,10 @@ export default function AdminServices() {
         await adminCreate("services", payload);
       }
       
-      setStatus({ type: "success", message: "Service saved successfully!" });
+      toast.success("Service saved successfully!");
     } catch (err) {
       console.error("[ADMIN_SERVICE_ERROR] Save Failure:", err);
-      setStatus({ type: "error", message: "Could not save service. Please try again." });
+      toast.error("Failed to save service. Please try again.");
     } finally { 
       setSaving(false); 
       await loadData();
@@ -89,19 +90,17 @@ export default function AdminServices() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this service permanently?")) return;
     setSaving(true);
-    setStatus({ type: "", message: "" });
     try {
       await adminDelete("services", selectedId);
-      setStatus({ type: "success", message: "Service deleted successfully." });
-    } catch (err) {
-      console.error("[ADMIN_SERVICE_ERROR] Delete Failure:", err);
-      setStatus({ type: "error", message: "Failed to delete service." });
-    } finally { 
-      setSaving(false); 
+      toast.success("Service deleted successfully.");
       setSelectedId(null);
       await loadData();
+    } catch (err) {
+      console.error("[ADMIN_SERVICE_ERROR] Delete Failure:", err);
+      toast.error("Failed to delete service.");
+    } finally { 
+      setSaving(false); 
     }
   };
 
@@ -114,18 +113,25 @@ export default function AdminServices() {
   const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-[color:var(--admin-text-muted)] ml-4 mb-4";
 
   return (
-    <AdminModuleWrapper
-      title="Our Services"
-      subtitle="Manage your professional engineering services and architectural packages."
-      icon={Briefcase}
-      loading={loading}
-      saving={saving}
-      status={status}
-      onSave={handleSave}
-      onDelete={selectedId ? handleDelete : null}
-      allowCreate={!!selectedId}
-      onNew={() => setSelectedId(null)}
-    >
+    <>
+      <AdminConfirm 
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        onConfirm={handleDelete}
+        title="Delete Service"
+        message="Are you sure you want to delete this service permanently? This will remove it from the public services page."
+      />
+      <AdminModuleWrapper
+        title="Our Services"
+        subtitle="Manage your professional engineering services and architectural packages."
+        icon={Briefcase}
+        loading={loading}
+        saving={saving}
+        onSave={handleSave}
+        onDelete={selectedId ? () => setIsConfirmOpen(true) : null}
+        allowCreate={!!selectedId}
+        onNew={() => setSelectedId(null)}
+      >
       <div className="grid lg:grid-cols-[380px_1fr] gap-12">
         {/* List Sidebar */}
         <div className="space-y-6 flex flex-col">
