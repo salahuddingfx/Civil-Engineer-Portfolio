@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Home, Type, AlignLeft, Image as ImageIcon, Sparkles, BarChart3, Plus, Trash2, Save, ShieldCheck } from "lucide-react";
+import { toast } from "sonner";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
+import AdminConfirm from "../../../components/admin/AdminConfirm";
 import ImageUpload from "../../../components/admin/ImageUpload";
 import AutoTranslate from "../../../components/admin/AutoTranslate";
 
@@ -18,8 +20,9 @@ export default function AdminHome() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" });
   const [recordId, setRecordId] = useState(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [blockToDelete, setBlockToDelete] = useState(null);
 
   // Dynamic blocks state
   const [stats, setStats] = useState([]);
@@ -50,7 +53,7 @@ export default function AdminHome() {
         setStats(blocks.filter(b => b.section === 'stats').sort((a, b) => a.order - b.order));
         setPartners(blocks.filter(b => b.section === 'partners').sort((a, b) => a.order - b.order));
       } catch (err) {
-        setStatus({ type: "error", message: "LOAD_FAILED: Check Infrastructure" });
+        toast.error("Failed to load home content.");
       } finally {
         setLoading(false);
       }
@@ -59,9 +62,7 @@ export default function AdminHome() {
   }, []);
 
   const handleSave = async () => {
-    console.log("[ADMIN_HOME_SAVE] Execution Started. Active Tab:", activeTab);
     setSaving(true);
-    setStatus({ type: "", message: "" });
     const payload = {
       slug: "home",
       title: { en: form.titleEn, bn: form.titleBn },
@@ -78,28 +79,13 @@ export default function AdminHome() {
         const res = await adminCreate("home", payload);
         setRecordId(res._id);
       }
-      console.log("[ADMIN_HOME] Synchronization successful. Initiating verification pulse...");
-      const verifyRes = await adminList("home", { limit: 1 });
-      const verifyItem = verifyRes.items?.[0];
-      if (verifyItem) {
-        setForm({
-          titleEn: verifyItem.title?.en || "",
-          titleBn: verifyItem.title?.bn || "",
-          summaryEn: verifyItem.summary?.en || "",
-          summaryBn: verifyItem.summary?.bn || "",
-          bodyEn: verifyItem.body?.en || "",
-          bodyBn: verifyItem.body?.bn || "",
-          featuredImageUrl: verifyItem.featuredImage?.url || "",
-        });
-      }
-
-      setStatus({ type: "success", message: "HOME VISION SYNCHRONIZED SUCCESSFULLY" });
+      
+      toast.success("Home content synchronized successfully!");
     } catch (err) {
       console.error("[ADMIN_HOME_SAVE_ERROR] Save Protocol Failure:", err);
-      setStatus({ type: "error", message: "COMMIT FAILED: Protocol Error" });
+      toast.error("Failed to save home content.");
     } finally {
       setSaving(false);
-      // Data is already verified in lines 82-94, no reload needed
     }
   };
 
@@ -128,23 +114,31 @@ export default function AdminHome() {
       if (section === "partners") setPartners(items.filter(b => b.section === 'partners').sort((a, b) => a.order - b.order));
 
       setEditingBlock(null);
-      setStatus({ type: "success", message: `${section.toUpperCase()} SYNCHRONIZED` });
+      toast.success(`${section.toUpperCase()} block synchronized.`);
     } catch (err) {
       console.error(`[ADMIN_HOME_ERROR] ${section.toUpperCase()} Block Save Failure:`, err);
-      setStatus({ type: "error", message: "BLOCK_SAVE_FAILED" });
+      toast.error("Failed to save block.");
     } finally { 
       setSaving(false); 
     }
   };
 
-  const handleBlockDelete = async (id, section) => {
-    if (!window.confirm("Delete this block?")) return;
+  const handleBlockDelete = async () => {
+    if (!blockToDelete) return;
     setSaving(true);
     try {
-      setStatus({ type: "success", message: "BLOCK PURGED SUCCESSFULLY" });
+      await adminDelete("sectionBlocks", blockToDelete.id);
+      toast.success("Block purged successfully.");
+      
+      const refreshed = await adminList("sectionBlocks", { pageFilter: "home", limit: 50 });
+      const items = refreshed.items || [];
+      if (blockToDelete.section === "stats") setStats(items.filter(b => b.section === 'stats').sort((a, b) => a.order - b.order));
+      if (blockToDelete.section === "partners") setPartners(items.filter(b => b.section === 'partners').sort((a, b) => a.order - b.order));
+      
+      setBlockToDelete(null);
     } catch (err) {
       console.error("[ADMIN_HOME_ERROR] Block Delete Failure:", err);
-      setStatus({ type: "error", message: "DELETE_FAILED" });
+      toast.error("Failed to delete block.");
     } finally { 
       setSaving(false); 
     }
@@ -161,15 +155,22 @@ export default function AdminHome() {
   ];
 
   return (
-    <AdminModuleWrapper
-      title="Landing Vision"
-      subtitle="Configure global hero typography and architectural brand standards."
-      icon={Home}
-      loading={loading}
-      saving={saving}
-      status={status}
-      onSave={activeTab === "hero" ? handleSave : null}
-    >
+    <>
+      <AdminConfirm 
+        isOpen={isConfirmOpen}
+        onClose={() => { setIsConfirmOpen(false); setBlockToDelete(null); }}
+        onConfirm={handleBlockDelete}
+        title="Delete Block"
+        message="Are you sure you want to delete this block? This will remove it from your homepage."
+      />
+      <AdminModuleWrapper
+        title="Landing Vision"
+        subtitle="Configure global hero typography and architectural brand standards."
+        icon={Home}
+        loading={loading}
+        saving={saving}
+        onSave={activeTab === "hero" ? handleSave : null}
+      >
       {/* Tabs */}
       <div className="flex gap-2 mb-10 p-2 rounded-2xl" style={{ background: "var(--admin-bg)", border: "1px solid var(--admin-border)" }}>
         {tabs.map(tab => (
@@ -286,7 +287,7 @@ export default function AdminHome() {
                     className="px-4 py-2 rounded-lg text-[11px] font-black uppercase transition-all hover:opacity-80"
                     style={{ border: "1px solid var(--highlight-border)", color: "var(--highlight)" }}
                   >Edit</button>
-                  <button onClick={() => handleBlockDelete(block._id, activeTab)}
+                  <button onClick={() => { setBlockToDelete({ id: block._id, section: activeTab }); setIsConfirmOpen(true); }}
                     className="px-4 py-2 rounded-lg text-[11px] font-black uppercase transition-all hover:opacity-80"
                     style={{ border: "1px solid #ef444440", color: "#ef4444" }}
                   ><Trash2 size={13} /></button>
@@ -367,5 +368,6 @@ export default function AdminHome() {
         </div>
       )}
     </AdminModuleWrapper>
+    </>
   );
 }
