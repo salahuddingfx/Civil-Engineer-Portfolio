@@ -73,7 +73,7 @@ export default function App() {
     <>
       {!isIntroComplete && <IntroLoader onComplete={handleIntroComplete} />}
       
-      <div className={`transition-opacity duration-1000 ${isIntroComplete ? "opacity-100" : "opacity-0 invisible"}`}>
+      <div className={isIntroComplete ? "" : "opacity-0 invisible"}>
         <ScrollToTop />
         <Suspense fallback={<Loader />}>
           <Routes>
