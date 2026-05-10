@@ -103,7 +103,7 @@ export default function ServicesPage() {
       />
 
       {/* Hero */}
-      <section className="relative pt-32 pb-16 px-6 lg:px-10 mx-auto max-w-[1500px]">
+      <section className="relative pt-24 pb-12 px-4 sm:px-6 lg:px-10 mx-auto max-w-[1500px]">
         <div className="reveal-unit max-w-4xl">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-[10px] font-bold tracking-[0.2em] uppercase"
             style={{ border: "1px solid var(--highlight-border)", background: "var(--highlight-soft)", color: "var(--highlight)" }}>
@@ -121,7 +121,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Category Filters */}
-      <section className="reveal-unit py-8 px-6 lg:px-10 mx-auto max-w-[1500px] mb-8"
+      <section className="reveal-unit py-6 px-4 sm:px-6 lg:px-10 mx-auto max-w-[1500px] mb-8"
         style={{ borderBottom: "1px solid var(--highlight-border)" }}>
         <div className="flex flex-wrap gap-4">
           {categories.map((cat) => {
@@ -145,7 +145,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-12 px-6 lg:px-10 mx-auto max-w-[1500px]">
+      <section className="py-8 px-4 sm:px-6 lg:px-10 mx-auto max-w-[1500px]">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {loading ? (
             [1, 2, 3, 4, 5, 6].map((i) => <ServiceSkeleton key={i} />)
@@ -201,8 +201,8 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-32 px-6 lg:px-10 relative overflow-hidden" style={{ background: "var(--bg)" }}>
-        <div className="max-w-[1200px] mx-auto rounded-3xl relative p-16 md:p-24 text-center reveal-unit"
+      <section className="py-16 md:py-32 px-4 sm:px-6 lg:px-10 relative overflow-hidden" style={{ background: "var(--bg)" }}>
+        <div className="max-w-[1200px] mx-auto rounded-3xl relative p-8 md:p-16 lg:p-24 text-center reveal-unit"
           style={{ background: "var(--bg-card)", border: "1px solid var(--highlight-border)", boxShadow: "0 30px 60px rgba(0,0,0,0.1)" }}>
           <div className="relative z-10 w-full max-w-3xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: "var(--text)" }}>
