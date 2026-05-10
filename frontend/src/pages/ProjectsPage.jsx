@@ -138,7 +138,7 @@ export default function ProjectsPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-6 lg:px-10 mx-auto max-w-[1500px]">
+      <section className="relative pt-24 pb-12 px-4 sm:px-6 lg:px-10 mx-auto max-w-[1500px]">
          <div className="reveal-unit max-w-4xl">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 text-[10px] font-bold tracking-[0.2em] uppercase"
               style={{ border: "1px solid var(--highlight-border)", background: "var(--highlight-soft)", color: "var(--highlight)" }}>
