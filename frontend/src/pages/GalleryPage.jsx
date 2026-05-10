@@ -25,6 +25,8 @@ export default function GalleryPage() {
 
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const imagesPerPage = 9;
 
   // Fetch dynamic gallery content
   useEffect(() => {
@@ -103,9 +105,8 @@ export default function GalleryPage() {
                  <Skeleton className="h-[400px] rounded-3xl" />
                  <Skeleton className="h-[400px] rounded-3xl" />
              </div>
-         ) : (
-         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
-            {images.map((img, i) => (
+         ) : (          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 md:gap-8 space-y-6 md:space-y-8">
+            {images.slice((currentPage - 1) * imagesPerPage, currentPage * imagesPerPage).map((img, i) => (
               <div 
                 key={i} 
                 className={`reveal-unit group relative rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer shadow-xl border border-[rgba(25,210,255,0.05)] break-inside-avoid active:scale-[0.98] transition-transform duration-300
@@ -114,7 +115,6 @@ export default function GalleryPage() {
               >
                  <img src={img.src} alt={img.label} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" decoding="async" />
                  
-                 {/* Better Overlay for Cinematic Contrast */}
                  <div className={`absolute inset-0 ${isDark ? "bg-gradient-to-t from-black via-black/40" : "bg-gradient-to-t from-white via-white/20"} to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100`} />
                  
                  <div className={`absolute inset-0 p-6 md:p-8 flex flex-col justify-end ${isDark ? "text-white" : "text-slate-900"}`}>
@@ -130,7 +130,6 @@ export default function GalleryPage() {
                     </div>
                  </div>
 
-                 {/* Focus Icon - Always visible on mobile */}
                  <div className="absolute top-4 right-4 md:top-8 md:right-8 w-10 h-10 md:w-12 md:h-12 bg-[#19D2FF]/10 backdrop-blur-md border border-[#19D2FF]/20 rounded-full flex items-center justify-center text-[#19D2FF] opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-500 scale-90 md:scale-50 md:group-hover:scale-100 hover:bg-[#19D2FF] hover:text-[#0A0F1C]">
                     <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
                  </div>
@@ -138,7 +137,54 @@ export default function GalleryPage() {
             ))}
          </div>
          )}
+
+         {/* Pagination Controls */}
+         {!loading && images.length > imagesPerPage && (
+           <div className="flex justify-center items-center gap-4 mt-16 reveal-unit">
+             <button 
+               onClick={() => {
+                 setCurrentPage(prev => Math.max(1, prev - 1));
+                 window.lenis?.scrollTo(0);
+               }}
+               disabled={currentPage === 1}
+               className="p-3 rounded-full border border-[var(--highlight-border)] bg-[var(--highlight-soft)] text-[var(--highlight)] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--highlight)] hover:text-[#0A0F1C] transition-all"
+             >
+               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" /></svg>
+             </button>
+             
+             <div className="flex gap-2">
+               {Array.from({ length: Math.ceil(images.length / imagesPerPage) }).map((_, idx) => (
+                 <button
+                   key={idx}
+                   onClick={() => {
+                     setCurrentPage(idx + 1);
+                     window.lenis?.scrollTo(0);
+                   }}
+                   className={`w-10 h-10 rounded-lg text-xs font-black transition-all ${
+                     currentPage === idx + 1 
+                       ? "bg-[var(--highlight)] text-[#0A0F1C]" 
+                       : "bg-[var(--highlight-soft)] text-[var(--highlight)] border border-[var(--highlight-border)] hover:bg-[var(--highlight)] hover:text-[#0A0F1C]"
+                   }`}
+                 >
+                   {String(idx + 1).padStart(2, '0')}
+                 </button>
+               ))}
+             </div>
+
+             <button 
+               onClick={() => {
+                 setCurrentPage(prev => Math.min(Math.ceil(images.length / imagesPerPage), prev + 1));
+                 window.lenis?.scrollTo(0);
+               }}
+               disabled={currentPage === Math.ceil(images.length / imagesPerPage)}
+               className="p-3 rounded-full border border-[var(--highlight-border)] bg-[var(--highlight-soft)] text-[var(--highlight)] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[var(--highlight)] hover:text-[#0A0F1C] transition-all"
+             >
+               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
+             </button>
+           </div>
+         )}
       </section>
+
 
       {/* Lightbox Modal */}
       {activeImage && (

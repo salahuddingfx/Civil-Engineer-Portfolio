@@ -290,9 +290,25 @@ export default function HomePage({ isIntroComplete }) {
         className="relative min-h-[100vh] flex items-center pt-32 pb-20 overflow-hidden px-6 lg:px-10"
         style={{ background: "var(--bg)" }}
       >
-        <div className="blueprint-overlay z-0" />
+        {/* Refined Blueprint Grid Overlay */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute inset-0 bg-tech-grid opacity-30" />
+          <div className="absolute inset-0 blueprint-overlay opacity-20" />
+          
+          {/* Decorative HUD Markers */}
+          <div className="absolute top-[20%] left-[5%] w-px h-24 bg-gradient-to-b from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
+          <div className="absolute top-[20%] left-[5%] h-px w-24 bg-gradient-to-r from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
+          <div className="absolute bottom-[20%] right-[5%] w-px h-24 bg-gradient-to-b from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
+          <div className="absolute bottom-[20%] right-[5%] h-px w-24 bg-gradient-to-r from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
+          
+          <div className="absolute top-1/2 left-10 -translate-y-1/2 flex flex-col gap-8 opacity-20 hidden xl:flex">
+             {[ "01", "02", "03", "04" ].map(n => (
+               <span key={n} className="text-[10px] font-black tracking-widest vertical-text" style={{ color: "var(--text)" }}>SEC_{n}</span>
+             ))}
+          </div>
+        </div>
 
-        <div className="mx-auto max-w-[1500px] grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center w-full relative z-10">
+        <div className="mx-auto max-w-[1600px] grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center w-full relative z-10">
           {/* Left: Text */}
           <div className="relative flex flex-col items-center text-center lg:items-start lg:text-left">
               <div
@@ -302,29 +318,25 @@ export default function HomePage({ isIntroComplete }) {
               {t("hero.available", language)}
             </div>
 
-            <h1 className="hero-content-reveal text-4xl md:text-6xl font-black leading-[1.05] tracking-tighter mb-8" style={{ color: "var(--text)" }}>
+            <h1 className="hero-content-reveal text-5xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tighter mb-8 uppercase" style={{ color: "var(--text)" }}>
                 {(() => {
                    const val = homeData?.title ? (language === "bn" ? homeData.title.bn : homeData.title.en) : "";
                    if (val) {
-                      // Support for '|' separator to define Name vs Designations
                       if (val.includes("|")) {
                         const [name, ...designations] = val.split("|");
                         return (
-                          <div className="flex flex-col gap-4">
-                            <span>{name.trim()}</span>
-                            <div className="hero-designation-row border-none mt-4 pt-0">
+                          <div className="flex flex-col gap-6">
+                            <span className="text-glow-premium">{name.trim()}</span>
+                            <div className="hero-designation-row flex flex-wrap gap-x-8 gap-y-4 border-none mt-2 pt-0">
                               {designations.map((d, i) => {
                                 const isEngineer = d.toLowerCase().includes("engineer");
-                                const isLast = i === designations.length - 1;
                                 return (
-                                  <span key={i} className="flex items-center">
-                                    <span className={`designation-item ${isEngineer || isLast ? "active" : ""}`}>
+                                  <div key={i} className="flex items-center gap-4">
+                                    <span className={`text-xs md:text-sm font-black tracking-[0.3em] uppercase ${isEngineer ? "text-[var(--highlight)]" : "text-[var(--text-muted)]"}`}>
                                       {d.trim()}
                                     </span>
-                                    {i < designations.length - 1 && (
-                                      <div className="designation-separator mx-3 md:mx-4" />
-                                    )}
-                                  </span>
+                                    {i < designations.length - 1 && <div className="w-1.5 h-1.5 rounded-full bg-[var(--highlight)] opacity-20" />}
+                                  </div>
                                 );
                               })}
                             </div>
@@ -335,11 +347,11 @@ export default function HomePage({ isIntroComplete }) {
                       const words = val.trim().split(" ");
                       if (words.length > 1) {
                          const last = words.pop();
-                         return <>{words.join(" ")} <br /><span className="text-glow-cyan">{last}</span></>;
+                         return <><span className="block mb-2">{words.join(" ")}</span> <span className="text-glow-premium text-[var(--highlight)]">{last}</span></>;
                       }
                       return val;
                    }
-                   return <>{t("hero.title_part1", language)} <br /> <span className="text-glow-cyan">{t("hero.title_highlight", language)}</span></>;
+                   return <><span className="block mb-2">{t("hero.title_part1", language)}</span> <span className="text-glow-premium text-[var(--highlight)]">{t("hero.title_highlight", language)}</span></>;
                 })()}
             </h1>
 
