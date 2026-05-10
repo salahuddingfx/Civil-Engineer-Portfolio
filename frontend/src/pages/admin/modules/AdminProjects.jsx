@@ -295,5 +295,6 @@ export default function AdminProjects() {
         </div>
       </div>
     </AdminModuleWrapper>
+    </>
   );
 }
