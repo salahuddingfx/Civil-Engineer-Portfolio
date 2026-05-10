@@ -209,6 +209,5 @@ export default function AdminGallery() {
         </div>
       </div>
     </AdminModuleWrapper>
-
   );
 }
