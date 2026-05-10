@@ -33,8 +33,12 @@ const AdminContact = lazy(() => import("./pages/admin/modules/AdminContact"));
 
 function Loader() {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#0A0F1C] z-[50]">
-      <div className="loader-ring" />
+    <div className="fixed inset-0 flex items-center justify-center bg-[var(--bg)] z-[50] transition-opacity duration-300">
+      <div className="flex gap-2.5">
+        <div className="w-2.5 h-2.5 rounded-full bg-sky-500/80 animate-pulse" />
+        <div className="w-2.5 h-2.5 rounded-full bg-sky-500/80 animate-pulse [animation-delay:200ms]" />
+        <div className="w-2.5 h-2.5 rounded-full bg-sky-500/80 animate-pulse [animation-delay:400ms]" />
+      </div>
     </div>
   );
 }
