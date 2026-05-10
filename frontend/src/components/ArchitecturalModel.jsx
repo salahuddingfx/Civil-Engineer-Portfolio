@@ -157,7 +157,6 @@ function ArchMasterpiece({ floors = 16, scale = 1, materials, isMobile, isDark }
       {!isMobile && (
         <>
           <StructuralLattice radius={radius} floors={floors} floorHeight={floorHeight} material={materials.latticeMaterial} />
-          <BlueprintScanner floors={floors} floorHeight={floorHeight} radius={radius} />
         </>
       )}
 
