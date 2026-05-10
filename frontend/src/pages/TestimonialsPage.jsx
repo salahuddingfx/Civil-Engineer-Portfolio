@@ -115,7 +115,7 @@ export default function TestimonialsPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-6 lg:px-10 text-center mx-auto max-w-[1500px]">
+      <section className="relative pt-24 pb-12 px-4 sm:px-6 lg:px-10 text-center mx-auto max-w-[1500px]">
          <div className="reveal-unit mx-auto max-w-[900px]">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(25,210,255,0.2)] bg-[#19D2FF]/5 mb-6 text-[#19D2FF] text-[10px] font-bold tracking-[0.2em] uppercase shadow-[0_0_15px_rgba(25,210,255,0.1)]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#19D2FF]"></span>
@@ -131,8 +131,8 @@ export default function TestimonialsPage() {
       </section>
 
       {/* Auto-Rotating Premium Carousel */}
-      <section className="reveal-unit py-12 px-6 lg:px-10 mx-auto max-w-[1500px]">
-         <div className="relative rounded-3xl overflow-hidden p-10 md:p-20"
+      <section className="reveal-unit py-8 px-4 sm:px-6 lg:px-10 mx-auto max-w-[1500px]">
+         <div className="relative rounded-3xl overflow-hidden p-6 md:p-20"
            style={{ 
              background: "var(--bg-card)", 
              border: "1px solid var(--highlight-border)",
@@ -200,7 +200,7 @@ export default function TestimonialsPage() {
       </section>
 
       {/* Grid of All (Optional context) */}
-      <section className="reveal-unit py-16 px-6 lg:px-10 mx-auto max-w-[1500px]">
+      <section className="reveal-unit py-12 px-4 sm:px-6 lg:px-10 mx-auto max-w-[1500px]">
          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((item, i) => (
                <div key={i} className="p-8 rounded-2xl transition-all flex flex-col justify-between card-bg">
@@ -226,8 +226,8 @@ export default function TestimonialsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-6 lg:px-10" style={{ background: "var(--bg)" }}>
-         <div className="max-w-[1500px] mx-auto rounded-3xl relative p-16 md:p-24 text-center reveal-unit card-bg shadow-premium">
+      <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-10" style={{ background: "var(--bg)" }}>
+         <div className="max-w-[1500px] mx-auto rounded-3xl relative p-8 md:p-16 lg:p-24 text-center reveal-unit card-bg shadow-premium">
             <div className={`absolute inset-0 ${isDark ? "bg-[#19D2FF]/5" : "bg-[#19D2FF]/2"} rounded-3xl pointer-events-none`}></div>
             
             <div className="relative z-10 w-full max-w-3xl mx-auto">
