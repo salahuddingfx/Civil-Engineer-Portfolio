@@ -92,7 +92,7 @@ export default function AdminModuleWrapper({
             <p className="text-[10px] font-black text-[color:var(--admin-text-primary)] uppercase tracking-[0.5em] animate-pulse italic text-center">Loading Data...</p>
           </div>
         ) : (
-          <div className="admin-card p-3 sm:p-6 md:p-12 relative overflow-hidden group/content">
+          <div className="admin-card p-4 md:p-8 lg:p-12 relative overflow-hidden group/content">
              <div className="absolute top-0 right-0 h-1 w-64 bg-gradient-to-l from-[#19D2FF]/20 to-transparent" />
              <div className="relative z-10 transition-all duration-700 animate-in fade-in slide-in-from-bottom-2">
                 {children}
