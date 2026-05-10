@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import { Search, Bell, Menu, X, User, Shield, ChevronLeft } from "lucide-react";
+import { Toaster } from "sonner";
 import AdminSidebar from "./AdminSidebar";
 import "../../styles/admin.css";
 
