@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { UserCircle, PenTool, Award, Users, Zap, Clock, Plus, Trash2, Edit3, Save, CheckCircle2, ShieldAlert, ChevronRight, Quote } from "lucide-react";
+import { toast } from "sonner";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
+import AdminConfirm from "../../../components/admin/AdminConfirm";
 import ImageUpload from "../../../components/admin/ImageUpload";
 import AutoTranslate from "../../../components/admin/AutoTranslate";
 
@@ -9,8 +11,9 @@ export default function AdminAbout() {
   const [activeTab, setActiveTab] = useState("bio");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" });
   const [recordId, setRecordId] = useState(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   // Data States
   const [bioForm, setBioForm] = useState({
@@ -58,7 +61,7 @@ export default function AdminAbout() {
         setTimeline(timelineRes.items || []);
         setTeam(teamRes.items || []);
       } catch (err) {
-        setStatus({ type: "error", message: "Failed to load profile data." });
+        toast.error("Failed to load profile data.");
       } finally {
         setLoading(false);
       }
@@ -84,48 +87,12 @@ export default function AdminAbout() {
         const res = await adminCreate("about", payload);
         setRecordId(res._id);
       }
-
-      console.log("[ADMIN_ABOUT] Synchronization successful. Initiating verification pulse...");
-      const verifyRes = await adminList("about", { limit: 1 });
-      const verifyItem = verifyRes.items?.[0];
-      if (verifyItem) {
-        setBioForm({
-          titleEn: verifyItem.title?.en || "",
-          titleBn: verifyItem.title?.bn || "",
-          summaryEn: verifyItem.summary?.en || "",
-          summaryBn: verifyItem.summary?.bn || "",
-          quoteEn: verifyItem.quote?.en || "",
-          quoteBn: verifyItem.quote?.bn || "",
-          bodyEn: verifyItem.body?.en || "",
-          bodyBn: verifyItem.body?.bn || "",
-          experience: verifyItem.experience || "11",
-          featuredImageUrl: verifyItem.featuredImage?.url || "",
-        });
-      }
-
-      setStatus({ type: "success", message: "Biography synchronized successfully." });
+      toast.success("Biography synchronized successfully.");
     } catch (err) {
       console.error("[ADMIN_ABOUT_ERROR] Save Protocol Failure:", err);
-      setStatus({ type: "error", message: "COMMIT_FAILED: Protocol Error" });
+      toast.error("Failed to save biography.");
     } finally { 
       setSaving(false); 
-      // Synchronize data instead of reloading
-      const response = await adminList("about", { limit: 1 });
-      if (response.items?.[0]) {
-        const bioItem = response.items[0];
-        setBioForm({
-          titleEn: bioItem.title?.en || "",
-          titleBn: bioItem.title?.bn || "",
-          summaryEn: bioItem.summary?.en || "",
-          summaryBn: bioItem.summary?.bn || "",
-          quoteEn: bioItem.quote?.en || "",
-          quoteBn: bioItem.quote?.bn || "",
-          bodyEn: bioItem.body?.en || "",
-          bodyBn: bioItem.body?.bn || "",
-          experience: bioItem.experience || "11",
-          featuredImageUrl: bioItem.featuredImage?.url || "",
-        });
-      }
     }
   };
 
@@ -149,16 +116,14 @@ export default function AdminAbout() {
      try {
         if (data._id) {
            await adminUpdate(collection, data._id, data);
-           setStatus({ type: "success", message: `${type.toUpperCase()} UPDATED` });
+           toast.success(`${type.toUpperCase()} updated.`);
         } else {
            await adminCreate(collection, { ...data, slug: `${type}-${Date.now()}` });
-           setStatus({ type: "success", message: `NEW ${type.toUpperCase()} ADDED` });
+           toast.success(`New ${type.toUpperCase()} added.`);
         }
-        // Refresh local state
-         setStatus({ type: "success", message: `${type.toUpperCase()} SYNCHRONIZED` });
       } catch (err) {
          console.error(`[ADMIN_ABOUT_ERROR] ${type.toUpperCase()} Action Failure:`, err);
-         setStatus({ type: "error", message: "OPERATION_FAILED" });
+         toast.error("Operation failed.");
       } finally { 
         setSaving(false); 
         setEditingItem(null);
@@ -166,14 +131,16 @@ export default function AdminAbout() {
      }
   };
 
-  const handleItemDelete = async (type, collection, id) => {
-     if (!window.confirm("CONFIRM_PERMANENT_DELETION?")) return;
+  const handleItemDelete = async () => {
+     if (!itemToDelete) return;
      setSaving(true);
      try {
-         setStatus({ type: "success", message: "PURGE_COMPLETE" });
+         await adminDelete(itemToDelete.collection, itemToDelete.id);
+         toast.success("Item purged successfully.");
+         setItemToDelete(null);
       } catch (err) {
          console.error("[ADMIN_ABOUT_ERROR] Delete Protocol Failure:", err);
-         setStatus({ type: "error", message: "PURGE_FAILURE" });
+         toast.error("Failed to delete item.");
       } finally { 
          setSaving(false); 
          await loadCollections();
@@ -191,15 +158,22 @@ export default function AdminAbout() {
   const labelClasses = "block text-[9px] font-black uppercase tracking-[0.3em] text-[color:var(--admin-text-primary)] mb-3 ml-2 italic";
 
   return (
-    <AdminModuleWrapper
-      title="Profile Management"
-      subtitle="Manage biography, skills, career history, and team members."
-      icon={UserCircle}
-      loading={loading}
-      saving={saving}
-      status={status}
-      onSave={activeTab === 'bio' ? handleSaveBio : null}
-    >
+    <>
+      <AdminConfirm 
+        isOpen={isConfirmOpen}
+        onClose={() => { setIsConfirmOpen(false); setItemToDelete(null); }}
+        onConfirm={handleItemDelete}
+        title="Confirm Deletion"
+        message="Are you sure you want to permanently remove this item from your profile?"
+      />
+      <AdminModuleWrapper
+        title="Profile Management"
+        subtitle="Manage biography, skills, career history, and team members."
+        icon={UserCircle}
+        loading={loading}
+        saving={saving}
+        onSave={activeTab === 'bio' ? handleSaveBio : null}
+      >
       <div className="space-y-12">
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-4 p-2 bg-[color:var(--admin-bg)] border border-[color:var(--admin-border)] rounded-[28px] max-w-fit">
@@ -331,7 +305,7 @@ export default function AdminAbout() {
                        </div>
                        <div className="flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button onClick={() => setEditingItem({ type: 'skill', data: { ...skill, titleEn: skill.title?.en, titleBn: skill.title?.bn } })} className="p-2 hover:text-sky-600 transition-colors"><Edit3 size={16} /></button>
-                          <button onClick={() => handleItemDelete('skill', 'skills', skill._id)} className="p-2 hover:text-rose-500 transition-colors"><Trash2 size={16} /></button>
+                          <button onClick={() => { setItemToDelete({ id: skill._id, collection: 'skills' }); setIsConfirmOpen(true); }} className="p-2 hover:text-rose-500 transition-colors"><Trash2 size={16} /></button>
                        </div>
                     </div>
                   ))}
@@ -415,7 +389,7 @@ export default function AdminAbout() {
                         </div>
                         <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
                            <button onClick={() => setEditingItem({ type: 'timeline', data: { ...item, titleEn: item.title?.en, titleBn: item.title?.bn, descEn: item.description?.en, descBn: item.description?.bn } })} className="p-2 hover:text-sky-600 transition-colors"><Edit3 size={18} /></button>
-                           <button onClick={() => handleItemDelete('timeline', 'timelineEntries', item._id)} className="p-2 hover:text-rose-500 transition-colors"><Trash2 size={18} /></button>
+                           <button onClick={() => { setItemToDelete({ id: item._id, collection: 'timelineEntries' }); setIsConfirmOpen(true); }} className="p-2 hover:text-rose-500 transition-colors"><Trash2 size={18} /></button>
                         </div>
                      </div>
                    ))}
@@ -563,5 +537,6 @@ export default function AdminAbout() {
         )}
       </div>
     </AdminModuleWrapper>
+    </>
   );
 }
