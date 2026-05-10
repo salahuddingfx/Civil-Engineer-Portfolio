@@ -109,7 +109,7 @@ export default function TestimonialsPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead
-        title="Engr Alam Ashik | Civil Engineering & Consultancy | Reviews"
+        title="Reviews — Engr. Alam Ashik"
         description="Read what global leaders and local developers say about our professional civil engineering and architectural consultancy services across Bangladesh."
         path="/testimonials"
       />

@@ -109,7 +109,7 @@ export default function ContactPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen relative overflow-hidden">
       <SeoHead
-        title="Engr Alam Ashik | Civil Engineering & Consultancy | Contact"
+        title="Contact — Engr. Alam Ashik"
         description="Connect with Bangladesh's premier civil engineering consultancy for high-end residential, commercial, and structural projects."
         path="/contact"
       />

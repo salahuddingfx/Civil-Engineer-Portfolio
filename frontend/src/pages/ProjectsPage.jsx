@@ -132,7 +132,7 @@ export default function ProjectsPage() {
   return (
     <div ref={containerRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="min-h-screen">
       <SeoHead 
-        title="Engr Alam Ashik | Civil Engineering & Portfolio | Projects" 
+        title="Projects — Engr. Alam Ashik"
         description="A curated portfolio of architectural design, structural engineering, and commercial developments across Bangladesh." 
         path="/projects" 
       />

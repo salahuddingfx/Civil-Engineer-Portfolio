@@ -280,7 +280,7 @@ export default function HomePage({ isIntroComplete }) {
   return (
     <div ref={homeRef} style={{ background: "var(--bg)", color: "var(--text)" }} className="selection:bg-[var(--highlight-soft)] selection:text-[var(--text)]">
       <SeoHead
-        title="Engr Alam Ashik | Professional Civil Engineer & Structural Consultant"
+        title="Engr. Alam Ashik — Professional Civil Engineer"
         description="Professional civil engineering, structural design, and architectural consultancy services across Bangladesh."
         path="/"
       />

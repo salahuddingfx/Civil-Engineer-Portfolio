@@ -139,7 +139,7 @@ export default function AboutPage() {
   return (
     <div ref={containerRef} className="min-h-screen selection:bg-[var(--highlight)] selection:text-black font-body transition-colors duration-500" style={{ background: "var(--bg)", color: "var(--text)" }}>
       <SeoHead
-        title="Engr Alam Ashik | Civil Engineer & Consultant | About"
+        title="About — Engr. Alam Ashik"
         description="Redefining technical consultancy by merging architectural beauty with structural integrity across Bangladesh."
         path="/about"
       />
