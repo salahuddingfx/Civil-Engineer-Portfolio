@@ -135,22 +135,34 @@ export default function AdminGallery() {
              />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 max-h-[700px] overflow-y-auto pr-2 admin-scrollbar">
+          <div className="flex flex-col gap-3 max-h-[700px] overflow-y-auto pr-2 admin-scrollbar">
             {filteredItems.map(item => (
               <div 
                 key={item._id}
                 onClick={() => setSelectedId(item._id)}
-                className={`group aspect-square rounded-2xl border-2 overflow-hidden cursor-pointer transition-all duration-300 relative ${selectedId === item._id ? 'border-sky-500 shadow-lg scale-[0.98]' : 'border-[color:var(--admin-border)] opacity-60 hover:opacity-100 hover:border-sky-500/50'}`}
+                className={`group flex items-center gap-4 p-3 rounded-2xl border-2 cursor-pointer transition-all duration-300 ${selectedId === item._id ? 'border-sky-500 bg-sky-500/5 shadow-md' : 'border-[color:var(--admin-border)] hover:border-sky-500/40 hover:bg-white/5'}`}
               >
-                <img src={item.featuredImage?.url} alt="" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
-                   <p className="text-[7px] font-black uppercase tracking-widest text-sky-400 mb-1">{item.category}</p>
-                   <p className="text-[9px] text-white font-bold truncate">{item.title?.en || "Untitled Photo"}</p>
+                <div className="h-16 w-16 rounded-xl overflow-hidden flex-shrink-0 border border-[color:var(--admin-border)]">
+                  <img src={item.featuredImage?.url} alt="" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                   <p className="text-[11px] text-[color:var(--admin-text-heading)] font-bold truncate uppercase tracking-wider mb-1">{item.title?.en || "Untitled Photo"}</p>
+                   <div className="flex items-center gap-2">
+                     <span className="px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest bg-sky-500/10 text-sky-500 border border-sky-500/20">
+                       {item.category}
+                     </span>
+                     <span className="text-[8px] font-bold text-[color:var(--admin-text-muted)] uppercase tracking-tighter opacity-50">Order: {item.order}</span>
+                   </div>
+                </div>
+                <div className={`opacity-0 group-hover:opacity-100 transition-opacity ${selectedId === item._id ? 'opacity-100' : ''}`}>
+                   <div className="h-6 w-6 rounded-full bg-sky-500 flex items-center justify-center text-white">
+                      <Plus size={12} className={selectedId === item._id ? 'rotate-45' : ''} />
+                   </div>
                 </div>
               </div>
             ))}
             {!loading && filteredItems.length === 0 && (
-               <div className="col-span-2 py-20 text-center space-y-4 opacity-30">
+               <div className="py-20 text-center space-y-4 opacity-30">
                   <Grid3X3 size={32} className="mx-auto text-[color:var(--admin-text-muted)]" />
                   <p className="text-[9px] font-black uppercase tracking-widest">No photos found</p>
                </div>
