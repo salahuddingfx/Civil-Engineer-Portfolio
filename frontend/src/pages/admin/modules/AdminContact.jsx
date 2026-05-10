@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, Globe, MessageCircle, Share2, Users, Sparkles, Map, Smartphone } from "lucide-react";
+import { toast } from "sonner";
 import { Facebook, Twitter, Instagram, Linkedin, Youtube } from "../../../components/BrandIcons";
 import { adminList, adminUpdate, adminCreate } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
@@ -23,7 +24,6 @@ export default function AdminContact() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" });
   const [recordId, setRecordId] = useState(null);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function AdminContact() {
           });
         }
       } catch (err) {
-        setStatus({ type: "error", message: "LOAD_FAILED: Protocol Error" });
+        toast.error("Failed to load contact information.");
       } finally {
         setLoading(false);
       }
@@ -60,7 +60,6 @@ export default function AdminContact() {
 
   const handleSave = async () => {
     setSaving(true);
-    setStatus({ type: "", message: "" });
 
     const payload = {
       slug: "primary",
@@ -92,10 +91,10 @@ export default function AdminContact() {
         setRecordId(result._id);
       }
 
-      setStatus({ type: "success", message: "Contact information saved successfully!" });
+      toast.success("Contact information saved successfully!");
     } catch (err) {
       console.error("[ADMIN_CONTACT_ERROR] Save Failure:", err);
-      setStatus({ type: "error", message: "Failed to save contact information." });
+      toast.error("Failed to save contact information.");
     } finally { 
       setSaving(false); 
     }
