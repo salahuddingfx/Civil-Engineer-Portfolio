@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { MessageSquare, Star, Type, User, Quote, Trash2, Sparkles, CheckCircle2, Crown, Search, Image as ImageIcon } from "lucide-react";
+import { toast } from "sonner";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
+import AdminConfirm from "../../../components/admin/AdminConfirm";
 import ImageUpload from "../../../components/admin/ImageUpload";
 import AutoTranslate from "../../../components/admin/AutoTranslate";
 
@@ -24,7 +26,7 @@ export default function AdminTestimonials() {
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" });
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const loadData = async () => {
     try {
@@ -35,7 +37,7 @@ export default function AdminTestimonials() {
         setSelectedId(fetchedItems[0]._id);
       }
     } catch (err) {
-      setStatus({ type: "error", message: "Failed to load testimonials." });
+      toast.error("Failed to load testimonials.");
     } finally {
       setLoading(false);
     }
@@ -67,7 +69,6 @@ export default function AdminTestimonials() {
 
   const handleSave = async () => {
     setSaving(true);
-    setStatus({ type: "", message: "" });
     const payload = {
       slug: selectedId ? items.find(i => i._id === selectedId)?.slug : `${(form.nameEn || "client").toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
       title: { en: form.nameEn, bn: form.nameBn },
@@ -87,10 +88,10 @@ export default function AdminTestimonials() {
         await adminCreate("testimonials", payload);
       }
       
-      setStatus({ type: "success", message: "Testimonial saved successfully!" });
+      toast.success("Review saved successfully!");
     } catch (err) {
       console.error("[ADMIN_TESTIMONIAL_ERROR] Save Failure:", err);
-      setStatus({ type: "error", message: "Could not save testimonial. Please try again." });
+      toast.error("Failed to save review. Please try again.");
     } finally { 
       setSaving(false); 
       await loadData();
@@ -98,19 +99,17 @@ export default function AdminTestimonials() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     setSaving(true);
-    setStatus({ type: "", message: "" });
     try {
       await adminDelete("testimonials", selectedId);
-      setStatus({ type: "success", message: "Testimonial deleted successfully." });
-    } catch (err) {
-      console.error("[ADMIN_TESTIMONIAL_ERROR] Delete Failure:", err);
-      setStatus({ type: "error", message: "Failed to delete testimonial." });
-    } finally { 
-      setSaving(false); 
+      toast.success("Review deleted successfully.");
       setSelectedId(null);
       await loadData();
+    } catch (err) {
+      console.error("[ADMIN_TESTIMONIAL_ERROR] Delete Failure:", err);
+      toast.error("Failed to delete review.");
+    } finally { 
+      setSaving(false); 
     }
   };
 
@@ -123,18 +122,25 @@ export default function AdminTestimonials() {
   const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-[color:var(--admin-text-secondary)] ml-4 mb-4";
 
   return (
-    <AdminModuleWrapper
-      title="Client Reviews"
-      subtitle="Manage your client feedback, recommendations, and professional testimonials."
-      icon={MessageSquare}
-      loading={loading}
-      saving={saving}
-      status={status}
-      onSave={handleSave}
-      onDelete={selectedId ? handleDelete : null}
-      allowCreate={!!selectedId}
-      onNew={() => setSelectedId(null)}
-    >
+    <>
+      <AdminConfirm 
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        onConfirm={handleDelete}
+        title="Delete Review"
+        message="Are you sure you want to delete this testimonial? This feedback will no longer be visible to potential clients."
+      />
+      <AdminModuleWrapper
+        title="Client Reviews"
+        subtitle="Manage your client feedback, recommendations, and professional testimonials."
+        icon={MessageSquare}
+        loading={loading}
+        saving={saving}
+        onSave={handleSave}
+        onDelete={selectedId ? () => setIsConfirmOpen(true) : null}
+        allowCreate={!!selectedId}
+        onNew={() => setSelectedId(null)}
+      >
       <div className="grid lg:grid-cols-[380px_1fr] gap-12">
         {/* List Sidebar */}
         <div className="space-y-6 flex flex-col">
@@ -273,5 +279,6 @@ export default function AdminTestimonials() {
         </div>
       </div>
     </AdminModuleWrapper>
+    </>
   );
 }
