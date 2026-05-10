@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Search, Bell, Menu, X, User, Shield, ChevronLeft } from "lucide-react";
 import { Toaster } from "sonner";
 import AdminSidebar from "./AdminSidebar";
@@ -15,6 +16,7 @@ export default function AdminLayout({ children }) {
 
   return (
     <div className="min-h-screen flex font-sans selection:bg-cyan-500/30 overflow-x-hidden transition-colors duration-500" style={{ background: "var(--admin-bg)", color: "var(--admin-text-primary)" }}>
+      <Toaster position="top-right" richColors theme="dark" closeButton />
       {/* Blueprint Grid Background */}
       <div className="fixed inset-0 pointer-events-none z-0 admin-blueprint-grid opacity-[0.05]" />
 
