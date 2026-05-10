@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Image as ImageIcon, Camera, Tag, Trash2, Plus, Type, Sparkles, Layers, Grid3X3, Search } from "lucide-react";
+import { toast } from "sonner";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
+import AdminConfirm from "../../../components/admin/AdminConfirm";
 import ImageUpload from "../../../components/admin/ImageUpload";
 import AutoTranslate from "../../../components/admin/AutoTranslate";
 
@@ -19,7 +21,7 @@ export default function AdminGallery() {
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" });
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const loadData = async () => {
     try {
@@ -30,7 +32,7 @@ export default function AdminGallery() {
         setSelectedId(fetchedItems[0]._id);
       }
     } catch (err) {
-      setStatus({ type: "error", message: "Failed to load gallery items." });
+      toast.error("Failed to load gallery items.");
     } finally {
       setLoading(false);
     }
@@ -57,7 +59,6 @@ export default function AdminGallery() {
 
   const handleSave = async () => {
     setSaving(true);
-    setStatus({ type: "", message: "" });
     const payload = {
       slug: form.slug || `img-${Date.now()}`,
       title: { en: form.titleEn, bn: form.titleEn },
@@ -74,10 +75,10 @@ export default function AdminGallery() {
         await adminCreate("gallery", payload);
       }
       
-      setStatus({ type: "success", message: "Photo saved successfully!" });
+      toast.success("Photo saved successfully!");
     } catch (err) {
       console.error("[ADMIN_GALLERY_ERROR] Save Failure:", err);
-      setStatus({ type: "error", message: "Could not save photo. Please try again." });
+      toast.error("Could not save photo. Please try again.");
     } finally { 
       setSaving(false); 
       await loadData();
@@ -85,19 +86,17 @@ export default function AdminGallery() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this photo permanently?")) return;
     setSaving(true);
-    setStatus({ type: "", message: "" });
     try {
       await adminDelete("gallery", selectedId);
-      setStatus({ type: "success", message: "Photo deleted successfully." });
-    } catch (err) {
-      console.error("[ADMIN_GALLERY_ERROR] Delete Failure:", err);
-      setStatus({ type: "error", message: "Failed to delete photo." });
-    } finally { 
-      setSaving(false); 
+      toast.success("Photo deleted successfully.");
       setSelectedId(null);
       await loadData();
+    } catch (err) {
+      console.error("[ADMIN_GALLERY_ERROR] Delete Failure:", err);
+      toast.error("Failed to delete photo.");
+    } finally { 
+      setSaving(false); 
     }
   };
 
@@ -110,18 +109,25 @@ export default function AdminGallery() {
   const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-[color:var(--admin-text-muted)] ml-4 mb-4";
 
   return (
-    <AdminModuleWrapper
-      title="Photo Gallery"
-      subtitle="Manage your project photos, site visits, and architectural renders."
-      icon={ImageIcon}
-      loading={loading}
-      saving={saving}
-      status={status}
-      onSave={handleSave}
-      onDelete={selectedId ? handleDelete : null}
-      allowCreate={!!selectedId}
-      onNew={() => setSelectedId(null)}
-    >
+    <>
+      <AdminConfirm 
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        onConfirm={handleDelete}
+        title="Delete Photo"
+        message="Are you sure you want to delete this photo permanently? This action cannot be undone."
+      />
+      <AdminModuleWrapper
+        title="Photo Gallery"
+        subtitle="Manage your project photos, site visits, and architectural renders."
+        icon={ImageIcon}
+        loading={loading}
+        saving={saving}
+        onSave={handleSave}
+        onDelete={selectedId ? () => setIsConfirmOpen(true) : null}
+        allowCreate={!!selectedId}
+        onNew={() => setSelectedId(null)}
+      >
       <div className="grid lg:grid-cols-[400px_1fr] gap-12">
         {/* Gallery Grid Sidebar */}
         <div className="space-y-6 flex flex-col">
@@ -221,5 +227,6 @@ export default function AdminGallery() {
         </div>
       </div>
     </AdminModuleWrapper>
+    </>
   );
 }
