@@ -128,11 +128,12 @@ export default function AboutPage() {
   }, [loading]);
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center transition-colors duration-500" style={{ background: "var(--bg)" }}>
-       <div className="space-y-4 text-center">
-          <div className="w-12 h-12 border-4 border-[var(--highlight)] border-t-transparent rounded-full animate-spin mx-auto" style={{ boxShadow: "0 0 15px var(--highlight-glow)" }} />
-          <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--highlight)] animate-pulse">Syncing Identity Records...</p>
-       </div>
+    <div className="fixed inset-0 flex items-center justify-center bg-[var(--bg)] z-[50] transition-opacity duration-300">
+      <div className="flex gap-2.5">
+        <div className="w-2.5 h-2.5 rounded-full bg-sky-500/80 animate-pulse" />
+        <div className="w-2.5 h-2.5 rounded-full bg-sky-500/80 animate-pulse [animation-delay:200ms]" />
+        <div className="w-2.5 h-2.5 rounded-full bg-sky-500/80 animate-pulse [animation-delay:400ms]" />
+      </div>
     </div>
   );
 
