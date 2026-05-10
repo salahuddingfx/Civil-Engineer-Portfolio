@@ -145,7 +145,7 @@ export default function AboutPage() {
       />
 
       {/* ── 1. MISSION HERO ────────────────────────────────────────────────── */}
-      <section className="relative pt-32 pb-24 lg:pt-48 px-6 lg:px-10 overflow-hidden">
+      <section className="relative pt-24 pb-16 lg:pt-40 px-4 sm:px-6 lg:px-10 overflow-hidden">
         <div className="blueprint-overlay opacity-10 blueprint-scroll" />
         
         <div className="mx-auto max-w-[1500px] grid lg:grid-cols-2 lg:items-center gap-20 relative z-10">
@@ -224,7 +224,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 2. ABOUT ME SECTION (REFINED) ─────────────────────────────────── */}
-      <section id="about-me" className="py-24 md:py-40 px-6 lg:px-10 relative overflow-hidden border-y border-[var(--highlight-border)]">
+      <section id="about-me" className="py-16 md:py-32 px-4 sm:px-6 lg:px-10 relative overflow-hidden border-y border-[var(--highlight-border)]">
          <div className="mx-auto max-w-[1400px] grid lg:grid-cols-2 gap-16 lg:gap-32 items-center relative z-10">
             
             {/* Content Side - NOW ON THE LEFT */}
@@ -291,7 +291,7 @@ export default function AboutPage() {
 
 
       {/* ── 3. SKILLSET GRID ─────────────────────────────────────────────── */}
-      <section className="py-24 md:py-48 px-6 lg:px-10 relative overflow-hidden">
+      <section className="py-16 md:py-32 px-4 sm:px-6 lg:px-10 relative overflow-hidden">
         <div className="blueprint-overlay opacity-5" />
         <div className="mx-auto max-w-[1500px]">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-10 reveal-unit">
@@ -315,7 +315,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 4. TIMELINE ──────────────────────────────────────────────────── */}
-      <section className="py-24 md:py-48 px-6 lg:px-10 border-t border-[var(--highlight-border)] overflow-hidden" style={{ background: "var(--bg-soft)" }}>
+      <section className="py-16 md:py-32 px-4 sm:px-6 lg:px-10 border-t border-[var(--highlight-border)] overflow-hidden" style={{ background: "var(--bg-soft)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="mb-20 reveal-unit">
              <p className="stats-label mb-6">{language === "en" ? "PROFESSIONAL JOURNEY" : "কার্যক্রমের ধারাবাহিকতা"}</p>
@@ -354,7 +354,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 5. TEAM ──────────────────────────────────────────────────────── */}
-      <section className="py-24 md:py-48 px-6 lg:px-10 border-t border-[var(--highlight-border)]" style={{ background: "var(--bg)" }}>
+      <section className="py-16 md:py-32 px-4 sm:px-6 lg:px-10 border-t border-[var(--highlight-border)]" style={{ background: "var(--bg)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="flex justify-between items-end mb-20 reveal-unit">
              <div>
@@ -447,7 +447,7 @@ export default function AboutPage() {
       </section>
 
       {/* Footer Branding */}
-      <div className="py-20 px-10 border-t border-[var(--highlight-border)] flex flex-col md:flex-row justify-between items-center gap-10 opacity-50 hover:opacity-100 transition-opacity">
+      <div className="py-12 px-6 border-t border-[var(--highlight-border)] flex flex-col md:flex-row justify-between items-center gap-10 opacity-50 hover:opacity-100 transition-opacity">
          <div className="text-[10px] font-black uppercase tracking-[0.5em] font-display italic" style={{ color: "var(--text-faint)" }}>
             ENGR ALAM ASHIK · Professional Excellence
          </div>
