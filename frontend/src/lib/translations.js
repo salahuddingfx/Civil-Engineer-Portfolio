@@ -64,7 +64,7 @@ export const translations = {
       tagline: "Professional civil engineering & architectural consultancy serving Cox's Bazar and the coastal regions of Bangladesh.",
     },
     common: {
-      loading: "Synchronizing Data...",
+      loading: "Loading...",
       explore: "Explore More",
       sending: "Sending...",
       success: "Message Sent!",
