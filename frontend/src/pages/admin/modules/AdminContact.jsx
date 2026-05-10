@@ -110,7 +110,6 @@ export default function AdminContact() {
       icon={Mail}
       loading={loading}
       saving={saving}
-      status={status}
       onSave={handleSave}
     >
       <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
