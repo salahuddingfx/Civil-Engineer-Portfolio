@@ -22,7 +22,7 @@ const { notFound, errorHandler } = require("./middleware/error.middleware");
 const { cacheMiddleware } = require("./middleware/cache.middleware");
 
 const app = express();
-app.set('etag', false); // Disable 304 responses as per user preference (prefers 200)
+// app.set('etag', false); // Enabled ETags for better browser validation
 
 app.use(helmet());
 app.use(
@@ -80,9 +80,9 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-app.use("/api/content", cacheMiddleware(600), contentRoutes); // Cache for 10 mins
+app.use("/api/content", contentRoutes); // Removed unreliable in-memory cache
 app.use("/api/contact", contactRoutes);
-app.use("/api/seo", cacheMiddleware(3600), seoRoutes); // Cache SEO for 1 hour
+app.use("/api/seo", seoRoutes); // Removed unreliable in-memory cache
 app.use("/api/upload", uploadRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/admin", adminRoutes);
