@@ -29,7 +29,7 @@ export const translations = {
     },
     services_section: {
       eyebrow: "Engineering Capabilities",
-      title: "Premium Services",
+      title: "Specialized Services",
       subtitle: "Specialized engineering solutions in Cox's Bazar that harmonize aesthetic brilliance with undeniable structural integrity.",
       explore: "EXPLORE",
       schedule: "SCHEDULE CONSULTATION",
@@ -61,7 +61,7 @@ export const translations = {
       rights: "All Rights Reserved",
       developed_by: "DESIGN AND DEVELOPED BY",
       location: "Cox's Bazar, Bangladesh",
-      tagline: "Premium civil engineering & architectural consultancy serving Cox's Bazar and the coastal regions of Bangladesh.",
+      tagline: "Professional civil engineering & architectural consultancy serving Cox's Bazar and the coastal regions of Bangladesh.",
     },
     common: {
       loading: "Synchronizing Data...",
@@ -80,7 +80,7 @@ export const translations = {
     projects_page: {
       eyebrow: "Our Portfolio",
       title: "Featured Projects",
-      subtitle: "From luxury villas to corporate towers — premium civil engineering across Cox's Bazar and Bangladesh.",
+      subtitle: "From luxury villas to corporate towers — specialized civil engineering across Cox's Bazar and Bangladesh.",
       all: "All",
       residential: "Residential",
       commercial: "Commercial",
@@ -182,7 +182,7 @@ export const translations = {
     },
     services_section: {
       eyebrow: "ইঞ্জিনিয়ারিং সক্ষমতা",
-      title: "প্রিমিয়াম সেবাসমূহ",
+      title: "পেশাদার সেবাসমূহ",
       subtitle: "কক্সবাজারে বিশেষ ইঞ্জিনিয়ারিং সমাধান যা নান্দনিক উজ্জ্বলতার সাথে অনস্বীকার্য কাঠামোগত অখণ্ডতাকে সমন্বিত করে।",
       explore: "বিস্তারিত",
       schedule: "পরামর্শ বুক করুন",
@@ -214,7 +214,7 @@ export const translations = {
       rights: "সর্বস্বত্ব সংরক্ষিত",
       developed_by: "ডিজাইন এবং ডেভেলপ করেছেন",
       location: "কক্সবাজার, বাংলাদেশ",
-      tagline: "কক্সবাজার ও বাংলাদেশের উপকূলীয় অঞ্চলে প্রিমিয়াম সিভিল ইঞ্জিনিয়ারিং ও স্থাপত্য পরামর্শ সেবা।",
+      tagline: "কক্সবাজার ও বাংলাদেশের উপকূলীয় অঞ্চলে পেশাদার সিভিল ইঞ্জিনিয়ারিং ও স্থাপত্য পরামর্শ সেবা।",
     },
     common: {
       loading: "তথ্য লোড হচ্ছে...",
@@ -233,7 +233,7 @@ export const translations = {
     projects_page: {
       eyebrow: "আমাদের পোর্টফোলিও",
       title: "বিশেষ প্রকল্পসমূহ",
-      subtitle: "বিলাসবহুল ভিলা থেকে কর্পোরেট টাওয়ার পর্যন্ত — কক্সবাজার ও বাংলাদেশ জুড়ে প্রিমিয়াম সিভিল ইঞ্জিনিয়ারিং।",
+      subtitle: "বিলাসবহুল ভিলা থেকে কর্পোরেট টাওয়ার পর্যন্ত — কক্সবাজার ও বাংলাদেশ জুড়ে উন্নত সিভিল ইঞ্জিনিয়ারিং।",
       all: "সব",
       residential: "আবাসিক",
       commercial: "বাণিজ্যিক",
