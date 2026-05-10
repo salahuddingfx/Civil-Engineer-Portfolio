@@ -507,7 +507,7 @@ export default function AdminAbout() {
                                    twitter: member.socialLinks?.twitter
                                  } 
                                })} className="p-3 bg-[color:var(--admin-bg)] hover:bg-cyan-400 hover:text-black rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Edit3 size={16} /></button>
-                              <button onClick={() => handleItemDelete('team', 'teamMembers', member._id)} className="p-3 bg-[color:var(--admin-bg)] hover:bg-rose-500 rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Trash2 size={16} /></button>
+                              <button onClick={() => { setItemToDelete({ id: member._id, collection: 'teamMembers' }); setIsConfirmOpen(true); }} className="p-3 bg-[color:var(--admin-bg)] hover:bg-rose-500 rounded-xl transition-all text-[color:var(--admin-text-secondary)]"><Trash2 size={16} /></button>
                            </div>
                         </div>
                      </div>
