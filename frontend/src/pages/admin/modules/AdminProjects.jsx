@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Layers, MapPin, Calendar, Tag, Plus, Trash2, Edit3, Globe, Sparkles, Image as ImageIcon, CheckCircle2, Search } from "lucide-react";
+import { toast } from "sonner";
 import { adminList, adminUpdate, adminCreate, adminDelete } from "../../../lib/api";
 import AdminModuleWrapper from "./AdminModuleWrapper";
+import AdminConfirm from "../../../components/admin/AdminConfirm";
 import ImageUpload from "../../../components/admin/ImageUpload";
 import AutoTranslate from "../../../components/admin/AutoTranslate";
 
@@ -27,7 +29,7 @@ export default function AdminProjects() {
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState({ type: "", message: "" });
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const loadData = async () => {
     try {
@@ -38,7 +40,7 @@ export default function AdminProjects() {
         setSelectedId(fetchedItems[0]._id);
       }
     } catch (err) {
-      setStatus({ type: "error", message: "LOAD_FAILED: Check Infrastructure" });
+      toast.error("Failed to load projects.");
     } finally {
       setLoading(false);
     }
@@ -78,7 +80,6 @@ export default function AdminProjects() {
 
   const handleSave = async () => {
     setSaving(true);
-    setStatus({ type: "", message: "" });
     const payload = {
       slug: selectedId ? form.slug : `${(form.slug || form.titleEn.toLowerCase().replace(/\s+/g, '-'))}-${Date.now()}`,
       title: { en: form.titleEn, bn: form.titleBn },
@@ -97,10 +98,10 @@ export default function AdminProjects() {
         await adminCreate("projects", payload);
       }
       
-      setStatus({ type: "success", message: "Project saved successfully!" });
+      toast.success("Project saved successfully!");
     } catch (err) {
       console.error("[ADMIN_PROJECT_ERROR] Save Failure:", err);
-      setStatus({ type: "error", message: "Failed to save project. Please try again." });
+      toast.error("Failed to save project. Please try again.");
     } finally { 
       setSaving(false); 
       await loadData();
@@ -108,19 +109,17 @@ export default function AdminProjects() {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this project permanently?")) return;
     setSaving(true);
-    setStatus({ type: "", message: "" });
     try {
       await adminDelete("projects", selectedId);
-      setStatus({ type: "success", message: "Project deleted successfully." });
-    } catch (err) {
-      console.error("[ADMIN_PROJECT_ERROR] Delete Failure:", err);
-      setStatus({ type: "error", message: "Failed to delete project." });
-    } finally { 
-      setSaving(false); 
+      toast.success("Project deleted successfully.");
       setSelectedId(null);
       await loadData();
+    } catch (err) {
+      console.error("[ADMIN_PROJECT_ERROR] Delete Failure:", err);
+      toast.error("Failed to delete project.");
+    } finally { 
+      setSaving(false); 
     }
   };
 
@@ -133,18 +132,25 @@ export default function AdminProjects() {
   const labelClasses = "flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-[color:var(--admin-text-muted)] ml-2 sm:ml-4 mb-2 sm:mb-4";
 
   return (
-    <AdminModuleWrapper
-      title="Project Portfolio"
-      subtitle="Manage your engineering projects, construction sites, and portfolio case studies."
-      icon={Layers}
-      loading={loading}
-      saving={saving}
-      status={status}
-      onSave={handleSave}
-      onDelete={selectedId ? handleDelete : null}
-      allowCreate={!!selectedId}
-      onNew={() => setSelectedId(null)}
-    >
+    <>
+      <AdminConfirm 
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        onConfirm={handleDelete}
+        title="Delete Project"
+        message="Are you sure you want to delete this project permanently? This will remove all project details and photos."
+      />
+      <AdminModuleWrapper
+        title="Project Portfolio"
+        subtitle="Manage your engineering projects, construction sites, and portfolio case studies."
+        icon={Layers}
+        loading={loading}
+        saving={saving}
+        onSave={handleSave}
+        onDelete={selectedId ? () => setIsConfirmOpen(true) : null}
+        allowCreate={!!selectedId}
+        onNew={() => setSelectedId(null)}
+      >
       <div className="grid lg:grid-cols-[380px_1fr] gap-8 lg:gap-16">
         {/* List Sidebar */}
         <div className="space-y-6 flex flex-col">
