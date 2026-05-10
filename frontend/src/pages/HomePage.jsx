@@ -140,29 +140,18 @@ export default function HomePage({ isIntroComplete }) {
               location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
               status: "Completed"
             })).slice(0, 6)
-          : projects.map(p => ({ ...p, img: "/images/project-fallback.png" }));
+          : []; // Don't fallback to mock projects
 
-        let mappedServices = services;
+        let mappedServices = [];
         if (servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0) {
-          const apiServices = servicesRes.value.items.map(s => ({
+          mappedServices = servicesRes.value.items.map(s => ({
             ...s,
             title: s.title?.en,
             titleBn: s.title?.bn,
             desc: s.summary?.en,
             descBn: s.summary?.bn,
             icon: s.tags?.[0] || "M12 2L2 7l10 5 10-5-10-5z"
-          }));
-
-          // Ensure exactly 4 services by supplementing with fallbacks if needed
-          if (apiServices.length < 4) {
-             const fallbackItemsCount = 4 - apiServices.length;
-             const additional = services.filter(ls => 
-                !apiServices.find(as => as.title === t(ls.titleKey, "en"))
-             ).slice(0, fallbackItemsCount);
-             mappedServices = [...apiServices, ...additional];
-          } else {
-             mappedServices = apiServices.slice(0, 4);
-          }
+          })).slice(0, 4);
         }
 
         const fetchedTestimonials = testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0
@@ -189,18 +178,17 @@ export default function HomePage({ isIntroComplete }) {
                   img: t.featuredImage?.url || "/images/hero-concept.png",
                   rating: 5
                 }))
-              : testimonials.map(t => ({ ...t, img: "/images/hero-concept.png" })));
+              : []); // Don't fallback to mock testimonials
 
         setDisplayProjects(mappedProjects);
         setDisplayServices(mappedServices);
         setDisplayTestimonials(mappedTestimonials);
 
-        // No artificial delay needed
       } catch (err) {
-        console.warn("API load failed, using local mock data", err);
-        setDisplayProjects(projects);
-        setDisplayServices(services);
-        setDisplayTestimonials(testimonials);
+        console.warn("API load failed", err);
+        setDisplayProjects([]);
+        setDisplayServices([]);
+        setDisplayTestimonials([]);
       } finally {
         setLoadingData(false);
         // Refresh ScrollTrigger after data is set and DOM updates
