@@ -510,7 +510,7 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Featured Projects ─────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-10" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)", borderBottom: "1px solid var(--highlight-border)" }}>
+      <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-10" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)", borderBottom: "1px solid var(--highlight-border)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
             <h2 className="text-3xl md:text-5xl font-bold" style={{ color: "var(--text)" }}>{t("featured.title", language)}</h2>
@@ -638,7 +638,7 @@ export default function HomePage({ isIntroComplete }) {
       </section>
 
       {/* ── Why Choose Us ─────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 lg:px-10" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)", borderBottom: "1px solid var(--highlight-border)" }}>
+      <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-10" style={{ background: "var(--bg-soft)", borderTop: "1px solid var(--highlight-border)", borderBottom: "1px solid var(--highlight-border)" }}>
         <div className="mx-auto max-w-[1500px]">
           <div className="text-center mb-16 reveal-unit">
             <p className="text-[12px] tracking-[0.2em] font-bold uppercase mb-4" style={{ color: "var(--highlight)" }}>
