@@ -149,7 +149,7 @@ export default function AdminAccountPage() {
                 className="w-full sm:w-auto flex items-center justify-center gap-3 px-12 py-4 bg-sky-500 text-black rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:scale-105 transition-all shadow-lg shadow-[#19D2FF]/20 disabled:opacity-50"
               >
                 {saving ? <Loader2 size={16} className="animate-spin" /> : <ShieldCheck size={16} strokeWidth={2.5} />}
-                <span>{saving ? 'UPDATING...' : 'Update Credentials'}</span>
+                <span>{saving ? 'Saving...' : 'Update Profile'}</span>
               </button>
 
               <div className="hidden md:flex items-center gap-3 opacity-30 italic">
@@ -176,19 +176,19 @@ export default function AdminAccountPage() {
               <div className="relative z-10 space-y-4">
                  <div className="flex items-center gap-3">
                    <User size={16} className="text-sky-600" />
-                   <h4 className="text-[10px] font-black text-[color:var(--admin-text-heading)] uppercase tracking-widest italic">Identity Overview</h4>
+                   <h4 className="text-[10px] font-black text-[color:var(--admin-text-heading)] uppercase tracking-widest italic">Account Profile</h4>
                  </div>
                  <p className="text-[11px] text-[color:var(--admin-text-muted)] leading-relaxed font-bold italic">
-                    All administrative actions are logged with persistent ID attribution. Security modifications require valid session tokens and 2FA where applicable.
+                     Manage your account details and security settings. Ensure your login information is kept private for authorized access.
                  </p>
                  <div className="pt-4 space-y-2">
                      <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-widest italic">
-                        <span className="text-[color:var(--admin-text-secondary)]">Access Type</span>
+                         <span className="text-[color:var(--admin-text-secondary)]">Position</span>
                         <span className="text-sky-600">Administrator</span>
                      </div>
                      <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-widest italic">
                         <span className="text-[color:var(--admin-text-secondary)]">Storage</span>
-                        <span className="text-sky-600">Secure Database</span>
+                         <span className="text-sky-600">Primary Database</span>
                      </div>
                  </div>
               </div>
