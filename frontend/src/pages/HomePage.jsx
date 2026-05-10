@@ -295,11 +295,9 @@ export default function HomePage({ isIntroComplete }) {
           <div className="absolute inset-0 bg-tech-grid opacity-30" />
           <div className="absolute inset-0 blueprint-overlay opacity-20" />
           
-          {/* Decorative HUD Markers */}
-          <div className="absolute top-[20%] left-[5%] w-px h-24 bg-gradient-to-b from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
-          <div className="absolute top-[20%] left-[5%] h-px w-24 bg-gradient-to-r from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
-          <div className="absolute bottom-[20%] right-[5%] w-px h-24 bg-gradient-to-b from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
-          <div className="absolute bottom-[20%] right-[5%] h-px w-24 bg-gradient-to-r from-transparent via-[var(--highlight)] to-transparent opacity-30 hidden lg:block" />
+          {/* Decorative HUD Markers - Moved to edges */}
+          <div className="absolute bottom-[10%] right-[5%] w-px h-24 bg-gradient-to-b from-transparent via-[var(--highlight)] to-transparent opacity-20 hidden lg:block" />
+          <div className="absolute bottom-[10%] right-[5%] h-px w-24 bg-gradient-to-r from-transparent via-[var(--highlight)] to-transparent opacity-20 hidden lg:block" />
           
           <div className="absolute top-1/2 left-4 md:left-8 -translate-y-1/2 flex flex-col gap-12 opacity-[0.07] hidden xl:flex pointer-events-none">
              {[ "01", "02", "03", "04" ].map(n => (
