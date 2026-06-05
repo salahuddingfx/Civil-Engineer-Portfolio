@@ -202,6 +202,75 @@ export default function AdminAccountPage() {
                </div>
             )}
           </form>
+
+          <form onSubmit={onSecuritySubmit} className="space-y-10 pt-12 border-t border-[color:var(--admin-border)]">
+            <div className="space-y-8">
+              <div className="flex items-center gap-3 pb-4 border-b border-[color:var(--admin-border)]">
+                <HelpCircle size={14} className="text-sky-600" />
+                <h3 className="text-[10px] font-black text-[color:var(--admin-text-muted)] uppercase tracking-widest italic">
+                  {language === "en" ? "Security Question" : "সিকিউরিটি প্রশ্ন"}
+                </h3>
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1 italic">
+                  {language === "en" ? "Question" : "প্রশ্ন"}
+                </label>
+                <input
+                  value={secQuestion}
+                  onChange={(e) => setSecQuestion(e.target.value)}
+                  className="admin-input w-full"
+                  placeholder="e.g. What is the name of your first engineering project?"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1 italic">
+                    {language === "en" ? "Answer" : "উত্তর"}
+                  </label>
+                  <input
+                    type="text"
+                    value={secAnswer}
+                    onChange={(e) => setSecAnswer(e.target.value)}
+                    className="admin-input w-full"
+                    placeholder={language === "en" ? "Type your answer..." : "আপনার উত্তর লিখুন..."}
+                  />
+                </div>
+
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black text-[color:var(--admin-text-label)] uppercase tracking-widest ml-1 italic">
+                    {language === "en" ? "Confirm Current Password" : "বর্তমান পাসওয়ার্ড নিশ্চিত করুন"}
+                  </label>
+                  <input
+                    type="password"
+                    value={secCurrentPassword}
+                    onChange={(e) => setSecCurrentPassword(e.target.value)}
+                    className="admin-input w-full"
+                    placeholder="••••••••••••"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-8 pt-2">
+              <button
+                type="submit"
+                disabled={secSaving || !secAnswer || !secCurrentPassword}
+                className="w-full sm:w-auto flex items-center justify-center gap-3 px-12 py-4 bg-sky-500 text-black rounded-xl font-black text-[11px] uppercase tracking-[0.1em] hover:scale-105 transition-all shadow-lg shadow-[#19D2FF]/20 disabled:opacity-50"
+              >
+                {secSaving ? <Loader2 size={16} className="animate-spin" /> : <HelpCircle size={16} strokeWidth={2.5} />}
+                <span>{secSaving ? "Saving..." : (language === "en" ? "Update Security Question" : "সিকিউরিটি প্রশ্ন আপডেট")}</span>
+              </button>
+            </div>
+
+            {secMessage && (
+              <div className={`sec-status-msg p-6 rounded-xl border-2 flex items-center justify-center gap-4 animate-in slide-in-from-top-2 ${secStatus === "success" ? "border-emerald-500/20 bg-emerald-500/5 text-emerald-500" : "border-red-500/20 bg-red-500/5 text-red-500"}`}>
+                {secStatus === "success" ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
+                <p className="text-[10px] font-black uppercase tracking-widest italic">{secMessage}</p>
+              </div>
+            )}
+          </form>
         </div>
 
         {/* Right Side: Identity Info / Stats */}
