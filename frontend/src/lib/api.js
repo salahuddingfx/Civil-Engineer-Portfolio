@@ -127,6 +127,11 @@ export async function updateAdminProfile(payload) {
   return data;
 }
 
+export async function updateSecurityQuestion(payload) {
+  const { data } = await api.patch("/auth/me/security-question", payload);
+  return data;
+}
+
 export async function getPrimaryContactDetails() {
   const { data } = await api.get("/content/contactDetails", { params: { published: true, limit: 1 } });
   if (data?.items?.[0]) {
