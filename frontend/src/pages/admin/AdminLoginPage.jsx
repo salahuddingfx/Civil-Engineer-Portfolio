@@ -128,26 +128,36 @@ export default function AdminLoginPage() {
                  </div>
                )}
 
-               {/* Login Trigger */}
-               <button 
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full h-14 bg-sky-500 text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50 flex items-center justify-center gap-2 relative overflow-hidden group/btn"
-               >
-                  <div className="absolute inset-0 bg-[var(--admin-card)] opacity-70 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
-                   {isLoading ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" />
-                      Entering...
-                    </>
-                  ) : (
-                    <>
-                      Sign In
-                      <ChevronRight size={18} strokeWidth={2} />
-                    </>
-                  )}
-               </button>
-            </form>
+                {/* Login Trigger */}
+                <button
+                   type="submit"
+                   disabled={isLoading}
+                   className="w-full h-14 bg-sky-500 text-black text-[11px] font-black uppercase tracking-[0.2em] rounded-xl hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_24px_rgba(25,210,255,0.2)] disabled:opacity-50 flex items-center justify-center gap-2 relative overflow-hidden group/btn"
+                >
+                   <div className="absolute inset-0 bg-[var(--admin-card)] opacity-70 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
+                    {isLoading ? (
+                     <>
+                       <Loader2 size={18} className="animate-spin" />
+                       Entering...
+                     </>
+                   ) : (
+                     <>
+                       Sign In
+                       <ChevronRight size={18} strokeWidth={2} />
+                     </>
+                   )}
+                </button>
+
+                <div className="flex justify-center pt-2">
+                  <Link
+                    to="/admin/forgot-password"
+                    className="inline-flex items-center gap-2 text-[10px] font-black text-[color:var(--admin-text-muted)] opacity-70 hover:opacity-100 hover:text-sky-600 uppercase tracking-widest transition-all"
+                  >
+                    <KeyRound size={12} />
+                    Forgot Password?
+                  </Link>
+                </div>
+             </form>
 
              <div className="mt-8 flex justify-center border-t border-[color:var(--admin-border)] pt-8">
                <div className="px-4 text-[9px] font-bold text-[color:var(--admin-text-muted)] opacity-60 uppercase tracking-[0.3em]">ADMIN PANEL</div>
