@@ -7,21 +7,25 @@ import { LanguageProvider } from "./context/LanguageContext";
 import "./index.css";
 import App from "./App";
 
-const BUILD_STAMP = `__BUILD_${Date.now()}__`;
-
-(function enforceFreshShell() {
+(async function enforceFreshShell() {
   try {
-    const last = sessionStorage.getItem("__build_stamp__");
-    if (last && last !== BUILD_STAMP) {
-      sessionStorage.setItem("__build_stamp__", BUILD_STAMP);
+    const myUrl = import.meta.url || "";
+    const myMatch = myUrl.match(/\/assets\/index-([A-Za-z0-9_-]+)\.js/);
+    const myHash = myMatch?.[1];
+    if (!myHash) return;
+
+    const res = await fetch("/index.html", { cache: "no-store" });
+    if (!res.ok) return;
+    const html = await res.text();
+    const serverMatch = html.match(/\/assets\/index-([A-Za-z0-9_-]+)\.js/);
+    if (!serverMatch) return;
+    const serverHash = serverMatch[1];
+
+    if (serverHash !== myHash) {
       window.location.reload();
-      return;
-    }
-    if (!last) {
-      sessionStorage.setItem("__build_stamp__", BUILD_STAMP);
     }
   } catch {
-    /* sessionStorage unavailable */
+    /* network or storage unavailable */
   }
 })();
 
