@@ -7,6 +7,8 @@ const adminSchema = new mongoose.Schema(
     refreshTokenHash: { type: String, default: null },
     passwordResetTokenHash: { type: String, default: null },
     passwordResetExpires: { type: Date, default: null },
+    securityQuestion: { type: String, default: "What is the name of your first engineering project?" },
+    securityAnswerHash: { type: String, default: null },
   },
   { timestamps: true }
 );
