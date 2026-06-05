@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { api } from "../../lib/api";
 import gsap from "gsap";
 import { useLanguage } from "../../context/LanguageContext";
 import SeoHead from "../../components/SeoHead";
-import { Lock, Mail, Eye, EyeOff, ShieldCheck, ChevronRight, Loader2 } from "lucide-react";
+import { Lock, Mail, Eye, EyeOff, ShieldCheck, ChevronRight, Loader2, KeyRound } from "lucide-react";
 import "../../styles/admin.css";
 
 export default function AdminLoginPage() {
