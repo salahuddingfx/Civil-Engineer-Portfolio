@@ -81,7 +81,7 @@ export default function AdminForgotPasswordPage() {
           : "যদি ইমেইলটি থাকে, রিসেট লিংক পাঠানো হয়েছে।");
         animateOut(() => setStep(STEP_DONE));
       }
-    } catch (err) {
+    } catch {
       setError(language === "en" ? "Request failed. Try again." : "অনুরোধ ব্যর্থ হয়েছে।");
     } finally {
       setIsLoading(false);
