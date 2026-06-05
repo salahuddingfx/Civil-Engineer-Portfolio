@@ -135,8 +135,88 @@ async function updateMe(req, res, next) {
       admin.refreshTokenHash = null;
     }
 
+  await admin.save();
+  return res.json({ message: "Admin profile updated", email: admin.email });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+function buildResetUrl(rawToken) {
+  const base = (env.corsOrigin[0] || "http://localhost:5173").replace(/\/+$/, "");
+  return `${base}/reset-password?token=${rawToken}`;
+}
+
+async function forgotPassword(req, res, next) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    const normalizedEmail = String(email).toLowerCase().trim();
+    const admin = await Admin.findOne({ email: normalizedEmail });
+
+    if (admin) {
+      const rawToken = crypto.randomBytes(RESET_TOKEN_BYTES).toString("hex");
+      const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
+
+      admin.passwordResetTokenHash = tokenHash;
+      admin.passwordResetExpires = new Date(Date.now() + RESET_TOKEN_TTL_MS);
+      await admin.save();
+
+      const resetUrl = buildResetUrl(rawToken);
+      console.log(`[AUTH] Password reset link for ${normalizedEmail}: ${resetUrl}`);
+
+      if (env.smtpHost && env.smtpUser && env.smtpPass) {
+        return res.json({
+          message: "If that email exists, a reset link has been sent.",
+        });
+      }
+
+      return res.json({
+        message: "SMTP not configured. Use the token below (dev mode).",
+        devResetToken: rawToken,
+        devResetUrl: resetUrl,
+        expiresInMinutes: RESET_TOKEN_TTL_MS / 60000,
+      });
+    }
+
+    return res.json({
+      message: "If that email exists, a reset link has been sent.",
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function resetPassword(req, res, next) {
+  try {
+    const { token, newPassword } = req.body;
+    if (!token || !newPassword) {
+      return res.status(400).json({ message: "Token and newPassword are required" });
+    }
+    if (String(newPassword).length < 8) {
+      return res.status(400).json({ message: "Password must be at least 8 characters" });
+    }
+
+    const tokenHash = crypto.createHash("sha256").update(String(token)).digest("hex");
+    const admin = await Admin.findOne({
+      passwordResetTokenHash: tokenHash,
+      passwordResetExpires: { $gt: new Date() },
+    });
+
+    if (!admin) {
+      return res.status(400).json({ message: "Invalid or expired reset token" });
+    }
+
+    admin.passwordHash = await bcrypt.hash(newPassword, 12);
+    admin.passwordResetTokenHash = null;
+    admin.passwordResetExpires = null;
+    admin.refreshTokenHash = null;
     await admin.save();
-    return res.json({ message: "Admin profile updated", email: admin.email });
+
+    return res.json({ message: "Password has been reset successfully" });
   } catch (error) {
     return next(error);
   }
