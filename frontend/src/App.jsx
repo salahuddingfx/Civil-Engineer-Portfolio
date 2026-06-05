@@ -18,6 +18,7 @@ const ContactPage = lazy(() => import("./pages/ContactPage"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const AdminLoginPage = lazy(() => import("./pages/admin/AdminLoginPage"));
+const AdminForgotPasswordPage = lazy(() => import("./pages/admin/AdminForgotPasswordPage"));
 const AdminDashboardPage = lazy(() => import("./pages/admin/AdminDashboardPage"));
 const AdminContentPage = lazy(() => import("./pages/admin/AdminContentPage"));
 const AdminAccountPage = lazy(() => import("./pages/admin/AdminAccountPage"));
@@ -90,6 +91,7 @@ export default function App() {
             </Route>
 
             <Route path="/admin" element={<AdminLoginPage />} />
+            <Route path="/admin/forgot-password" element={<AdminForgotPasswordPage />} />
             
             {/* Protected Admin Suite with Layout */}
             <Route element={
