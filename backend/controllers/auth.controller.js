@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const Admin = require("../models/Admin");
 const env = require("../config/env");
@@ -6,6 +7,9 @@ const {
   signRefreshToken,
   verifyRefreshToken,
 } = require("../utils/tokens");
+
+const RESET_TOKEN_BYTES = 32;
+const RESET_TOKEN_TTL_MS = 15 * 60 * 1000;
 
 async function ensureAdminSeed() {
   const count = await Admin.countDocuments();
@@ -144,4 +148,6 @@ module.exports = {
   refresh,
   logout,
   updateMe,
+  forgotPassword,
+  resetPassword,
 };
