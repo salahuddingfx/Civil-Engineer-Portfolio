@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
-import { 
-  ShieldCheck, 
-  ArrowLeft, 
-  Lock, 
-  Mail, 
-  Eye, 
-  EyeOff, 
-  CheckCircle2, 
+import {
+  ShieldCheck,
+  ArrowLeft,
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  CheckCircle2,
   AlertCircle,
   Shield,
   Fingerprint,
@@ -17,9 +17,10 @@ import {
   Key,
   ChevronRight,
   LayoutDashboard,
-  Loader2
+  Loader2,
+  HelpCircle,
 } from "lucide-react";
-import { updateAdminProfile } from "../../lib/api";
+import { updateAdminProfile, updateSecurityQuestion } from "../../lib/api";
 import { useLanguage } from "../../context/LanguageContext";
 import AdminModuleWrapper from "./modules/AdminModuleWrapper";
 import "../../styles/admin.css";
@@ -34,6 +35,13 @@ export default function AdminAccountPage() {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(""); // 'success' or 'error'
   const [saving, setSaving] = useState(false);
+
+  const [secQuestion, setSecQuestion] = useState("What is the name of your first engineering project?");
+  const [secAnswer, setSecAnswer] = useState("");
+  const [secCurrentPassword, setSecCurrentPassword] = useState("");
+  const [secSaving, setSecSaving] = useState(false);
+  const [secMessage, setSecMessage] = useState("");
+  const [secStatus, setSecStatus] = useState("");
 
   const onSubmit = async (event) => {
     if (event) event.preventDefault();
@@ -58,6 +66,35 @@ export default function AdminAccountPage() {
       setMessage(language === 'en' ? "Invalid current password" : "অথেন্টিকেশন ব্যর্থ হয়েছে");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const onSecuritySubmit = async (event) => {
+    event.preventDefault();
+    if (secSaving) return;
+    setSecSaving(true);
+    setSecMessage("");
+    setSecStatus("");
+
+    try {
+      await updateSecurityQuestion({
+        currentPassword: secCurrentPassword,
+        securityQuestion: secQuestion,
+        securityAnswer: secAnswer,
+      });
+      setSecStatus("success");
+      setSecMessage(language === "en" ? "Security question updated" : "সিকিউরিটি প্রশ্ন আপডেট হয়েছে");
+      setSecAnswer("");
+      setSecCurrentPassword("");
+      gsap.from(".sec-status-msg", { scale: 0.98, opacity: 0, duration: 0.4, ease: "back.out" });
+    } catch (error) {
+      setSecStatus("error");
+      setSecMessage(
+        error?.response?.data?.message ||
+          (language === "en" ? "Update failed" : "আপডেট ব্যর্থ")
+      );
+    } finally {
+      setSecSaving(false);
     }
   };
 
