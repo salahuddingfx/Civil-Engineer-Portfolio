@@ -10,8 +10,8 @@ const Admin = require("./models/Admin");
 
 async function reset() {
   const mongoUri = process.env.MONGO_URI;
-  const email = process.env.ADMIN_EMAIL || "alamashik@gmail.com";
-  const newPassword = process.env.ADMIN_PASSWORD || "Alam@786!";
+  const email = process.env.ADMIN_EMAIL || "engr.alamuddin@gmail.com";
+  const newPassword = process.env.ADMIN_PASSWORD || "Alam@123";
 
   if (!mongoUri) {
     console.error("MONGO_URI not found in .env");
