@@ -147,6 +147,21 @@ function buildResetUrl(rawToken) {
   return `${base}/reset-password?token=${rawToken}`;
 }
 
+function normalizeAnswer(answer) {
+  return String(answer).toLowerCase().trim().replace(/\s+/g, " ");
+}
+
+async function issueResetToken(admin) {
+  const rawToken = crypto.randomBytes(RESET_TOKEN_BYTES).toString("hex");
+  const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
+
+  admin.passwordResetTokenHash = tokenHash;
+  admin.passwordResetExpires = new Date(Date.now() + RESET_TOKEN_TTL_MS);
+  await admin.save();
+
+  return { rawToken, resetUrl: buildResetUrl(rawToken) };
+}
+
 async function forgotPassword(req, res, next) {
   try {
     const { email } = req.body;
@@ -157,34 +172,114 @@ async function forgotPassword(req, res, next) {
     const normalizedEmail = String(email).toLowerCase().trim();
     const admin = await Admin.findOne({ email: normalizedEmail });
 
-    if (admin) {
-      const rawToken = crypto.randomBytes(RESET_TOKEN_BYTES).toString("hex");
-      const tokenHash = crypto.createHash("sha256").update(rawToken).digest("hex");
-
-      admin.passwordResetTokenHash = tokenHash;
-      admin.passwordResetExpires = new Date(Date.now() + RESET_TOKEN_TTL_MS);
-      await admin.save();
-
-      const resetUrl = buildResetUrl(rawToken);
-      console.log(`[AUTH] Password reset link for ${normalizedEmail}: ${resetUrl}`);
-
-      if (env.smtpHost && env.smtpUser && env.smtpPass) {
-        return res.json({
-          message: "If that email exists, a reset link has been sent.",
-        });
-      }
-
+    if (!admin) {
       return res.json({
-        message: "SMTP not configured. Use the token below (dev mode).",
-        devResetToken: rawToken,
-        devResetUrl: resetUrl,
-        expiresInMinutes: RESET_TOKEN_TTL_MS / 60000,
+        message: "If that email exists, a reset link has been sent.",
+        requiresSecurityQuestion: false,
+      });
+    }
+
+    if (admin.securityAnswerHash) {
+      return res.json({
+        message: "Security question required to continue.",
+        requiresSecurityQuestion: true,
+        securityQuestion: admin.securityQuestion,
+      });
+    }
+
+    const { rawToken, resetUrl } = await issueResetToken(admin);
+    console.log(`[AUTH] Password reset link for ${normalizedEmail}: ${resetUrl}`);
+
+    if (env.smtpHost && env.smtpUser && env.smtpPass) {
+      return res.json({
+        message: "If that email exists, a reset link has been sent.",
+        requiresSecurityQuestion: false,
       });
     }
 
     return res.json({
-      message: "If that email exists, a reset link has been sent.",
+      message: "SMTP not configured. Use the token below (dev mode).",
+      requiresSecurityQuestion: false,
+      devResetToken: rawToken,
+      devResetUrl: resetUrl,
+      expiresInMinutes: RESET_TOKEN_TTL_MS / 60000,
     });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function verifySecurityQuestion(req, res, next) {
+  try {
+    const { email, securityAnswer } = req.body;
+    if (!email || !securityAnswer) {
+      return res.status(400).json({ message: "Email and security answer are required" });
+    }
+
+    const normalizedEmail = String(email).toLowerCase().trim();
+    const admin = await Admin.findOne({ email: normalizedEmail });
+
+    if (!admin || !admin.securityAnswerHash) {
+      return res.json({
+        message: "If that email exists and the answer is correct, a reset token has been issued.",
+      });
+    }
+
+    const provided = normalizeAnswer(securityAnswer);
+    const candidate = crypto.createHash("sha256").update(provided).digest("hex");
+    const expected = admin.securityAnswerHash;
+
+    const expectedBuf = Buffer.from(expected, "hex");
+    const candidateBuf = Buffer.from(candidate, "hex");
+    if (expectedBuf.length !== candidateBuf.length || !crypto.timingSafeEqual(expectedBuf, candidateBuf)) {
+      return res.status(400).json({ message: "Incorrect security answer" });
+    }
+
+    const { rawToken, resetUrl } = await issueResetToken(admin);
+    console.log(`[AUTH] Password reset link (post-security) for ${normalizedEmail}: ${resetUrl}`);
+
+    if (env.smtpHost && env.smtpUser && env.smtpPass) {
+      return res.json({
+        message: "If that email exists and the answer is correct, a reset token has been issued.",
+      });
+    }
+
+    return res.json({
+      message: "Answer verified. Use the token below (dev mode).",
+      devResetToken: rawToken,
+      devResetUrl: resetUrl,
+      expiresInMinutes: RESET_TOKEN_TTL_MS / 60000,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async function setSecurityQuestion(req, res, next) {
+  try {
+    const { securityQuestion, securityAnswer, currentPassword } = req.body;
+    if (!securityQuestion || !securityAnswer || !currentPassword) {
+      return res.status(400).json({ message: "securityQuestion, securityAnswer, and currentPassword are required" });
+    }
+    if (String(securityAnswer).trim().length < 2) {
+      return res.status(400).json({ message: "Security answer is too short" });
+    }
+
+    const admin = await Admin.findById(req.admin.sub);
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    const currentOk = await bcrypt.compare(currentPassword, admin.passwordHash);
+    if (!currentOk) {
+      return res.status(401).json({ message: "Current password is incorrect" });
+    }
+
+    admin.securityQuestion = String(securityQuestion).trim();
+    admin.securityAnswerHash = crypto.createHash("sha256").update(normalizeAnswer(securityAnswer)).digest("hex");
+    await admin.save();
+
+    return res.json({ message: "Security question updated", securityQuestion: admin.securityQuestion });
   } catch (error) {
     return next(error);
   }
@@ -229,5 +324,7 @@ module.exports = {
   logout,
   updateMe,
   forgotPassword,
+  verifySecurityQuestion,
   resetPassword,
+  setSecurityQuestion,
 };
