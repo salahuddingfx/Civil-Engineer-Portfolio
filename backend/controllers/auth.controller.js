@@ -131,12 +131,12 @@ async function updateMe(req, res, next) {
       if (String(newPassword).length < 8) {
         return res.status(400).json({ message: "New password must be at least 8 characters" });
       }
-      admin.passwordHash = await bcrypt.hash(newPassword, 12);
+  admin.passwordHash = await bcrypt.hash(newPassword, 12);
       admin.refreshTokenHash = null;
     }
 
-  await admin.save();
-  return res.json({ message: "Admin profile updated", email: admin.email });
+    await admin.save();
+    return res.json({ message: "Admin profile updated", email: admin.email });
   } catch (error) {
     return next(error);
   }
