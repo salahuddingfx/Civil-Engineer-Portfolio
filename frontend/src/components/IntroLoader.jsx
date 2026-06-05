@@ -1,39 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 const IntroLoader = ({ onComplete }) => {
+  const completedRef = useRef(false);
+
   useEffect(() => {
-    const tl = gsap.timeline({
-      onComplete: () => onComplete && onComplete(),
-    });
+    const safeComplete = () => {
+      if (completedRef.current) return;
+      completedRef.current = true;
+      onComplete && onComplete();
+    };
 
-    // Initial sequence (Sub-second)
-    tl.fromTo(".loader-content",
-      { opacity: 0, scale: 0.95 },
-      { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
-    )
-      .to(".loader-ring", {
-        opacity: 1,
-        duration: 0.2
-      }, "-=0.2")
+    const safetyTimer = setTimeout(safeComplete, 2500);
 
-      // No hold duration for maximum speed
+    let tl;
+    try {
+      tl = gsap.timeline({
+        onComplete: safeComplete,
+      });
 
-      // Exit
-      .to(".intro-overlay", {
-        y: "-100%",
-        duration: 0.4,
-        ease: "expo.inOut",
-      })
-      .to(".loader-content", {
-        opacity: 0,
-        y: -30,
-        duration: 0.3,
-        ease: "power2.in",
-      }, "-=0.4");
+      tl.fromTo(".loader-content",
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+      )
+        .to(".loader-ring", {
+          opacity: 1,
+          duration: 0.2
+        }, "-=0.2")
+        .to(".intro-overlay", {
+          y: "-100%",
+          duration: 0.4,
+          ease: "expo.inOut",
+        })
+        .to(".loader-content", {
+          opacity: 0,
+          y: -30,
+          duration: 0.3,
+          ease: "power2.in",
+        }, "-=0.4");
+    } catch (err) {
+      console.error("[IntroLoader] GSAP failed, completing immediately", err);
+      safeComplete();
+    }
 
     return () => {
-      tl.kill();
+      clearTimeout(safetyTimer);
+      if (tl) tl.kill();
     };
   }, [onComplete]);
 
