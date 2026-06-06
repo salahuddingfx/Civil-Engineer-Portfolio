@@ -8,15 +8,16 @@ import AdminLayout from "./components/admin/AdminLayout";
 import { api } from "./lib/api";
 import { Analytics } from "@vercel/analytics/react";
 
-const HomePage = lazy(() => import("./pages/HomePage"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const ServicesPage = lazy(() => import("./pages/ServicesPage"));
-const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
-const TestimonialsPage = lazy(() => import("./pages/TestimonialsPage"));
-const GalleryPage = lazy(() => import("./pages/GalleryPage"));
-const ContactPage = lazy(() => import("./pages/ContactPage"));
-const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
-const TermsPage = lazy(() => import("./pages/TermsPage"));
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ServicesPage from "./pages/ServicesPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import TestimonialsPage from "./pages/TestimonialsPage";
+import GalleryPage from "./pages/GalleryPage";
+import ContactPage from "./pages/ContactPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsPage from "./pages/TermsPage";
+
 const AdminLoginPage = lazy(() => import("./pages/admin/AdminLoginPage"));
 const AdminForgotPasswordPage = lazy(() => import("./pages/admin/AdminForgotPasswordPage"));
 const AdminDashboardPage = lazy(() => import("./pages/admin/AdminDashboardPage"));
