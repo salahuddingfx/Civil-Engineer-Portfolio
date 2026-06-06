@@ -6,16 +6,21 @@ let dbReady = false;
 let connectionPromise = null;
 
 async function connectDb() {
-  if (connectionPromise) return connectionPromise;
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+  if (mongoose.connection.readyState === 2 && connectionPromise) {
+    return connectionPromise;
+  }
 
   const options = {
     maxPoolSize: 10,
     minPoolSize: 2,
     socketTimeoutMS: 45000,
-    serverSelectionTimeoutMS: 30000, // Increased for Vercel stability
+    serverSelectionTimeoutMS: 10000, // Reduced for fast fail and recovery on serverless environments
     heartbeatFrequencyMS: 10000,
     retryWrites: true,
-    connectTimeoutMS: 30000,
+    connectTimeoutMS: 10000, // Reduced for fast fail and recovery on serverless environments
   };
 
   connectionPromise = (async () => {
