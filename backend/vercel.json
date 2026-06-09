@@ -13,10 +13,5 @@
       "source": "/robots.txt",
       "destination": "app.js"
     }
-  ],
-  "functions": {
-    "app.js": {
-      "maxDuration": 14
-    }
-  }
+  ]
 }
