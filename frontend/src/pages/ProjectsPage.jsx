@@ -56,6 +56,20 @@ const projects = [
     featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777223299/portfolio_assets/bxmafprpr4ega21m3bmy.jpg" },
     tags: ["2024", "Cox's Bazar"],
     status: "Completed"
+  },
+  {
+    title: { en: "Sopner Bari", bn: "স্বপ্নার বারী" },
+    category: "Residential",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777221833/portfolio_assets/ehuurfgyq0awkdlhimi2.jpg" },
+    tags: ["2024", "Cox's Bazar"],
+    status: "Completed"
+  },
+  {
+    title: { en: "Barua Para", bn: "বড়ুয়া পাড়া" },
+    category: "Residential",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777221724/portfolio_assets/szaoruc07icctibq8dbh.jpg" },
+    tags: ["2024", "Cox's Bazar"],
+    status: "Completed"
   }
 ];
 
