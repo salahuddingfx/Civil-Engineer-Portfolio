@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const net = require("net");
 const env = require("./env");
 
+// Disable query buffering in serverless environments to prevent requests from hanging
+mongoose.set("bufferCommands", false);
+
 let dbReady = false;
 let connectionPromise = null;
 
@@ -15,13 +18,13 @@ async function connectDb() {
 
   const options = {
     maxPoolSize: 10,
-    minPoolSize: 2,
+    minPoolSize: 0, // Prevent keeping idle connections in serverless environments
     socketTimeoutMS: 45000,
     serverSelectionTimeoutMS: 10000, // Reduced for fast fail and recovery on serverless environments
     heartbeatFrequencyMS: 10000,
     retryWrites: true,
-    connectTimeoutMS: 10000, 
-  };// Reduced for fast fail and recovery on serverless environments
+    connectTimeoutMS: 10000, // Reduced for fast fail and recovery on serverless environments
+  };
 
   connectionPromise = (async () => {
     try {
