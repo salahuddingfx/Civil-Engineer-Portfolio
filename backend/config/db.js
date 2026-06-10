@@ -20,8 +20,8 @@ async function connectDb() {
     serverSelectionTimeoutMS: 10000, // Reduced for fast fail and recovery on serverless environments
     heartbeatFrequencyMS: 10000,
     retryWrites: true,
-    connectTimeoutMS: 10000, // Reduced for fast fail and recovery on serverless environments
-  };
+    connectTimeoutMS: 10000, 
+  };// Reduced for fast fail and recovery on serverless environments
 
   connectionPromise = (async () => {
     try {
