@@ -75,8 +75,13 @@ app.use(async (req, res, next) => {
   return next();
 });
 
-app.get("/api/health", (req, res) => {
-  res.json({ ok: true, service: "alam-ashik-portfolio-api", database: isDbReady() ? "connected" : "disconnected" });
+app.get("/api/health", async (req, res) => {
+  try {
+    await connectDb();
+    res.json({ ok: true, service: "alam-ashik-portfolio-api", database: isDbReady() ? "connected" : "disconnected" });
+  } catch (err) {
+    res.status(500).json({ ok: false, service: "alam-ashik-portfolio-api", database: "disconnected", error: err.message });
+  }
 });
 
 app.use("/api/auth", authRoutes);
