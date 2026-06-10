@@ -13,31 +13,81 @@ gsap.registerPlugin(ScrollTrigger);
 
 const defaultTestimonials = [
   {
-    img: "/images/hero-concept.png"
+    nameEn: "Dr. Md Nazmul Hoque",
+    nameBn: "ডাঃ মোঃ নাজমুল হক",
+    roleEn: "Client",
+    roleBn: "ক্লায়েন্ট",
+    company: "Private Project",
+    textEn: "Working with Engr Alam Ashik was an excellent experience. The structural planning, design accuracy, and professional consultation exceeded our expectations. The project was delivered on time with outstanding quality.",
+    textBn: "ইঞ্জি. আলম আশিকের সাথে কাজ করার অভিজ্ঞতা ছিল অসাধারণ। স্ট্রাকচারাল পরিকল্পনা, ডিজাইনের নির্ভুলতা এবং পেশাদার পরামর্শ আমাদের প্রত্যাশার চেয়েও বেশি ছিল। সময়মতো কাজ সম্পন্ন হয়েছে এবং প্রতিটি খুঁটিনাটিতে ছিল দারুণ মান বজায়।",
+    rating: 5,
+    img: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776225899/portfolio_assets/tkzgjmsekxznmkcsbj03.jpg"
   },
   {
-    name: "Marcus Thorne",
-    role: "FOUNDER",
-    company: "APEX HORIZON BUILDERS",
-    text: "Reliable, precise, and highly communicative throughout the entire lifecycle of our infrastructure overhaul. The best civil engineering partner we've had in Bangladesh.",
+    nameEn: "Manik Shil",
+    nameBn: "মানিক সিল",
+    roleEn: "Client",
+    roleBn: "ক্লায়েন্ট",
+    company: "Commercial Build",
+    textEn: "The level of precision in the 3D BIM models provided by Alam's team saved us weeks of onsite coordination.",
+    textBn: "আলমের টিম দ্বারা প্রদত্ত 3D BIM মডেলে নির্ভুলতার মাত্রা আমাদের সপ্তাহের অনসাইট সমন্বয় রক্ষা করেছে।",
     rating: 5,
-    img: "/images/mission-concept.png"
+    img: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776225525/portfolio_assets/vgrjt35rfqvcqd2foh2h.jpg"
   },
   {
-    name: "Jonathan Vance",
-    role: "CHIEF ARCHITECT",
-    company: "STRATOS STUDIOS",
-    text: "Alam's approach to engineering is purely architectural. He doesn't just calculate load capacities; he designs structural foundations that scale with absolute safety and elegance.",
+    nameEn: "MD. Kashem",
+    nameBn: "মোঃ কাশেম",
+    roleEn: "Client",
+    roleBn: "ক্লায়েন্ট",
+    company: "Structural Renovation",
+    textEn: "Working with Ashik was a game-changer for our structural projects. His attention to detail in seismic analysis is unparalleled.",
+    textBn: "আশিকের সাথে কাজ করা আমাদের কাঠামোগত প্রকল্পগুলির জন্য একটি গেম-চেঞ্জার ছিল। ভূমিকম্প বিশ্লেষণে তার বিশদ মনোযোগ অতুলনীয়।",
     rating: 5,
-    img: "/images/hero-concept.png"
+    img: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776225144/portfolio_assets/mgj7ob0dt7gykenm2mki.jpg"
   },
   {
-    name: "Elena Rodriguez",
-    role: "VP INFRASTRUCTURE",
-    company: "GLOBAL TECH RESORTS",
-    text: "Exceeded our expectations at every phase of the marine drive resort build. The localized knowledge and structural solutions provided saved us millions in long-term maintenance.",
+    nameEn: "Zafar Alam",
+    nameBn: "জাফর আলম",
+    roleEn: "Client",
+    roleBn: "ক্লায়েন্ট",
+    company: "Residential Project",
+    textEn: "His expertise in civil engineering and architectural visualization helped us make better project decisions. The foundation and load-bearing design was highly precise and professionally executed.",
+    textBn: "সিভিল ইঞ্জিনিয়ারিং এবং আর্কিটেকচারাল ভিজ্যুয়ালাইজেশনে তার দক্ষতা আমাদেরকে আরও ভাল প্রকল্পের সিদ্ধান্ত নিতে সাহায্য করেছে। ভিত্তি এবং লোড-ভারবহন নকশা অত্যন্ত সুনির্দিষ্ট এবং পেশাদারভাবে কার্যকর করা হয়েছিল।",
     rating: 5,
-    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80"
+    img: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776226031/portfolio_assets/p5ltkvxxnnf99agtkoyt.jpg"
+  },
+  {
+    nameEn: "Md. Hasnain Awal",
+    nameBn: "মোঃ হাসনাইন আউয়াল",
+    roleEn: "Client",
+    roleBn: "ক্লায়েন্ট",
+    company: "Consultancy Project",
+    textEn: "Very professional and easy to communicate with. Every requirement was clearly understood and implemented beautifully. Highly recommended for structural and architectural consultancy projects.",
+    textBn: "খুবই পেশাদার এবং যোগাযোগে সহজ। আমাদের প্রতিটি চাহিদা স্পষ্টভাবে বুঝে সুন্দরভাবে বাস্তবায়ন করেছেন। স্ট্রাকচারাল ও আর্কিটেকচারাল কনসালটেন্সি প্রজেক্টের জন্য অবশ্যই সুপারিশ করবো।",
+    rating: 5,
+    img: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776226370/portfolio_assets/hvbi16cf5yv6c17wm4jb.jpg"
+  },
+  {
+    nameEn: "Ariam M Sajid",
+    nameBn: "আরিয়াম এম সাজিদ",
+    roleEn: "Client",
+    roleBn: "ক্লায়েন্ট",
+    company: "Quality Review",
+    textEn: "Very professional and committed to quality work. Highly recommended.",
+    textBn: "অত্যন্ত পেশাদার এবং মানসম্মত কাজের প্রতি প্রতিশ্রুতিবদ্ধ। জোরালোভাবে সুপারিশ করা হচ্ছে।",
+    rating: 5,
+    img: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777222911/portfolio_assets/xscufktmzzo9tr3ucqg1.jpg"
+  },
+  {
+    nameEn: "Abdul Karim",
+    nameBn: "আব্দুল করিম",
+    roleEn: "Client",
+    roleBn: "ক্লায়েন্ট",
+    company: "Structural Plan",
+    textEn: "Delivered the project on time with excellent structural planning.",
+    textBn: "চমৎকার কাঠামোগত পরিকল্পনার মাধ্যমে প্রকল্পটি সময়মতো সম্পন্ন করা হয়েছে।",
+    rating: 5,
+    img: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777223248/portfolio_assets/vy4q4vcra79oo098tbfb.jpg"
   }
 ];
 
@@ -56,8 +106,8 @@ export default function TestimonialsPage() {
         const response = await fetchContent("testimonials", { limit: 50 });
         if (response.items && response.items.length > 0) {
            const mapped = response.items.map(t => ({
-              name: t.title?.en || "Client",
-              role: t.summary?.en || "Executive",
+              name: language === "bn" ? (t.title?.bn || t.title?.en) : (t.title?.en || "Client"),
+              role: language === "bn" ? (t.summary?.bn || t.summary?.en) : (t.summary?.en || "Executive"),
               company: t.category || "Corporate",
               text: language === "bn" ? (t.body?.bn || t.body?.en) : (t.body?.en),
               rating: t.rating || 5,
@@ -65,10 +115,24 @@ export default function TestimonialsPage() {
            }));
            setTestimonials(mapped);
         } else {
-           setTestimonials(defaultTestimonials);
+           setTestimonials(defaultTestimonials.map(t => ({
+              name: language === "bn" ? t.nameBn : t.nameEn,
+              role: language === "bn" ? t.roleBn : t.roleEn,
+              company: t.company,
+              text: language === "bn" ? t.textBn : t.textEn,
+              rating: t.rating,
+              img: t.img
+           })));
         }
       } catch (err) {
-        setTestimonials(defaultTestimonials);
+        setTestimonials(defaultTestimonials.map(t => ({
+           name: language === "bn" ? t.nameBn : t.nameEn,
+           role: language === "bn" ? t.roleBn : t.roleEn,
+           company: t.company,
+           text: language === "bn" ? t.textBn : t.textEn,
+           rating: t.rating,
+           img: t.img
+        })));
       } finally {
         setLoading(false);
       }
