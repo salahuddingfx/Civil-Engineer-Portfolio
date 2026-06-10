@@ -16,52 +16,46 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
-    title: "Bayline Villa",
-    location: "Cox's Bazar, BD",
-    category: "RESIDENTIAL",
-    year: "2024",
-    status: "COMPLETED",
-    img: "/images/architecture-fallback.png",
+    title: { en: "Absar Villa", bn: "আবসার ভিলা" },
+    category: "Residential",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777221650/portfolio_assets/bfncdo5sdcazh2yow7td.jpg" },
+    tags: ["2024", "Cox's Bazar"],
+    status: "Completed"
   },
   {
-    title: "Nexus Corporate Hub",
-    location: "Dhaka, BD",
-    category: "COMMERCIAL",
-    year: "2023",
-    status: "COMPLETED",
-    img: "/images/project-fallback.png",
+    title: { en: "Eidgho Market", bn: "ঈদগাহ বাজার" },
+    category: "Commercial",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777220269/portfolio_assets/bteop62ryreenjq7kigb.jpg" },
+    tags: ["2023", "Cox's Bazar"],
+    status: "Completed"
   },
   {
-    title: "Marine Drive Bridge",
-    location: "Cox's Bazar, BD",
-    category: "INFRASTRUCTURE",
-    year: "2024",
-    status: "IN PROGRESS",
-    img: "/images/project-fallback.png",
+    title: { en: "Hotel Beachtara Resort", bn: "হোটেল বিচতারা রিসোর্ট" },
+    category: "Hospitality",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777220444/portfolio_assets/edzfwau5lzvrc7mhqmql.jpg" },
+    tags: ["2024", "Cox's Bazar"],
+    status: "Completed"
   },
   {
-    title: "The Archon Complex",
-    location: "Chattogram, BD",
-    category: "STRUCTURAL",
-    year: "2022",
-    status: "COMPLETED",
-    img: "/images/project-fallback.png",
+    title: { en: "Swimming Pool", bn: "সুইমিং পুল" },
+    category: "Infrastructure",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777220549/portfolio_assets/yks04bydgaftxva7p4xb.jpg" },
+    tags: ["2022", "Cox's Bazar"],
+    status: "Completed"
   },
   {
-    title: "Sapphire Coast Resort",
-    location: "Cox's Bazar, BD",
-    category: "COMMERCIAL",
-    year: "2025",
-    status: "FOUNDATION PHASE",
-    img: "/images/project-fallback.png",
+    title: { en: "Taleb Mension", bn: "তালেব মেনশন" },
+    category: "Residential",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777223375/portfolio_assets/crewrlgd0eqomkpdizkk.jpg" },
+    tags: ["2024", "Cox's Bazar"],
+    status: "Completed"
   },
   {
-    title: "Azure Skyline Estate",
-    location: "Cox's Bazar, BD",
-    category: "RESIDENTIAL",
-    year: "2024",
-    status: "FINAL STAGE",
-    img: "/images/project-fallback.png",
+    title: { en: "Zafar Villa", bn: "জাফর ভিলা" },
+    category: "Residential",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777223299/portfolio_assets/bxmafprpr4ega21m3bmy.jpg" },
+    tags: ["2024", "Cox's Bazar"],
+    status: "Completed"
   }
 ];
 
@@ -80,24 +74,29 @@ export default function ProjectsPage() {
       setLoading(true);
       try {
         const res = await fetchContent("projects", { limit: 50 });
-        if (res.items?.length > 0) {
-          const mapped = res.items.map(p => ({
-            ...p,
-            title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
-            category: p.category?.toUpperCase() || "STRUCTURAL",
-            img: p.featuredImage?.url || "/images/project-fallback.png",
-            year: p.tags?.[0] || "2024",
-            location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
-            status: "Completed"
-          }));
-          setDisplayProjects(mapped);
-        } else {
-          setDisplayProjects([]);
-        }
-        // Removed artificial delay
+        const raw = res.items?.length > 0 ? res.items : projects;
+        const mapped = raw.map(p => ({
+          ...p,
+          title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
+          category: p.category?.toUpperCase() || "STRUCTURAL",
+          img: p.featuredImage?.url || "/images/project-fallback.png",
+          year: p.tags?.[0] || "2024",
+          location: p.tags?.[1] || "Cox's Bazar",
+          status: p.status || "Completed"
+        }));
+        setDisplayProjects(mapped);
       } catch (err) {
-        console.warn("Projects API failed", err);
-        setDisplayProjects([]);
+        console.warn("Projects API failed, using fallbacks", err);
+        const mapped = projects.map(p => ({
+          ...p,
+          title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
+          category: p.category?.toUpperCase() || "STRUCTURAL",
+          img: p.featuredImage?.url || "/images/project-fallback.png",
+          year: p.tags?.[0] || "2024",
+          location: p.tags?.[1] || "Cox's Bazar",
+          status: p.status || "Completed"
+        }));
+        setDisplayProjects(mapped);
       } finally {
         setLoading(false);
       }
