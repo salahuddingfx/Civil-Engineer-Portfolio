@@ -545,10 +545,10 @@ export default function HomePage({ isIntroComplete }) {
         <div className="mx-auto max-w-[1500px]">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {(homeStats.length > 0 ? homeStats : [
-              { value: "150", suffix: "+", title: { en: "Projects Done" }, icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
-              { value: "8", suffix: "+", title: { en: "Experience" }, icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
-              { value: "99", suffix: "%", title: { en: "Safety" }, icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
-              { value: "12", suffix: "", title: { en: "Developments" }, icon: "M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM16 13a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z" },
+              { value: "150", suffix: "+", title: { en: "Projects Done", bn: "সম্পন্ন প্রকল্প" }, icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
+              { value: "13", suffix: "+", title: { en: "Experience", bn: "অভিজ্ঞতা" }, icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
+              { value: "99", suffix: "%", title: { en: "Safety", bn: "নিরাপত্তা" }, icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+              { value: "12", suffix: "", title: { en: "Developments", bn: "উন্নয়ন" }, icon: "M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM16 13a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z" },
             ]).map((stat, i) => (
               <div key={i} className="p-8 rounded-2xl flex flex-col justify-center transition-all duration-300 group card-bg">
                 <div className="mb-4 opacity-70 group-hover:opacity-100 transition-opacity" style={{ color: "var(--highlight)" }}>
