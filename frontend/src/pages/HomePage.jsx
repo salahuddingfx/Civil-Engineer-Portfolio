@@ -170,7 +170,16 @@ export default function HomePage({ isIntroComplete }) {
   const [displayProjects, setDisplayProjects] = useState([]);
   const [displayTestimonials, setDisplayTestimonials] = useState([]);
   const [displayServices, setDisplayServices] = useState([]);
-  const [homeData, setHomeData] = useState(null);
+  const [homeData, setHomeData] = useState({
+    title: {
+      en: "Professional Civil & Structural Engineering Solutions.",
+      bn: "পেশাদার সিভিল ও স্ট্রাকচারাল ইঞ্জিনিয়ারিং সমাধান।"
+    },
+    summary: {
+      en: "Reliable design, consultancy & construction support across Bangladesh.",
+      bn: "সারা বাংলাদেশ জুড়ে নির্ভরযোগ্য ডিজাইন, পরামর্শ ও নির্মাণ সহায়তা।"
+    }
+  });
   const [homeStats, setHomeStats] = useState([]);
   const [homePartners, setHomePartners] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
