@@ -1,6 +1,25 @@
-import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, lazy, Suspense, Component } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
+
+class ThreeErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error, info) {
+    console.error("[ThreeErrorBoundary] WebGL/Three.js render failed:", error, info);
+  }
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../context/LanguageContext";
 import { useTheme } from "../context/ThemeContext";
@@ -140,7 +159,7 @@ export default function HomePage({ isIntroComplete }) {
               location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
               status: "Completed"
             })).slice(0, 6)
-          : []; // Don't fallback to mock projects
+          : projects; // Use mock projects as fallback
 
         let mappedServices = [];
         if (servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0) {
@@ -152,6 +171,8 @@ export default function HomePage({ isIntroComplete }) {
             descBn: s.summary?.bn,
             icon: s.tags?.[0] || "M12 2L2 7l10 5 10-5-10-5z"
           })).slice(0, 4);
+        } else {
+          mappedServices = services; // Use mock services as fallback
         }
 
         const fetchedTestimonials = testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0
@@ -178,7 +199,7 @@ export default function HomePage({ isIntroComplete }) {
                   img: t.featuredImage?.url || "/images/hero-concept.png",
                   rating: 5
                 }))
-              : []); // Don't fallback to mock testimonials
+              : testimonials); // Use mock testimonials as fallback
 
         setDisplayProjects(mappedProjects);
         setDisplayServices(mappedServices);
@@ -186,9 +207,9 @@ export default function HomePage({ isIntroComplete }) {
 
       } catch (err) {
         console.warn("API load failed", err);
-        setDisplayProjects([]);
-        setDisplayServices([]);
-        setDisplayTestimonials([]);
+        setDisplayProjects(projects);
+        setDisplayServices(services);
+        setDisplayTestimonials(testimonials);
       } finally {
         setLoadingData(false);
         // Refresh ScrollTrigger after data is set and DOM updates
@@ -385,16 +406,37 @@ export default function HomePage({ isIntroComplete }) {
             }}>
 
             {!isMobile && loadModel ? (
-              <Suspense fallback={
-                <div className="w-full h-full flex items-center justify-center" style={{ background: "var(--bg-accent)" }}>
-                  <div className="text-center">
-                    <div className="w-8 h-8 border-2 rounded-full animate-spin mx-auto mb-4" style={{ borderColor: "var(--highlight)", borderTopColor: "transparent" }} />
-                    <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--highlight)" }}>Initializing Engine...</p>
+              <ThreeErrorBoundary fallback={
+                <div className="w-full h-full transition-opacity duration-1000 relative">
+                  <img
+                    src="/images/project-fallback.png"
+                    alt="Architecture Structural Model Preview"
+                    className="w-full h-full object-cover grayscale brightness-50 lg:opacity-50"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center backdrop-blur-[1px] bg-black/20 p-6 text-center">
+                    <div className="space-y-4">
+                       <div className="w-16 h-1 w-full bg-[var(--highlight)] mx-auto opacity-20" />
+                       <span className="text-[12px] uppercase font-black tracking-[0.5em] text-[var(--highlight)] block">Structural Excellence</span>
+                       <div className="text-2xl font-black text-white uppercase tracking-wider">{language === "en" ? "Civil Engineering" : "সিভিল ইঞ্জিনিয়ারিং"} <br /> {language === "en" ? "& Consultancy" : "& কনসালটেন্সি"}</div>
+                       <div className="w-16 h-1 w-full bg-[var(--highlight)] mx-auto opacity-20" />
+                    </div>
                   </div>
                 </div>
               }>
-                <ArchitecturalModel scrollProgress={scrollProgress} />
-              </Suspense>
+                <Suspense fallback={
+                  <div className="w-full h-full flex items-center justify-center" style={{ background: "var(--bg-accent)" }}>
+                    <div className="text-center">
+                      <div className="w-8 h-8 border-2 rounded-full animate-spin mx-auto mb-4" style={{ borderColor: "var(--highlight)", borderTopColor: "transparent" }} />
+                      <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "var(--highlight)" }}>Initializing Engine...</p>
+                    </div>
+                  </div>
+                }>
+                  <ArchitecturalModel scrollProgress={scrollProgress} />
+                </Suspense>
+              </ThreeErrorBoundary>
             ) : (
               <div className="w-full h-full transition-opacity duration-1000 relative">
                 <img
