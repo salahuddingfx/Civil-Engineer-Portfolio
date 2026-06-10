@@ -38,65 +38,121 @@ gsap.registerPlugin(ScrollTrigger);
 // ── Testimonials data ─────────────────────────────────────────────────────────
 const testimonials = [
   {
-    name: "Sarah Chen",
-    role: "DIRECTOR OF ENGINEERING",
-    company: "NEXACORE DEVELOPMENTS",
-    text: "The integration of structural integrity with modern architectural design was seamless. Truly a technical mastermind who understands the nuance of enterprise scale in Cox's Bazar's coastal conditions.",
+    title: { en: "Dr. Md Nazmul Hoque", bn: "ডাঃ মোঃ নাজমুল হক" },
+    summary: { en: "Client", bn: "ক্লায়েন্ট" },
+    body: {
+      en: "Working with Engr Alam Ashik was an excellent experience. The structural planning, design accuracy, and professional consultation exceeded our expectations. The project was delivered on time with outstanding quality and attention to detail.",
+      bn: "ইঞ্জি. আলম আশিকের সাথে কাজ করার অভিজ্ঞতা ছিল অসাধারণ। স্ট্রাকচারাল পরিকল্পনা, ডিজাইনের নির্ভুলতা এবং পেশাদার পরামর্শ আমাদের প্রত্যাশার চেয়েও বেশি ছিল। সময়মতো কাজ সম্পন্ন হয়েছে এবং প্রতিটি খুঁটিনাটিতে ছিল দারুণ মান বজায়।"
+    },
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776225899/portfolio_assets/tkzgjmsekxznmkcsbj03.jpg" },
     rating: 5,
-    img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80&auto=format"
+    tags: ["Client"]
   },
   {
-    name: "Marcus Thorne",
-    role: "FOUNDER",
-    company: "APEX HORIZON BUILDERS",
-    text: "Reliable, precise, and highly communicative throughout the entire lifecycle of our infrastructure overhaul. The best civil engineering partner we've had in Bangladesh.",
+    title: { en: "Manik Shil", bn: "মানিক সিল" },
+    summary: { en: "Client", bn: "ক্লায়েন্ট" },
+    body: {
+      en: "The level of precision in the 3D BIM models provided by Alam's team saved us weeks of onsite coordination.",
+      bn: "আলমের টিম দ্বারা প্রদত্ত 3D BIM মডেলে নির্ভুলতার মাত্রা আমাদের সপ্তাহের অনসাইট সমন্বয় রক্ষা করেছে।"
+    },
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776225525/portfolio_assets/vgrjt35rfqvcqd2foh2h.jpg" },
     rating: 5,
-    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80&auto=format"
+    tags: ["Client"]
   },
   {
-    name: "Jonathan Vance",
-    role: "CHIEF ARCHITECT",
-    company: "STRATOS STUDIOS",
-    text: "Alam's approach to engineering is purely architectural. He doesn't just calculate load capacities; he designs structural foundations that scale with absolute safety and elegance.",
+    title: { en: "MD. Kashem", bn: "মোঃ কেশম" },
+    summary: { en: "Client", bn: "ক্লায়েন্ট" },
+    body: {
+      en: "Working with Ashik was a game-changer for our structural projects. His attention to detail in seismic analysis is unparalleled.",
+      bn: "আশিকের সাথে কাজ করা আমাদের কাঠামোগত প্রকল্পগুলির জন্য একটি গেম-চেঞ্জার ছিল। ভূমিকম্প বিশ্লেষণে তার বিশদ মনোযোগ অতুলনীয়।"
+    },
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776225144/portfolio_assets/mgj7ob0dt7gykenm2mki.jpg" },
     rating: 5,
-    img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80&auto=format"
+    tags: ["Client"]
   },
   {
-    name: "Elena Rodriguez",
-    role: "VP INFRASTRUCTURE",
-    company: "GLOBAL TECH RESORTS",
-    text: "Exceeded our expectations at every phase of the marine drive resort build. The localized knowledge and structural solutions provided saved us millions in long-term maintenance.",
+    title: { en: "Zafar Alam", bn: "জাফর আলম" },
+    summary: { en: "Client", bn: "ক্লায়েন্ট" },
+    body: {
+      en: "His expertise in civil engineering and architectural visualization helped us make better project decisions. The foundation and load-bearing design was highly precise and professionally executed.",
+      bn: "সিভিল ইঞ্জিনিয়ারিং এবং আর্কিটেকচারাল ভিজ্যুয়ালাইজেশনে তার দক্ষতা আমাদেরকে আরও ভাল প্রকল্পের সিদ্ধান্ত নিতে সাহায্য করেছে। ভিত্তি এবং লোড-ভারবহন নকশা অত্যন্ত সুনির্দিষ্ট এবং পেশাদারভাবে কার্যকর করা হয়েছিল।"
+    },
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776226031/portfolio_assets/p5ltkvxxnnf99agtkoyt.jpg" },
     rating: 5,
-    img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80&auto=format"
+    tags: ["Client"]
+  },
+  {
+    title: { en: "Md. Hasnain Awal", bn: "মোঃ হাসনাইন আউয়াল" },
+    summary: { en: "Client", bn: "ক্লায়েন্ট" },
+    body: {
+      en: "Very professional and easy to communicate with. Every requirement was clearly understood and implemented beautifully. Highly recommended for structural and architectural consultancy projects.",
+      bn: "খুবই পেশাদার এবং যোগাযোগে সহজ। আমাদের প্রতিটি চাহিদা স্পষ্টভাবে বুঝে সুন্দরভাবে বাস্তবায়ন করেছেন। স্ট্রাকচারাল ও আর্কিটেকচারাল কনসালটেন্সি প্রজেক্টের জন্য অবশ্যই সুপারিশ করবো।"
+    },
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776226370/portfolio_assets/hvbi16cf5yv6c17wm4jb.jpg" },
+    rating: 5,
+    tags: ["Client"]
   }
 ];
 
 const projects = [
-  { title: "Bayline Villa", type: "RESIDENTIAL", location: "Cox's Bazar", year: "2024", img: "https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=800&q=80" },
-  { title: "Vertex Corporate Tower", type: "COMMERCIAL", location: "Dhaka", year: "2023", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" },
-  { title: "Marine Drive Resort", type: "HOSPITALITY", location: "Cox's Bazar", year: "2024", img: "https://images.unsplash.com/photo-1582610116397-ed860c29415c?auto=format&fit=crop&w=800&q=80" }
+  {
+    title: { en: "Absar Villa", bn: "আবসার ভিলা" },
+    category: "Residential",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777221650/portfolio_assets/bfncdo5sdcazh2yow7td.jpg" },
+    tags: ["2024", "Cox's Bazar"]
+  },
+  {
+    title: { en: "Eidgho Market", bn: "ঈদগাহ বাজার" },
+    category: "Commercial",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777220269/portfolio_assets/bteop62ryreenjq7kigb.jpg" },
+    tags: ["2023", "Cox's Bazar"]
+  },
+  {
+    title: { en: "Hotel Beachtara Resort", bn: "হোটেল বিচতারা রিসোর্ট" },
+    category: "Hospitality",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777220444/portfolio_assets/edzfwau5lzvrc7mhqmql.jpg" },
+    tags: ["2024", "Cox's Bazar"]
+  },
+  {
+    title: { en: "Swimming Pool", bn: "সুইমিং পুল" },
+    category: "Infrastructure",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777220549/portfolio_assets/yks04bydgaftxva7p4xb.jpg" },
+    tags: ["2022", "Cox's Bazar"]
+  },
+  {
+    title: { en: "Taleb Mension", bn: "তালেব মেনশন" },
+    category: "Residential",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777223375/portfolio_assets/crewrlgd0eqomkpdizkk.jpg" },
+    tags: ["2024", "Cox's Bazar"]
+  },
+  {
+    title: { en: "Zafar Villa", bn: "জাফর ভিলা" },
+    category: "Residential",
+    featuredImage: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777223299/portfolio_assets/bxmafprpr4ega21m3bmy.jpg" },
+    tags: ["2024", "Cox's Bazar"]
+  }
 ];
 
 const services = [
   {
-    titleKey: "services_items.arch_title",
-    descKey: "services_items.arch_desc",
-    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+    title: { en: "Structural Design", bn: "কাঠামোগত নকশা" },
+    summary: { en: "Safe, efficient and code-compliant structural solutions for all types of buildings.", bn: "সকল প্রকার ভবনের জন্য নিরাপদ, কার্যকর এবং বিধি-সম্মত কাঠামোগত সমাধান।" },
+    tags: ["Zap"]
   },
   {
-    titleKey: "services_items.struct_title",
-    descKey: "services_items.struct_desc",
-    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM16 13a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2z" /></svg>
+    title: { en: "Architectural Planning", bn: "স্থাপত্য পরিকল্পনা" },
+    summary: { en: "Modern and functional architectural designs tailored to your needs.", bn: "আপনার প্রয়োজন অনুসারে নির্মিত আধুনিক ও কার্যকরী স্থাপত্য নকশা।" },
+    tags: ["Layers"]
   },
   {
-    titleKey: "services_items.cad_title",
-    descKey: "services_items.cad_desc",
-    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+    title: { en: "Construction Consultancy", bn: "নির্মাণ পরামর্শ" },
+    summary: { en: "Professional guidance from planning to project completion.", bn: "পরিকল্পনা থেকে প্রকল্প সমাপ্তি পর্যন্ত পেশাদারী দিকনির্দেশনা।" },
+    tags: ["Site"]
   },
   {
-    titleKey: "services_items.consult_title",
-    descKey: "services_items.consult_desc",
-    icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+    title: { en: "Foundation Engineering", bn: "ফাউন্ডেশন ইঞ্জিনিয়ারিং" },
+    summary: { en: "In-depth soil analysis and pile foundation design optimized for the salt-heavy coastal belt of Cox's Bazar.", bn: "কক্সবাজারের লবণাক্ত উপকূলীয় অঞ্চলের জন্য অপ্টিমাইজড গভীর মৃত্তিকা বিশ্লেষণ এবং পাইল ফাউন্ডেশন ডিজাইন।" },
+    tags: ["Shield"]
   }
 ];
 
@@ -149,57 +205,52 @@ export default function HomePage({ isIntroComplete }) {
            setContactData(contactRes.value.items[0]);
         }
 
-        const mappedProjects = projectsRes.status === "fulfilled" && projectsRes.value.items?.length > 0
-          ? projectsRes.value.items.map(p => ({
-              ...p,
-              title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
-              category: p.category || "Engineering",
-              img: p.featuredImage?.url || "/images/project-fallback.png",
-              year: p.tags?.[0] || "2024",
-              location: p.category === "Civil" ? "Cox's Bazar" : "Bangladesh",
-              status: "Completed"
-            })).slice(0, 6)
-          : projects; // Use mock projects as fallback
+        const rawProjects = projectsRes.status === "fulfilled" && projectsRes.value.items?.length > 0
+          ? projectsRes.value.items
+          : projects;
 
-        let mappedServices = [];
-        if (servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0) {
-          mappedServices = servicesRes.value.items.map(s => ({
-            ...s,
-            title: s.title?.en,
-            titleBn: s.title?.bn,
-            desc: s.summary?.en,
-            descBn: s.summary?.bn,
-            icon: s.tags?.[0] || "M12 2L2 7l10 5 10-5-10-5z"
-          })).slice(0, 4);
-        } else {
-          mappedServices = services; // Use mock services as fallback
-        }
+        const mappedProjects = rawProjects.map(p => ({
+          ...p,
+          title: language === "bn" ? (p.title?.bn || p.title?.en) : p.title?.en,
+          type: p.category?.toUpperCase() || "RESIDENTIAL",
+          img: p.featuredImage?.url || "/images/project-fallback.png",
+          year: p.tags?.[0] || "2024",
+          location: p.tags?.[1] || "Cox's Bazar",
+          status: "Completed"
+        })).slice(0, 6);
+
+        const rawServices = servicesRes.status === "fulfilled" && servicesRes.value.items?.length > 0
+          ? servicesRes.value.items
+          : services;
+
+        const mappedServices = rawServices.map(s => ({
+          ...s,
+          title: s.title?.en,
+          titleBn: s.title?.bn,
+          desc: s.summary?.en,
+          descBn: s.summary?.bn,
+          icon: s.tags?.[0] || "Zap"
+        })).slice(0, 4);
 
         const fetchedTestimonials = testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0
           ? testimonialsRes.value.items.filter(t => t.isFeatured)
           : [];
 
-        const mappedTestimonials = fetchedTestimonials.length > 0
-          ? fetchedTestimonials.map(t => ({
-              ...t,
-              name: t.title?.en,
-              role: t.summary?.en,
-              company: t.tags?.[0] || "Client",
-              text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
-              img: t.featuredImage?.url || "/images/hero-concept.png",
-              rating: 5
-            }))
+        const rawTestimonials = fetchedTestimonials.length > 0
+          ? fetchedTestimonials
           : (testimonialsRes.status === "fulfilled" && testimonialsRes.value.items?.length > 0 
-              ? testimonialsRes.value.items.slice(0, 5).map(t => ({
-                  ...t,
-                  name: t.title?.en,
-                  role: t.summary?.en,
-                  company: t.tags?.[0] || "Client",
-                  text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
-                  img: t.featuredImage?.url || "/images/hero-concept.png",
-                  rating: 5
-                }))
-              : testimonials); // Use mock testimonials as fallback
+              ? testimonialsRes.value.items.slice(0, 5)
+              : testimonials);
+
+        const mappedTestimonials = rawTestimonials.map(t => ({
+          ...t,
+          name: language === "bn" ? (t.title?.bn || t.title?.en) : t.title?.en,
+          role: language === "bn" ? (t.summary?.bn || t.summary?.en) : t.summary?.en,
+          company: t.tags?.[0] || "Client",
+          text: language === "bn" ? (t.body?.bn || t.body?.en) : t.body?.en,
+          img: t.featuredImage?.url || "/images/hero-concept.png",
+          rating: t.rating || 5
+        }));
 
         setDisplayProjects(mappedProjects);
         setDisplayServices(mappedServices);
