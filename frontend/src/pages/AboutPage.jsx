@@ -71,7 +71,7 @@ export default function AboutPage() {
     async function loadAboutData() {
       setLoading(true);
       try {
-        const [bioRes, skillsRes, timelineRes, teamRes, blocksRes] = await Promise.all([
+        const [bioRes, skillsRes, timelineRes, teamRes, blocksRes] = await Promise.allSettled([
           fetchContent("about", { limit: 1 }),
           fetchContent("skills", { sort: "order" }),
           fetchContent("timelineEntries", { sort: "order" }),
@@ -79,13 +79,20 @@ export default function AboutPage() {
           fetchContent("sectionBlocks", { pageFilter: "about", limit: 50 })
         ]);
 
-        setBio(bioRes.items?.[0] || null);
-        setSkills(skillsRes.items || []);
-        setTimeline(timelineRes.items || []);
-        setTeam(teamRes.items || []);
-
-        if (blocksRes.items) {
-           const blocks = blocksRes.items;
+        if (bioRes.status === "fulfilled" && bioRes.value.items?.[0]) {
+          setBio(bioRes.value.items[0]);
+        }
+        if (skillsRes.status === "fulfilled" && skillsRes.value.items) {
+          setSkills(skillsRes.value.items);
+        }
+        if (timelineRes.status === "fulfilled" && timelineRes.value.items) {
+          setTimeline(timelineRes.value.items);
+        }
+        if (teamRes.status === "fulfilled" && teamRes.value.items) {
+          setTeam(teamRes.value.items);
+        }
+        if (blocksRes.status === "fulfilled" && blocksRes.value.items) {
+           const blocks = blocksRes.value.items;
            setAboutStats(blocks.filter(b => b.section === 'stats').sort((a,b) => a.order - b.order));
            setAboutMission(blocks.find(b => b.section === 'mission'));
         }
