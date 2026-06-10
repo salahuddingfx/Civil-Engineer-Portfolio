@@ -54,17 +54,104 @@ function SkillCard({ skill, language }) {
   );
 }
 
+const defaultBio = {
+  title: {
+    en: "Building Safe & Sustainable Structures.",
+    bn: "নিরাপদ ও টেকসই কাঠামো নির্মাণে প্রতিশ্রুতিবদ্ধ"
+  },
+  summary: {
+    en: "Civil Engineer & Structural Consultant",
+    bn: "সিভিল ইঞ্জিনিয়ার ও স্ট্রাকচারাল কনসালট্যান্ট"
+  },
+  body: {
+    en: "With over 11 years of dedicated experience in the structural landscape of Cox's Bazar and beyond, Engr. Alam Ashik has established a reputation for uncompromising safety and aesthetic elegance. Our studio focuses on high-performance structural analysis and modern architectural blueprinting.",
+    bn: "কক্সবাজার এবং এর বাইরে কাঠামোগত প্রকৌশল ক্ষেত্রে ১১ বছরেরও বেশি নিবেদিত অভিজ্ঞতার সাথে, ইঞ্জিনিয়ার আলম আশিক আপোষহীন নিরাপত্তা এবং নান্দনিক আভিজাত্যের জন্য একটি খ্যাতি প্রতিষ্ঠা করেছেন। আমাদের স্টুডিও উচ্চ-মানের কাঠামোগত বিশ্লেষণ এবং আধুনিক স্থাপত্য নীল নকশার উপর আলোকপাত করে।"
+  },
+  featuredImage: {
+    url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775884078/portfolio_assets/tamoclydb68l8ptjiibb.jpg"
+  },
+  experience: "13"
+};
+
+const defaultSkills = [
+  { title: { en: "AutoCAD", bn: "অটোক্যাড" }, category: "TECHNICAL", proficiency: 95, icon: "Code", order: 1 },
+  { title: { en: "ETABS", bn: "ইট্যাবস" }, category: "TECHNICAL", proficiency: 92, icon: "Zap", order: 2 },
+  { title: { en: "SAP2000", bn: "স্যাপ২০০০" }, category: "TECHNICAL", proficiency: 88, icon: "Cpu", order: 3 },
+  { title: { en: "SAFE", bn: "সেফ" }, category: "TECHNICAL", proficiency: 85, icon: "Shield", order: 4 },
+  { title: { en: "Revit BIM", bn: "রেভিট" }, category: "TECHNICAL", proficiency: 60, icon: "Layers", order: 5 },
+  { title: { en: "SketchUp", bn: "স্কেচআপ" }, category: "SOFTWARE", proficiency: 82, icon: "PenTool", order: 6 }
+];
+
+const defaultTimeline = [
+  { year: "2013", title: { en: "Identity Established", bn: "প্রতিষ্ঠা" }, description: { en: "Initiated professional structural consultancy operations in Cox's Bazar.", bn: "কক্সবাজারে পেশাদার কাঠামোগত পরামর্শ সেবা চালু করা হয়।" }, order: 1 },
+  { year: "2015", title: { en: "Engineering Excellence", bn: "ইঞ্জিনিয়ারিং এক্সিলেন্স" }, description: { en: "Achieved specialized structural engineering certifications and degree from CUET.", bn: "চুয়েট থেকে বিশেষায়িত কাঠামোগত ইঞ্জিনিয়ারিং সার্টিফিকেট এবং ডিগ্রি অর্জন।" }, order: 2 },
+  { year: "2019", title: { en: "Structural Specialist", bn: "কাঠামোগত বিশেষজ্ঞ" }, description: { en: "Appointed as lead consultant for major hospitality infrastructure projects.", bn: "প্রধান আতিথেয়তা অবকাঠামো প্রকল্পের জন্য প্রধান পরামর্শদাতা হিসেবে নিযুক্ত।" }, order: 3 },
+  { year: "2024", title: { en: "Principal Consultant", bn: "প্রধান পরামর্শদাতা" }, description: { en: "Heading a full-scale architectural and structural studio with 150+ assets deployed.", bn: "১৫০টিরও বেশি সম্পন্ন প্রকল্পের সাথে একটি পূর্ণ-স্কেল স্থাপত্য এবং কাঠামোগত স্টুডিও পরিচালনা করা হচ্ছে।" }, order: 4 }
+];
+
+const defaultTeam = [
+  {
+    name: "Engr. Alam Ashik",
+    designation: { en: "Principal Structural Engineer", bn: "প্রধান স্ট্রাকচারাল ইঞ্জিনিয়ার" },
+    bio: { en: "The visionary behind the studio with 11+ years of infrastructure experience.", bn: "১১ বছরেরও বেশি অবকাঠামো অভিজ্ঞতার সাথে স্টুডিওর দূরводитель।" },
+    image: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775972445/portfolio_assets/hh7dojybod287rh4j9yu.jpg" },
+    socialLinks: { linkedin: "https://linkedin.com/in/alamashik" },
+    order: 1
+  },
+  {
+    name: "Mamunur Rashid Chowdhury",
+    designation: { en: "Head of Architect", bn: "প্রধান স্থপতি" },
+    bio: { en: "Architecture drawing expert with 15+ years experience.", bn: "১৫ বছরেরও বেশি অভিজ্ঞতাসম্পন্ন স্থাপত্য অঙ্কন বিশেষজ্ঞ।" },
+    image: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775972733/portfolio_assets/jp8udcjf3fz3btrfkbkk.jpg" },
+    socialLinks: { facebook: "https://web.facebook.com/mony.architect" },
+    order: 2
+  },
+  {
+    name: "Md Kysarul Alam",
+    designation: { en: "3D Visualization Lead", bn: "থ্রিডি ভিজুয়ালাইজেশন লিড" },
+    bio: { en: "Specializing in photorealistic architectural renderings and BIM modeling.", bn: "ফটোরিয়ালিস্টিক স্থাপত্য রেন্ডারিং এবং বিআইএম মডেলিংয়ে বিশেষায়িত।" },
+    image: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776626679/portfolio_assets/kofiubunmsoridvsl5o5.jpg" },
+    socialLinks: { linkedin: "#" },
+    order: 3
+  },
+  {
+    name: "Imam Hossain",
+    designation: { en: "Site Engineer/CAD Operator", bn: "সাইট প্রকৌশলী/ক্যাড অপারেটর" },
+    bio: { en: "Experienced site execution and drawing synchronization specialist.", bn: "অভিজ্ঞ সাইট এক্সিকিউশন এবং অঙ্কন সিঙ্ক্রোনাইজেশন বিশেষজ্ঞ।" },
+    image: { url: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777221433/portfolio_assets/ca8e7kly0kbkzdnuwxs5.jpg" },
+    socialLinks: { facebook: "https://web.facebook.com/imam.hossain.272223" },
+    order: 4
+  }
+];
+
+const defaultStats = [
+  { value: "500+", title: { en: "PROJECTS DONE", bn: "সম্পন্ন প্রকল্প" }, section: "stats", order: 1 },
+  { value: "12", title: { en: "AWARDS WON", bn: "অর্জিত পুরস্কার" }, section: "stats", order: 2 },
+  { value: "100%", title: { en: "SAFETY RATING", bn: "নিরাপত্তা রেটিং" }, section: "stats", order: 3 }
+];
+
+const defaultMission = {
+  title: { en: "CRAFTING THE FUTURE", bn: "ভবিষ্যত নির্মাণে নিপুণতা" },
+  subtitle: { en: "SINCE 2013", bn: "২০১৩ থেকে" },
+  body: {
+    en: "To redefine the landscape of technical consultancy by merging architectural beauty with structural integrity. We don't just build structures; we engineer legacies.",
+    bn: "স্থাপত্য সৌন্দর্যের সাথে কাঠামোগত অখণ্ডতা মিশিয়ে প্রযুক্তিগত পরামর্শের রূপরেখা নতুনভাবে সংজ্ঞায়িত করা।"
+  },
+  image: { url: "/images/mission-concept.png" },
+  section: "mission"
+};
+
 export default function AboutPage() {
   const { language } = useLanguage();
   const containerRef = useRef(null);
   
   const [loading, setLoading] = useState(true);
-  const [bio, setBio] = useState(null);
-  const [skills, setSkills] = useState([]);
-  const [timeline, setTimeline] = useState([]);
-  const [team, setTeam] = useState([]);
-  const [aboutStats, setAboutStats] = useState([]);
-  const [aboutMission, setAboutMission] = useState(null);
+  const [bio, setBio] = useState(defaultBio);
+  const [skills, setSkills] = useState(defaultSkills);
+  const [timeline, setTimeline] = useState(defaultTimeline);
+  const [team, setTeam] = useState(defaultTeam);
+  const [aboutStats, setAboutStats] = useState(defaultStats);
+  const [aboutMission, setAboutMission] = useState(defaultMission);
   const [selectedMember, setSelectedMember] = useState(null);
 
   useEffect(() => {
@@ -82,19 +169,21 @@ export default function AboutPage() {
         if (bioRes.status === "fulfilled" && bioRes.value.items?.[0]) {
           setBio(bioRes.value.items[0]);
         }
-        if (skillsRes.status === "fulfilled" && skillsRes.value.items) {
+        if (skillsRes.status === "fulfilled" && skillsRes.value.items && skillsRes.value.items.length > 0) {
           setSkills(skillsRes.value.items);
         }
-        if (timelineRes.status === "fulfilled" && timelineRes.value.items) {
+        if (timelineRes.status === "fulfilled" && timelineRes.value.items && timelineRes.value.items.length > 0) {
           setTimeline(timelineRes.value.items);
         }
-        if (teamRes.status === "fulfilled" && teamRes.value.items) {
+        if (teamRes.status === "fulfilled" && teamRes.value.items && teamRes.value.items.length > 0) {
           setTeam(teamRes.value.items);
         }
-        if (blocksRes.status === "fulfilled" && blocksRes.value.items) {
+        if (blocksRes.status === "fulfilled" && blocksRes.value.items && blocksRes.value.items.length > 0) {
            const blocks = blocksRes.value.items;
-           setAboutStats(blocks.filter(b => b.section === 'stats').sort((a,b) => a.order - b.order));
-           setAboutMission(blocks.find(b => b.section === 'mission'));
+           const stats = blocks.filter(b => b.section === 'stats').sort((a,b) => a.order - b.order);
+           const mission = blocks.find(b => b.section === 'mission');
+           if (stats.length > 0) setAboutStats(stats);
+           if (mission) setAboutMission(mission);
         }
       } catch (err) {
         console.warn("Failed to sync about data.");
