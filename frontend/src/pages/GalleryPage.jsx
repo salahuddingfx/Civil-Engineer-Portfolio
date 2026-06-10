@@ -8,13 +8,283 @@ import { fetchContent } from "../lib/api";
 import { Skeleton } from "../components/Skeleton";
 
 // Fallback images if database is empty
+// Fallback images from database dump
 const defaultImages = [
-  { src: "/images/project-fallback.png", label: "Structural Framework", coord: "Coastal Sector Alpha", date: "2023 October", iso: "Structural Integrity", meta: "High Resolution Study" },
-  { src: "/images/architecture-fallback.png", label: "Material Excellence", coord: "Laboratory Analysis", date: "2023 November", iso: "Quality Control", meta: "Certified Material Data" },
-  { src: "/images/project-fallback.png", label: "Architectural Precision", coord: "Urban Core Beta", date: "2024 January", iso: "Design Accuracy", meta: "Symmetry Alignment" },
-  { src: "/images/architecture-fallback.png", label: "Professional Supervision", coord: "Site Execution Hub", date: "2023 December", iso: "Safety Protocol", meta: "Live Site Monitoring" },
-  { src: "/images/project-fallback.png", label: "Commercial Presence", coord: "Business District Hub", date: "2024 February", iso: "Structural Audit", meta: "Facade Completion" },
-  { src: "/images/architecture-fallback.png", label: "Interior Volume", coord: "Minimalist Residency", date: "2024 March", iso: "Interior Logic", meta: "Spatial Optimization" },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1777223592/portfolio_assets/i36xdvii5uklfehe76wr.jpg",
+    labelEn: "Site Supervision & Inspection",
+    labelBn: "সাইট পরিদর্শন ও তদারকি",
+    coord: "Site Photo",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "Live Supervision",
+    metaEn: "Live construction quality assurance monitoring on site.",
+    metaBn: "সাইটে নির্মাণ মানের লাইভ তদারকি ও গুণমান নিশ্চয়তা।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914055/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.02_PM_atzcme.jpg",
+    labelEn: "Engineering Model 01 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 01 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 01.",
+    metaBn: "Engineering Model 01 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914057/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.04_PM_vc3elp.jpg",
+    labelEn: "Engineering Model 01 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 01 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 01.",
+    metaBn: "Engineering Model 01 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914058/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.05_PM_1_jiacqo.jpg",
+    labelEn: "Engineering Model 02 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 02 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 02.",
+    metaBn: "Engineering Model 02 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914059/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.05_PM_2_fr7ukv.jpg",
+    labelEn: "Engineering Model 02 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 02 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 02.",
+    metaBn: "Engineering Model 02 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914060/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.05_PM_h1roqu.jpg",
+    labelEn: "Engineering Model 03 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 03 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 03.",
+    metaBn: "Engineering Model 03 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914061/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.06_PM_1_ettrdq.jpg",
+    labelEn: "Engineering Model 03 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 03 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 03.",
+    metaBn: "Engineering Model 03 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914062/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.06_PM_2_w0g9kf.jpg",
+    labelEn: "Engineering Model 04 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 04 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 04.",
+    metaBn: "Engineering Model 04 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914063/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.06_PM_gxaeh9.jpg",
+    labelEn: "Engineering Model 04 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 04 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 04.",
+    metaBn: "Engineering Model 04 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914064/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_1_shnbhr.jpg",
+    labelEn: "Engineering Model 05 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 05 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 05.",
+    metaBn: "Engineering Model 05 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914065/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_10_uk2kxd.jpg",
+    labelEn: "Engineering Model 05 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 05 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 05.",
+    metaBn: "Engineering Model 05 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914066/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_11_n94zz0.jpg",
+    labelEn: "Engineering Model 06 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 06 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 06.",
+    metaBn: "Engineering Model 06 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914067/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_12_s4dieo.jpg",
+    labelEn: "Engineering Model 06 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 06 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 06.",
+    metaBn: "Engineering Model 06 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914068/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_13_ep34bs.jpg",
+    labelEn: "Engineering Model 07 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 07 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 07.",
+    metaBn: "Engineering Model 07 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914069/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_14_epzefw.jpg",
+    labelEn: "Engineering Model 07 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 07 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 07.",
+    metaBn: "Engineering Model 07 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914070/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_2_kztxka.jpg",
+    labelEn: "Engineering Model 08 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 08 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 08.",
+    metaBn: "Engineering Model 08 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914071/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_3_nnwzz7.jpg",
+    labelEn: "Engineering Model 08 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 08 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 08.",
+    metaBn: "Engineering Model 08 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914072/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_4_qvv1gs.jpg",
+    labelEn: "Engineering Model 09 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 09 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 09.",
+    metaBn: "Engineering Model 09 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914073/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_5_lw8ueo.jpg",
+    labelEn: "Engineering Model 09 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 09 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 09.",
+    metaBn: "Engineering Model 09 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914073/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_6_ucgxjw.jpg",
+    labelEn: "Engineering Model 10 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 10 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 10.",
+    metaBn: "Engineering Model 10 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914074/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_7_soskc5.jpg",
+    labelEn: "Engineering Model 10 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 10 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 10.",
+    metaBn: "Engineering Model 10 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914075/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_8_xib9ue.jpg",
+    labelEn: "Engineering Model 11 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 11 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 11.",
+    metaBn: "Engineering Model 11 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914076/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_9_tvyyl6.jpg",
+    labelEn: "Engineering Model 11 - Vision 2",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 11 - দৃশ্য 2",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 11.",
+    metaBn: "Engineering Model 11 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1775914076/portfolio/gallery/WhatsApp_Image_2026-04-10_at_10.21.07_PM_lrt5hd.jpg",
+    labelEn: "Engineering Model 12 - Vision 1",
+    labelBn: "ইঞ্জিনিয়ারিং মডেল 12 - দৃশ্য 1",
+    coord: "Structural Design",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "3D Visualization",
+    metaEn: "High-fidelity structural visualization showcasing Engineering Model 12.",
+    metaBn: "Engineering Model 12 এর উচ্চ-মানের কাঠামোগত ভিজ্যুয়ালাইজেশন।"
+  },
+  {
+    src: "https://res.cloudinary.com/dxfvguilc/image/upload/v1776226890/portfolio_assets/chxwe7fmnq9gyf1troag.jpg",
+    labelEn: "Client Projects",
+    labelBn: "ক্লায়েন্ট প্রজেক্ট",
+    coord: "Architectural Render",
+    dateEn: "April 2026",
+    dateBn: "এপ্রিল ২০২৬",
+    iso: "Architectural Rendering",
+    metaEn: "Architectural visual mapping of residential and commercial drafts.",
+    metaBn: "আবাসিক এবং বাণিজ্যিক ড্রাফটের স্থাপত্য ভিজ্যুয়াল ম্যাপিং।"
+  }
 ];
 
 export default function GalleryPage() {
@@ -44,10 +314,24 @@ export default function GalleryPage() {
           }));
           setImages(mapped);
         } else {
-          setImages(defaultImages);
+          setImages(defaultImages.map(img => ({
+             src: img.src,
+             label: language === "bn" ? (img.labelBn || img.labelEn) : img.labelEn,
+             coord: img.coord,
+             date: language === "bn" ? (img.dateBn || img.dateEn) : img.dateEn,
+             iso: img.iso,
+             meta: language === "bn" ? (img.metaBn || img.metaEn) : img.metaEn
+          })));
         }
       } catch (err) {
-        setImages(defaultImages);
+        setImages(defaultImages.map(img => ({
+           src: img.src,
+           label: language === "bn" ? (img.labelBn || img.labelEn) : img.labelEn,
+           coord: img.coord,
+           date: language === "bn" ? (img.dateBn || img.dateEn) : img.dateEn,
+           iso: img.iso,
+           meta: language === "bn" ? (img.metaBn || img.metaEn) : img.metaEn
+        })));
       } finally {
         setLoading(false);
       }
